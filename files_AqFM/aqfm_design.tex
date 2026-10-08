@@ -1,0 +1,689 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+
+\definecolor{accent}{HTML}{1D9E75}
+\definecolor{lightbox}{HTML}{EEEDFE}
+\definecolor{codebg}{HTML}{F5F5F2}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{codebg},
+  frame=single, rulecolor=\color{gray!40},
+  breaklines=true, showstringspaces=false,
+  keywordstyle=\color{accent}\bfseries,
+  commentstyle=\color{gray},
+  language=Python, xleftmargin=0pt, framexleftmargin=4pt
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Sset}{\mathcal{S}}
+\newcommand{\Cset}{\mathcal{C}}
+
+\title{\textbf{A Spatio-Temporal Foundation Model for\\ Multi-Pollutant Air Quality Forecasting}\\[0.4em]
+\large Design specification, training protocol and evaluation plan}
+\author{Design document}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+We specify a spatio-temporal foundation model (AQFM) that consumes irregularly
+sampled, block-missing, multi-station air quality observations and emits
+calibrated probabilistic forecasts for multiple pollutants simultaneously. The
+design is driven by three empirical findings from the Delhi CPCB exploratory
+analysis: (i) missingness is \emph{systemic}, with
+$\Prob(\text{PM}_{10}\ \text{missing}\mid \text{PM}_{2.5}\ \text{missing})=0.928$,
+so gaps are station-wide contiguous blocks rather than isolated dropouts;
+(ii) strong cross-pollutant structure exists ($r_{\text{PM}_{2.5},\text{PM}_{10}}=0.84$,
+$r_{\text{NO},\text{NO}_x}=0.90$) which can be imposed by construction instead of
+learned; and (iii) the 2018--2026 subset achieves $7$--$10\%$ missingness on primary
+pollutants, making it the viable pre-training window. We compare four decoder
+designs, recommend a query-based unified decoder, and give a complete training
+and evaluation protocol.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Problem statement and notation}
+
+Let $\Sset=\{1,\dots,S\}$ index monitoring stations and $\Cset=\{1,\dots,C\}$
+index channels (pollutants, meteorology, and derived quantities). Observations
+arrive on a nominal 15-minute grid but with substantial missingness. Write
+
+\begin{align}
+X &\in \R^{S\times C\times T}, &&\text{values (log-transformed, see \S\ref{sec:preproc})}\\
+M &\in \{0,1\}^{S\times C\times T}, &&\text{observation indicator, } M_{s,c,t}=1 \text{ iff measured}\\
+\tau &\in \R^{T}, &&\text{absolute timestamps in hours}\\
+G &\in \R^{S\times 2}, &&\text{station coordinates (lat, lon)}\\
+U &\in \R^{S\times D_{\text{st}}}, &&\text{static station covariates.}
+\end{align}
+
+Given a context window of length $T_{\text{ctx}}$ and known-future covariates,
+the task is to produce the joint predictive distribution
+
+\begin{equation}
+p\big(\, X_{s,c,t} \;:\; s\in\Sset,\; c\in\Cset_{\text{tgt}},\; t\in (T_{\text{ctx}}, T_{\text{ctx}}+H] \;\big|\; X_{\cdot,\cdot,\le T_{\text{ctx}}},\, M,\, \tau,\, G,\, U \,\big),
+\end{equation}
+
+with $H$ up to 72 hours. We require the model to be well-defined when
+(a) arbitrary channels are missing, (b) arbitrary contiguous blocks are missing
+across all channels at a station, and (c) the target set $\Cset_{\text{tgt}}$ and
+horizon set are chosen at inference time.
+
+\paragraph{Design principle.} Every irregularity is handled by \emph{excluding
+tokens}, never by imputing values before the model sees them. Pre-imputation
+injects a second model's errors into the training signal and makes the
+observation mask unrecoverable.
+
+%======================================================================
+\section{Data}
+
+\subsection{Temporal scope}
+
+The EDA is unambiguous: pre-2018 station-years show $80$--$100\%$ missingness
+(PM$_{10}$ is $100\%$ missing every year through 2014), while 2018--2026 sits at
+$7$--$21\%$ for primary pollutants. We therefore train on \textbf{2018--2026} and
+treat pre-2018 as an optional low-weight auxiliary corpus, not as pre-training
+data.
+
+\subsection{Scale, and why Delhi alone is not enough}
+
+Delhi's 38 stations yield $\approx 1.44\times 10^{7}$ rows and
+$\approx 2.16\times 10^{8}$ scalar observations. Time-series scaling laws differ
+from those for language, but the order of magnitude is informative: at the
+commonly cited $\sim\!20$ tokens per parameter this supports a model of roughly
+$10$--$30$M parameters. The architecture below wants more.
+
+The resolution is the national network: roughly 550 CPCB stations across India
+(Figure~\ref{fig:scale} in the accompanying analysis) give 10--15$\times$ the
+data. We therefore adopt a two-corpus strategy.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lrrl@{}}
+\toprule
+Corpus & Stations & Approx.\ observations & Role \\
+\midrule
+All-India CPCB, 2018--2026 & $\sim$550 & $\sim3\times10^{9}$ & Stage-1 pre-training \\
+Delhi NCR, 2018--2026      & 38        & $2.2\times10^{8}$   & Stage-2 fine-tuning \\
+Delhi NCR, pre-2018        & 38        & --                  & Optional, low weight \\
+\bottomrule
+\end{tabular}
+\caption{Two-corpus training strategy. National pre-training also supplies a
+genuine domain-shift test set: Chennai's coastal sea-breeze regime versus
+Delhi's continental winter inversion.}
+\end{table}
+
+\subsection{Exogenous covariates}
+
+Two additions are likely to matter more than any architectural choice.
+
+\begin{enumerate}[leftmargin=1.4em]
+\item \textbf{Boundary layer height.} Beyond roughly 12 hours of lead, forecast
+skill is dominated by ventilation rather than by emissions. The CPCB variable
+list contains no mixing-depth proxy. Obtain planetary boundary layer height,
+10\,m winds, and precipitation from ERA5 reanalysis.
+\item \textbf{Known-future meteorology.} Numerical weather prediction output is
+available at forecast time. Train with ERA5 as a perfect-prognosis oracle, then
+substitute operational NWP at inference; report the skill gap between the two,
+since it bounds the achievable operational performance.
+\end{enumerate}
+
+The satellite/reanalysis annual-mean PM$_{2.5}$ field supplies static
+per-station covariates $U$: climatological burden, urban--rural gradient, and a
+spatial prior for stations with short records.
+
+\subsection{Pre-processing}
+\label{sec:preproc}
+
+Concentrations are right-skewed and heavy-tailed, so all pollutant channels are
+mapped through $x\mapsto\log(1+x)$ before any statistics are computed. Values
+are then normalised per (station, channel) using \emph{context-only} statistics:
+
+\begin{equation}
+\hat\mu_{s,c}=\frac{\sum_{t\le T_{\text{ctx}}} M_{s,c,t}X_{s,c,t}}{\sum_{t\le T_{\text{ctx}}} M_{s,c,t}},
+\qquad
+\hat\sigma_{s,c}^2=\frac{\sum_{t\le T_{\text{ctx}}} M_{s,c,t}(X_{s,c,t}-\hat\mu_{s,c})^2}{\sum_{t\le T_{\text{ctx}}} M_{s,c,t}} .
+\end{equation}
+
+Statistics computed over the full window would leak the scale of the future into
+the input. When $\sum_t M_{s,c,t}$ falls below a threshold the transform falls
+back to the identity rather than dividing by a noise estimate.
+
+%======================================================================
+\section{Tokenisation}
+
+\subsection{One token per (station, channel, patch)}
+
+Let $P$ be the patch length ($P=16$, i.e.\ 4 hours) and $N=T_{\text{ctx}}/P$.
+Define patch slices $x^{(n)}_{s,c}\in\R^{P}$ and $m^{(n)}_{s,c}\in\{0,1\}^{P}$.
+The token is
+
+\begin{equation}
+\boxed{\;
+z_{s,c,n} \;=\; W_{v}\begin{bmatrix} x^{(n)}_{s,c} \\ m^{(n)}_{s,c}\end{bmatrix}
+\;+\; e^{\text{ch}}_{c}
+\;+\; \phi_{\text{st}}\!\left(\big[G_{s};U_{s}\big]\right)
+\;+\; \psi_{\text{t}}\!\left(\bar\tau^{(n)}\right)
+\;\in\;\R^{d}\;}
+\label{eq:token}
+\end{equation}
+
+with $W_v\in\R^{d\times 2P}$ and $\bar\tau^{(n)}$ the mean timestamp of patch $n$.
+Three properties follow directly from this construction.
+
+\begin{description}[leftmargin=1.4em,style=nextline]
+\item[Channel-count flexibility.] The token carries its own channel identity, so
+a station lacking NH$_3$ simply contributes fewer tokens. No padding, no
+sentinel values, no per-station bookkeeping.
+\item[Station generalisation.] $\phi_{\text{st}}$ is a function of coordinates,
+not a lookup table, so a station never seen in training is a valid input.
+\item[Mask visibility.] The mask enters the embedding alongside the values, so a
+patch that is $30\%$ observed is not confused with a clean one.
+\end{description}
+
+\subsection{Three tiers of irregularity}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{4.1cm}p{4.6cm}p{5.6cm}@{}}
+\toprule
+Irregularity & Mechanism & Rationale \\
+\midrule
+Partial patch (some steps missing) & Mask channel in Eq.~\eqref{eq:token}, zero-fill values & The embedding learns to discount unobserved positions \\
+Fully unobserved patch & Token excluded from every attention key set & Attending to an all-zero token is worse than not attending \\
+Non-uniform timestamps & $\psi_{\text{t}}$ is a function of $\tau$, not of position index & A 10-hour gap must look like 10 hours, not one step \\
+Asynchronous sources (future) & Continuous-time front end (mTAN, or set attention over $(t,v,c)$ triplets) & Only needed when fusing satellite overpasses or low-cost sensors \\
+\bottomrule
+\end{tabular}
+\caption{Missingness is handled at three levels; the fourth row is a planned
+extension, not part of the base model.}
+\end{table}
+
+\subsection{Continuous time features}
+
+With log-spaced periods $\{p_k\}_{k=1}^{K_f}$ from 3 hours to one year and
+$\omega_k=2\pi/p_k$,
+
+\begin{equation}
+\psi_{\text{t}}(\tau) = W_{\tau}\Big[\;
+\{\sin \omega_k\tau,\ \cos\omega_k\tau\}_{k=1}^{K_f},\;
+\text{cyc}_{24}(\tau),\ \text{cyc}_{168}(\tau),\ \text{cyc}_{8760}(\tau),\;
+\log(1+\Delta\tau)\;\Big],
+\end{equation}
+
+where $\text{cyc}_{p}(\tau)=(\sin 2\pi\tau/p,\ \cos 2\pi\tau/p)$ and
+$\Delta\tau$ is the gap to the previous patch. The explicit gap feature is what
+lets the model distinguish ``next patch'' from ``next patch after a ten-hour
+outage.''
+
+%======================================================================
+\section{Encoder}
+
+\subsection{Axial factorisation}
+
+A single sample contains $S\!\times\!C\!\times\!N$ tokens; at $S=12$, $C=19$,
+$N=32$ this is $7{,}296$ tokens, and at the full 38-station Delhi network it
+exceeds $23{,}000$. Full self-attention is $O(L^2)$ and out of reach. We
+factorise each encoder block into three cheap passes:
+
+\begin{align}
+Z &\leftarrow Z + \mathrm{Attn}_{\text{time}}\big(\mathrm{LN}(Z)\big)   && \text{over } n, \text{ batched over } (s,c) \\
+Z &\leftarrow Z + \mathrm{Attn}_{\text{var}}\big(\mathrm{LN}(Z)\big)    && \text{over } c, \text{ batched over } (s,n) \\
+Z &\leftarrow Z + \mathrm{Attn}_{\text{space}}\big(\mathrm{LN}(Z)\big)  && \text{over } s, \text{ batched over } (c,n) \\
+Z &\leftarrow Z + \mathrm{FFN}\big(\mathrm{LN}(Z)\big).
+\end{align}
+
+Cost drops from $O\!\big((SCN)^2\big)$ to $O\!\big(SCN(S+C+N)\big)$: at the
+figures above, a factor of roughly 300. Stacking $B_{\text{ax}}=4$ such blocks
+gives every token an effective receptive field over the whole grid.
+
+\subsection{Masked attention}
+
+Each attention uses a key-validity mask $v_{s,c,n}=\mathbb{1}[\,\sum_t m^{(n)}_{s,c,t}>0\,]$,
+implemented as an additive $-\infty$ bias. If every key in a row is invalid the
+row is unmasked rather than producing $\mathrm{NaN}$; the mask channel already
+tells the model the content is uninformative.
+
+\subsection{Wind-aware spatial bias}
+
+A station 8\,km \emph{upwind} is far more informative than one 8\,km downwind. A
+distance-only graph cannot express this asymmetry. Let $d_{ij}$ be the
+great-circle distance and $\theta_{ij}$ the bearing from station $i$ to $j$, and
+let $\mathrm{WD}_i^{(n)}$, $\mathrm{WS}_i^{(n)}$ be the patch-mean wind direction
+and speed at the query station. The additive attention bias is
+
+\begin{equation}
+\boxed{\;
+b^{(n)}_{ij} = \mathrm{MLP}\Big(
+\log(1+d_{ij}),\;
+\cos\big(\theta_{ij}-\mathrm{WD}_i^{(n)}\big),\;
+\sin\big(\theta_{ij}-\mathrm{WD}_i^{(n)}\big),\;
+\mathrm{WS}_i^{(n)},\;
+\cos(\cdot)\,\mathrm{WS}_i^{(n)},\;
+e^{-d_{ij}/\lambda}
+\Big)\;}
+\end{equation}
+
+emitted per attention head and added to the spatial attention logits. This is
+cheap, and the learned bias is inspectable: plotting which stations the model
+attends to under different wind regimes is a publishable result in itself.
+
+\subsection{Per-station latent bottleneck}
+
+Cross-attending $\sim\!1.7$k decoder queries against $\sim\!7$k encoder tokens is
+wasteful. Each station's $(C\times N)$ grid is compressed by a Perceiver-style
+cross-attention into $L=16$ latents, giving $S\!\cdot\!L$ memory tokens. This
+preserves the spatial structure the wind bias operates on while cutting decoder
+cross-attention cost by roughly $30\times$.
+
+%======================================================================
+\section{Decoder: four designs}
+\label{sec:decoders}
+
+This is the central design question. All four options share the encoder above.
+
+\subsection{Design A --- one decoder per pollutant}
+
+Each target pollutant $p$ gets its own decoder $\mathcal{D}_p$ cross-attending to
+the shared memory.
+
+\textbf{For.} Pollutants genuinely differ in dynamics. The EDA correlation matrix
+makes this concrete: ozone is the only pollutant \emph{positively} correlated
+with temperature ($r=+0.34$) while PM$_{2.5}$ sits at $r=-0.49$, reflecting
+photochemical production versus accumulation under winter inversion. Separate
+decoders also allow adding a pollutant without touching the trunk, and
+independent per-pollutant loss weighting.
+
+\textbf{Against.} Decoder parameters scale linearly in $|\Cset_{\text{tgt}}|$; the
+substantial structure that \emph{is} shared across pollutants cannot be shared;
+and independent heads produce physically incoherent joint output --- nothing
+prevents $\widehat{\text{PM}}_{2.5} > \widehat{\text{PM}}_{10}$.
+
+\subsection{Design B --- query-based unified decoder (recommended)}
+
+One decoder. A query is constructed per prediction target:
+
+\begin{equation}
+q_{s,c,h} \;=\; e^{\text{tgt}}_{c} \;+\; e^{\text{lead}}_{h} \;+\; \phi_{\text{st}}\!\left([G_s;U_s]\right) \;+\; \psi_{\text{t}}\!\left(\tau^{\text{fut}}_{h}\right),
+\end{equation}
+
+followed by $L_{\text{dec}}$ layers of \{query self-attention, cross-attention to
+memory, FFN\}. Specialisation lives in the query embedding rather than in
+separate weights.
+
+\textbf{For.} Arbitrary target subsets at inference (forecast PM$_{2.5}$ alone
+with no wasted compute); arbitrary horizons, including untrained ones if lead
+time is encoded continuously; cross-pollutant coherence, because query
+self-attention lets the PM$_{2.5}$ prediction attend to the PM$_{10}$
+prediction before either is emitted; one weight set to scale when moving from 38
+to 550 stations.
+
+\textbf{Against.} Potential under-fitting of a pollutant with genuinely divergent
+dynamics --- which is what Design C addresses.
+
+\subsection{Design C --- shared trunk with per-pollutant adapters}
+
+Shared decoder trunk plus FiLM conditioning or low-rank (LoRA-style) adapters per
+pollutant. Roughly $2\%$ additional parameters buys most of Design A's
+specialisation. \emph{Deploy this only if ablation shows Design B under-fits a
+specific pollutant}, most plausibly O$_3$.
+
+\subsection{Design D --- mixture-of-experts decoder}
+
+A router over $k$ experts. Pollutants cluster naturally into families
+(particulates, NO$_x$, photochemical, meteorological); MoE lets that clustering be
+learned rather than imposed. Worth the complexity only at national scale with
+many channels.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+& A: per-pollutant & B: query & C: adapters & D: MoE \\
+\midrule
+Decoder params vs.\ $|\Cset_{\text{tgt}}|$ & linear & constant & constant$+\epsilon$ & constant \\
+Arbitrary target subset at inference & no & yes & yes & yes \\
+Arbitrary / unseen horizon & no & yes & yes & yes \\
+Joint cross-pollutant coherence & no & yes & yes & yes \\
+Per-pollutant specialisation & high & medium & high & high \\
+Implementation complexity & low & low & medium & high \\
+\midrule
+\textbf{Verdict} & baseline & \textbf{recommended} & fallback & at scale \\
+\bottomrule
+\end{tabular}
+\caption{Decoder design comparison. Design B is the recommendation; A is worth
+implementing as an ablation baseline because it is the intuitive choice and
+should be shown to be dominated.}
+\end{table}
+
+%======================================================================
+\section{Physical constraints}
+
+Independent heads can emit PM$_{2.5}>$ PM$_{10}$ and $\text{NO}+\text{NO}_2\neq\text{NO}_x$.
+Both are free to fix by predicting a base quantity and a bounded fraction:
+
+\begin{equation}
+\boxed{\;
+\text{PM}_{2.5} = f_{\text{pm}}\cdot \text{PM}_{10},\quad f_{\text{pm}}=\sigma(\tilde f_{\text{pm}})\in(0,1);
+\qquad
+\text{NO} = f_{\text{nox}}\cdot\text{NO}_x,\quad \text{NO}_2=(1-f_{\text{nox}})\cdot \text{NO}_x. \;}
+\end{equation}
+
+The model predicts $\{\log(1+\text{PM}_{10}),\ \tilde f_{\text{pm}},\ \log(1+\text{NO}_x),\ \tilde f_{\text{nox}},\dots\}$;
+observables are reconstructed afterwards. Two implementation notes:
+
+\begin{itemize}[leftmargin=1.4em]
+\item The logit-fractions are computed in the data pipeline and appended as
+extra input channels, so they receive their own normalisation statistics and are
+predicted like any other channel.
+\item A fraction is treated as observed only when \emph{both} constituents are
+observed and the denominator is non-trivial. Otherwise a missing PM$_{10}$
+silently manufactures a PM$_{2.5}$ fraction.
+\end{itemize}
+
+This encodes $r_{\text{PM}_{2.5},\text{PM}_{10}}=0.84$ and $r_{\text{NO},\text{NO}_x}=0.90$
+by construction rather than asking the model to rediscover them, and it
+eliminates an entire class of nonsense output at zero parameter cost.
+
+%======================================================================
+\section{Predictive distribution and loss}
+
+\subsection{Why not MSE}
+
+Air quality decisions are threshold decisions: AQI bands, GRAP stages, school
+closures. A calibrated upper tail matters more than a good conditional mean, and
+an MSE-trained point head systematically under-predicts exactly the
+November--December episodes the forecast exists to warn about.
+
+\subsection{Mixture head}
+
+Each query emits, for each of $P$ timesteps, a $K$-component Gaussian mixture in
+normalised $\log(1+x)$ space --- equivalently a log-normal mixture in
+concentration space:
+
+\begin{equation}
+p(y) = \sum_{k=1}^{K}\pi_k\,\mathcal{N}\!\big(y;\ \mu_k,\ \sigma_k^2\big),
+\qquad
+\pi = \mathrm{softmax}(\ell),\quad \log\sigma_k \in [\sigma_{\min},\sigma_{\max}].
+\end{equation}
+
+\begin{equation}
+\mathcal{L}_{\text{NLL}} = -\frac{1}{|\Omega|}\sum_{(q,t)\in\Omega}
+\log \sum_{k}\exp\!\Big(\log\pi_k -\tfrac{1}{2}\Big(\tfrac{y-\mu_k}{\sigma_k}\Big)^{2} - \log\sigma_k - \tfrac{1}{2}\log 2\pi\Big),
+\end{equation}
+
+where $\Omega$ is the set of target positions with an actual observation.
+
+\subsection{CRPS via the order-statistic identity}
+
+NLL alone is unbounded and unstable early in training. We add the continuous
+ranked probability score, estimated from $n$ samples $x_1,\dots,x_n$:
+
+\begin{equation}
+\mathrm{CRPS} \;\approx\; \frac{1}{n}\sum_i |x_i-y| \;-\; \frac{1}{2n(n-1)}\sum_{i\neq j}|x_i-x_j| .
+\end{equation}
+
+The naive pairwise term materialises an $(n,n,\dots)$ tensor and will exhaust
+memory at realistic query counts. Using the order statistics
+$x_{(1)}\le\cdots\le x_{(n)}$,
+
+\begin{equation}
+\boxed{\;\sum_{i,j}|x_i-x_j| \;=\; 2\sum_{i=1}^{n}\big(2i-n-1\big)\,x_{(i)}\;}
+\end{equation}
+
+which reduces the cost to $O(n\log n)$ time and $O(n)$ memory. \emph{This is not
+an optimisation detail --- the naive form is what makes the loss un-runnable at
+scale.}
+
+\subsection{Total objective}
+
+\begin{equation}
+\mathcal{L} = w_{\text{nll}}\mathcal{L}_{\text{NLL}}
+\;+\; w_{\text{crps}}\mathcal{L}_{\text{CRPS}}
+\;+\; w_{\text{phys}}\mathcal{L}_{\text{CRPS}}^{\text{recon}},
+\end{equation}
+
+where the third term scores the \emph{reconstructed} observables (PM$_{2.5}$, NO,
+NO$_2$) obtained by transforming the sampled ensemble, so the constraint is
+scored as a distribution rather than as a point identity. Optionally weight
+targets by $1+\alpha\,\sigma\!\big(4(y-y_{\text{thr}})\big)$ to keep winter
+episodes from being averaged into irrelevance by clean summer months.
+
+%======================================================================
+\section{Pre-training curriculum}
+
+\subsection{Mixed masking}
+
+Random patch masking alone yields a model that is excellent at imputation and
+mediocre at forecasting, because there is always future context on both sides of
+every gap. The mask distribution is therefore a mixture:
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}llp{7.4cm}@{}}
+\toprule
+Regime & Weight & Construction \\
+\midrule
+Tail    & 0.50 & Mask the last $k$ patches, $k\sim\mathcal{U}[1,H]$. No future context: this is forecasting. \\
+Block   & 0.35 & Station-wide outages, all channels, durations
+$L\sim\mathrm{LogNormal}(\hat\mu,\hat\sigma)$ fitted to the real gap distribution. \\
+Channel & 0.15 & Drop a random channel subset over a random window: forces PM$_{2.5}$ to be forecast from meteorology and neighbours alone. \\
+\bottomrule
+\end{tabular}
+\caption{Masking mixture. The block regime is station-wide precisely because the
+EDA establishes systemic rather than independent failure.}
+\end{table}
+
+Crucially, $\hat\mu,\hat\sigma$ are \emph{estimated from the data}, not guessed:
+the observed run-length distribution of zeros in $M$ is exactly the outage
+distribution the model must learn to survive.
+
+\subsection{Two-stage schedule}
+
+\begin{enumerate}[leftmargin=1.4em]
+\item \textbf{Stage 1 --- national masked pre-training.} All-India corpus, mixed
+masking, AdamW ($\beta=(0.9,0.95)$, weight decay $0.05$), cosine schedule with
+linear warmup, gradient clipping at $1.0$.
+\item \textbf{Stage 2 --- horizon fine-tuning.} Delhi corpus, strict causal split,
+tail masking only, fine-tuned at the operational horizons (1\,h, 6\,h, 24\,h,
+72\,h) with lower learning rate.
+\end{enumerate}
+
+%======================================================================
+\section{Reference configuration}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Group & Parameter & Value & Note \\
+\midrule
+Window & context & 512 steps (5.3\,d) & at 15-minute cadence \\
+       & patch $P$ & 16 (4\,h) & $N=32$ context patches \\
+       & horizon & 288 steps (72\,h) & $H=18$ horizon patches \\
+       & neighbourhood & $k=12$ nearest stations & per training sample \\
+\midrule
+Encoder & $d_{\text{model}}$ & 384 & \\
+        & heads & 8 & \\
+        & $d_{\text{ff}}$ & 1536 & \\
+        & axial blocks & 4 & $=12$ attention layers \\
+        & latents/station & 16 & Perceiver bottleneck \\
+\midrule
+Decoder & layers & 4 & self + cross + FFN \\
+        & mixture components $K$ & 3 & log-normal \\
+\midrule
+Training & optimiser & AdamW, lr $3\times10^{-4}$ & wd $0.05$, clip $1.0$ \\
+         & CRPS samples & 32 & order-statistic estimator \\
+         & normalisation & masked RevIN & context statistics only \\
+\midrule
+Size & parameters (Delhi) & $\approx23$M & measured \\
+     & parameters (national) & $\approx150$M & $d=768$, 8 blocks \\
+\bottomrule
+\end{tabular}
+\caption{Reference configuration. Activation memory, not FLOPs, is the binding
+constraint: the axial encoder stores $\approx1.5$\,GB of activations per sample
+at this size, so gradient checkpointing over the encoder blocks (roughly $4\times$
+memory reduction for $\sim\!30\%$ step-time cost) is what makes a useful batch
+size fit on a single card.}
+\end{table}
+
+%======================================================================
+\section{Evaluation protocol}
+
+\subsection{Metrics that matter}
+
+Aggregate MAE over a full year is dominated by clean summer months and will look
+excellent for a model that is useless in December. Report:
+
+\begin{enumerate}[leftmargin=1.4em]
+\item \textbf{Skill stratified by AQI band}, not pooled.
+\item \textbf{Episode recall and precision}: detection of
+PM$_{2.5}>250\,\mu\text{g}/\text{m}^3$ at 24-hour and 48-hour lead. This is the
+number that decides whether the model is operationally useful.
+\item \textbf{Calibration}: PIT histograms and reliability of the 90\% and 95\%
+predictive intervals, per horizon.
+\item \textbf{CRPS by lead time}, to expose where skill decays to climatology.
+\item \textbf{Imputation and forecasting scored separately.} They are different
+tasks and a single pooled number hides failure in one of them.
+\end{enumerate}
+
+\subsection{Baselines}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+Baseline & Why it is included \\
+\midrule
+Persistence & Floor; anything below this is broken \\
+Seasonal-naive (same hour yesterday) & Captures the diurnal cycle for free \\
+Climatology by (station, hour, month) & The honest long-horizon competitor \\
+Gradient-boosted trees on lagged features & \textbf{Brutally strong on this task} \\
+PatchTST / iTransformer, channel-independent & Isolates the value of spatial attention \\
+Design A (per-pollutant decoders) & Isolates the value of the query decoder \\
+\bottomrule
+\end{tabular}
+\caption{If the foundation model does not clearly beat gradient-boosted trees at
+24\,h+, the problem is in the setup, not in the baseline.}
+\end{table}
+
+\subsection{Splits and leakage discipline}
+
+Hold out 2025--2026 entirely; use rolling-origin backtests within the training
+period. Two leakage paths are easy to create and hard to notice:
+
+\begin{itemize}[leftmargin=1.4em]
+\item Normalisation statistics computed over the full window rather than the
+context. Test this explicitly by perturbing the horizon and asserting the
+encoder output is bit-identical.
+\item Masked ground truth reaching the model through the mask channel. Assert
+that the input mask and target mask never overlap.
+\end{itemize}
+
+%======================================================================
+\section{Planned ablations}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Ablation & Removes & Hypothesis \\
+\midrule
+No spatial attention & Cross-station information & Large loss during block outages \\
+Distance-only bias & Wind asymmetry & Moderate loss at 6--24\,h lead \\
+Design A decoders & Query decoder & Coherence violations; no skill gain \\
+Random-only masking & Tail regime & Imputation holds, forecasting degrades \\
+Point head + MSE & Distributional output & Episode recall collapses \\
+No physical reparameterisation & Constraints & PM$_{2.5}>$PM$_{10}$ violations appear \\
+Delhi-only pre-training & National corpus & Quantifies the transfer benefit \\
+No boundary-layer covariate & ERA5 PBLH & Expected largest single-feature effect \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%======================================================================
+\section{Risks and honest caveats}
+
+\begin{description}[leftmargin=1.4em,style=nextline]
+\item[Scale.] $2.16\times10^{8}$ observations is a well-sized deep learning
+dataset, not a foundation-model corpus. The ``foundation model'' claim rests on
+national pre-training plus demonstrated transfer, and should be stated that way.
+\item[Scaling-law transfer.] The $\sim\!20$ tokens/parameter heuristic is
+borrowed from language modelling and is not established for time series. Treat
+the parameter-count guidance as an order-of-magnitude prior, and run a small
+scaling sweep before committing to the national model size.
+\item[NWP dependence.] Training with ERA5 as a perfect-prognosis oracle
+overstates operational skill. The oracle-versus-forecast gap must be reported.
+\item[Non-stationarity.] Emission inventories, GRAP interventions and the vehicle
+fleet all change across 2018--2026. A model evaluated only on a held-out tail
+may be measuring drift rather than skill; include a rolling re-fit comparison.
+\item[Station representativeness.] CPCB station siting is not random; a
+kerbside monitor and a background monitor are different measurement processes.
+Static covariates $U$ should include a site-type indicator.
+\end{description}
+
+%======================================================================
+\section{Implementation map}
+
+The accompanying reference implementation is organised as follows.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+File & Contents \\
+\midrule
+\texttt{aqfm/config.py}  & \texttt{AQFMConfig}; \texttt{.small()} for tests \\
+\texttt{aqfm/layers.py}  & masked RevIN, Fourier time, masked attention, axial block, wind bias \\
+\texttt{aqfm/model.py}   & tokeniser, encoder, latent pooler, query decoder, mixture head \\
+\texttt{aqfm/losses.py}  & mixture NLL, order-statistic CRPS, episode weighting \\
+\texttt{aqfm/masking.py} & mask sampler, empirical outage-length fitting \\
+\texttt{aqfm/physical.py}& ratio channels and constrained reconstruction \\
+\texttt{aqfm/data.py}    & windowing, neighbourhood sampling, query construction \\
+\texttt{aqfm/train.py}   & two-stage training, evaluation, baselines \\
+\texttt{tests/}          & shape, leakage, masking, constraint and loss-ordering tests \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[caption={Minimal usage.}]
+from aqfm import AQFMConfig, AQFM, AirQualityWindows
+from aqfm.train import train, evaluate, baselines
+
+cfg = AQFMConfig(grad_checkpoint=True)
+ds  = AirQualityWindows(values, observed, timestamps_h, coords, static,
+                        cfg, n_neighbours=12, pretrain=True)   # stage 1
+model = train(cfg, ds, steps=200_000, batch_size=16, device="cuda")
+
+ds_ft = AirQualityWindows(..., pretrain=False)                 # stage 2
+model = train(cfg, ds_ft, model=model, steps=20_000, lr=5e-5)
+
+print(evaluate(model, ds_ft, cfg), baselines(ds_ft, cfg))
+\end{lstlisting}
+
+\end{document}
