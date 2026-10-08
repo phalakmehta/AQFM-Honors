@@ -67,8 +67,11 @@ def main():
     resampled_dfs = []
     for st_id, group in combined.groupby('station_id'):
         group_numeric = group.drop(columns=['station_id', 'station'], errors='ignore')
-        # Resample to 15min and interpolate linearly between hours
-        group_15m = group_numeric.resample('15min').interpolate(method='linear')
+        # Resample to 15min and interpolate linearly between hours. limit=3 fills
+        # only the 3 slots inside an hour, so missing months stay NaN instead of
+        # becoming a straight line across the gap.
+        group_15m = group_numeric.resample('15min').interpolate(method='linear', limit=3,
+                                                                limit_area='inside')
         group_15m['station_id'] = st_id
         resampled_dfs.append(group_15m.reset_index())
         

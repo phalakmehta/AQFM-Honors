@@ -180,12 +180,6 @@ def main():
                 preds = model.predict(X_test)
                 preds = np.maximum(preds, 0.0)
 
-                # Enforce PM2.5 <= PM10
-                if ch_idx == 0:
-                    pm10_vals = values[s, 1, valid_origins + hz_steps - 1]
-                    pm10_mask = observed[s, 1, valid_origins + hz_steps - 1] > 0.5
-                    preds = np.where(pm10_mask & (preds > pm10_vals), pm10_vals, preds)
-
                 all_true.append(y_test)
                 all_pred.append(preds)
                 all_mask.append(mask_test)

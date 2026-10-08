@@ -5,8 +5,9 @@ Transforms raw CPCB station CSVs (2018-2025) and ERA5 parquet into the dense
 (S, C, T) tensor arrays that AirQualityWindows expects.
 
 Outputs (saved to preprocessed/):
-    values.npy          (S, 17, T) - raw concentrations & met, NaN -> 0
-    observed.npy        (S, 17, T) - binary observation mask
+    values.npy          (S, 18, T) - raw concentrations & met (+ ERA5 BLH), NaN -> 0
+    observed.npy        (S, 18, T) - binary observation mask
+    era5_met.npy        (S, 8, T)  - pure ERA5 met in IST (AT, RH, U, V, SR, BP, TOT_RF, BLH), NaN = missing
     timestamps_h.npy    (T,)       - hours since epoch (2018-01-01 00:00)
     coords.npy          (S, 2)     - lat, lon
     static.npy          (S, 4)     - per-station static covariates
@@ -53,6 +54,11 @@ AQFM_CHANNELS = [
     "PM2.5", "PM10", "NO2", "NOx", "NO", "Ozone", "SO2", "NH3", "CO",
     "AT", "RH", "WS", "WD", "SR", "BP", "TOT_RF", "Benzene",
 ]
+# Saved arrays carry ERA5 boundary-layer height as an 18th channel
+OUTPUT_CHANNELS = AQFM_CHANNELS + ["BLH"]
+
+# Pure-ERA5 met saved separately as era5_met.npy (decoder's known-future input)
+ERA5_MET_CHANNELS = ["AT", "RH", "U", "V", "SR", "BP", "TOT_RF", "BLH"]
 
 # Mapping from CSV column substrings to AQFM channel names
 # The CSV columns have units in parentheses, so we match by prefix
@@ -219,6 +225,17 @@ def load_cpcb_data(station_ids):
     return values, observed, timeline, station_order, report
 
 
+def fix_bp_units(values, observed):
+    """CPCB labels BP as mmHg, but about half the stations report hPa (~980)
+    instead of mmHg (~740). The two ranges don't overlap in Delhi, so any
+    reading > 900 is treated as hPa and converted to mmHg."""
+    bp_idx = AQFM_CHANNELS.index("BP")
+    hpa = (observed[:, bp_idx] > 0) & (values[:, bp_idx] > 900)
+    values[:, bp_idx][hpa] *= 0.750062
+    print(f"    BP: converted {int(hpa.sum()):,} hPa readings to mmHg")
+    return values, int(hpa.sum())
+
+
 # ============================================================================
 # Step 2: Merge ERA5 covariates (gap-fill CPCB met channels)
 # ============================================================================
@@ -238,6 +255,9 @@ def merge_era5(values, observed, timeline, station_order):
     """
     print("  Loading ERA5 parquet...")
     era5 = pd.read_parquet(ERA5_PARQUET)
+
+    # ERA5 timestamps are UTC; CPCB timestamps are local time (IST = UTC+5:30).
+    era5["time"] = era5["time"] + pd.Timedelta(hours=5, minutes=30)
 
     # Filter to our date range
     era5 = era5[(era5["time"] >= timeline[0]) & (era5["time"] <= timeline[-1])]
@@ -280,6 +300,15 @@ def merge_era5(values, observed, timeline, station_order):
     gaps_filled = {ch: 0 for ch in era5_to_aqfm}
     total_gaps = {ch: 0 for ch in era5_to_aqfm}
 
+    # Pure-ERA5 met at each station (NaN where ERA5 is missing). This is the
+    # "known-future" covariate the model's decoder reads; it never contains
+    # CPCB measurements, so it is what an NWP forecast could supply.
+    era5["era5_U"] = era5["u10"]
+    era5["era5_V"] = era5["v10"]
+    era5["era5_BLH"] = era5["blh"]
+    S, T = len(station_order), len(timeline)
+    era5_met = np.full((S, len(ERA5_MET_CHANNELS), T), np.nan, dtype=np.float32)
+
     for si, sid in enumerate(station_order):
         st_era5 = era5[era5["station_id"] == sid].set_index("time").sort_index()
         if len(st_era5) == 0:
@@ -287,6 +316,8 @@ def merge_era5(values, observed, timeline, station_order):
 
         # Reindex ERA5 to our canonical timeline
         st_era5 = st_era5.reindex(timeline)
+        for mi, name in enumerate(ERA5_MET_CHANNELS):
+            era5_met[si, mi] = st_era5[f"era5_{name}"].values.astype(np.float32)
 
         for era5_col, ch_idx in era5_to_aqfm.items():
             # Only fill where CPCB is missing (observed == 0)
@@ -318,7 +349,17 @@ def merge_era5(values, observed, timeline, station_order):
         print(f"    {ch_name}: filled {gaps_filled[era5_col]:,} / {total_gaps[era5_col]:,} gaps "
               f"({fill_report[ch_name]['fill_pct']})")
 
-    return values, observed, fill_report
+    return values, observed, fill_report, era5_met
+
+
+def append_blh(values, observed, era5_met):
+    """BLH is not measured by CPCB, so channel 17 comes from ERA5 only."""
+    blh = era5_met[:, ERA5_MET_CHANNELS.index("BLH")][:, None, :]
+    ok = ~np.isnan(blh)
+    values = np.concatenate([values, np.where(ok, blh, 0.0).astype(np.float32)], axis=1)
+    observed = np.concatenate([observed, ok.astype(np.float32)], axis=1)
+    print(f"    BLH: observed {ok.mean() * 100:.1f}% of steps")
+    return values, observed
 
 
 # ============================================================================
@@ -527,7 +568,7 @@ def compute_missingness_summary(observed, station_order):
     steps_per_year = T // len(YEARS)
     summary = {}
 
-    for ci, ch in enumerate(AQFM_CHANNELS):
+    for ci, ch in enumerate(OUTPUT_CHANNELS):
         yearly = {}
         for yi, yr in enumerate(YEARS):
             start = yi * steps_per_year
@@ -563,12 +604,16 @@ def main():
     report["column_mapping"] = cpcb_report["column_mapping"]
     print(f"  Done in {(datetime.now() - t0).total_seconds():.1f}s")
     print(f"  Shape: values={values.shape}, observed={observed.shape}")
+    values, report["bp_hpa_converted"] = fix_bp_units(values, observed)
 
     # --- Step 2: Merge ERA5 ---
     print("\n[Step 2/6] Merging ERA5 weather data (gap-filling CPCB met channels)...")
     t0 = datetime.now()
-    values, observed, era5_report = merge_era5(values, observed, timeline, station_order)
+    values, observed, era5_report, era5_met = merge_era5(values, observed, timeline, station_order)
     report["era5_gap_fill"] = era5_report
+    values, observed = append_blh(values, observed, era5_met)
+    report["era5_met_nan_frac"] = {name: float(np.isnan(era5_met[:, i]).mean())
+                                   for i, name in enumerate(ERA5_MET_CHANNELS)}
     print(f"  Done in {(datetime.now() - t0).total_seconds():.1f}s")
 
     # --- Step 3: Sanity checks ---
@@ -608,7 +653,8 @@ def main():
     report["missingness"] = compute_missingness_summary(observed, station_order)
 
     # Channel order
-    report["channel_order"] = AQFM_CHANNELS
+    report["channel_order"] = OUTPUT_CHANNELS
+    report["era5_met_channel_order"] = ERA5_MET_CHANNELS
     report["station_order"] = station_order
     report["date_range"] = {"start": str(timeline[0]), "end": str(timeline[-1])}
     report["shapes"] = {
@@ -626,6 +672,7 @@ def main():
     np.save(os.path.join(OUTPUT_DIR, "timestamps_h.npy"), timestamps_h)
     np.save(os.path.join(OUTPUT_DIR, "coords.npy"), coords)
     np.save(os.path.join(OUTPUT_DIR, "static.npy"), static)
+    np.save(os.path.join(OUTPUT_DIR, "era5_met.npy"), era5_met)
 
     # Save report
     report_path = os.path.join(OUTPUT_DIR, "preprocessing_report.json")
