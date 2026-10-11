@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 
-PREPROCESSED = "../preprocessed"
-RESULTS_DIR = "../baseline_results"
+PREPROCESSED = "../data/preprocessed"
+RESULTS_DIR = "results"
 
 CHANNEL_NAMES = [
     "PM2.5", "PM10", "NO2", "NOx", "NO", "Ozone", "SO2", "NH3", "CO",

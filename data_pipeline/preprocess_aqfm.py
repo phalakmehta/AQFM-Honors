@@ -4,7 +4,7 @@ AQFM Data Preprocessing Pipeline
 Transforms raw CPCB station CSVs (2018-2025) and ERA5 parquet into the dense
 (S, C, T) tensor arrays that AirQualityWindows expects.
 
-Outputs (saved to preprocessed/):
+Outputs (saved to data/preprocessed/):
     values.npy          (S, 18, T) - raw concentrations & met (+ ERA5 BLH), NaN -> 0
     observed.npy        (S, 18, T) - binary observation mask
     era5_met.npy        (S, 8, T)  - pure ERA5 met in IST (AT, RH, U, V, SR, BP, TOT_RF, BLH), NaN = missing
@@ -39,10 +39,10 @@ warnings.filterwarnings("ignore", category=pd.errors.DtypeWarning)
 # Configuration
 # ============================================================================
 ROOT = r"c:\Users\phala\Foundation Model"
-YEARLY_DATA_DIR = os.path.join(ROOT, "yearly_data")
-ERA5_PARQUET = os.path.join(ROOT, "era5_interpolated.parquet")
-STATIONS_CSV = os.path.join(ROOT, "stations.csv")
-OUTPUT_DIR = os.path.join(ROOT, "preprocessed")
+YEARLY_DATA_DIR = os.path.join(ROOT, "data", "yearly_data")
+ERA5_PARQUET = os.path.join(ROOT, "data", "era5_interpolated.parquet")
+STATIONS_CSV = os.path.join(ROOT, "data", "stations.csv")
+OUTPUT_DIR = os.path.join(ROOT, "data", "preprocessed")
 
 YEARS = list(range(2018, 2026))  # 2018-2025 inclusive
 FREQ = "15min"
@@ -239,114 +239,95 @@ def fix_bp_units(values, observed):
 # ============================================================================
 # Step 2: Merge ERA5 covariates (gap-fill CPCB met channels)
 # ============================================================================
-def merge_era5(values, observed, timeline, station_order):
-    """Use ERA5 data to gap-fill CPCB meteorological channels.
+def _era5_derive(df):
+    """Raw ERA5 columns -> CPCB-equivalent met, as float32 numpy arrays.
 
-    ERA5 variables mapped to CPCB channels:
-        t2m  (K)          -> AT  (°C)    : subtract 273.15
-        d2m + t2m         -> RH  (%)     : Magnus formula
-        u10, v10          -> WS  (m/s)   : sqrt(u²+v²)
-        u10, v10          -> WD  (deg)   : atan2(-u, -v) * 180/π, mod 360
-        sp   (Pa)         -> BP  (mmHg)  : divide by 133.322
-        ssrd (J/m²)       -> SR  (W/m²)  : divide by 3600 (hourly accumulation)
-        tp   (m)          -> TOT_RF (mm) : multiply by 1000
-
-    Only fills where CPCB has NaN; does NOT overwrite existing CPCB readings.
+        t2m  (K)   -> AT  (degC)   : subtract 273.15
+        d2m + t2m  -> RH  (%)      : Magnus formula
+        u10, v10   -> WS  (m/s)    : hypot;  WD (deg) : direction wind comes FROM
+        sp   (Pa)  -> BP  (mmHg)   : / 133.322
+        ssrd (J/m2 per hour) -> SR (W/m2) : / 3600
+        tp   (m)   -> TOT_RF (mm)  : * 1000
     """
-    print("  Loading ERA5 parquet...")
-    era5 = pd.read_parquet(ERA5_PARQUET)
-
-    # ERA5 timestamps are UTC; CPCB timestamps are local time (IST = UTC+5:30).
-    era5["time"] = era5["time"] + pd.Timedelta(hours=5, minutes=30)
-
-    # Filter to our date range
-    era5 = era5[(era5["time"] >= timeline[0]) & (era5["time"] <= timeline[-1])]
-    print(f"  ERA5 rows in range: {len(era5):,}")
-
-    # Derive CPCB-equivalent channels from ERA5
-    era5["era5_AT"] = era5["t2m"] - 273.15  # K -> °C
-
-    # RH from t2m and d2m using Magnus formula
+    f = lambda a: np.asarray(a, dtype=np.float32)
+    t_c = df["t2m"].values - 273.15
+    td_c = df["d2m"].values - 273.15
     b, c = 17.67, 243.5
-    t_c = era5["t2m"] - 273.15
-    td_c = era5["d2m"] - 273.15
-    era5["era5_RH"] = 100.0 * np.exp((b * td_c) / (c + td_c)) / np.exp((b * t_c) / (c + t_c))
-    era5["era5_RH"] = era5["era5_RH"].clip(0, 100)
-
-    # Wind speed and direction from u10, v10
-    era5["era5_WS"] = np.sqrt(era5["u10"] ** 2 + era5["v10"] ** 2)
-    era5["era5_WD"] = (np.degrees(np.arctan2(-era5["u10"], -era5["v10"])) + 360) % 360
-
-    # Surface pressure Pa -> mmHg
-    era5["era5_BP"] = era5["sp"] / 133.322
-
-    # Solar radiation: J/m² accumulated over 1h -> W/m² (divide by 3600)
-    era5["era5_SR"] = (era5["ssrd"] / 3600.0).clip(0)
-
-    # Precipitation: m -> mm
-    era5["era5_TOT_RF"] = (era5["tp"] * 1000.0).clip(0)
-
-    # Map ERA5 derived columns to AQFM channel indices
-    era5_to_aqfm = {
-        "era5_AT":     AQFM_CHANNELS.index("AT"),
-        "era5_RH":     AQFM_CHANNELS.index("RH"),
-        "era5_WS":     AQFM_CHANNELS.index("WS"),
-        "era5_WD":     AQFM_CHANNELS.index("WD"),
-        "era5_SR":     AQFM_CHANNELS.index("SR"),
-        "era5_BP":     AQFM_CHANNELS.index("BP"),
-        "era5_TOT_RF": AQFM_CHANNELS.index("TOT_RF"),
+    u, v = df["u10"].values, df["v10"].values
+    return {
+        "AT": f(t_c),
+        "RH": f(np.clip(100.0 * np.exp((b * td_c) / (c + td_c)) / np.exp((b * t_c) / (c + t_c)), 0, 100)),
+        "WS": f(np.sqrt(u ** 2 + v ** 2)),
+        "WD": f((np.degrees(np.arctan2(-u, -v)) + 360) % 360),
+        "BP": f(df["sp"].values / 133.322),
+        "SR": f(np.clip(df["ssrd"].values / 3600.0, 0, None)),
+        "TOT_RF": f(np.clip(df["tp"].values * 1000.0, 0, None)),
+        "U": f(u),
+        "V": f(v),
+        "BLH": f(df["blh"].values),
     }
 
-    gaps_filled = {ch: 0 for ch in era5_to_aqfm}
-    total_gaps = {ch: 0 for ch in era5_to_aqfm}
 
-    # Pure-ERA5 met at each station (NaN where ERA5 is missing). This is the
-    # "known-future" covariate the model's decoder reads; it never contains
-    # CPCB measurements, so it is what an NWP forecast could supply.
-    era5["era5_U"] = era5["u10"]
-    era5["era5_V"] = era5["v10"]
-    era5["era5_BLH"] = era5["blh"]
+def merge_era5(values, observed, timeline, station_order):
+    """Gap-fill the CPCB meteorological channels from ERA5, and return the
+    pure-ERA5 met block used as the model's known-future covariate.
+
+    Only fills where CPCB is missing; never overwrites a CPCB reading.
+
+    The parquet is read ONE STATION AT A TIME (pyarrow row filter). Loading all
+    ~12M rows at once and adding derived columns needs several GB and fails on
+    a 16 GB machine; per station it is ~324k rows.
+    """
+    import pyarrow.parquet as pq
+
+    # CPCB channels that ERA5 can gap-fill
+    fill_channels = ["AT", "RH", "WS", "WD", "SR", "BP", "TOT_RF"]
+    gaps_filled = {ch: 0 for ch in fill_channels}
+    total_gaps = {ch: 0 for ch in fill_channels}
+
     S, T = len(station_order), len(timeline)
     era5_met = np.full((S, len(ERA5_MET_CHANNELS), T), np.nan, dtype=np.float32)
+    shift = pd.Timedelta(hours=5, minutes=30)   # ERA5 is UTC, CPCB is IST
 
+    print(f"  Reading ERA5 per station from {os.path.basename(ERA5_PARQUET)} ...")
     for si, sid in enumerate(station_order):
-        st_era5 = era5[era5["station_id"] == sid].set_index("time").sort_index()
-        if len(st_era5) == 0:
+        tbl = pq.read_table(ERA5_PARQUET, filters=[("station_id", "==", sid)])
+        if tbl.num_rows == 0:
+            print(f"    WARNING: no ERA5 rows for {sid}")
             continue
+        st = tbl.to_pandas()
+        del tbl
+        st["time"] = st["time"] + shift
+        st = st.set_index("time").sort_index()
+        st = st[~st.index.duplicated(keep="first")].reindex(timeline)
+        der = _era5_derive(st)
+        del st
 
-        # Reindex ERA5 to our canonical timeline
-        st_era5 = st_era5.reindex(timeline)
         for mi, name in enumerate(ERA5_MET_CHANNELS):
-            era5_met[si, mi] = st_era5[f"era5_{name}"].values.astype(np.float32)
+            era5_met[si, mi] = der[name]
 
-        for era5_col, ch_idx in era5_to_aqfm.items():
-            # Only fill where CPCB is missing (observed == 0)
-            missing_mask = observed[si, ch_idx] == 0
-            era5_vals = st_era5[era5_col].values
+        for ch_name in fill_channels:
+            ci = AQFM_CHANNELS.index(ch_name)
+            missing = observed[si, ci] == 0
+            vals = der[ch_name]
+            total_gaps[ch_name] += int(missing.sum())
+            fill = missing & ~np.isnan(vals)
+            values[si, ci, fill] = vals[fill]
+            observed[si, ci, fill] = 1.0
+            gaps_filled[ch_name] += int(fill.sum())
+        del der
 
-            total_gaps[era5_col] += int(missing_mask.sum())
-
-            # ERA5 has data and CPCB doesn't -> fill
-            era5_valid = ~np.isnan(era5_vals)
-            fill_mask = missing_mask & era5_valid
-
-            values[si, ch_idx, fill_mask] = era5_vals[fill_mask].astype(np.float32)
-            observed[si, ch_idx, fill_mask] = 1.0
-
-            gaps_filled[era5_col] += int(fill_mask.sum())
-
-        if (si + 1) % 10 == 0 or si == len(station_order) - 1:
-            print(f"    Gap-filled {si + 1}/{len(station_order)} stations")
+        if (si + 1) % 10 == 0 or si == S - 1:
+            print(f"    Gap-filled {si + 1}/{S} stations")
 
     fill_report = {}
-    for era5_col in era5_to_aqfm:
-        ch_name = era5_col.replace("era5_", "")
+    for ch_name in fill_channels:
         fill_report[ch_name] = {
-            "total_gaps": total_gaps[era5_col],
-            "gaps_filled": gaps_filled[era5_col],
-            "fill_pct": f"{gaps_filled[era5_col] / max(1, total_gaps[era5_col]) * 100:.1f}%",
+            "total_gaps": total_gaps[ch_name],
+            "gaps_filled": gaps_filled[ch_name],
+            "fill_pct": f"{gaps_filled[ch_name] / max(1, total_gaps[ch_name]) * 100:.1f}%",
         }
-        print(f"    {ch_name}: filled {gaps_filled[era5_col]:,} / {total_gaps[era5_col]:,} gaps "
+        print(f"    {ch_name}: filled {gaps_filled[ch_name]:,} / {total_gaps[ch_name]:,} gaps "
               f"({fill_report[ch_name]['fill_pct']})")
 
     return values, observed, fill_report, era5_met
@@ -504,7 +485,7 @@ def compute_static_features(values, observed, coords, station_order):
             d = 2 * 6371.0 * atan2(sqrt(a), sqrt(1 - a))
             if d <= 5.0:
                 count += 1
-        static[si, 3] = float(count)
+        static[i, 3] = float(count)
 
     # Normalize static features to roughly zero-mean, unit-variance
     for f in range(4):

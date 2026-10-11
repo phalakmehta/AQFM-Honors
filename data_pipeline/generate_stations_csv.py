@@ -7,7 +7,7 @@ import time
 def main():
     print("Extracting station names from CPCB data...")
     # Find all CSV files in yearly_data
-    csv_files = glob.glob(r"C:\Users\phala\Foundation Model\yearly_data\*\*.csv")
+    csv_files = glob.glob(r"C:\Users\phala\Foundation Model\data\yearly_data\*\*.csv")
     
     # Extract unique station names
     station_ids = set()
@@ -68,7 +68,7 @@ def main():
         time.sleep(1) # Be nice to the Nominatim API
         
     df = pd.DataFrame(results)
-    output_path = r"C:\Users\phala\Foundation Model\stations.csv"
+    output_path = r"C:\Users\phala\Foundation Model\data\stations.csv"
     df.to_csv(output_path, index=False)
     print(f"\nSaved coordinates to {output_path}")
 

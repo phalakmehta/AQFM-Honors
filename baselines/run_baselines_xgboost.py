@@ -3,15 +3,23 @@ Baseline 4: XGBoost with lagged features.
 
 Trains one XGBRegressor per (target_channel x horizon) = 8 models total.
 All stations pooled into a single model. Training subsampled every 4 steps.
+
+    python run_baselines_xgboost.py               # past weather only -> xgboost_results.json
+    python run_baselines_xgboost.py --future-met  # + ERA5 weather at the target time
+                                                  #   -> xgboost_future_met_results.json
+
+--future-met gives XGBoost the same known-future (reanalysis) weather that AQFM
+receives by default, so the two can be compared fairly.
 """
 
+import argparse
 import os
 import time
 import numpy as np
 import xgboost as xgb
 
 from baseline_utils import (
-    load_data, get_test_split, timestamps_to_dt_features,
+    PREPROCESSED, load_data, get_test_split, timestamps_to_dt_features,
     compute_metrics, aqi_stratified, save_results, print_summary,
     TARGET_CHANNELS, TARGET_NAMES, HORIZONS,
     STEPS_PER_HOUR, STEPS_PER_DAY, SEED,
@@ -27,12 +35,14 @@ WEATHER_CHANNELS = [9, 10, 11, 12, 14]
 TRAIN_SUBSAMPLE = 4  # use every 4th timestep for training
 
 
-def build_features_vectorized(values, observed, time_feats, station_idx, ch_idx, t_indices, hz_steps):
-    """Build feature matrix using FAST NumPy vectorization."""
+def build_features_vectorized(values, observed, time_feats, station_idx, ch_idx, t_indices, hz_steps,
+                              era5_met=None):
+    """Build feature matrix using FAST NumPy vectorization. With `era5_met`
+    (S, 8, T), the ERA5 weather at the target time is appended (8 columns)."""
     other_ch = 1 if ch_idx == 0 else 0
     n = len(t_indices)
 
-    X = np.zeros((n, 23), dtype=np.float32)
+    X = np.zeros((n, 23 if era5_met is None else 31), dtype=np.float32)
     y = np.zeros(n, dtype=np.float32)
     mask = np.zeros(n, dtype=np.float32)
     valid_mask = np.ones(n, dtype=bool)
@@ -88,6 +98,10 @@ def build_features_vectorized(values, observed, time_feats, station_idx, ch_idx,
     X[~out_of_bounds, 21] = time_feats["month"][target_t]
     X[~out_of_bounds, 22] = time_feats["doy"][target_t]
 
+    # 6. Known-future ERA5 weather at the target time (optional)
+    if era5_met is not None:
+        X[~out_of_bounds, 23:] = np.asarray(era5_met[station_idx][:, target_t]).T
+
     y[~out_of_bounds] = values[station_idx, ch_idx, target_t]
     mask[~out_of_bounds] = observed[station_idx, ch_idx, target_t]
 
@@ -104,6 +118,15 @@ def build_features_vectorized(values, observed, time_feats, station_idx, ch_idx,
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--future-met", action="store_true",
+                    help="add ERA5 weather at the target time as features")
+    args = ap.parse_args()
+    era5_met = (np.load(os.path.join(PREPROCESSED, "era5_met.npy"), mmap_mode="r")
+                if args.future_met else None)
+    name = "XGBoost + future ERA5" if args.future_met else "XGBoost"
+    out_file = "xgboost_future_met_results.json" if args.future_met else "xgboost_results.json"
+
     values_mmap, observed_mmap, timestamps_h = load_data()
     # Keep as mmap. We vectorize lookups, so it will be fast even with mmap.
     values = values_mmap
@@ -114,19 +137,18 @@ def main():
 
     time_feats = timestamps_to_dt_features(timestamps_h)
 
-    results = {"XGBoost": {}}
+    results = {name: {}}
     max_hz = max(HORIZONS.values())
 
     test_origins = np.arange(test_start, test_end - max_hz, STEPS_PER_DAY)
     print(f"Test origins: {len(test_origins)} (daily in 2025)")
-    os.makedirs("baseline_results", exist_ok=True)
 
     for ch_idx, ch_name in zip(TARGET_CHANNELS, TARGET_NAMES):
-        results["XGBoost"][ch_name] = {}
+        results[name][ch_name] = {}
 
         for hz_name, hz_steps in HORIZONS.items():
             print(f"\n{'='*60}")
-            print(f"XGBoost: {ch_name} @ {hz_name} (horizon={hz_steps} steps)")
+            print(f"{name}: {ch_name} @ {hz_name} (horizon={hz_steps} steps)")
             print(f"{'='*60}")
 
             t0 = time.time()
@@ -138,7 +160,7 @@ def main():
 
             for s in range(n_stations):
                 X_s, y_s, mask_s, valid_s = build_features_vectorized(
-                    values, observed, time_feats, s, ch_idx, train_indices, hz_steps
+                    values, observed, time_feats, s, ch_idx, train_indices, hz_steps, era5_met
                 )
                 keep = (mask_s > 0.5) & valid_s
                 if keep.sum() > 0:
@@ -174,7 +196,7 @@ def main():
                     continue
 
                 X_test, y_test, mask_test, _ = build_features_vectorized(
-                    values, observed, time_feats, s, ch_idx, valid_origins, hz_steps
+                    values, observed, time_feats, s, ch_idx, valid_origins, hz_steps, era5_met
                 )
 
                 preds = model.predict(X_test)
@@ -189,14 +211,14 @@ def main():
             mask = np.concatenate(all_mask)
 
             metrics = compute_metrics(y_true, y_pred, mask)
-            results["XGBoost"][ch_name][hz_name] = metrics
+            results[name][ch_name][hz_name] = metrics
             print(f"  Result: MAE={metrics['MAE']:.2f}, RMSE={metrics['RMSE']:.2f}")
 
             if ch_name == "PM2.5" and hz_name == "24h":
                 aqi = aqi_stratified(y_true, y_pred, mask)
-                results["XGBoost"][ch_name]["24h_aqi"] = aqi
+                results[name][ch_name]["24h_aqi"] = aqi
 
-    save_results(results, "xgboost_results.json")
+    save_results(results, out_file)
     print_summary(results)
 
 

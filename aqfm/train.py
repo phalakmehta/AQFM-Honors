@@ -97,7 +97,7 @@ def load_checkpoint(path, device="cpu"):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data", default="preprocessed")
+    ap.add_argument("--data", default="data/preprocessed")
     ap.add_argument("--out", default="runs/debug")
     ap.add_argument("--phase", choices=["main", "anneal"], default="main")
     ap.add_argument("--init", help="checkpoint to start from (required for anneal)")

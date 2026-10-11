@@ -23,6 +23,8 @@ from baseline_utils import (
 )
 
 TTM_MODEL_ID = "ibm-granite/granite-timeseries-ttm-r2"
+# Exact Hugging Face commit of the model weights used for the reported results
+TTM_REVISION = "d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f"
 TTM_CONTEXT = 512   # hours
 TTM_PRED = 96       # hours
 
@@ -175,6 +177,7 @@ def main():
 
     model = TinyTimeMixerForPrediction.from_pretrained(
         TTM_MODEL_ID,
+        revision=TTM_REVISION,
         context_length=TTM_CONTEXT,
         prediction_length=TTM_PRED,
         num_input_channels=TTM_NUM_CHANNELS,
@@ -194,7 +197,8 @@ def main():
     for ch_name in TARGET_NAMES:
         collectors[ch_name] = {}
         for hz_name in TTM_HORIZONS:
-            collectors[ch_name][hz_name] = {"true": [], "pred": [], "mask": []}
+            collectors[ch_name][hz_name] = {"true": [], "pred": [], "mask": [],
+                                            "true15": [], "mask15": []}
 
     n_done = 0
     for origin in origins:
@@ -233,9 +237,16 @@ def main():
                     obs_val = hourly_obs[s, ch_idx_ttm, target_h]
                     pred_val = max(float(pred_unscaled[ch_idx_ttm]), 0.0)
 
+                    # Same target as the other baselines: the 15-min point
+                    # t + h - 1 with t = 4 * origin and h = 4 * hz_step steps
+                    t15 = STEPS_PER_HOUR * (origin + hz_step) - 1
+                    ch_raw = TTM_CHANNEL_INDICES[ch_idx_ttm]
+
                     collectors[ch_name][hz_name]["true"].append(true_val)
                     collectors[ch_name][hz_name]["pred"].append(pred_val)
                     collectors[ch_name][hz_name]["mask"].append(obs_val)
+                    collectors[ch_name][hz_name]["true15"].append(values[s, ch_raw, t15])
+                    collectors[ch_name][hz_name]["mask15"].append(observed[s, ch_raw, t15])
 
         n_done += 1
         if n_done % 50 == 0:
@@ -246,27 +257,34 @@ def main():
     print("IBM TTM Zero-Shot Results (CORRECTED)")
     print("=" * 70)
 
-    results = {"IBM TTM (zero-shot)": {}}
+    # "IBM TTM (zero-shot)" is scored against hourly-mean truth (the original
+    # protocol of this script). The 15-min entry scores the same forecasts on
+    # the 15-min points used by every other baseline.
+    scorings = {"IBM TTM (zero-shot)": ("true", "mask"),
+                "IBM TTM (zero-shot, 15-min scoring)": ("true15", "mask15")}
+    results = {name: {} for name in scorings}
 
-    for ch_name in TARGET_NAMES:
-        results["IBM TTM (zero-shot)"][ch_name] = {}
-        for hz_name in TTM_HORIZONS:
-            c = collectors[ch_name][hz_name]
-            y_true = np.array(c["true"], dtype=np.float32)
-            y_pred = np.array(c["pred"], dtype=np.float32)
-            mask = np.array(c["mask"], dtype=np.float32)
+    for name, (tk, mk) in scorings.items():
+        print(f"\n{name}")
+        for ch_name in TARGET_NAMES:
+            results[name][ch_name] = {}
+            for hz_name in TTM_HORIZONS:
+                c = collectors[ch_name][hz_name]
+                y_true = np.array(c[tk], dtype=np.float32)
+                y_pred = np.array(c["pred"], dtype=np.float32)
+                mask = np.array(c[mk], dtype=np.float32)
 
-            metrics = compute_metrics(y_true, y_pred, mask)
-            results["IBM TTM (zero-shot)"][ch_name][hz_name] = metrics
-            print(f"  {ch_name} @ {hz_name}: MAE={metrics['MAE']:.2f}, "
-                  f"RMSE={metrics['RMSE']:.2f} (n={metrics['n']})")
+                metrics = compute_metrics(y_true, y_pred, mask)
+                results[name][ch_name][hz_name] = metrics
+                print(f"  {ch_name} @ {hz_name}: MAE={metrics['MAE']:.2f}, "
+                      f"RMSE={metrics['RMSE']:.2f} (n={metrics['n']})")
 
-            if ch_name == "PM2.5" and hz_name == "24h":
-                aqi = aqi_stratified(y_true, y_pred, mask)
-                results["IBM TTM (zero-shot)"][ch_name]["24h_aqi"] = aqi
-                print(f"    AQI breakdown:")
-                for band, m in aqi.items():
-                    print(f"      {band}: MAE={m['MAE']:.2f}, n={m['n']}")
+                if ch_name == "PM2.5" and hz_name == "24h":
+                    aqi = aqi_stratified(y_true, y_pred, mask)
+                    results[name][ch_name]["24h_aqi"] = aqi
+                    print(f"    AQI breakdown:")
+                    for band, m in aqi.items():
+                        print(f"      {band}: MAE={m['MAE']:.2f}, n={m['n']}")
 
     # 9. Save
     save_results(results, "ttm_results.json")

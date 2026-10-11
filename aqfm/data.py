@@ -1,7 +1,7 @@
 """Data store, windowing, neighbourhood sampling and query construction.
 
 A sample is a *neighbourhood* (the k nearest stations to an anchor) over one
-window of context + horizon. Indexing conventions match baseline_codes/: a
+window of context + horizon. Indexing conventions match baselines/: a
 window starting at t0 has context [t0, t0+Tc) and horizon [t0+Tc, t0+Tc+Th);
 the forecast origin is t = t0+Tc, and horizon step j is index t+j, i.e. the
 baselines' "horizon h" target t+h-1 is horizon step j = h-1.

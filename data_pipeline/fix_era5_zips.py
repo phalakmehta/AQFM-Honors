@@ -5,7 +5,7 @@ import xarray as xr
 import tempfile
 
 def fix_zips():
-    raw_dir = "era5_data_raw"
+    raw_dir = "data/era5_data_raw"
     files = glob.glob(os.path.join(raw_dir, "*.nc"))
     
     for filepath in files:

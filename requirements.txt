@@ -1,0 +1,28 @@
+# Exact versions of the environment every reported result was produced with
+# (Python 3.12.5, Windows 11). Install with: pip install -r requirements.txt
+#
+# torch: this pin installs the CPU build. On a GPU machine install the CUDA
+# build of the same version first, following https://pytorch.org/get-started/locally/
+
+# model (aqfm/) and tests
+torch==2.10.0
+numpy==2.0.2
+pytest==8.3.2
+
+# data pipeline (data_pipeline/)
+pandas==3.0.5
+pyarrow==23.0.1
+xarray==2026.4.0
+netCDF4==1.7.4
+cdsapi==0.7.7
+geopy==2.5.0
+
+# baselines (baselines/)
+xgboost==3.0.5
+scikit-learn==1.6.1
+granite-tsfm==0.3.9
+transformers==5.16.1
+
+# data report statistics and figures (docs/)
+scipy==1.15.2
+matplotlib==3.10.0

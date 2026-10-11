@@ -32,14 +32,14 @@ def process_month(nc_file, stations_df):
     return df
 
 def main():
-    stations_csv = "stations.csv"
+    stations_csv = "data/stations.csv"
     if not os.path.exists(stations_csv):
-        print(f"Error: {stations_csv} not found. Please provide it in the root directory.")
+        print(f"Error: {stations_csv} not found. Please provide it in data/.")
         return
         
     stations_df = load_stations(stations_csv)
     
-    raw_dir = "era5_data_raw"
+    raw_dir = "data/era5_data_raw"
     nc_files = sorted(glob.glob(os.path.join(raw_dir, "*.nc")))
     
     if not nc_files:
@@ -77,7 +77,7 @@ def main():
         
     final_df = pd.concat(resampled_dfs, ignore_index=True)
     
-    output_parquet = "era5_interpolated.parquet"
+    output_parquet = "data/era5_interpolated.parquet"
     final_df.to_parquet(output_parquet, index=False)
     print(f"Successfully saved {len(final_df)} rows to {output_parquet}")
 

@@ -1,4 +1,4 @@
-"""Test-set evaluation on 2025 with the exact protocol of baseline_codes/.
+"""Test-set evaluation on 2025 with the exact protocol of baselines/.
 
     python -m aqfm.evaluate --ckpt runs/anneal/best.pt --out results/aqfm_results.json
 
@@ -26,7 +26,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                                "baseline_codes"))
+                                "baselines"))
 from baseline_utils import (HORIZONS, aqi_stratified, compute_metrics,  # noqa: E402
                             episode_detection)
 
@@ -216,15 +216,18 @@ def evaluate_imputation(model, cfg, data, raw_values, raw_observed, test_start, 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ckpt", required=True)
-    ap.add_argument("--data", default="preprocessed")
+    ap.add_argument("--data", default="data/preprocessed")
     ap.add_argument("--out", default="results/aqfm_results.json")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--samples", type=int, default=200)
     ap.add_argument("--limit-origins", type=int, default=None, help="debug only")
     ap.add_argument("--no-imputation", action="store_true")
+    ap.add_argument("--seed", type=int, default=0, help="seeds the sampling, so results are repeatable")
     args = ap.parse_args()
 
+    torch.manual_seed(args.seed)
+    np.random.seed(args.seed)
     device = torch.device(args.device)
     model, cfg, ck = load_checkpoint(args.ckpt, device)
     a = load_preprocessed(args.data)
@@ -239,6 +242,7 @@ def main():
             model, cfg, data, a["values"], a["observed"], test_start, device,
             args.batch_size, args.samples, args.limit_origins)
     res["checkpoint"] = os.path.abspath(args.ckpt)
+    res["seed"] = args.seed
     res["cfg"] = dataclasses.asdict(cfg)
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     json.dump(res, open(args.out, "w"), indent=2, default=str)

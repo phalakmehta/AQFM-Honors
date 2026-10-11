@@ -62,9 +62,9 @@ def fetch_month(year, month, output_dir):
             time.sleep(60)
 
 if __name__ == '__main__':
-    output_dir = "era5_data_raw"
+    output_dir = "data/era5_data_raw"
     os.makedirs(output_dir, exist_ok=True)
-    
+
     for year in range(2021, 2026):
         for month in range(1, 13):
             fetch_month(year, month, output_dir)

@@ -1,0 +1,736 @@
+{
+ "shape": [
+  37,
+  18,
+  280512
+ ],
+ "obs_cells_pm25": 8940911,
+ "csv_per_year": {
+  "2009": 5,
+  "2010": 6,
+  "2011": 9,
+  "2012": 9,
+  "2013": 9,
+  "2014": 9,
+  "2015": 9,
+  "2016": 9,
+  "2017": 36,
+  "2018": 35,
+  "2019": 36,
+  "2020": 36,
+  "2021": 37,
+  "2022": 36,
+  "2023": 37,
+  "2024": 37,
+  "2025": 37,
+  "2026": 35
+ },
+ "csv_total": 427,
+ "native_met_coverage": {
+  "AT": 57.2,
+  "RH": 69.4,
+  "WS": 68.5,
+  "WD": 68.5,
+  "SR": 66.9,
+  "BP": 57.1,
+  "TOT_RF": 90.2
+ },
+ "pm25_dist": {
+  "1": 6.0,
+  "5": 15.9,
+  "25": 38.0,
+  "50": 69.9,
+  "75": 136.1,
+  "95": 296.0,
+  "99": 458.0,
+  "mean": 102.9,
+  "max": 1000.0
+ },
+ "pm10_dist": {
+  "1": 19.0,
+  "5": 41.0,
+  "25": 100.0,
+  "50": 172.0,
+  "75": 277.2,
+  "95": 497.0,
+  "99": 708.0,
+  "mean": 207.7,
+  "max": 1000.0
+ },
+ "NO2_dist": {
+  "1": 2.3,
+  "5": 6.2,
+  "25": 17.0,
+  "50": 30.4,
+  "75": 52.9,
+  "95": 106.7,
+  "99": 169.8,
+  "mean": 40.4,
+  "max": 500.0
+ },
+ "Ozone_dist": {
+  "1": 0.9,
+  "5": 2.5,
+  "25": 8.6,
+  "50": 19.5,
+  "75": 41.9,
+  "95": 109.7,
+  "99": 164.4,
+  "mean": 32.3,
+  "max": 498.5
+ },
+ "CO_dist": {
+  "1": 0.0,
+  "5": 0.2,
+  "25": 0.6,
+  "50": 1.0,
+  "75": 1.6,
+  "95": 3.5,
+  "99": 5.9,
+  "mean": 1.3,
+  "max": 30.0
+ },
+ "SO2_dist": {
+  "1": 0.7,
+  "5": 1.9,
+  "25": 5.5,
+  "50": 9.8,
+  "75": 16.3,
+  "95": 33.0,
+  "99": 58.0,
+  "mean": 12.7,
+  "max": 200.0
+ },
+ "NH3_dist": {
+  "1": 4.6,
+  "5": 11.9,
+  "25": 24.3,
+  "50": 35.0,
+  "75": 50.1,
+  "95": 88.6,
+  "99": 140.5,
+  "mean": 41.0,
+  "max": 500.0
+ },
+ "NOx_dist": {
+  "1": 1.5,
+  "5": 7.3,
+  "25": 16.6,
+  "50": 29.9,
+  "75": 57.2,
+  "95": 172.0,
+  "99": 328.0,
+  "mean": 50.6,
+  "max": 500.0
+ },
+ "NO_dist": {
+  "1": 0.6,
+  "5": 1.4,
+  "25": 4.2,
+  "50": 9.7,
+  "75": 27.8,
+  "95": 141.9,
+  "99": 308.0,
+  "mean": 30.8,
+  "max": 500.0
+ },
+ "Benzene_dist": {
+  "1": 0.0,
+  "5": 0.0,
+  "25": 0.3,
+  "50": 1.3,
+  "75": 3.3,
+  "95": 10.0,
+  "99": 20.3,
+  "mean": 2.7,
+  "max": 200.0
+ },
+ "pm25_band_share": {
+  "Good": 17.4,
+  "Satisfactory": 26.4,
+  "Moderate": 16.1,
+  "Poor": 10.6,
+  "Very Poor": 21.4,
+  "Severe": 8.1
+ },
+ "pm25_by_year": {
+  "2018": 112.3,
+  "2019": 108.8,
+  "2020": 96.0,
+  "2021": 105.8,
+  "2022": 98.7,
+  "2023": 101.8,
+  "2024": 104.3,
+  "2025": 97.1
+ },
+ "pm25_by_month": {
+  "1": 178.7,
+  "2": 118.2,
+  "3": 81.8,
+  "4": 78.1,
+  "5": 73.5,
+  "6": 56.6,
+  "7": 37.7,
+  "8": 33.9,
+  "9": 40.3,
+  "10": 110.9,
+  "11": 215.5,
+  "12": 197.1
+ },
+ "pm25_by_hour": {
+  "0": 120.3,
+  "1": 118.5,
+  "2": 115.4,
+  "3": 113.6,
+  "4": 112.6,
+  "5": 112.3,
+  "6": 113.4,
+  "7": 115.9,
+  "8": 119.4,
+  "9": 118.6,
+  "10": 112.2,
+  "11": 102.4,
+  "12": 92.2,
+  "13": 83.3,
+  "14": 76.4,
+  "15": 71.9,
+  "16": 69.7,
+  "17": 71.0,
+  "18": 78.1,
+  "19": 91.4,
+  "20": 105.6,
+  "21": 115.5,
+  "22": 120.3,
+  "23": 121.5
+ },
+ "pm10_by_month": {
+  "1": 282.5,
+  "2": 227.0,
+  "3": 190.1,
+  "4": 216.5,
+  "5": 200.7,
+  "6": 172.1,
+  "7": 93.7,
+  "8": 91.3,
+  "9": 102.3,
+  "10": 234.0,
+  "11": 352.9,
+  "12": 318.7
+ },
+ "severe_share_by_month": {
+  "1": 19.9,
+  "2": 5.8,
+  "3": 1.4,
+  "4": 1.9,
+  "5": 1.5,
+  "6": 0.6,
+  "7": 0.1,
+  "8": 0.0,
+  "9": 0.1,
+  "10": 6.2,
+  "11": 31.2,
+  "12": 25.7
+ },
+ "pm25_coverage_by_year": {
+  "2018": 74.7,
+  "2019": 86.1,
+  "2020": 82.6,
+  "2021": 87.0,
+  "2022": 87.3,
+  "2023": 88.1,
+  "2024": 91.0,
+  "2025": 92.4
+ },
+ "ratio_median": 0.461,
+ "ratio_gt1_pct": 0.43,
+ "ratio_by_season": {
+  "Winter (DJF)": 0.603,
+  "Pre-monsoon (MAM)": 0.376,
+  "Monsoon (JJAS)": 0.384,
+  "Post-monsoon (ON)": 0.536
+ },
+ "pm25_by_season": {
+  "Winter (DJF)": 166.2,
+  "Pre-monsoon (MAM)": 77.9,
+  "Monsoon (JJAS)": 42.1,
+  "Post-monsoon (ON)": 163.3
+ },
+ "stations": [
+  {
+   "station": "Ashok Vihar (DPCC)",
+   "lat": 28.6885,
+   "lon": 77.1739,
+   "pm25_cov": 93.6,
+   "pm25_mean": 109.9,
+   "first_year": 2018
+  },
+  {
+   "station": "Aya Nagar (IITM)",
+   "lat": 28.4765,
+   "lon": 77.1329,
+   "pm25_cov": 90.7,
+   "pm25_mean": 81.8,
+   "first_year": 2018
+  },
+  {
+   "station": "Bawana (DPCC)",
+   "lat": 28.7997,
+   "lon": 77.0329,
+   "pm25_cov": 84.1,
+   "pm25_mean": 123.7,
+   "first_year": 2019
+  },
+  {
+   "station": "Burari Crossing (IITM)",
+   "lat": 28.7286,
+   "lon": 77.1993,
+   "pm25_cov": 62.3,
+   "pm25_mean": 111.7,
+   "first_year": 2018
+  },
+  {
+   "station": "Chandni Chowk (IITM)",
+   "lat": 28.656,
+   "lon": 77.2322,
+   "pm25_cov": 34.4,
+   "pm25_mean": 90.7,
+   "first_year": 2020
+  },
+  {
+   "station": "Crri Mathura Road (IITM)",
+   "lat": 28.5501,
+   "lon": 77.2752,
+   "pm25_cov": 93.1,
+   "pm25_mean": 99.5,
+   "first_year": 2018
+  },
+  {
+   "station": "Dr. Karni Singh Shooting Range (DPCC)",
+   "lat": 28.5001,
+   "lon": 77.2675,
+   "pm25_cov": 91.2,
+   "pm25_mean": 93.1,
+   "first_year": 2018
+  },
+  {
+   "station": "Dtu (CPCB)",
+   "lat": 28.7508,
+   "lon": 77.1163,
+   "pm25_cov": 89.0,
+   "pm25_mean": 100.2,
+   "first_year": 2018
+  },
+  {
+   "station": "Dwarka-Sector 8 (DPCC)",
+   "lat": 28.5656,
+   "lon": 77.067,
+   "pm25_cov": 48.8,
+   "pm25_mean": 107.4,
+   "first_year": 2021
+  },
+  {
+   "station": "Igi Airport (T3) (IITM)",
+   "lat": 28.5552,
+   "lon": 77.0904,
+   "pm25_cov": 90.2,
+   "pm25_mean": 87.8,
+   "first_year": 2018
+  },
+  {
+   "station": "Ihbas (CPCB)",
+   "lat": 28.6139,
+   "lon": 77.209,
+   "pm25_cov": 86.6,
+   "pm25_mean": 88.5,
+   "first_year": 2018
+  },
+  {
+   "station": "Imd Lodhi Road (IITM)",
+   "lat": 28.6139,
+   "lon": 77.209,
+   "pm25_cov": 92.2,
+   "pm25_mean": 81.2,
+   "first_year": 2018
+  },
+  {
+   "station": "Ito (CPCB)",
+   "lat": 28.6282,
+   "lon": 77.241,
+   "pm25_cov": 88.9,
+   "pm25_mean": 110.3,
+   "first_year": 2018
+  },
+  {
+   "station": "Jahangirpuri (DPCC)",
+   "lat": 28.726,
+   "lon": 77.1627,
+   "pm25_cov": 85.6,
+   "pm25_mean": 131.7,
+   "first_year": 2018
+  },
+  {
+   "station": "Jawaharlal Nehru Stadium (DPCC)",
+   "lat": 28.5834,
+   "lon": 77.2335,
+   "pm25_cov": 94.2,
+   "pm25_mean": 93.8,
+   "first_year": 2018
+  },
+  {
+   "station": "Lodhi Road (IITM)",
+   "lat": 28.5908,
+   "lon": 77.2263,
+   "pm25_cov": 31.8,
+   "pm25_mean": 85.4,
+   "first_year": 2020
+  },
+  {
+   "station": "Major Dhyan Chand National Stadium (DPCC)",
+   "lat": 28.6126,
+   "lon": 77.2373,
+   "pm25_cov": 95.7,
+   "pm25_mean": 97.2,
+   "first_year": 2018
+  },
+  {
+   "station": "Mandir Marg (DPCC)",
+   "lat": 28.6327,
+   "lon": 77.1996,
+   "pm25_cov": 89.4,
+   "pm25_mean": 97.8,
+   "first_year": 2018
+  },
+  {
+   "station": "Mundka (DPCC)",
+   "lat": 28.6824,
+   "lon": 77.0306,
+   "pm25_cov": 89.5,
+   "pm25_mean": 122.7,
+   "first_year": 2018
+  },
+  {
+   "station": "Najafgarh (DPCC)",
+   "lat": 28.6124,
+   "lon": 76.9865,
+   "pm25_cov": 90.4,
+   "pm25_mean": 85.2,
+   "first_year": 2018
+  },
+  {
+   "station": "Narela (DPCC)",
+   "lat": 28.8465,
+   "lon": 77.0857,
+   "pm25_cov": 93.5,
+   "pm25_mean": 109.5,
+   "first_year": 2018
+  },
+  {
+   "station": "Nehru Nagar (DPCC)",
+   "lat": 28.5685,
+   "lon": 77.2514,
+   "pm25_cov": 95.8,
+   "pm25_mean": 117.0,
+   "first_year": 2018
+  },
+  {
+   "station": "North Campus (IITM)",
+   "lat": 28.6891,
+   "lon": 77.2135,
+   "pm25_cov": 91.5,
+   "pm25_mean": 101.0,
+   "first_year": 2018
+  },
+  {
+   "station": "Nsit Dwarka (CPCB)",
+   "lat": 28.6139,
+   "lon": 77.209,
+   "pm25_cov": 94.1,
+   "pm25_mean": 102.0,
+   "first_year": 2018
+  },
+  {
+   "station": "Okhla Phase-2 (DPCC)",
+   "lat": 28.5375,
+   "lon": 77.2779,
+   "pm25_cov": 96.2,
+   "pm25_mean": 100.4,
+   "first_year": 2018
+  },
+  {
+   "station": "Patparganj (DPCC)",
+   "lat": 28.6116,
+   "lon": 77.2906,
+   "pm25_cov": 95.2,
+   "pm25_mean": 104.9,
+   "first_year": 2018
+  },
+  {
+   "station": "Punjabi Bagh (DPCC)",
+   "lat": 28.673,
+   "lon": 77.1461,
+   "pm25_cov": 93.8,
+   "pm25_mean": 115.6,
+   "first_year": 2018
+  },
+  {
+   "station": "Pusa (DPCC)",
+   "lat": 28.6363,
+   "lon": 77.1576,
+   "pm25_cov": 88.8,
+   "pm25_mean": 95.6,
+   "first_year": 2018
+  },
+  {
+   "station": "Pusa (IITM)",
+   "lat": 28.6363,
+   "lon": 77.1576,
+   "pm25_cov": 88.0,
+   "pm25_mean": 87.4,
+   "first_year": 2018
+  },
+  {
+   "station": "R K Puram (DPCC)",
+   "lat": 28.5504,
+   "lon": 77.1855,
+   "pm25_cov": 90.2,
+   "pm25_mean": 111.2,
+   "first_year": 2018
+  },
+  {
+   "station": "Rohini (DPCC)",
+   "lat": 28.7063,
+   "lon": 77.1088,
+   "pm25_cov": 86.9,
+   "pm25_mean": 119.5,
+   "first_year": 2018
+  },
+  {
+   "station": "Shadipur (CPCB)",
+   "lat": 28.6516,
+   "lon": 77.1583,
+   "pm25_cov": 93.1,
+   "pm25_mean": 101.2,
+   "first_year": 2018
+  },
+  {
+   "station": "Sirifort (CPCB)",
+   "lat": 28.5502,
+   "lon": 77.2249,
+   "pm25_cov": 85.8,
+   "pm25_mean": 100.3,
+   "first_year": 2018
+  },
+  {
+   "station": "Sonia Vihar (DPCC)",
+   "lat": 28.7199,
+   "lon": 77.2482,
+   "pm25_cov": 94.4,
+   "pm25_mean": 108.5,
+   "first_year": 2018
+  },
+  {
+   "station": "Sri Aurobindo Marg (DPCC)",
+   "lat": 28.5396,
+   "lon": 77.2,
+   "pm25_cov": 90.5,
+   "pm25_mean": 85.2,
+   "first_year": 2018
+  },
+  {
+   "station": "Vivek Vihar (DPCC)",
+   "lat": 28.6692,
+   "lon": 77.3123,
+   "pm25_cov": 93.4,
+   "pm25_mean": 113.5,
+   "first_year": 2018
+  },
+  {
+   "station": "Wazirpur (DPCC)",
+   "lat": 28.6801,
+   "lon": 77.1702,
+   "pm25_cov": 94.2,
+   "pm25_mean": 122.5,
+   "first_year": 2018
+  }
+ ],
+ "dup_coords": [
+  [
+   "Pusa (DPCC)",
+   "Pusa (IITM)"
+  ],
+  [
+   "Ihbas (CPCB)",
+   "Imd Lodhi Road (IITM)",
+   "Nsit Dwarka (CPCB)"
+  ]
+ ],
+ "default_coord_stations": [
+  "Ihbas (CPCB)",
+  "Imd Lodhi Road (IITM)",
+  "Nsit Dwarka (CPCB)"
+ ],
+ "pair_dist_km": {
+  "min": 0.0,
+  "median": 13.3,
+  "max": 42.4
+ },
+ "nn_dist_km_median": 2.48,
+ "k12_radius_km_median": 8.3,
+ "bbox": [
+  28.476,
+  28.846,
+  76.987,
+  77.312
+ ],
+ "outages_all": {
+  "n": 96659,
+  "median_h": 0.5,
+  "share_le_1h": 92.6
+ },
+ "outages_ge4h": {
+  "n": 3033,
+  "median_h": 10.8,
+  "p90_h": 42.8,
+  "n_ge_1day": 552,
+  "n_ge_1week": 58,
+  "max_days": 1096.0
+ },
+ "blh": {
+  "p5": 24,
+  "median": 204,
+  "p95": 1809
+ },
+ "blh_by_hour": {
+  "0": 122,
+  "3": 124,
+  "6": 142,
+  "9": 424,
+  "12": 1222,
+  "15": 1412,
+  "18": 296,
+  "21": 121
+ },
+ "blh_by_season": {
+  "Winter (DJF)": 284,
+  "Pre-monsoon (MAM)": 691,
+  "Monsoon (JJAS)": 553,
+  "Post-monsoon (ON)": 365
+ },
+ "spearman_with_pm25": {
+  "BLH": -0.41,
+  "Wind speed (ERA5)": -0.18,
+  "AT (ERA5)": -0.57,
+  "RH (ERA5)": 0.09,
+  "PM10": 0.86,
+  "CO": 0.43,
+  "NO2": 0.43,
+  "Ozone": -0.2
+ },
+ "static_names": [
+  "mean_log1p_PM25",
+  "mean_PM25_PM10_ratio",
+  "elevation_proxy(BP)",
+  "station_density_5km"
+ ],
+ "static_zero_cols": [
+  0,
+  0,
+  0,
+  0
+ ],
+ "sizes_mb": {
+  "data/yearly_data": 1786,
+  "data/era5_data_raw": 35,
+  "data/era5_interpolated.parquet": 730,
+  "data/preprocessed": 1829
+ },
+ "outages_lognormal_fit_ge16steps": {
+  "mu": 3.932,
+  "sigma": 1.03,
+  "median_h": 12.8
+ },
+ "sr_peak_hour_ist": 12,
+ "bp_station_median_range_mmHg": [
+  732.6,
+  741.7
+ ],
+ "nox_identity_ratio_median_pooled": 0.9989,
+ "nox_identity_ratio_median_by_station": [
+  0.999,
+  0.655,
+  0.996,
+  0.692,
+  1.0,
+  0.71,
+  1.0,
+  1.005,
+  0.995,
+  0.673,
+  1.016,
+  0.697,
+  1.001,
+  0.999,
+  0.999,
+  null,
+  0.997,
+  0.999,
+  1.0,
+  0.996,
+  0.999,
+  1.0,
+  0.701,
+  1.005,
+  0.999,
+  0.997,
+  0.999,
+  0.999,
+  0.655,
+  0.999,
+  0.67,
+  1.008,
+  0.987,
+  0.999,
+  0.999,
+  0.998,
+  0.997
+ ],
+ "derived_coverage_pct": {
+  "PM_FRAC": 81.6,
+  "NOX_FRAC": 54.8
+ },
+ "ceilings": {
+  "PM2.5": {
+   "at_1000_all_years": 168,
+   "at_or_above_1000_2025": 7,
+   "severe_2025": 88081
+  },
+  "PM10": {
+   "at_1000_all_years": 1827,
+   "at_or_above_1000_2025": 149,
+   "severe_2025": 334347
+  },
+  "PM2.5_24h_scoring_points_2025": {
+   "severe": 1252,
+   "at_or_above_1000": 0
+  }
+ },
+ "channel_max": {
+  "NO2": 500.0,
+  "NOx": 500.0,
+  "NO": 500.0,
+  "NH3": 500.0,
+  "Ozone": 498.5,
+  "SO2": 200.0
+ },
+ "from_preprocessing_report": {
+  "bp_hpa_converted": 5410316,
+  "outliers_clipped": {
+   "CO": 548,
+   "Benzene": 551,
+   "AT": 60,
+   "SR": 301,
+   "TOT_RF": 7167
+  },
+  "pm25_gt_pm10": 36914
+ }
+}

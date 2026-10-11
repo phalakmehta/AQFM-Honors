@@ -109,7 +109,7 @@ const IMG_MAP = {
     "correlation_heatmap.png": PLOTS + "correlation_heatmap.png",
     "missingness_heatmap.png": PLOTS + "missingness_heatmap.png",
     "preprocessing_pipeline.jpg": ARTIF + "preprocessing_pipeline_1789624984568.jpg",
-    "ttm_forecast_vs_truth.png": PROJ + "Zeroshot forecast\\\\ttm_forecast_vs_truth.png",
+    "ttm_forecast_vs_truth.png": PROJ + "_archive_old/Zeroshot forecast/ttm_forecast_vs_truth.png",
     "aqfm_architecture.jpg": ARTIF + "aqfm_architecture_1789624971981.jpg",
 };
 
@@ -915,6 +915,6 @@ dividerSlide(4, "The AQFM Model", [
   });
 }
 
-pres.writeFile({ fileName: "C:/Users/phala/Foundation Model/AQFM_Presentation_Restyled_v4.pptx" }).then(() => {
+pres.writeFile({ fileName: "C:/Users/phala/Foundation Model/presentation/AQFM_Presentation_Restyled_v4.pptx" }).then(() => {
   console.log("done");
 });
