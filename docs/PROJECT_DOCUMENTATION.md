@@ -468,7 +468,6 @@ Finding these was a substantial part of the project, and each one would have pro
 Foundation Model/
 ├── README.md                 entry point
 ├── PROJECT_CONTEXT.md        detailed technical log and roadmap
-├── CLAUDE.md                 working rules for AI assistants
 ├── aqfm/                     the model package (config, layers, model, losses, masking, physical, data, train, evaluate)
 ├── tests/                    31 tests for aqfm/
 ├── data_pipeline/            ERA5 download/fix/interpolate, station geocoding, preprocessing
