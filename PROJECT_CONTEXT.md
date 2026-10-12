@@ -364,6 +364,7 @@ Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new pac
 - The tail regime adds no corruption; the forecast horizon is a target in every regime (the design's "mask the last k patches" left short leads almost untrained in the old code).
 - Station outages hide pollutant channels only, not met.
 - Known simplification: in the physical CRPS, PM10 and the fraction are sampled independently per query (their correlation is not modelled).
+- Samples are capped at log1p = 20 (about 4.9e8 ug/m3) before back-transformation, to prevent float32 overflow.
 
 ### 7.7 Verification done
 - 31 pytest tests: horizon-perturbation invariance (bit-identical encoder), RevIN visible-only statistics, mask partition and derived-visibility rules, block outages are station-wide, every lead is a target, imputation targets equal the hidden truth, alignment with the baseline protocol, CRPS (order-statistic == pairwise exactly; closed form == Monte Carlo; known single-Gaussian value), NLL == `torch.distributions`, no gradient from unobserved targets, gap feature, wind geometry (upwind ⇒ cos = 1), station-permutation equivariance, gradient checkpointing gives identical gradients, all ablation configs run, a fixed batch can be overfitted, the outage fit recovers its parameters, and the evaluation pipeline runs end to end.

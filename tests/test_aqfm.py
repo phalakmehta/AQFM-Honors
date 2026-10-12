@@ -114,6 +114,27 @@ def test_physical_reconstruction_constraints():
     torch.testing.assert_close(total_ppb, torch.expm1(nox), rtol=1e-4, atol=1e-3)
 
 
+def test_back_transform_finite_for_extreme_samples():
+    # A wide mixture component can draw log1p values past float32's expm1 limit
+    # (~88.7); this gave a NaN physical loss at step 1547 of the first real run.
+    from types import SimpleNamespace
+    from aqfm.evaluate import _to_targets
+    big = torch.tensor([20.0, 88.8, 95.0, 200.0, 95.0, 95.0])
+    frac = torch.tensor([0.0, 0.0, 0.0, 0.0, -120.0, 120.0])
+    assert torch.isfinite(reconstruct_pm25(big, frac)).all()
+    for r in reconstruct_no_no2(big, frac):
+        assert torch.isfinite(r).all()
+    for tc in (AQFMConfig().target_channels, ("PM10", "PM2.5")):  # physical and no-physics paths
+        samp = torch.zeros(4, 2, len(tc), big.numel())
+        for c in ("PM10", "PM2.5"):
+            if c in tc:
+                samp[:, :, tc.index(c)] = big
+        if "PM_FRAC" in tc:
+            samp[:, :, tc.index("PM_FRAC")] = frac
+        for v in _to_targets(SimpleNamespace(target_channels=tuple(tc)), samp).values():
+            assert torch.isfinite(v).all()
+
+
 # ---------------------------------------------------------------------------
 # leakage
 # ---------------------------------------------------------------------------

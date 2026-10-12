@@ -22,6 +22,8 @@ NO2_UGM3_TO_PPB = MOLAR_VOLUME / 46.0055
 FRAC_CLIP = (0.01, 0.99)
 NOX_IDENTITY_TOL = 0.10                   # |(NO+NO2)/NOx - 1| tolerated, ppb
 MIN_DENOMINATOR = 1.0                     # ug/m3 or ppb
+LOG1P_MAX = 20.0                          # cap before expm1: e^20 ~ 4.9e8 ug/m3, far above any real
+                                          # reading; prevents float32 overflow (expm1 = inf past ~88.7)
 
 
 def _logit(r):
@@ -80,14 +82,14 @@ def derive_inputs(values, observed):
 def reconstruct_pm25(log1p_pm10, frac_logit):
     """log1p(PM2.5) from log1p(PM10) and the PM fraction logit. Because the
     fraction is in (0, 1), PM2.5 <= PM10 holds for every sample."""
-    pm10 = torch.expm1(log1p_pm10).clamp(min=0.0)
+    pm10 = torch.expm1(log1p_pm10.clamp(max=LOG1P_MAX)).clamp(min=0.0)
     return torch.log1p(pm10 * torch.sigmoid(frac_logit))
 
 
 def reconstruct_no_no2(log1p_nox_ppb, frac_logit):
     """log1p(NO), log1p(NO2) in ug/m3 from log1p(NOx ppb) and the NO fraction.
     NO_ppb + NO2_ppb = NOx_ppb holds for every sample."""
-    nox = torch.expm1(log1p_nox_ppb).clamp(min=0.0)
+    nox = torch.expm1(log1p_nox_ppb.clamp(max=LOG1P_MAX)).clamp(min=0.0)
     f = torch.sigmoid(frac_logit)
     no = nox * f / NO_UGM3_TO_PPB
     no2 = nox * (1.0 - f) / NO2_UGM3_TO_PPB

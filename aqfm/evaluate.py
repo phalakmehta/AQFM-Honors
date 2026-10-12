@@ -33,7 +33,7 @@ from baseline_utils import (HORIZONS, aqi_stratified, compute_metrics,  # noqa: 
 from .config import CH, OUTAGE_CHANNELS, RAW_CHANNELS  # noqa: E402
 from .data import AQData, build_queries, make_sample  # noqa: E402
 from .losses import mixture_sample, sample_crps  # noqa: E402
-from .physical import reconstruct_pm25  # noqa: E402
+from .physical import LOG1P_MAX, reconstruct_pm25  # noqa: E402
 from .train import load_checkpoint, load_preprocessed, split_indices, to_device  # noqa: E402
 
 TARGETS = ("PM2.5", "PM10")
@@ -80,12 +80,12 @@ def _ensembles(model, cfg, out, q, sel_q, n_samples):
 def _to_targets(cfg, samp_slots):
     """samp_slots: (n, B, Ct, ...) transformed -> dict of ug/m3 ensembles."""
     tc = cfg.target_channels
-    out = {"PM10": torch.expm1(samp_slots[:, :, tc.index("PM10")]).clamp(min=0)}
+    out = {"PM10": torch.expm1(samp_slots[:, :, tc.index("PM10")].clamp(max=LOG1P_MAX)).clamp(min=0)}
     if "PM_FRAC" in tc:
         pm25 = reconstruct_pm25(samp_slots[:, :, tc.index("PM10")], samp_slots[:, :, tc.index("PM_FRAC")])
     else:
         pm25 = samp_slots[:, :, tc.index("PM2.5")]
-    out["PM2.5"] = torch.expm1(pm25).clamp(min=0)
+    out["PM2.5"] = torch.expm1(pm25.clamp(max=LOG1P_MAX)).clamp(min=0)
     return out
 
 
