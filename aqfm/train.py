@@ -89,6 +89,7 @@ def save(path, model, cfg, extra):
 
 def load_checkpoint(path, device="cpu"):
     ck = torch.load(path, map_location=device, weights_only=False)
+    ck["cfg"].setdefault("use_last_obs", False)          # checkpoints from before the anchor
     cfg = AQFMConfig(**ck["cfg"])
     model = AQFM(cfg)
     model.load_state_dict(ck["model"])
@@ -116,6 +117,7 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--grad-checkpoint", action="store_true")
     ap.add_argument("--no-future-met", action="store_true")
+    ap.add_argument("--no-last-obs", action="store_true", help="ablation: no latest-value anchor")
     ap.add_argument("--spatial-bias", choices=["wind", "distance", "none"], default="wind")
     ap.add_argument("--no-spatial", action="store_true")
     args = ap.parse_args()
@@ -132,7 +134,8 @@ def main():
         model, cfg, _ = load_checkpoint(args.init, device)
     else:
         kw = dict(grad_checkpoint=args.grad_checkpoint, use_future_met=not args.no_future_met,
-                  spatial_bias=args.spatial_bias, use_spatial_attention=not args.no_spatial)
+                  spatial_bias=args.spatial_bias, use_spatial_attention=not args.no_spatial,
+                  use_last_obs=not args.no_last_obs)
         cfg = AQFMConfig.small(**kw) if args.small else AQFMConfig(**kw)
 
     # ---- data ------------------------------------------------------------

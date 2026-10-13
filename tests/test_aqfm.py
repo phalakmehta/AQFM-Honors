@@ -21,7 +21,7 @@ from aqfm.config import OUTAGE_CHANNELS, RAW_CHANNELS  # noqa: E402
 from aqfm.layers import wind_geometry  # noqa: E402
 from aqfm.losses import (crps_mixture, mixture_nll, mixture_sample, sample_crps,  # noqa: E402
                          total_loss)
-from aqfm.model import hours_since_prev_valid  # noqa: E402
+from aqfm.model import hours_since_prev_valid, last_visible  # noqa: E402
 from aqfm.physical import (NO2_UGM3_TO_PPB, NO_UGM3_TO_PPB, derive_inputs,  # noqa: E402
                            reconstruct_no_no2, reconstruct_pm25)
 from aqfm.train import step  # noqa: E402
@@ -333,6 +333,52 @@ def test_gap_feature():
     assert gap.tolist() == [[4.0, 4.0, 8.0, 12.0, 16.0, 20.0, 4.0, 4.0]]
 
 
+def test_last_visible_anchor():
+    xn = torch.tensor([[1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0], [9.0, 9.0, 9.0, 9.0]])
+    m = torch.tensor([[1.0, 1.0, 0.0, 0.0], [1.0, 1.0, 1.0, 1.0], [0.0, 0.0, 0.0, 0.0]])
+    val, age, has = last_visible(xn * m, m, 0.25)
+    assert val.tolist() == [2.0, 8.0, 0.0] and has.tolist() == [True, True, False]
+    assert age.tolist() == [0.75, 0.25, 1.25]
+
+
+def test_anchor_cannot_see_horizon_or_hidden_cells(raw):
+    """With the latest-value anchor on, every decoder output (not just the
+    encoder) must be bit-identical when the horizon or hidden context changes."""
+    cfg = AQFMConfig.small()
+    assert cfg.use_last_obs
+    v, o, t, c, s, e = raw
+    t0, sel = 400, np.arange(cfg.n_neighbours)
+    v2 = v.copy()
+    v2[:, :, t0 + cfg.context_steps:] = v2[:, :, t0 + cfg.context_steps:] * 3 + 100
+    d1 = AQData(v, o, t, c, s, train_end=2000, era5_met=e)
+    d2 = AQData(v2, o, t, c, s, train_end=2000, era5_met=e)
+    b1 = collate([make_sample(d1, cfg, sel, t0)])
+    b2 = collate([make_sample(d2, cfg, sel, t0)])
+    b2["m_ctx"][:, 0, :, -40:] = 0                       # hide the anchor's latest steps ...
+    b1["m_ctx"][:, 0, :, -40:] = 0
+    b1["x_ctx"] = b1["x_ctx"] * b1["m_ctx"]
+    b2["x_ctx"] = b2["x_ctx"] * b2["m_ctx"] + (1 - b2["m_ctx"]) * 1e4   # ... and fill them with garbage
+    torch.manual_seed(0)
+    model = AQFM(cfg).eval()
+    torch.nn.init.normal_(model.anchor_gate.weight, std=0.1)   # make the residual path live
+    q, _, _ = build_queries(cfg, b1, impute=False)
+    with torch.no_grad():
+        o1, o2 = model(b1, q), model(b2, q)
+    for k in ("logits", "mu", "log_sigma"):
+        assert torch.equal(o1[k], o2[k]), k
+
+
+def test_pre_anchor_checkpoint_loads(tmp_path):
+    """Checkpoints saved before use_last_obs existed load as the old model."""
+    from aqfm.train import load_checkpoint
+    cfg = AQFMConfig.small(use_last_obs=False)
+    d = dataclasses.asdict(cfg)
+    d.pop("use_last_obs")
+    torch.save({"model": AQFM(cfg).state_dict(), "cfg": d}, tmp_path / "old.pt")
+    model, cfg2, _ = load_checkpoint(tmp_path / "old.pt")
+    assert not cfg2.use_last_obs and not hasattr(model, "anchor_gate")
+
+
 def test_wind_geometry_upwind_is_cos_one():
     coords = torch.tensor([[[28.60, 77.20], [28.70, 77.20], [28.60, 77.30]]])   # 0, N of 0, E of 0
     u, v = torch.zeros(1, 3, 1), torch.full((1, 3, 1), -4.0)   # blowing south = FROM the north
@@ -411,6 +457,7 @@ def test_grad_checkpoint_is_exact(data):
 
 @pytest.mark.parametrize("kw", [dict(use_future_met=False), dict(spatial_bias="distance"),
                                 dict(spatial_bias="none"), dict(use_spatial_attention=False),
+                                dict(use_last_obs=False),
                                 dict(target_channels=("PM2.5", "PM10", "NOx", "Ozone"))])
 def test_ablation_configs_run(raw, kw):
     cfg = AQFMConfig.small(**kw)

@@ -71,6 +71,7 @@ class AQFMConfig:
 
     # ---- switches used by the planned ablations -------------------------
     use_future_met: bool = True        # ERA5 as perfect-prognosis future met
+    use_last_obs: bool = True          # decoder anchors on each series' latest visible value
     use_spatial_attention: bool = True
     spatial_bias: str = "wind"         # "wind" | "distance" | "none"
 

@@ -44,6 +44,20 @@ def hours_since_prev_valid(valid, patch_hours):
     return torch.where(prev >= 0, idx - prev, idx + 1).float() * patch_hours
 
 
+def last_visible(xn, m, step_hours):
+    """xn, m: (..., T) normalised values and visibility. Returns the latest
+    visible value of each series, the hours from it to the end of the context,
+    and whether the series has any visible step at all. The Perceiver pooler
+    squeezes the whole context into a few latents, so without this the decoder
+    never sees "now" exactly and short leads lose to persistence."""
+    T = m.shape[-1]
+    idx = torch.arange(T, device=m.device)
+    last = torch.where(m > 0, idx, torch.full_like(idx, -1)).max(-1).values
+    has = last >= 0
+    val = torch.gather(xn, -1, last.clamp(min=0).unsqueeze(-1)).squeeze(-1) * has
+    return val, (T - last).float() * step_hours, has
+
+
 # ---------------------------------------------------------------------------
 class PatchTokenizer(nn.Module):
     def __init__(self, cfg: AQFMConfig):
@@ -158,6 +172,13 @@ class AQFM(nn.Module):
         self.q_station = station_mlp(cfg)
         self.q_time = TimeFeatures(cfg.d_model, cfg.n_fourier_bands)
         self.q_met = nn.Linear(cfg.n_met_future, cfg.d_model) if cfg.use_future_met else None
+        if cfg.use_last_obs:
+            self.q_last = nn.Linear(3, cfg.d_model)     # (value, log1p(age h), has value)
+            # per-step weight on the latest value added to every mixture mean; zero
+            # at init, so training starts from the model without the anchor
+            self.anchor_gate = nn.Linear(cfg.d_model, cfg.patch_len)
+            nn.init.zeros_(self.anchor_gate.weight)
+            nn.init.zeros_(self.anchor_gate.bias)
         self.q_norm = nn.LayerNorm(cfg.d_model)
         self.decoder = QueryDecoder(cfg)
         self.head = MixtureHead(cfg)
@@ -190,31 +211,44 @@ class AQFM(nn.Module):
         return mem, (mean, std)
 
     # -- queries ------------------------------------------------------------
-    def embed_queries(self, q, coords, static):
-        """q: dict of (B,Q) tensors slot/station/lead/time/task (+ met (B,Q,M))."""
+    def embed_queries(self, q, coords, static, anchor=None):
+        """q: dict of (B,Q) tensors slot/station/lead/time/task (+ met (B,Q,M));
+        anchor: optional (value, age, has) of each query's series, each (B,Q)."""
         st = self.q_station(station_features(coords, static))            # (B,S,D)
         st = torch.gather(st, 1, q["station"].unsqueeze(-1).expand(-1, -1, st.shape[-1]))
         e = (self.q_channel(q["slot"]) + self.q_task(q["task"]) + self.q_lead(q["lead"])
              + st + self.q_time(q["time"]))
         if self.q_met is not None:
             e = e + self.q_met(q["met"])
+        if anchor is not None:
+            val, age, has = anchor
+            e = e + self.q_last(torch.stack([val, torch.log1p(age), has.to(val.dtype)], -1))
         return self.q_norm(e)
 
     def forward(self, batch, q):
         mem, (mean, std) = self.encode(batch["x_ctx"], batch["m_ctx"], batch["t_ctx_patch"],
                                        batch["coords"], batch["static"])
-        h = self.decoder(self.embed_queries(q, batch["coords"], batch["static"]), q["valid"], mem)
+        anchor = None
+        if self.cfg.use_last_obs:
+            xn = self.revin.normalize(batch["x_ctx"], batch["m_ctx"], mean, std)
+            step_h = self.cfg.patch_hours / self.cfg.patch_len
+            anchor = tuple(self.per_query(a, q) for a in last_visible(xn, batch["m_ctx"], step_h))
+        h = self.decoder(self.embed_queries(q, batch["coords"], batch["static"], anchor), q["valid"], mem)
         logits, mu, log_sigma = self.head(h)
+        if anchor is not None:          # same normalised space as the targets (query_stats)
+            mu = mu + (self.anchor_gate(h) * anchor[0].unsqueeze(-1)).unsqueeze(-1)
         return {"logits": logits, "mu": mu, "log_sigma": log_sigma, "mean": mean, "std": std}
 
     # -- (de)normalisation of targets -------------------------------------
+    def per_query(self, t, q):
+        """Pick each query's (station, input channel) entry of t (B,S,C): (B,Q)."""
+        B, S, C = t.shape
+        idx = q["station"] * C + self.target_index[q["slot"]]
+        return torch.gather(t.reshape(B, S * C), 1, idx)
+
     def query_stats(self, mean, std, q):
         """RevIN stats of each query's (station, input channel): (B,Q,1)."""
-        B, S, C, _ = mean.shape
-        idx = q["station"] * C + self.target_index[q["slot"]]
-        mu = torch.gather(mean.reshape(B, S * C), 1, idx).unsqueeze(-1)
-        sd = torch.gather(std.reshape(B, S * C), 1, idx).unsqueeze(-1)
-        return mu, sd
+        return self.per_query(mean[..., 0], q).unsqueeze(-1), self.per_query(std[..., 0], q).unsqueeze(-1)
 
     def n_params(self):
         return sum(p.numel() for p in self.parameters())
