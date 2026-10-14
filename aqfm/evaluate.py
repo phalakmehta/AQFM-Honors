@@ -39,7 +39,8 @@ from .config import CH, OUTAGE_CHANNELS, RAW_CHANNELS  # noqa: E402
 from .data import AQData, build_queries, make_sample  # noqa: E402
 from .losses import mixture_sample, sample_crps  # noqa: E402
 from .physical import LOG1P_MAX, reconstruct_pm25  # noqa: E402
-from .train import load_checkpoint, load_preprocessed, split_indices, to_device  # noqa: E402
+from .train import (code_version, load_checkpoint, load_preprocessed,  # noqa: E402
+                    split_indices, to_device)
 
 TARGETS = ("PM2.5", "PM10")
 EPISODE_STEPS = {"24h": 95, "48h": 191}
@@ -267,6 +268,11 @@ def main():
             args.batch_size, args.samples, args.limit_origins)
     paths = [os.path.abspath(p) for p in args.ckpt]
     res["checkpoint"] = paths[0] if len(paths) == 1 else paths
+    # code that ran this evaluation, and the code each model was trained with (None for
+    # checkpoints saved before this was recorded)
+    res["code"] = code_version()
+    train_code = [ck.get("code") for _, _, ck in loaded]
+    res["train_code"] = train_code[0] if len(train_code) == 1 else train_code
     res["seed"] = args.seed
     res["cfg"] = dataclasses.asdict(cfg)
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)

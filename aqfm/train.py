@@ -15,6 +15,7 @@ import dataclasses
 import json
 import math
 import os
+import subprocess
 import time
 from datetime import datetime
 
@@ -81,6 +82,22 @@ def validate(model, loader, cfg, device, amp_dtype):
         n += 1
     model.train()
     return {k: v / max(1, n) for k, v in tot.items()}
+
+
+def code_version():
+    """Git commit of this checkout, and whether the code (aqfm/, tests/, baselines/*.py) has
+    uncommitted changes, so every run and result records exactly which code produced it.
+    None outside a git checkout."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    git = lambda *a: subprocess.run(["git", *a], cwd=root, capture_output=True, text=True,
+                                    check=True, timeout=10).stdout
+    try:
+        # porcelain lines are "XY path"; X may be a space, so the output must not be stripped
+        changed = git("status", "--porcelain", "--", "aqfm", "tests", "baselines/*.py").splitlines()
+        return {"commit": git("rev-parse", "HEAD").strip(), "dirty": bool(changed),
+                "changed": [line[3:] for line in changed]}
+    except (OSError, subprocess.SubprocessError):
+        return None
 
 
 def save(path, model, cfg, extra):
@@ -199,8 +216,11 @@ def main():
                              {"params": no_decay, "weight_decay": 0.0}],
                             lr=lr, betas=(0.9, 0.95))
 
+    code = code_version()
+    print("code: " + ("not a git checkout" if code is None else
+                      code["commit"][:7] + (f" + uncommitted changes {code['changed']}" if code["dirty"] else "")))
     meta = {"phase": args.phase, "args": vars(args), "val_start": val_start,
-            "test_start": test_start}
+            "test_start": test_start, "code": code}
     json.dump({"cfg": dataclasses.asdict(cfg), **meta}, open(os.path.join(args.out, "config.json"), "w"),
               indent=2)
     log = open(os.path.join(args.out, "log.jsonl"), "a")

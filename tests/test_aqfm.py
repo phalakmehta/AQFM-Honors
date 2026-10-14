@@ -379,6 +379,15 @@ def test_pre_anchor_checkpoint_loads(tmp_path):
     assert not cfg2.use_last_obs and not hasattr(model, "anchor_gate")
 
 
+def test_code_version_records_commit():
+    """Runs and results record the git commit of the code (None outside a git checkout)."""
+    from aqfm.train import code_version
+    v = code_version()
+    assert v is None or (len(v["commit"]) == 40 and v["dirty"] == bool(v["changed"]))
+    if v is not None:
+        assert all(p.startswith(("aqfm/", "tests/", "baselines/")) for p in v["changed"]), v["changed"]
+
+
 def test_wind_geometry_upwind_is_cos_one():
     coords = torch.tensor([[[28.60, 77.20], [28.70, 77.20], [28.60, 77.30]]])   # 0, N of 0, E of 0
     u, v = torch.zeros(1, 3, 1), torch.full((1, 3, 1), -4.0)   # blowing south = FROM the north
