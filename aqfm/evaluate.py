@@ -1,6 +1,11 @@
 """Test-set evaluation on 2025 with the exact protocol of baselines/.
 
     python -m aqfm.evaluate --ckpt runs/anneal/best.pt --out results/aqfm_results.json
+    python -m aqfm.evaluate --ckpt runs/s0/best.pt runs/s1/best.pt runs/s2/best.pt --out ...
+
+Several checkpoints form an equal-weight ensemble: every model contributes
+ceil(samples / M) samples to one pooled predictive distribution, and all
+metrics below are computed from the pool.
 
 Protocol (identical to run_baselines_*.py): one origin per day at 00:00 in
 2025, origins = arange(test_start, T - 288, 96); origin t predicts index
@@ -77,6 +82,17 @@ def _ensembles(model, cfg, out, q, sel_q, n_samples):
     return s * sd_q.unsqueeze(0) + mu_q.unsqueeze(0)
 
 
+def _pooled(models, cfg, batch, q, sel_q, n_samples):
+    """Equal-weight mixture of the models' predictive distributions: each model
+    contributes ceil(n_samples / M) samples. (n, B, Q_sel, P) transformed."""
+    k = -(-n_samples // len(models))
+    return torch.cat([_ensembles(m, cfg, m(batch, q), q, sel_q, k) for m in models], 0)
+
+
+def _as_list(models):
+    return list(models) if isinstance(models, (list, tuple)) else [models]
+
+
 def _to_targets(cfg, samp_slots):
     """samp_slots: (n, B, Ct, ...) transformed -> dict of ug/m3 ensembles."""
     tc = cfg.target_channels
@@ -90,9 +106,12 @@ def _to_targets(cfg, samp_slots):
 
 
 @torch.no_grad()
-def evaluate(model, cfg, data, raw_values, raw_observed, test_start, device, batch_size=16,
+def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, batch_size=16,
              n_samples=200, limit_origins=None, workers=0):
-    model.eval()
+    """models: one AQFM or a list of them (pooled ensemble)."""
+    models = _as_list(models)
+    for m in models:
+        m.eval()
     T = data.T
     Tc, Th, Ct, H, P = (cfg.context_steps, cfg.horizon_steps, cfg.n_target_channels,
                         cfg.n_horizon_patches, cfg.patch_len)
@@ -110,11 +129,10 @@ def evaluate(model, cfg, data, raw_values, raw_observed, test_start, device, bat
         t0s, anchors = batch["t0"].numpy(), batch["sel"][:, 0].numpy()
         batch = to_device(batch, device)
         q, _, _ = build_queries(cfg, batch, impute=False)
-        out = model(batch, q)
         sel_q = torch.arange(Ct * H, device=device)            # anchor = station 0 -> first Ct*H queries
-        samp = _ensembles(model, cfg, out, q, sel_q, n_samples)  # (n,B,Ct*H,P)
-        B = samp.shape[1]
-        ens = _to_targets(cfg, samp.reshape(n_samples, B, Ct, H * P))
+        samp = _pooled(models, cfg, batch, q, sel_q, n_samples)  # (n,B,Ct*H,P)
+        n, B = samp.shape[:2]
+        ens = _to_targets(cfg, samp.reshape(n, B, Ct, H * P))
         for c in TARGETS:
             e = ens[c].float()                                   # (n,B,Th)
             y = np.stack([raw_values[a, R[c], t0 + Tc:t0 + Tc + Th] for a, t0 in zip(anchors, t0s)])
@@ -160,12 +178,14 @@ def evaluate(model, cfg, data, raw_values, raw_observed, test_start, device, bat
 
 
 @torch.no_grad()
-def evaluate_imputation(model, cfg, data, raw_values, raw_observed, test_start, device,
+def evaluate_imputation(models, cfg, data, raw_values, raw_observed, test_start, device,
                         batch_size=16, n_samples=200, limit_origins=None, gap_steps=96):
     """Hide the anchor's CPCB channels for 24 h ending 24 h before the origin;
     score the imputed PM2.5/PM10 against truth and against linear
     interpolation of the anchor's own visible series."""
-    model.eval()
+    models = _as_list(models)
+    for m in models:
+        m.eval()
     Tc, P, Ct = cfg.context_steps, cfg.patch_len, cfg.n_target_channels
     start = Tc - 2 * gap_steps
     assert start % P == 0 and gap_steps % P == 0
@@ -182,12 +202,11 @@ def evaluate_imputation(model, cfg, data, raw_values, raw_observed, test_start, 
         t0s, anchors = batch["t0"].numpy(), batch["sel"][:, 0].numpy()
         batch = to_device(batch, device)
         q, _, _ = build_queries(icfg, batch, forecast=False)
-        out = model(batch, q)
         pos = batch["imp_pos"]                                   # (B,Pm,2), anchor patches first
         Pm = pos.shape[1]
-        samp = _ensembles(model, icfg, out, q, torch.arange(Pm * Ct, device=device), n_samples)
-        B = samp.shape[1]
-        ens = _to_targets(icfg, samp.reshape(n_samples, B, Pm, Ct, P).transpose(2, 3))  # (n,B,Pm,P)
+        samp = _pooled(models, icfg, batch, q, torch.arange(Pm * Ct, device=device), n_samples)
+        n, B = samp.shape[:2]
+        ens = _to_targets(icfg, samp.reshape(n, B, Pm, Ct, P).transpose(2, 3))  # (n,B,Pm,P)
         for c in TARGETS:
             med = ens[c].median(0).values.cpu().numpy()          # (B,Pm,P)
             for b in range(B):
@@ -215,7 +234,7 @@ def evaluate_imputation(model, cfg, data, raw_values, raw_observed, test_start, 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--ckpt", required=True)
+    ap.add_argument("--ckpt", required=True, nargs="+", help="several = pooled equal-weight ensemble")
     ap.add_argument("--data", default="data/preprocessed")
     ap.add_argument("--out", default="results/aqfm_results.json")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
@@ -229,19 +248,25 @@ def main():
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
     device = torch.device(args.device)
-    model, cfg, ck = load_checkpoint(args.ckpt, device)
+    loaded = [load_checkpoint(p, device) for p in args.ckpt]
+    models = [m for m, _, _ in loaded]
+    cfg = loaded[0][1]
+    for p, (_, c, _) in zip(args.ckpt, loaded):
+        assert dataclasses.asdict(c) == dataclasses.asdict(cfg), f"{p}: config differs from {args.ckpt[0]}"
     a = load_preprocessed(args.data)
     val_start, test_start = split_indices(np.asarray(a["timestamps_h"]))
-    assert test_start == ck["test_start"], "split mismatch between training and evaluation"
+    assert all(ck["test_start"] == test_start for _, _, ck in loaded), \
+        "split mismatch between training and evaluation"
     data = AQData(a["values"], a["observed"], a["timestamps_h"], a["coords"], a["static"],
                   train_end=val_start, era5_met=a["era5_met"] if cfg.use_future_met else None)
-    res = evaluate(model, cfg, data, a["values"], a["observed"], test_start, device,
+    res = evaluate(models, cfg, data, a["values"], a["observed"], test_start, device,
                    args.batch_size, args.samples, args.limit_origins)
     if not args.no_imputation:
         res["imputation_24h_outage"] = evaluate_imputation(
-            model, cfg, data, a["values"], a["observed"], test_start, device,
+            models, cfg, data, a["values"], a["observed"], test_start, device,
             args.batch_size, args.samples, args.limit_origins)
-    res["checkpoint"] = os.path.abspath(args.ckpt)
+    paths = [os.path.abspath(p) for p in args.ckpt]
+    res["checkpoint"] = paths[0] if len(paths) == 1 else paths
     res["seed"] = args.seed
     res["cfg"] = dataclasses.asdict(cfg)
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)

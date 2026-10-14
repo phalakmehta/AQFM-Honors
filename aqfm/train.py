@@ -109,6 +109,7 @@ def main():
     ap.add_argument("--lr", type=float, default=None, help="default 3e-4 main, 5e-5 anneal")
     ap.add_argument("--warmup", type=int, default=2000)
     ap.add_argument("--weight-decay", type=float, default=0.05)
+    ap.add_argument("--dropout", type=float, default=None, help="main phase only; default 0.1 (config)")
     ap.add_argument("--val-every", type=int, default=1000)
     ap.add_argument("--val-windows", type=int, default=512)
     ap.add_argument("--patience", type=int, default=10, help="validations without improvement")
@@ -116,6 +117,8 @@ def main():
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--grad-checkpoint", action="store_true")
+    ap.add_argument("--compile", action="store_true",
+                    help="torch.compile the model: same maths and random draws, ~25%% faster")
     ap.add_argument("--no-future-met", action="store_true")
     ap.add_argument("--no-last-obs", action="store_true", help="ablation: no latest-value anchor")
     ap.add_argument("--spatial-bias", choices=["wind", "distance", "none"], default="wind")
@@ -131,11 +134,14 @@ def main():
     # ---- config ----------------------------------------------------------
     if args.phase == "anneal":
         assert args.init, "--init is required for the anneal phase"
+        assert args.dropout is None, "--dropout is main phase only; anneal keeps the checkpoint's"
         model, cfg, _ = load_checkpoint(args.init, device)
     else:
         kw = dict(grad_checkpoint=args.grad_checkpoint, use_future_met=not args.no_future_met,
                   spatial_bias=args.spatial_bias, use_spatial_attention=not args.no_spatial,
                   use_last_obs=not args.no_last_obs)
+        if args.dropout is not None:
+            kw["dropout"] = args.dropout
         cfg = AQFMConfig.small(**kw) if args.small else AQFMConfig(**kw)
 
     # ---- data ------------------------------------------------------------
@@ -167,6 +173,11 @@ def main():
         model = AQFM(cfg).to(device)
         model.revin.set_global_stats(data.global_mean, data.global_std)
     print(f"parameters: {model.n_params() / 1e6:.2f}M   device={device}  amp={amp_dtype}")
+    run = model                     # what steps call; checkpoints always save `model`
+    if args.compile:
+        from torch._inductor import config as inductor_config
+        inductor_config.fallback_random = True           # dropout uses the eager RNG stream
+        run = torch.compile(model)
 
     W, Tc = cfg.window_steps, cfg.context_steps
     pretrain = args.phase == "main"
@@ -202,7 +213,7 @@ def main():
             g["lr"] = cosine_lr(i, args.warmup, args.steps, lr, lr * 0.01)
         batch = to_device(batch, device)
         with torch.autocast(device.type, dtype=amp_dtype, enabled=amp_dtype is not None):
-            loss, parts, _, _ = step(model, batch, cfg, impute=pretrain)
+            loss, parts, _, _ = step(run, batch, cfg, impute=pretrain)
         if not torch.isfinite(loss):
             raise FloatingPointError(f"non-finite loss at step {i}: {parts}")
         opt.zero_grad(set_to_none=True)
@@ -217,7 +228,7 @@ def main():
             log.write(json.dumps(rec) + "\n"); log.flush()
 
         if (i + 1) % args.val_every == 0 or i + 1 == args.steps:
-            val = validate(model, val_dl, cfg, device, amp_dtype)
+            val = validate(run, val_dl, cfg, device, amp_dtype)
             # select on the deterministic part; the physical term is sampled
             score = cfg.w_nll * val["nll_forecast"] + cfg.w_crps * val["crps_forecast"]
             log.write(json.dumps({"step": i + 1, "val": val}) + "\n"); log.flush()

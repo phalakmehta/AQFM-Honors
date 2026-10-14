@@ -518,3 +518,36 @@ def test_evaluate_pipeline_runs(raw):
     imp = evaluate_imputation(model, cfg, d, v, o, test_start=2400, device=torch.device("cpu"),
                               batch_size=4, n_samples=20, limit_origins=1)
     assert imp["PM2.5"]["aqfm"]["n"] == imp["PM2.5"]["linear"]["n"] > 0
+
+
+def test_ensemble_pools_equal_shares(raw):
+    """Each of M models contributes ceil(n / M) samples, and a list of models
+    runs through both evaluation paths."""
+    from aqfm.evaluate import _pooled, evaluate, evaluate_imputation
+    cfg = AQFMConfig.small(n_horizon_patches=18, n_context_patches=32)
+    v, o, t, c, s, e = raw
+    d = AQData(v, o, t, c, s, train_end=1500, era5_met=e)
+    models = []
+    for seed in (0, 1, 2):
+        torch.manual_seed(seed)
+        m = AQFM(cfg).eval()
+        m.revin.set_global_stats(d.global_mean, d.global_std)
+        models.append(m)
+    batch = collate([make_sample(d, cfg, d.neighbourhood(0, cfg.n_neighbours), 1000,
+                                 np.random.default_rng(0))])
+    q, _, _ = build_queries(cfg, batch, impute=False)
+    sel = torch.arange(4)
+    with torch.no_grad():
+        samp = _pooled(models, cfg, batch, q, sel, 20)
+        assert samp.shape[0] == 21 and torch.isfinite(samp).all()
+        # the first model's share comes from the first model alone
+        torch.manual_seed(5)
+        alone = _pooled(models[:1], cfg, batch, q, sel, 7)
+        torch.manual_seed(5)
+        assert torch.equal(_pooled(models, cfg, batch, q, sel, 20)[:7], alone)
+    res = evaluate(models, cfg, d, v, o, test_start=2400, device=torch.device("cpu"),
+                   batch_size=4, n_samples=20, limit_origins=1)
+    assert res["n_windows"] == d.S and res["AQFM"]["PM2.5"]["24h"]["n"] > 0
+    imp = evaluate_imputation(models, cfg, d, v, o, test_start=2400, device=torch.device("cpu"),
+                              batch_size=4, n_samples=20, limit_origins=1)
+    assert imp["PM2.5"]["aqfm"]["n"] > 0
