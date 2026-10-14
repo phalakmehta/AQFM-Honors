@@ -3,7 +3,7 @@
 > Read this first. It tells you what the project is, what state each part is in, which bugs were found and fixed on 2026-10-08, and what remains to be done (**§6 is the roadmap**).
 > Older docs (`_archive_old/project_handoff.md`, `_archive_old/preprocessing_result_aqfm`, the presentation PDF) contain **numbers and claims that are now stale**. Where they disagree with this file, this file wins.
 
-## Status at a glance (last updated 2026-10-08, 19:35 IST)
+## Status at a glance (last updated 2026-10-14, 17:45 IST)
 
 | Area | State |
 |---|---|
@@ -11,11 +11,11 @@
 | ERA5 download 2017-12→2020-12 | ✅ complete, 37/37 months |
 | `data/preprocessed/` arrays on disk | ✅ **rebuilt and verified** — (37, 18, 280512) + `era5_met.npy`, all gates passed |
 | Baselines | ✅ **re-run on the rebuilt data** — see §4. New bar: **XGBoost PM2.5 @24 h = 38.63** |
-| Model `aqfm/` | ✅ built, 31 tests pass, mutation-checked, **runs end-to-end on the real rebuilt data** — but never *trained* |
-| Training / evaluation runs | ⬜ not started; needs a GPU (this machine is CPU-only) |
-| Paper / comparisons | ⬜ not started (§6 F, G; §9, §10) |
+| Model `aqfm/` | ✅ built, 37 tests pass, mutation-checked; latest-value anchor added 2026-10-13 (§7.3 item 9) |
+| Training / evaluation runs | ✅ **final setup trained and evaluated** on an RTX 4000 Ada: dropout 0.3, 3 seeds + pooled ensemble, no-future-met — **§4b** |
+| Ablations / competitors / paper | ⬜ E1 (oracle gap) done; E2–E7, F, G not started (§6; §9, §10) |
 
-**Are we on track?** Yes for everything that does not need a GPU: the data is rebuilt and all verification gates pass, and the baselines are honest. **The only remaining blocker is GPU access** — AQFM has still never been trained, so whether it works is unknown. Next milestone: §6 Stage C.
+**Are we on track?** Yes. AQFM is trained and evaluated (§4b; full tables in `results/aqfm_do3_summary.md`). The 3-seed ensemble beats XGBoost + future ERA5 on PM2.5 at 1/6/24 h (24 h: **32.04 vs 33.65**), ties at 72 h (36.51 vs 36.45), is best in the Severe band (89.0 vs 93.4) and is well calibrated; single models (mean ± std over 3 seeds) win at 1/6 h and tie at 24 h. Next milestones: the remaining ablations (§6 Stage E), at least one deep competitor (Stage F), then the write-up (Stage G).
 
 ---
 
@@ -26,6 +26,7 @@
 - This is a research project aimed at publication. Correctness and honesty over speed: every leakage path needs a test, and every claim needs a measurement.
 - Verify everything by running it. Don't fabricate numbers. Ask when something is ambiguous.
 - Machine: Windows 11, Python 3.12.5, 16.5 GB RAM, **torch 2.10 CPU-only (no CUDA GPU)**, numpy 2.0.2, pandas 3.0.5, xgboost 3.0.5, granite-tsfm 0.3.9, xarray, pyarrow, pytest 8.3, cdsapi (with `~/.cdsapirc` configured). The full model (23.79M params) takes **~15 s per sample (forward + backward) on this CPU** (measured), so real training needs a GPU (Colab/Kaggle/university). CPU is fine for tests and `--small` runs.
+- **GPU training machine (since 2026-10-12):** Linux, RTX 4000 Ada (20 GB, bf16), repo at `/home/phalak/aqfm/AQFM-Honors`, venv at `../.venv` (torch 2.10.0+cu128). `data/preprocessed/` was copied from the Windows machine and must not be regenerated. Run everything from the repo root with `../.venv/bin/python`.
 
 ---
 
@@ -182,6 +183,32 @@ opening AQFM has.
 > TTM is still scored on **hourly means** while every other baseline is scored on
 > 15-min points (§3 B3), so its numbers are not strictly comparable.
 
+## 4b. AQFM results (2026-10-14)
+
+Same protocol as §4. Full tables (RMSE, PM10, AQI bands, CRPS, coverage, episodes, imputation),
+validation curves and caveats: **`results/aqfm_do3_summary.md`**. Final setup: latest-value anchor,
+dropout 0.3, 12k-step cosine schedule, early stopping (patience 3) on 2024 validation, best
+checkpoint kept. The ensemble pools the predictive samples of the 3 seeds.
+
+### PM2.5 MAE (µg/m³)
+
+| Model | 1h | 6h | 24h | 72h | Severe, 24h |
+|---|---|---|---|---|---|
+| **AQFM ensemble (3 seeds)** | **15.71** | **27.54** | **32.04** | 36.51 | **89.0** |
+| AQFM single model, mean ± std (3 seeds) | 16.08 ± 0.17 | 28.13 ± 0.08 | 33.22 ± 0.76 | 37.70 ± 1.21 | 91.5 ± 0.6 |
+| XGBoost + future ERA5 | 17.99 | 28.48 | 33.65 | **36.45** | 93.4 |
+| AQFM without future met (seed 0) | 16.47 | 28.45 | 38.77 | 42.84 | 107.1 |
+| XGBoost (no future met) | 18.17 | 30.06 | 38.63 | 43.74 | 110.5 |
+
+- **PM10:** the ensemble beats every baseline at every lead (24 h: 58.78 vs 62.07 for XGBoost + ERA5).
+- **Calibration (ensemble, PM2.5):** 90% intervals cover 0.906–0.938, 95% cover 0.949–0.968.
+- **Episodes > 250 at 24 h, F1:** ensemble 0.735; single 0.721 ± 0.011 (no future met: 0.626).
+- **24 h outage imputation, PM2.5 MAE:** ensemble 29.49; single 30.69 ± 1.52; linear interpolation 36.29.
+- **Regularisation does not matter:** dropout 0.1 / 0.2 / 0.3 give validation 1.7299 / 1.7306 / 1.7299,
+  and weight decay 0.1 did not help either (run 2). Seed-to-seed spread is ~20× larger.
+- **Report the single-model mean ± std alongside the ensemble:** the ensemble pools three networks
+  against one XGBoost model.
+
 ---
 
 ## 5. Bugs in the frozen `files_AqFM/` (all fixed in the new `aqfm/`)
@@ -259,35 +286,45 @@ BLH coverage 100%; PM2.5 coverage 86.1%.
 
 ### Stage C — Train AQFM (needs a GPU)
 
-- ⬜ **C1. Get GPU access.** This laptop is CPU-only and measured ~15 s per sample forward+backward, i.e. roughly a year of compute for a 100k-step run — not viable. Options: Colab/Kaggle (free tier, needs checkpointing to Drive because sessions are cut off), or a university cluster. Upload `aqfm/`, `tests/`, `data/preprocessed/` (~1.5 GB) and `baselines/`.
+- ✅ **C1. GPU access (2026-10-12):** RTX 4000 Ada (20 GB, bf16), see §0. Full model at batch 8: 0.49 s/step eager, **0.38 s/step with `--compile`**, ~11 GB peak; no gradient checkpointing needed.
 - ✅ **C0. Real-data integration verified (2026-10-08).** `AQData` builds from the rebuilt arrays in 10 s → (37, 20, 280512), **zero NaN** in both inputs and met; a forward+backward pass on a real batch gives finite losses (nll 2.06, crps 0.88, physical 0.53). Derived-channel coverage: **PM_FRAC 81.6%**, **NOX_FRAC 54.8%** (lower because the NO+NO₂=NOx identity filter rejects stations that violate it — expected, and better than silently fitting nonsense).
 - ✅ **C1a. Outage distribution fitted on the real training split:** μ=3.932, σ=1.030 from **3,033** station-wide outages ≥ 1 patch → **median 12.8 h**. This is what `train.py --phase main` now sets automatically. (The old pipeline's 0.5 h figure was dominated by 1–2-step glitches and would have made block masking useless.)
-- ⬜ **C2. Sanity run on real data** before the long one:
+- ✅ **C2. Sanity run on real data** (`runs/sanity`) before the long one:
   `python -m aqfm.train --small --steps 500 --val-every 100 --out runs/sanity`
   **Verify:** the outage LogNormal fit prints a sensible median (hours, not minutes); the loss falls; `nll_impute`/`crps_impute` are non-zero; no NaN.
-- ⬜ **C3. Phase 1 (mixed-masking pre-training).**
+- ✅ **C3. Phase 1 (mixed-masking pre-training).**
   `python -m aqfm.train --phase main --out runs/main --batch-size 8 --steps 100000 --grad-checkpoint --device cuda`
   Tune `--batch-size` to the card (start at 4 if it OOMs; `--grad-checkpoint` trades ~30% speed for ~4× less activation memory). Step count is a guess: stop on the validation plateau, which is what `--patience` does.
-- ⬜ **C4. Phase 2 (forecast anneal).**
+- ✅ **C4. Phase 2 (forecast anneal)** — tried twice: no gain in run 1 (1.8214 vs main 1.8185) and a negligible one in run 2 (1.8221 vs 1.8229), so the final setup has no anneal.
   `python -m aqfm.train --phase anneal --init runs/main/best.pt --out runs/anneal --steps 20000 --device cuda`
-- ⬜ **C5. Watch for trouble** in `runs/*/log.jsonl`: validation rising while training falls (overfitting → more dropout/fewer steps); `gnorm` spiking (lower LR); `physical` term dominating (lower `w_physical`); imputation loss stuck (check that the block masks are actually large).
+- ✅ **C5. Watch for trouble** in `runs/*/log.jsonl`: validation rising while training falls (overfitting → more dropout/fewer steps); `gnorm` spiking (lower LR); `physical` term dominating (lower `w_physical`); imputation loss stuck (check that the block masks are actually large).
+
+**Stage C outcome (2026-10-13/14).** Every run peaks at 5–6k steps and then overfits (validation rises
+while training loss keeps falling). Neither weight decay 0.1 nor dropout 0.2/0.3 changes that. The
+short-lead failure (15 min validation MAE 37.2 vs persistence 10.4) was fixed by the latest-value
+anchor (§7.3 item 9). **Final recipe:**
+`python -m aqfm.train --phase main --out runs/main_s0_do3 --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0`
+(seeds 0, 1, 2; 51–58 min each). History: `results/aqfm_anchor_s0_summary.md`, `results/aqfm_do3_summary.md`.
 
 ### Stage D — Evaluate
 
-- ⬜ **D1.** `python -m aqfm.evaluate --ckpt runs/anneal/best.pt --out results/aqfm_results.json --device cuda`
+- ✅ **D1.** `python -m aqfm.evaluate --ckpt runs/main_s0_do3/best.pt --out results/aqfm_do3_s0_results.json --device cuda --seed 0` (several `--ckpt` paths = pooled ensemble). ~14 min per model, ~40 min for the 3-model ensemble.
   Produces: MAE/RMSE at 1/6/24/72 h for PM2.5 and PM10, AQI-band MAE at 24 h, episode precision/recall/F1 at 24 h and 48 h, CRPS by lead hour, PIT histograms, 90/95% coverage, and 24 h-outage imputation vs linear interpolation.
-- ⬜ **D2. The three numbers that decide the paper:** (a) PM2.5 24 h MAE vs XGBoost, (b) **Severe-band (>250) MAE and episode recall**, (c) whether 90% intervals actually cover ~90%.
-- ⬜ **D3. Repeat with ≥3 seeds** (`--seed`) and report mean ± std. A single seed is not evidence.
+- ✅ **D2. The three numbers that decide the paper:** (a) PM2.5 24 h MAE vs XGBoost, (b) **Severe-band (>250) MAE and episode recall**, (c) whether 90% intervals actually cover ~90%.
+  Answers (ensemble): (a) 32.04 vs 38.63 (XGBoost) and 33.65 (XGBoost + ERA5); (b) 89.0 vs 93.4, episode recall 0.734; (c) 0.914 at 24 h. See §4b.
+- ✅ **D3. Repeat with ≥3 seeds** (`--seed`) and report mean ± std. A single seed is not evidence. Done: seeds 0/1/2 → §4b, `results/aqfm_do3_seeds_stats.json`.
 
 ### Stage E — Ablations and the oracle gap (only once Stage D is in)
 
 Each is a separate training run, so budget GPU time. All switches already exist (§7.5).
-- ⬜ **E1. Oracle gap** — `--no-future-met`. **Mandatory for honesty:** ERA5 is reanalysis, not a forecast, so the main result overstates operational skill. Reviewers will ask.
+- ✅ **E1. Oracle gap** — `--no-future-met`. **Mandatory for honesty:** ERA5 is reanalysis, not a forecast, so the main result overstates operational skill. Reviewers will ask.
+  Done (seed 0, `runs/main_s0_do3_nofm`): PM2.5 MAE 16.47 / 28.45 / 38.77 / 42.84 — ties plain XGBoost at 24 h (38.63), better at 1/6/72 h. Removing future met costs AQFM +4.8 / +4.1 at 24 / 72 h, XGBoost +5.0 / +7.3.
 - ⬜ **E2. No BLH** — the design doc expects this to be the largest single-feature effect. Needs a config/preprocessing switch to drop channel 17 (not yet implemented).
 - ⬜ **E3. Spatial ablations** — `--no-spatial` (no cross-station attention) and `--spatial-bias distance` (drops the wind asymmetry).
 - ⬜ **E4. No physical reparameterisation** — `target_channels` with `PM2.5` directly instead of `PM10 + PM_FRAC`. Count the PM2.5 > PM10 violations that appear.
 - ⬜ **E5. Random-only masking** — `forecast_targets_always=False`, `p_tail_mask=0`.
 - ⬜ **E6. Not implemented, build only if a reviewer needs it:** Design A (one decoder per pollutant) and a point head + MSE.
+- ⬜ **E7. Anchor ablation** — `--no-last-obs` with the final recipe (run 1 has no anchor but an older recipe, so it is not a clean comparison).
 
 ### Stage F — Competing published models (needed for a strong paper)
 
@@ -328,8 +365,8 @@ Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new pac
 | `model.py` | `PatchTokenizer`, `StationPooler`, `QueryDecoder`, `MixtureHead`, `AQFM` |
 | `losses.py` | `mixture_nll`, `crps_mixture` (exact closed form), `sample_crps` (order-statistic), `total_loss` |
 | `data.py` | `AQData` (transformed arrays + train-only stats), `make_sample`, `TrainWindows`, `FixedWindows`, `build_queries`, `synthetic_raw` |
-| `train.py` | CLI: `--phase main|anneal`, date splits, outage fit, AdamW + cosine, bf16 on CUDA, validation, `best.pt`/`last.pt`, early stopping, ablation flags |
-| `evaluate.py` | CLI: the 2025 test protocol, using `baseline_utils` metric functions directly, plus extras (below) |
+| `train.py` | CLI: `--phase main|anneal`, date splits, outage fit, AdamW + cosine, bf16 on CUDA, validation, `best.pt`/`last.pt`, early stopping, ablation flags, `--dropout`, `--compile` |
+| `evaluate.py` | CLI: the 2025 test protocol, using `baseline_utils` metric functions directly, plus extras (below); several `--ckpt` = pooled ensemble |
 
 ### 7.2 Data flow
 - **Inputs (20 channels):** 9 pollutants, AT, RH, **U, V** (WS/WD converted, because degrees can't be averaged or normalised), SR, BP, TOT_RF, Benzene, **BLH**, **PM_FRAC** = logit(PM2.5/PM10), **NOX_FRAC** = logit(NO_ppb/NOx_ppb). Ratios are computed in physical units before log1p. NOX_FRAC is observed only where NO_ppb + NO2_ppb is within 10% of NOx (re-checked 2026-10-12 with `docs/data_report_stats.py`: 26 of 36 stations have a median (NO+NO2)/NOx within ±1%, but 8 stations, 7 IITM ones and Rohini, sit at 0.66–0.71). log1p is applied to pollutants, TOT_RF, Benzene and BLH.
@@ -345,6 +382,7 @@ Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new pac
 6. **Decoder:** 4 pre-norm layers of {query self-attention (padding-masked), cross-attention to latents, FFN}.
 7. **Head:** a 3-component Gaussian mixture per 15-min step, in normalised transformed space.
 8. **Targets (8 slots):** PM10, PM_FRAC, NOx, NOX_FRAC, Ozone, SO2, CO, NH3. PM2.5 = PM10·σ(frac); NO and NO2 come from NOx and the fraction (in ppb, converted back to µg/m³).
+9. **Latest-value anchor** (`use_last_obs`, added 2026-10-13): each query gets its series' latest visible RevIN-normalised value, log1p of its age in hours and a has-value flag, both as a query feature and as a zero-initialised gated residual on the mixture means (`mu += anchor_gate(h) · last`). Without it the Perceiver pooler hid "now" from the decoder and short leads lost to persistence. Checkpoints from before the anchor load as the old model.
 
 ### 7.4 Training objective
 - **Loss:** NLL + 0.5 × **exact mixture CRPS** (closed form, Grimit et al. 2006, so no sampling noise), plus 0.25 × **sample CRPS** (order-statistic, 32 samples) of the reconstructed PM2.5, NO and NO2 in log1p space. Optional episode weighting (`episode_alpha`, default 0). Forecast and imputation losses are logged separately.
@@ -354,7 +392,8 @@ Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new pac
 
 ### 7.5 Evaluation (`evaluate.py`) and ablation switches
 - The same origins, horizons, metric functions and AQI bands as the baselines (it imports `baseline_utils`). The point forecast is the median of 200 samples. Extras: CRPS by lead hour, PIT histograms, 90/95% coverage, PM2.5 > 250 episode precision/recall/F1 at 24 h and 48 h, and **imputation of a 24 h station-wide outage** scored against linear interpolation on the same cells.
-- Switches (CLI flags / config): `--no-future-met` (oracle gap), `--spatial-bias distance|none`, `--no-spatial`, `forecast_targets_always=False` + `p_tail_mask=0` (random-only masking), `target_channels=(..."PM2.5"...)` without fractions (no physical reparam). Not implemented: Design A decoder and the point-head + MSE ablation.
+- Switches (CLI flags / config): `--no-future-met` (oracle gap), `--no-last-obs` (no latest-value anchor), `--spatial-bias distance|none`, `--no-spatial`, `forecast_targets_always=False` + `p_tail_mask=0` (random-only masking), `target_channels=(..."PM2.5"...)` without fractions (no physical reparam). Not implemented: Design A decoder and the point-head + MSE ablation.
+- **Ensemble:** `--ckpt A B C` pools ceil(200 / M) samples from each model (equal weights) and scores the pool; the checkpoints' configs must match. **Speed:** `train.py --compile` (torch.compile with inductor `fallback_random=True`, so dropout draws match eager mode; losses match eager to the 4th digit, like eager-vs-eager GPU nondeterminism).
 
 ### 7.6 Deviations from the design doc (deliberate; mention them in the paper)
 - RevIN fallback uses global train stats, not the identity; the std floor is 0.1 × global.
@@ -367,9 +406,9 @@ Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new pac
 - Samples are capped at log1p = 20 (about 4.9e8 ug/m3) before back-transformation, to prevent float32 overflow.
 
 ### 7.7 Verification done
-- 31 pytest tests: horizon-perturbation invariance (bit-identical encoder), RevIN visible-only statistics, mask partition and derived-visibility rules, block outages are station-wide, every lead is a target, imputation targets equal the hidden truth, alignment with the baseline protocol, CRPS (order-statistic == pairwise exactly; closed form == Monte Carlo; known single-Gaussian value), NLL == `torch.distributions`, no gradient from unobserved targets, gap feature, wind geometry (upwind ⇒ cos = 1), station-permutation equivariance, gradient checkpointing gives identical gradients, all ablation configs run, a fixed batch can be overfitted, the outage fit recovers its parameters, and the evaluation pipeline runs end to end.
+- 37 pytest tests: horizon-perturbation invariance (bit-identical encoder), RevIN visible-only statistics, mask partition and derived-visibility rules, block outages are station-wide, every lead is a target, imputation targets equal the hidden truth, alignment with the baseline protocol, CRPS (order-statistic == pairwise exactly; closed form == Monte Carlo; known single-Gaussian value), NLL == `torch.distributions`, no gradient from unobserved targets, gap feature, wind geometry (upwind ⇒ cos = 1), station-permutation equivariance, gradient checkpointing gives identical gradients, all ablation configs run, a fixed batch can be overfitted, the outage fit recovers its parameters, and the evaluation pipeline runs end to end. Added 2026-10-13/14: latest-value anchor (value/age/flag, a decoder-level no-leak test that catches a deliberately broken version, pre-anchor checkpoints load) and the pooled ensemble.
 - **Mutation check:** 6 deliberately injected bugs (no derived-visibility rule, ratio in the wrong space, RevIN using hidden cells, context shifted into the horizon, CRPS sign, wind FROM/TO flipped) are each caught by a test.
-- Not yet verified: anything on real data (losses, speed and memory on a GPU, skill).
+- Verified on real data (2026-10-12/14): GPU speed and memory (§6 C1), training and validation losses, and skill (§4b).
 
 ---
 
@@ -387,10 +426,16 @@ python run_baselines_xgboost.py
 python run_baselines_xgboost.py --future-met # same + ERA5 weather at the target time -> xgboost_future_met_results.json
 python run_baselines_ttm.py                  # needs granite-tsfm; model cached in ~/.cache/huggingface
 cd ..
-python -m pytest tests -q                    # 31 tests, ~30 s on CPU
-python -m aqfm.train --phase main   --out runs/main   --grad-checkpoint --device cuda
-python -m aqfm.train --phase anneal --init runs/main/best.pt --out runs/anneal --device cuda
-python -m aqfm.evaluate --ckpt runs/anneal/best.pt --out results/aqfm_results.json --device cuda
+python -m pytest tests -q                    # 37 tests, ~30 s on CPU
+for s in 0 1 2; do                           # final recipe, ~55 min per seed on an RTX 4000 Ada
+  python -m aqfm.train --phase main --out runs/main_s${s}_do3 --device cuda --batch-size 8 --steps 12000 \
+      --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed $s
+  python -m aqfm.evaluate --ckpt runs/main_s${s}_do3/best.pt --out results/aqfm_do3_s${s}_results.json --device cuda --seed 0
+done
+python -m aqfm.evaluate --ckpt runs/main_s{0,1,2}_do3/best.pt --out results/aqfm_do3_ens3_results.json --device cuda --seed 0
+python -m aqfm.train --phase main --out runs/main_s0_do3_nofm --device cuda --batch-size 8 --steps 12000 \
+    --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0 --no-future-met    # oracle gap (E1)
+# runs/pipeline.sh chains all of this and runs/seed_stats.py computes the mean ± std (both machine-local: runs/ is git-ignored)
 ```
 
 ---
