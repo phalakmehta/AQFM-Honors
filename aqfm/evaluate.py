@@ -106,6 +106,17 @@ def _to_targets(cfg, samp_slots):
     return out
 
 
+def pm25_gt_pm10(acc):
+    """Share of point forecasts (all windows and steps) with PM2.5 > PM10, and the same share in the
+    observed data where both are measured, for reference. acc: per-target lists of (n, Th) arrays."""
+    a = {c: {k: np.concatenate(acc[c][k]) for k in ("pred", "true", "mask")} for c in TARGETS}
+    p, q = a["PM2.5"], a["PM10"]
+    both = (p["mask"] > 0.5) & (q["mask"] > 0.5)
+    return {"forecast": float((p["pred"] > q["pred"]).mean()),
+            "observed": float((p["true"] > q["true"])[both].mean()),
+            "n_observed": int(both.sum())}
+
+
 @torch.no_grad()
 def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, batch_size=16,
              n_samples=200, limit_origins=None, workers=0):
@@ -174,12 +185,7 @@ def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, ba
                                    for k, j in EPISODE_STEPS.items()}
         extras[c] = e
     if "PM_FRAC" not in cfg.target_channels:     # PM2.5 predicted directly: PM2.5 > PM10 is possible
-        (p25, t25, m25), (p10, t10, m10) = ((np.concatenate(acc[c][k]) for k in ("pred", "true", "mask"))
-                                            for c in TARGETS)
-        both = (m25 > 0.5) & (m10 > 0.5)
-        extras["pm25_gt_pm10"] = {"forecast": float((p25 > p10).mean()),        # all windows and steps
-                                  "observed": float((t25 > t10)[both].mean()),  # the data, for reference
-                                  "n_observed": int(both.sum())}
+        extras["pm25_gt_pm10"] = pm25_gt_pm10(acc)
     res["AQFM_extras"] = extras
     res["n_origins"], res["n_windows"] = int(len(origins)), int(len(pairs))
     return res

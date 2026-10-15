@@ -612,14 +612,27 @@ def test_pm25_direct_reports_violations(raw):
     cfg = AQFMConfig.small(n_horizon_patches=18, n_context_patches=32, target_channels=tc)
     assert cfg.physical_pairs() == [("NOX", 2, 3)]
     v, o, t, c, s, e = raw
+    v = v.copy()
+    hz = slice(2400, 2400 + cfg.horizon_steps)                # the one test origin's horizon
+    v[0, R["PM2.5"], hz][::2] = v[0, R["PM10"], hz][::2] * 1.5   # synthetic data never has PM2.5 > PM10
     d = AQData(v, o, t, c, s, train_end=1500, era5_met=e)
     model = AQFM(cfg)
     model.revin.set_global_stats(d.global_mean, d.global_std)
     res = evaluate(model, cfg, d, v, o, test_start=2400, device=torch.device("cpu"),
                    batch_size=4, n_samples=20, limit_origins=1)
     viol = res["AQFM_extras"]["pm25_gt_pm10"]
-    assert 0.0 <= viol["forecast"] <= 1.0 and viol["n_observed"] > 0
-    assert viol["observed"] == 0.0                            # synthetic PM2.5 < PM10 by construction
+    both = (o[:, R["PM2.5"], hz] > 0) & (o[:, R["PM10"], hz] > 0)      # every station is an anchor once
+    gt = v[:, R["PM2.5"], hz] > v[:, R["PM10"], hz]
+    assert viol["n_observed"] == both.sum() and viol["observed"] == pytest.approx(gt[both].mean())
+    assert viol["observed"] > 0 and 0.0 <= viol["forecast"] <= 1.0
+
+
+def test_pm25_gt_pm10_compares_the_two_pollutants():
+    from aqfm.evaluate import pm25_gt_pm10
+    a = lambda *x: [np.array([x], float)]
+    acc = {"PM2.5": {"pred": a(5, 1, 3, 9), "true": a(2, 2, 7, 1), "mask": a(1, 1, 1, 0)},
+           "PM10": {"pred": a(4, 2, 3, 1), "true": a(1, 3, 6, 0), "mask": a(1, 1, 1, 1)}}
+    assert pm25_gt_pm10(acc) == {"forecast": 0.5, "observed": 2 / 3, "n_observed": 3}
 
 
 def test_ablation_flags_reach_the_config(tmp_path, monkeypatch):
