@@ -3,7 +3,7 @@
 > Read this first. It tells you what the project is, what state each part is in, which bugs were found and fixed on 2026-10-08, and what remains to be done (**§6 is the roadmap**).
 > Older docs (`_archive_old/project_handoff.md`, `_archive_old/preprocessing_result_aqfm`, the presentation PDF) contain **numbers and claims that are now stale**. Where they disagree with this file, this file wins.
 
-## Status at a glance (last updated 2026-10-15)
+## Status at a glance (last updated 2026-10-15, 23:00 IST)
 
 | Area | State |
 |---|---|
@@ -14,9 +14,9 @@
 | Model `aqfm/` | ✅ built, 45 tests pass, mutation-checked; latest-value anchor added 2026-10-13 (§7.3 item 9) |
 | Training / evaluation runs | ✅ **final setup trained and evaluated** on an RTX 4000 Ada: dropout 0.3, 3 seeds + pooled ensemble, no-future-met — **§4b** |
 | Reproducibility | ✅ `scripts/manifest.json` (every model and result with its command, commit and sha256), `scripts/check_submission.py` (one-command check), `results/TABLES.md` (all tables, generated), **`SUBMISSION.md`** (what the paper needs, where it lives, status) — §8 |
-| Ablations / competitors / paper | 🔄 E1 and E7 done; E2–E5 + no-future-met seeds 1/2 running overnight from 2026-10-15 (`scripts/pipeline_2026-10-15_ablations.sh`); F, G not started (§6; §9, §10) |
+| Ablations / competitors / paper | ✅ **Stage E done 2026-10-15** (E1–E5, E7; no-future-met now 3 seeds + ensemble): `results/aqfm_ablations_summary.md`, tables in `results/TABLES.md`. ⬜ F (competitors), G (write-up) next (§6; §9, §10) |
 
-**Are we on track?** Yes. AQFM is trained and evaluated (§4b; full tables in `results/aqfm_do3_summary.md`). The 3-seed ensemble beats XGBoost + future ERA5 on PM2.5 at 1/6/24 h (24 h: **32.04 vs 33.65**), ties at 72 h (36.51 vs 36.45), is best in the Severe band (89.0 vs 93.4) and is well calibrated; single models (mean ± std over 3 seeds) win at 1/6 h and tie at 24 h. Next milestones: the remaining ablations (§6 Stage E), at least one deep competitor (Stage F), then the write-up (Stage G).
+**Are we on track?** Yes. AQFM is trained and evaluated (§4b; full tables in `results/aqfm_do3_summary.md`). The 3-seed ensemble beats XGBoost + future ERA5 on PM2.5 at 1/6/24 h (24 h: **32.04 vs 33.65**), ties at 72 h (36.51 vs 36.45), is best in the Severe band (89.0 vs 93.4) and is well calibrated; single models (mean ± std over 3 seeds) win at 1/6 h and tie at 24 h. Without future weather (3 seeds) AQFM beats plain XGBoost at 1/6 h and ties it at 24/72 h. The ablations (§6 Stage E) show what each part does. Next milestones: at least one deep competitor (Stage F), then the write-up (Stage G).
 
 ---
 
@@ -202,12 +202,13 @@ checkpoint kept. The ensemble pools the predictive samples of the 3 seeds.
 | **AQFM ensemble (3 seeds)** | **15.71** | **27.54** | **32.04** | 36.51 | **89.0** |
 | AQFM single model, mean ± std (3 seeds) | 16.08 ± 0.17 | 28.13 ± 0.08 | 33.22 ± 0.76 | 37.70 ± 1.21 | 91.5 ± 0.6 |
 | XGBoost + future ERA5 | 17.99 | 28.48 | 33.65 | **36.45** | 93.4 |
-| AQFM without future met (seed 0) | 16.47 | 28.45 | 38.77 | 42.84 | 107.1 |
+| AQFM without future met, ensemble (3 seeds) | 15.77 | 27.97 | 38.41 | 43.20 | 104.9 |
+| AQFM without future met, single model, mean ± std (3 seeds) | 16.00 ± 0.42 | 28.33 ± 0.10 | 38.98 ± 0.24 | 43.77 ± 1.04 | 105.7 ± 1.2 |
 | XGBoost (no future met) | 18.17 | 30.06 | 38.63 | 43.74 | 110.5 |
 
 - **PM10:** the ensemble beats every baseline at every lead (24 h: 58.78 vs 62.07 for XGBoost + ERA5).
 - **Calibration (ensemble, PM2.5):** 90% intervals cover 0.906–0.938, 95% cover 0.949–0.968.
-- **Episodes > 250 at 24 h, F1:** ensemble 0.735; single 0.721 ± 0.011 (no future met: 0.626).
+- **Episodes > 250 at 24 h, F1:** ensemble 0.735; single 0.721 ± 0.011 (no future met: ensemble 0.641, single 0.636 ± 0.011).
 - **24 h outage imputation, PM2.5 MAE:** ensemble 29.49; single 30.69 ± 1.52; linear interpolation 36.29.
 - **Regularisation does not matter:** dropout 0.1 / 0.2 / 0.3 give validation 1.7299 / 1.7306 / 1.7299,
   and weight decay 0.1 did not help either (run 2). Seed-to-seed spread is ~20× larger.
@@ -324,10 +325,22 @@ anchor (§7.3 item 9). **Final recipe:**
 Each is a separate training run with the final recipe, seed 0, one switch changed; compare with `results/aqfm_do3_s0_results.json`. Chain: `scripts/pipeline_2026-10-15_ablations.sh` (outputs `runs/main_s0_do3_<tag>`, `results/aqfm_do3_<tag>_s0_results.json`). A single seed moves PM2.5 24 h MAE by ±0.76 (std over seeds), so differences under ~1.5 are not clear effects.
 - ✅ **E1. Oracle gap** — `--no-future-met`. **Mandatory for honesty:** ERA5 is reanalysis, not a forecast, so the main result overstates operational skill. Reviewers will ask.
   Done (seed 0, `runs/main_s0_do3_nofm`): PM2.5 MAE 16.47 / 28.45 / 38.77 / 42.84 — ties plain XGBoost at 24 h (38.63), better at 1/6/72 h. Removing future met costs AQFM +4.8 / +4.1 at 24 / 72 h, XGBoost +5.0 / +7.3.
-- 🔄 **E2. No BLH** (`--no-blh`, tag `noblh`) — the design doc expects this to be the largest single-feature effect. BLH is hidden everywhere: the input channel is never observed and the future-ERA5 BLH column is set to its training mean (`make_sample`; test `test_no_blh_hides_blh_everywhere`).
-- 🔄 **E3. Spatial ablations** — `--no-spatial` (tag `nospatial`: no cross-station attention) and `--spatial-bias distance` (tag `nowind`: drops the wind asymmetry).
-- 🔄 **E4. No physical reparameterisation** (`--pm25-direct`, tag `pm25direct`) — the PM_FRAC slot becomes PM2.5 (8 targets; the NOx pair is kept, so only the PM2.5 path changes). `evaluate.py` then reports `AQFM_extras.pm25_gt_pm10`: the share of point forecasts with PM2.5 > PM10 (0 by construction for the reparameterised model), next to the share in the observed data (0.44% of all observed points, 2018–2025).
-- 🔄 **E5. Random-only masking** (`--random-masking`, tag `gapfillonly`) — `forecast_targets_always=False`, `p_tail_mask=0`: block/channel masks only, so training has imputation targets and no forecast targets (design-doc hypothesis: imputation holds, forecasting degrades).
+  Seeds 1 and 2 + ensemble added 2026-10-15 (`runs/main_s{1,2}_do3_nofm`): single model 16.00 ± 0.42 / 28.33 ± 0.10 / 38.98 ± 0.24 / 43.77 ± 1.04, ensemble 15.77 / 27.97 / 38.41 / 43.20 (plain XGBoost 18.17 / 30.06 / 38.63 / 43.74): better at 1/6 h, tie at 24/72 h.
+- ✅ **E2. No BLH** (`--no-blh`, tag `noblh`) — the design doc expects this to be the largest single-feature effect. BLH is hidden everywhere: the input channel is never observed and the future-ERA5 BLH column is set to its training mean (`make_sample`; test `test_no_blh_hides_blh_everywhere`).
+- ✅ **E3. Spatial ablations** — `--no-spatial` (tag `nospatial`: no cross-station attention) and `--spatial-bias distance` (tag `nowind`: drops the wind asymmetry).
+- ✅ **E4. No physical reparameterisation** (`--pm25-direct`, tag `pm25direct`) — the PM_FRAC slot becomes PM2.5 (8 targets; the NOx pair is kept, so only the PM2.5 path changes). `evaluate.py` then reports `AQFM_extras.pm25_gt_pm10`: the share of point forecasts with PM2.5 > PM10 (0 by construction for the reparameterised model), next to the share in the observed data (0.44% of all observed points, 2018–2025).
+- ✅ **E5. Random-only masking** (`--random-masking`, tag `gapfillonly`) — `forecast_targets_always=False`, `p_tail_mask=0`: block/channel masks only, so training has imputation targets and no forecast targets (design-doc hypothesis: imputation holds, forecasting degrades).
+- **Stage E results (2026-10-15; full write-up `results/aqfm_ablations_summary.md`, numbers `results/TABLES.md`).**
+  Change in PM2.5 MAE against the full model, seed 0, at 1 / 6 / 24 / 72 h and Severe 24 h (seed std 0.17 / 0.08 / 0.76 / 1.21 / 0.6):
+  E1 no future met +0.22 / +0.39 / +4.80 / +4.10 / +16.1 · E2 no BLH -0.36 / +0.09 / -1.08 / +1.08 / -1.9 (no loss on 2025, although
+  2024 validation got worse) · E3 no spatial attention -0.28 / +0.34 / +1.90 / +0.87 / +1.8 · E3 no wind -0.39 / -0.41 / +1.19 / +0.99 / +3.4 ·
+  E4 PM2.5 direct -1.20 / -0.08 / -0.46 / -0.25 / +3.2 (PM2.5 > PM10 in 0.0015 of its forecasts vs 0.0012 of observed points) ·
+  E5 gap-filling only +15.91 / +6.50 / +3.80 / +1.09 / +18.9 (imputation holds: 30.45 vs 31.96) · E7 no anchor (run 1 vs the dropout-0.1
+  anchor run) +17.55 / +4.96 / +1.40 / -0.77 / +9.7. Single seed each: E3/E4 are near the noise threshold (seeds 1, 2 would confirm).
+  Three ablations score slightly *better* than the full model on 2024 validation but worse on 2025 at 24 h or in the Severe band; they
+  were never selection candidates, and changing the final model because of them would use 2025 information.
+  **Fix found while running:** the new PM2.5 > PM10 share in `evaluate.py` always returned 0 (generator late binding); fixed in
+  `a509c69` with stronger tests, and the E4 evaluation re-run: 346 of 349 numbers came out bit-identical, only that share changed.
 - ⬜ **E6. Not implemented, build only if a reviewer needs it:** Design A (one decoder per pollutant) and a point head + MSE.
 - ✅ **E7. Anchor ablation** — not re-run (user decision 2026-10-15). Run 1 (`runs/main_s0`, no anchor) and the dropout-0.1 anchor run (`runs/main_s0_anchor`) have identical code and settings except the anchor and the planned schedule length (45k vs 12k steps: at the best step, 5000, the learning rate is ~99% vs ~80% of its peak). Run 2 (no anchor, 12k schedule, wd 0.1) lands at the same validation score as run 1 (1.8229 vs 1.8185), against 1.7299 with the anchor, so the gap comes from the anchor, not the schedule. 2025 PM2.5 MAE: see the run 1 and dropout-0.1 rows of `results/TABLES.md`.
 
@@ -338,6 +351,17 @@ Run their public code on **our exact 2025 protocol**; do not copy numbers from t
 - ⬜ **F2. AirFormer** (AAAI 2023, code public) — closest architecture: attention + uncertainty.
 - ⬜ **F3. AirPhyNet** (ICLR 2024, code public) — closest physics claim.
 - ⬜ **F4. E-STGCN** (arXiv 2411.12258) — reports results on **37 Delhi stations**, most likely the same network, so it is the closest direct competitor.
+  **Checked 2026-10-15 (paper v2 read, repo inspected, nothing run):** code is public at `github.com/mad-stat/E_STGCN`
+  (paper's "Data and Code Availability Statement"), but the repo has **no license** — run/port it for the comparison,
+  cite it, and do not copy their files into this repo. Contents: one Keras/TensorFlow notebook (`E_STGCN_Code_Share.ipynb`,
+  essentially the Keras "traffic forecasting with GNN + LSTM" example: mean-aggregation graph conv on a
+  Gaussian-kernel haversine adjacency → LSTM(64) → Dense to the horizon), an R script fitting a GPD per station above
+  the NAAQS threshold (`evmix::fgpd`, u = 60 for PM2.5), and their **daily** PM2.5/PM10/NO2 CSVs. Their task differs
+  from ours: **daily** means, train 2019–2022, test 2023, horizons **30/60/90 days** (rolling windows), one pollutant
+  per model, no meteorology. Loss = 0.99·MSE + 0.01·max-over-stations GPD NLL when the prediction exceeds the
+  threshold. Note: their loss indexes `y_true[0]`/`y_pred[0]`, i.e. apparently only the first sample of each batch
+  trains the model — check before porting and document whatever we do. To compare on our protocol (15-min, 1–72 h,
+  2025 test) it must be ported (PyTorch, small) and retrained on our splits; their published numbers are not comparable.
 
 ### Stage G — Write-up
 
@@ -443,6 +467,7 @@ python -m aqfm.train --phase main --out runs/main_s0_do3_nofm --device cuda --ba
 python scripts/seed_stats.py results/aqfm_do3_seeds_stats.json results/aqfm_do3_s{0,1,2}_results.json   # mean ± std
 python scripts/make_tables.py                # -> results/TABLES.md (every table; quote numbers from here)
 # scripts/pipeline_2026-10-14.sh is the exact chain that produced the final-setup results
+# scripts/pipeline_2026-10-15_ablations.sh: Stage E ablations + no-future-met seeds 1, 2 (each command is also in the manifest)
 ```
 
 **Checking and reproducing (added 2026-10-14).** `scripts/manifest.json` is the source of truth: for every
@@ -452,7 +477,7 @@ data file, model and result it records the path, sha256, the git commit that pro
 ```bash
 python scripts/check_submission.py              # ~1 min: every result registered; data/model checksums match;
                                                 # the commits exist; TABLES.md is fresh; tests pass; git clean and pushed
-python scripts/check_submission.py --reproduce  # ~5.5 h: re-runs every registered result into reproduce_out/
+python scripts/check_submission.py --reproduce  # ~7.7 h: re-runs every registered result into reproduce_out/
                                                 # (committed files untouched); IDENTICAL / NOISE / DIFFERENT per file
 python scripts/check_submission.py --reproduce results/aqfm_do3_s0_results.json   # just one
 ```

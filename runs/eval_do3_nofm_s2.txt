@@ -1,0 +1,20 @@
+  forecast batch 1/838
+  forecast batch 51/838
+  forecast batch 101/838
+  forecast batch 151/838
+  forecast batch 201/838
+  forecast batch 251/838
+  forecast batch 301/838
+  forecast batch 351/838
+  forecast batch 401/838
+  forecast batch 451/838
+  forecast batch 501/838
+  forecast batch 551/838
+  forecast batch 601/838
+  forecast batch 651/838
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 15.8405, '6h': 28.2981, '24h': 38.9112, '72h': 43.5696}
+PM10 {'1h': 28.6136, '6h': 46.1352, '24h': 72.7514, '72h': 82.3999}
+saved results/aqfm_do3_nofm_s2_results.json

@@ -1,0 +1,52 @@
+[2026-10-15 14:00:12] waiting for the code to be committed:  M aqfm/config.py  M aqfm/data.py  M aqfm/evaluate.py  M aqfm/train.py  M tests/test_aqfm.py ?? scripts/pipeline_2026-10-15_ablations.sh 
+[2026-10-15 14:04:12] code at commit 4b0c7d6, starting
+[2026-10-15 14:04:12] train runs/main_s0_do3_nospatial: --seed 0 --no-spatial
+done. best val total=1.7252  (41.6 min)
+[2026-10-15 14:45:51] evaluate -> results/aqfm_do3_nospatial_s0_results.json: runs/main_s0_do3_nospatial/best.pt
+PM2.5 {'1h': 15.9725, '6h': 28.4033, '24h': 35.8727, '72h': 39.605}
+PM10 {'1h': 29.1769, '6h': 47.4818, '24h': 65.5182, '72h': 70.3033}
+saved results/aqfm_do3_nospatial_s0_results.json
+[2026-10-15 14:57:02] train runs/main_s0_do3_nowind: --seed 0 --spatial-bias distance
+done. best val total=1.7193  (50.8 min)
+[2026-10-15 15:47:56] evaluate -> results/aqfm_do3_nowind_s0_results.json: runs/main_s0_do3_nowind/best.pt
+PM2.5 {'1h': 15.8588, '6h': 27.6457, '24h': 35.1632, '72h': 39.7251}
+PM10 {'1h': 28.9703, '6h': 46.5376, '24h': 65.3664, '72h': 70.8634}
+saved results/aqfm_do3_nowind_s0_results.json
+[2026-10-15 16:02:09] train runs/main_s0_do3_pm25direct: --seed 0 --pm25-direct
+done. best val total=1.7228  (50.6 min)
+[2026-10-15 16:52:49] evaluate -> results/aqfm_do3_pm25direct_s0_results.json: runs/main_s0_do3_pm25direct/best.pt
+PM2.5 {'1h': 15.0551, '6h': 27.9752, '24h': 33.5176, '72h': 38.4825}
+PM10 {'1h': 29.0857, '6h': 47.3025, '24h': 60.3281, '72h': 67.1874}
+saved results/aqfm_do3_pm25direct_s0_results.json
+[2026-10-15 17:07:01] train runs/main_s0_do3_gapfillonly: --seed 0 --random-masking
+done. best val total=1.9092  (45.5 min)
+[2026-10-15 17:52:35] evaluate -> results/aqfm_do3_gapfillonly_s0_results.json: runs/main_s0_do3_gapfillonly/best.pt
+PM2.5 {'1h': 32.1682, '6h': 34.5585, '24h': 37.7737, '72h': 39.8226}
+PM10 {'1h': 61.2276, '6h': 57.7089, '24h': 72.5652, '72h': 75.8627}
+saved results/aqfm_do3_gapfillonly_s0_results.json
+[2026-10-15 18:06:48] train runs/main_s0_do3_noblh: --seed 0 --no-blh
+done. best val total=1.7438  (50.7 min)
+[2026-10-15 18:57:35] evaluate -> results/aqfm_do3_noblh_s0_results.json: runs/main_s0_do3_noblh/best.pt
+PM2.5 {'1h': 15.8918, '6h': 28.15, '24h': 32.8937, '72h': 39.8134}
+PM10 {'1h': 28.9767, '6h': 46.9769, '24h': 62.509, '72h': 72.3148}
+saved results/aqfm_do3_noblh_s0_results.json
+[2026-10-15 19:11:45] train runs/main_s1_do3_nofm: --seed 1 --no-future-met
+done. best val total=1.8015  (64.0 min)
+[2026-10-15 20:15:49] evaluate -> results/aqfm_do3_nofm_s1_results.json: runs/main_s1_do3_nofm/best.pt
+PM2.5 {'1h': 15.6911, '6h': 28.2565, '24h': 39.2494, '72h': 44.8979}
+PM10 {'1h': 28.5565, '6h': 46.1909, '24h': 74.5556, '72h': 84.981}
+saved results/aqfm_do3_nofm_s1_results.json
+[2026-10-15 20:30:00] train runs/main_s2_do3_nofm: --seed 2 --no-future-met
+done. best val total=1.8035  (50.8 min)
+[2026-10-15 21:20:54] evaluate -> results/aqfm_do3_nofm_s2_results.json: runs/main_s2_do3_nofm/best.pt
+PM2.5 {'1h': 15.8405, '6h': 28.2981, '24h': 38.9112, '72h': 43.5696}
+PM10 {'1h': 28.6136, '6h': 46.1352, '24h': 72.7514, '72h': 82.3999}
+saved results/aqfm_do3_nofm_s2_results.json
+PM2.5 1h 16.00±0.42 6h 28.33±0.10 24h 38.98±0.24 72h 43.77±1.04
+PM10 1h 28.63±0.08 6h 46.63±0.81 24h 73.54±0.92 72h 83.06±1.69
+saved results/aqfm_do3_nofm_seeds_stats.json
+[2026-10-15 21:35:05] evaluate -> results/aqfm_do3_nofm_ens3_results.json: runs/main_s0_do3_nofm/best.pt runs/main_s1_do3_nofm/best.pt runs/main_s2_do3_nofm/best.pt
+PM2.5 {'1h': 15.7679, '6h': 27.9697, '24h': 38.4098, '72h': 43.1968}
+PM10 {'1h': 28.4645, '6h': 46.024, '24h': 72.4892, '72h': 81.9821}
+saved results/aqfm_do3_nofm_ens3_results.json
+[2026-10-15 22:16:03] pipeline finished; failed: none

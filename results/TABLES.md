@@ -13,7 +13,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 16.25 | 28.06 | 33.97 | 38.74 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 16.09 | 28.11 | 32.46 | 36.37 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 15.91 | 28.22 | 33.24 | 38.00 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 15.77 | 27.97 | 38.41 | 43.20 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 16.00 ± 0.42 | 28.33 ± 0.10 | 38.98 ± 0.24 | 43.77 ± 1.04 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 16.47 | 28.45 | 38.77 | 42.84 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 15.69 | 28.26 | 39.25 | 44.90 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 15.84 | 28.30 | 38.91 | 43.57 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 16.06 | 28.79 | 34.45 | 39.60 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 32.64 | 33.22 | 35.05 | 38.91 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 33.61 | 33.75 | 35.85 | 38.83 | `results/aqfm_results.json` |
@@ -34,7 +38,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 35.59 | 46.94 | 57.91 | 66.10 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 34.04 | 47.77 | 55.78 | 63.16 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 34.08 | 46.69 | 57.43 | 64.66 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 34.15 | 47.82 | 63.98 | 71.56 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 34.37 ± 0.41 | 48.16 ± 0.59 | 64.89 ± 0.84 | 72.61 ± 1.51 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 34.81 | 48.13 | 64.23 | 71.46 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 34.30 | 48.76 | 65.84 | 74.33 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 34.00 | 47.59 | 64.60 | 72.04 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 35.37 | 47.30 | 58.59 | 67.77 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 56.62 | 54.50 | 59.97 | 66.98 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 58.14 | 55.17 | 61.10 | 66.35 | `results/aqfm_results.json` |
@@ -55,7 +63,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 29.80 | 47.01 | 62.87 | 69.67 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 29.27 | 46.29 | 59.97 | 65.75 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 29.17 | 46.31 | 60.29 | 67.10 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 28.46 | 46.02 | 72.49 | 81.98 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 28.63 ± 0.08 | 46.63 ± 0.81 | 73.54 ± 0.92 | 83.06 ± 1.69 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 28.72 | 47.56 | 73.32 | 81.80 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 28.56 | 46.19 | 74.56 | 84.98 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 28.61 | 46.14 | 72.75 | 82.40 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 29.37 | 48.25 | 63.56 | 70.99 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 61.19 | 54.39 | 64.49 | 69.45 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 62.83 | 55.96 | 65.72 | 69.53 | `results/aqfm_results.json` |
@@ -76,7 +88,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 51.42 | 70.57 | 89.81 | 99.80 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 49.46 | 71.29 | 86.64 | 95.71 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 49.51 | 70.65 | 87.22 | 95.93 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 48.78 | 70.58 | 103.41 | 114.82 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 48.93 ± 0.11 | 71.32 ± 0.49 | 105.22 ± 1.50 | 116.42 ± 2.42 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 48.92 | 71.78 | 104.12 | 114.56 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 48.83 | 71.35 | 106.92 | 119.16 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 49.05 | 70.81 | 104.61 | 115.53 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 50.92 | 71.72 | 90.91 | 102.34 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 90.52 | 81.55 | 93.15 | 101.38 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 92.27 | 81.97 | 93.95 | 100.54 | `results/aqfm_results.json` |
@@ -97,7 +113,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 14.5 | 14.5 | 21.8 | 32.4 | 48.0 | 91.0 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 13.1 | 13.1 | 22.5 | 31.2 | 43.4 | 91.4 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 11.7 | 14.3 | 23.5 | 31.2 | 45.4 | 92.2 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 17.1 | 17.1 | 24.1 | 37.2 | 51.9 | 104.9 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 17.3 ± 1.3 | 17.4 ± 0.4 | 24.7 ± 1.4 | 37.4 ± 1.6 | 53.1 ± 1.3 | 105.7 ± 1.2 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 16.9 | 17.8 | 24.8 | 36.2 | 51.7 | 107.1 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 16.2 | 17.0 | 25.9 | 39.2 | 54.3 | 104.8 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 18.8 | 17.4 | 23.2 | 36.8 | 53.3 | 105.2 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 15.2 | 14.8 | 21.9 | 32.2 | 49.3 | 91.1 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 14.7 | 14.8 | 23.8 | 32.2 | 46.8 | 98.6 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 16.1 | 14.7 | 22.7 | 33.8 | 48.5 | 100.8 | `results/aqfm_results.json` |
@@ -118,7 +138,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 12.32 | 20.46 | 25.00 | 28.40 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 12.19 | 20.32 | 23.76 | 26.49 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 12.10 | 20.34 | 24.42 | 27.52 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 11.98 | 20.52 | 27.96 | 31.60 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 12.12 ± 0.34 | 20.76 ± 0.09 | 28.31 ± 0.22 | 32.05 ± 0.67 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 12.50 | 20.81 | 28.05 | 31.45 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 11.84 | 20.66 | 28.46 | 32.77 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 12.02 | 20.81 | 28.41 | 31.93 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 12.18 | 20.90 | 25.36 | 28.98 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 23.74 | 24.07 | 25.69 | 28.60 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 24.43 | 24.45 | 26.20 | 28.55 | `results/aqfm_results.json` |
@@ -132,7 +156,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 0.928 | 0.921 | 0.906 | 0.901 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 0.928 | 0.913 | 0.907 | 0.899 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 0.941 | 0.910 | 0.874 | 0.869 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 0.936 | 0.917 | 0.912 | 0.925 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 0.932 ± 0.009 | 0.911 ± 0.011 | 0.905 ± 0.007 | 0.912 ± 0.007 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 0.939 | 0.911 | 0.912 | 0.920 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 0.921 | 0.901 | 0.899 | 0.905 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 0.935 | 0.922 | 0.904 | 0.912 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 0.928 | 0.914 | 0.907 | 0.898 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 0.876 | 0.856 | 0.870 | 0.859 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 0.891 | 0.878 | 0.887 | 0.882 | `results/aqfm_results.json` |
@@ -146,7 +174,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 0.961 | 0.957 | 0.949 | 0.948 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 0.961 | 0.953 | 0.944 | 0.941 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 0.969 | 0.954 | 0.925 | 0.922 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 0.966 | 0.954 | 0.953 | 0.961 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 0.964 ± 0.005 | 0.950 ± 0.009 | 0.950 ± 0.006 | 0.955 ± 0.003 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 0.968 | 0.952 | 0.956 | 0.958 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 0.958 | 0.941 | 0.945 | 0.951 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 0.966 | 0.957 | 0.948 | 0.955 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 0.963 | 0.954 | 0.949 | 0.944 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 0.932 | 0.917 | 0.919 | 0.916 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 0.939 | 0.931 | 0.932 | 0.934 | `results/aqfm_results.json` |
@@ -160,7 +192,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 22.04 | 33.90 | 45.56 | 50.51 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 21.64 | 33.28 | 43.37 | 47.37 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 21.62 | 33.31 | 43.78 | 48.34 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 21.04 | 33.43 | 52.14 | 59.08 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 21.21 ± 0.08 | 33.87 ± 0.53 | 52.79 ± 0.61 | 59.83 ± 1.30 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 21.30 | 34.48 | 52.49 | 58.94 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 21.13 | 33.49 | 53.50 | 61.32 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 21.20 | 33.63 | 52.39 | 59.24 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 21.75 | 34.80 | 46.13 | 51.40 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 44.15 | 39.23 | 46.77 | 50.56 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 45.21 | 39.96 | 47.52 | 50.39 | `results/aqfm_results.json` |
@@ -174,7 +210,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 0.884 | 0.889 | 0.886 | 0.885 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 0.877 | 0.883 | 0.884 | 0.873 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 0.903 | 0.884 | 0.844 | 0.831 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 0.897 | 0.901 | 0.895 | 0.901 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 0.890 ± 0.019 | 0.894 ± 0.025 | 0.885 ± 0.016 | 0.893 ± 0.015 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 0.906 | 0.890 | 0.901 | 0.907 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 0.869 | 0.871 | 0.869 | 0.877 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 0.896 | 0.920 | 0.885 | 0.894 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 0.880 | 0.877 | 0.883 | 0.884 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 0.830 | 0.826 | 0.833 | 0.818 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 0.846 | 0.852 | 0.852 | 0.851 | `results/aqfm_results.json` |
@@ -188,7 +228,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 0.935 | 0.944 | 0.940 | 0.940 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 0.933 | 0.938 | 0.936 | 0.928 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 0.946 | 0.936 | 0.908 | 0.896 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 0.945 | 0.947 | 0.941 | 0.951 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 0.942 ± 0.012 | 0.942 ± 0.015 | 0.938 ± 0.009 | 0.947 ± 0.008 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 0.952 | 0.940 | 0.947 | 0.953 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 0.929 | 0.928 | 0.929 | 0.938 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 0.945 | 0.958 | 0.937 | 0.949 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 0.934 | 0.935 | 0.939 | 0.934 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 0.900 | 0.895 | 0.901 | 0.888 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 0.913 | 0.916 | 0.914 | 0.915 | `results/aqfm_results.json` |
@@ -202,7 +246,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 0.681 | 0.741 | 0.710 | 0.653 | 0.719 | 0.685 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 0.731 | 0.713 | 0.722 | 0.689 | 0.660 | 0.674 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 0.729 | 0.732 | 0.731 | 0.681 | 0.709 | 0.695 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 0.640 | 0.642 | 0.641 | 0.594 | 0.578 | 0.586 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 0.636 ± 0.008 | 0.637 ± 0.021 | 0.636 ± 0.011 | 0.594 ± 0.005 | 0.570 ± 0.038 | 0.581 ± 0.021 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 0.640 | 0.613 | 0.626 | 0.595 | 0.529 | 0.560 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 0.641 | 0.653 | 0.647 | 0.598 | 0.605 | 0.602 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 0.626 | 0.643 | 0.635 | 0.588 | 0.576 | 0.582 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 0.657 | 0.751 | 0.701 | 0.648 | 0.732 | 0.687 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 0.705 | 0.662 | 0.683 | 0.667 | 0.611 | 0.638 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 0.685 | 0.632 | 0.657 | 0.645 | 0.599 | 0.621 | `results/aqfm_results.json` |
@@ -216,26 +264,69 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM seed 0 | 31.96 | 36.29 | 58.49 | 66.66 | `results/aqfm_do3_s0_results.json` |
 | AQFM seed 1 | 28.99 | 36.29 | 52.71 | 66.66 | `results/aqfm_do3_s1_results.json` |
 | AQFM seed 2 | 31.10 | 36.29 | 56.06 | 66.66 | `results/aqfm_do3_s2_results.json` |
+| AQFM no future met, ensemble (3 seeds) | 32.42 | 36.29 | 60.04 | 66.66 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM no future met, mean ± std (3 seeds) | 33.05 ± 0.37 | 36.29 ± 0.00 | 60.86 ± 1.66 | 66.66 ± 0.00 | `results/aqfm_do3_nofm_seeds_stats.json` |
 | AQFM no future met, seed 0 | 32.93 | 36.29 | 59.86 | 66.66 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM no future met, seed 1 | 33.46 | 36.29 | 62.78 | 66.66 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM no future met, seed 2 | 32.75 | 36.29 | 59.95 | 66.66 | `results/aqfm_do3_nofm_s2_results.json` |
 | AQFM dropout 0.1, seed 0 (2026-10-13) | 31.13 | 36.29 | 57.15 | 66.66 | `results/aqfm_anchor_s0_results.json` |
 | AQFM run 2: no anchor, wd 0.1, anneal | 30.25 | 36.29 | 55.96 | 66.66 | `results/aqfm_s0_wd_results.json` |
 | AQFM run 1: no anchor | 30.67 | 36.29 | 57.14 | 66.66 | `results/aqfm_results.json` |
 
 `linear` = linear interpolation across the same outages.
 
+## 2025 test: ablations (final recipe, seed 0, one change each)
+
+| model | PM2.5 1h | PM2.5 6h | PM2.5 24h | PM2.5 72h | PM2.5 Severe 24h | PM10 24h | CRPS 24h | 90% cov. 24h | F1 >250 24h | imputation PM2.5 | PM2.5 > PM10, forecasts | PM2.5 > PM10, data | source |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Full model (final setup), seed 0 | 16.25 | 28.06 | 33.97 | 38.74 | 91.0 | 62.87 | 25.00 | 0.906 | 0.710 | 31.96 | – | – | `results/aqfm_do3_s0_results.json` |
+| Full model, mean ± std over seeds 0/1/2 (seed noise) | 16.08 ± 0.17 | 28.13 ± 0.08 | 33.22 ± 0.76 | 37.70 ± 1.21 | 91.5 ± 0.6 | 61.05 ± 1.59 | 24.40 ± 0.62 | 0.896 ± 0.019 | 0.721 ± 0.011 | 30.69 ± 1.52 | – | – | `results/aqfm_do3_seeds_stats.json` |
+| E1: no future weather | 16.47 | 28.45 | 38.77 | 42.84 | 107.1 | 73.32 | 28.05 | 0.912 | 0.626 | 32.93 | – | – | `results/aqfm_do3_nofm_s0_results.json` |
+| E2: no boundary-layer height | 15.89 | 28.15 | 32.89 | 39.81 | 89.1 | 62.51 | 24.19 | 0.914 | 0.718 | 31.08 | – | – | `results/aqfm_do3_noblh_s0_results.json` |
+| E3: no spatial attention | 15.97 | 28.40 | 35.87 | 39.60 | 92.8 | 65.52 | 26.24 | 0.887 | 0.691 | 31.49 | – | – | `results/aqfm_do3_nospatial_s0_results.json` |
+| E3: spatial attention by distance only (no wind) | 15.86 | 27.65 | 35.16 | 39.73 | 94.4 | 65.37 | 25.95 | 0.899 | 0.703 | 32.50 | – | – | `results/aqfm_do3_nowind_s0_results.json` |
+| E4: PM2.5 predicted directly (not PM10 × fraction) | 15.06 | 27.98 | 33.52 | 38.48 | 94.2 | 60.33 | 24.70 | 0.881 | 0.711 | 30.09 | 0.0015 | 0.0012 | `results/aqfm_do3_pm25direct_s0_results.json` |
+| E5: trained on gap-filling only (no forecast targets) | 32.17 | 34.56 | 37.77 | 39.82 | 109.9 | 72.57 | 27.68 | 0.868 | 0.601 | 30.45 | – | – | `results/aqfm_do3_gapfillonly_s0_results.json` |
+| E7 reference: anchor, dropout 0.1, 12k-step schedule | 16.06 | 28.79 | 34.45 | 39.60 | 91.1 | 63.56 | 25.36 | 0.907 | 0.701 | 31.13 | – | – | `results/aqfm_anchor_s0_results.json` |
+| E7: no anchor (run 1: dropout 0.1, 45k-step schedule) | 33.61 | 33.75 | 35.85 | 38.83 | 100.8 | 65.72 | 26.20 | 0.887 | 0.657 | 30.67 | – | – | `results/aqfm_results.json` |
+
+MAE and CRPS in µg/m³. Compare each row with the first; the second row's std is how much a single seed moves each number. The E7 rows are older runs (PROJECT_CONTEXT.md §6): compare them with each other. PM2.5 > PM10: share of point forecasts with PM2.5 > PM10 (all windows and steps) and the same share in the observed data; models that predict PM10 × fraction cannot produce it (–).
+
+## 2025 test: ablations, change in PM2.5 MAE against the full model, seed 0 (µg/m³; positive = worse)
+
+| model | PM2.5 1h | PM2.5 6h | PM2.5 24h | PM2.5 72h | PM2.5 Severe 24h | source |
+|---|---|---|---|---|---|---|
+| Full model, mean ± std over seeds 0/1/2 (seed noise) | ± 0.17 | ± 0.08 | ± 0.76 | ± 1.21 | ± 0.6 | `results/aqfm_do3_seeds_stats.json` |
+| E1: no future weather | +0.22 | +0.39 | +4.80 | +4.10 | +16.1 | `results/aqfm_do3_nofm_s0_results.json` |
+| E2: no boundary-layer height | -0.36 | +0.09 | -1.08 | +1.08 | -1.9 | `results/aqfm_do3_noblh_s0_results.json` |
+| E3: no spatial attention | -0.28 | +0.34 | +1.90 | +0.87 | +1.8 | `results/aqfm_do3_nospatial_s0_results.json` |
+| E3: spatial attention by distance only (no wind) | -0.39 | -0.41 | +1.19 | +0.99 | +3.4 | `results/aqfm_do3_nowind_s0_results.json` |
+| E4: PM2.5 predicted directly (not PM10 × fraction) | -1.20 | -0.08 | -0.46 | -0.25 | +3.2 | `results/aqfm_do3_pm25direct_s0_results.json` |
+| E5: trained on gap-filling only (no forecast targets) | +15.91 | +6.50 | +3.80 | +1.09 | +18.9 | `results/aqfm_do3_gapfillonly_s0_results.json` |
+| E7: no anchor, against the E7 reference | +17.55 | +4.96 | +1.40 | -0.77 | +9.7 | `results/aqfm_results.json` |
+
+The seed-noise row gives the std over seeds 0/1/2 of the full model: a change smaller than about twice that std is not distinguishable from seed noise on a single seed.
+
 ## 2024 validation: best selection score per run (lower is better)
 
-| run | dropout | seed | best score | best step | validations | source |
-|---|---|---|---|---|---|---|
-| anneal_s0 | 0.1 | 0 | 1.8214 | 1000 | 8 | `runs/anneal_s0/log.jsonl` |
-| anneal_s0_wd | 0.1 | 0 | 1.8221 | 1000 | 4 | `runs/anneal_s0_wd/log.jsonl` |
-| main_s0 | 0.1 | 0 | 1.8185 | 5000 | 15 | `runs/main_s0/log.jsonl` |
-| main_s0_anchor | 0.1 | 0 | 1.7299 | 5000 | 12 | `runs/main_s0_anchor/log.jsonl` |
-| main_s0_do2 | 0.2 | 0 | 1.7306 | 5000 | 8 | `runs/main_s0_do2/log.jsonl` |
-| main_s0_do3 | 0.3 | 0 | 1.7299 | 5000 | 8 | `runs/main_s0_do3/log.jsonl` |
-| main_s0_do3_nofm | 0.3 | 0 | 1.7986 | 6000 | 9 | `runs/main_s0_do3_nofm/log.jsonl` |
-| main_s0_wd | 0.1 | 0 | 1.8229 | 5000 | 12 | `runs/main_s0_wd/log.jsonl` |
-| main_s1_do3 | 0.3 | 1 | 1.7290 | 5000 | 8 | `runs/main_s1_do3/log.jsonl` |
-| main_s2_do3 | 0.3 | 2 | 1.7255 | 6000 | 9 | `runs/main_s2_do3/log.jsonl` |
+| run | change | dropout | seed | best score | best step | validations | source |
+|---|---|---|---|---|---|---|---|
+| anneal_s0 | anneal, no anchor | 0.1 | 0 | 1.8214 | 1000 | 8 | `runs/anneal_s0/log.jsonl` |
+| anneal_s0_wd | anneal, no anchor, weight decay 0.1 | 0.1 | 0 | 1.8221 | 1000 | 4 | `runs/anneal_s0_wd/log.jsonl` |
+| main_s0 | no anchor, 45k-step schedule, patience 10 | 0.1 | 0 | 1.8185 | 5000 | 15 | `runs/main_s0/log.jsonl` |
+| main_s0_anchor | patience 10 | 0.1 | 0 | 1.7299 | 5000 | 12 | `runs/main_s0_anchor/log.jsonl` |
+| main_s0_do2 | – | 0.2 | 0 | 1.7306 | 5000 | 8 | `runs/main_s0_do2/log.jsonl` |
+| main_s0_do3 | – | 0.3 | 0 | 1.7299 | 5000 | 8 | `runs/main_s0_do3/log.jsonl` |
+| main_s0_do3_gapfillonly | gap-filling only | 0.3 | 0 | 1.9092 | 4000 | 7 | `runs/main_s0_do3_gapfillonly/log.jsonl` |
+| main_s0_do3_noblh | no BLH | 0.3 | 0 | 1.7438 | 5000 | 8 | `runs/main_s0_do3_noblh/log.jsonl` |
+| main_s0_do3_nofm | no future met | 0.3 | 0 | 1.7986 | 6000 | 9 | `runs/main_s0_do3_nofm/log.jsonl` |
+| main_s0_do3_nospatial | no spatial attention | 0.3 | 0 | 1.7252 | 5000 | 8 | `runs/main_s0_do3_nospatial/log.jsonl` |
+| main_s0_do3_nowind | distance-only spatial bias | 0.3 | 0 | 1.7193 | 5000 | 8 | `runs/main_s0_do3_nowind/log.jsonl` |
+| main_s0_do3_pm25direct | PM2.5 predicted directly | 0.3 | 0 | 1.7228 | 5000 | 8 | `runs/main_s0_do3_pm25direct/log.jsonl` |
+| main_s0_wd | no anchor, weight decay 0.1, patience 10 | 0.1 | 0 | 1.8229 | 5000 | 12 | `runs/main_s0_wd/log.jsonl` |
+| main_s1_do3 | – | 0.3 | 1 | 1.7290 | 5000 | 8 | `runs/main_s1_do3/log.jsonl` |
+| main_s1_do3_nofm | no future met | 0.3 | 1 | 1.8015 | 7000 | 10 | `runs/main_s1_do3_nofm/log.jsonl` |
+| main_s2_do3 | – | 0.3 | 2 | 1.7255 | 6000 | 9 | `runs/main_s2_do3/log.jsonl` |
+| main_s2_do3_nofm | no future met | 0.3 | 2 | 1.8035 | 5000 | 8 | `runs/main_s2_do3_nofm/log.jsonl` |
 
-Runs with fewer than 2 validations (short test launches) are left out.
+Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column.

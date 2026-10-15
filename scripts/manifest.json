@@ -79,6 +79,62 @@
       "sha256": "c36b765c980ca71369639350990c5b9eb9795ec008579eec7119ddbc1294dd8a",
       "code": "5cada92",
       "train": "python -m aqfm.train --phase anneal --init runs/main_s0_wd/best.pt --out runs/anneal_s0_wd --device cuda --batch-size 8 --steps 4000 --weight-decay 0.1 --seed 0"
+    },
+    "aqfm_do3_nospatial_s0": {
+      "what": "Ablation E3: no cross-station attention; final recipe otherwise; best at step 5000",
+      "path": "runs/main_s0_do3_nospatial/best.pt",
+      "drive": "models/aqfm_do3_nospatial_s0.pt",
+      "sha256": "22b7cbfdef6b3d0526bc32e5d2711f94641cae71f128e05f142412011690088c",
+      "code": "4b0c7d6",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_do3_nospatial --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0 --no-spatial"
+    },
+    "aqfm_do3_nowind_s0": {
+      "what": "Ablation E3: spatial attention by distance only (no wind); final recipe otherwise; best at step 5000",
+      "path": "runs/main_s0_do3_nowind/best.pt",
+      "drive": "models/aqfm_do3_nowind_s0.pt",
+      "sha256": "52f799561806503a1ad6a559b9f6bc9ada69dab6182bf4ce2bd8ae8837c2dff9",
+      "code": "4b0c7d6",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_do3_nowind --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0 --spatial-bias distance"
+    },
+    "aqfm_do3_pm25direct_s0": {
+      "what": "Ablation E4: PM2.5 predicted directly instead of PM10 x fraction; final recipe otherwise; best at step 5000",
+      "path": "runs/main_s0_do3_pm25direct/best.pt",
+      "drive": "models/aqfm_do3_pm25direct_s0.pt",
+      "sha256": "1c41378c9b1a7b539d1a04851eb4260da48dee73f08283c3eb2a0825a2a920be",
+      "code": "4b0c7d6",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_do3_pm25direct --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0 --pm25-direct"
+    },
+    "aqfm_do3_gapfillonly_s0": {
+      "what": "Ablation E5: trained on gap-filling only (block/channel masks, no forecast targets); final recipe otherwise; best at step 4000",
+      "path": "runs/main_s0_do3_gapfillonly/best.pt",
+      "drive": "models/aqfm_do3_gapfillonly_s0.pt",
+      "sha256": "c4f18c19679abf07028380c20a4bfdcab23f59cf2cfab8629c1cb0ad0dca9a82",
+      "code": "4b0c7d6",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_do3_gapfillonly --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0 --random-masking"
+    },
+    "aqfm_do3_noblh_s0": {
+      "what": "Ablation E2: no boundary-layer height (input channel and future met); final recipe otherwise; best at step 5000",
+      "path": "runs/main_s0_do3_noblh/best.pt",
+      "drive": "models/aqfm_do3_noblh_s0.pt",
+      "sha256": "9e561a69d541ad6d45a80c71c7140c693f21c9461ca24699c0b5ff2ecc9e0f7d",
+      "code": "4b0c7d6",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_do3_noblh --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0 --no-blh"
+    },
+    "aqfm_do3_nofm_s1": {
+      "what": "Final setup WITHOUT future weather, seed 1; final recipe otherwise; best at step 7000",
+      "path": "runs/main_s1_do3_nofm/best.pt",
+      "drive": "models/aqfm_do3_nofm_s1.pt",
+      "sha256": "cb262e52f43e44ef37827fe8be5998801ab5051122a214c7e7a634cbfbac4e82",
+      "code": "4b0c7d6",
+      "train": "python -m aqfm.train --phase main --out runs/main_s1_do3_nofm --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 1 --no-future-met"
+    },
+    "aqfm_do3_nofm_s2": {
+      "what": "Final setup WITHOUT future weather, seed 2; final recipe otherwise; best at step 5000",
+      "path": "runs/main_s2_do3_nofm/best.pt",
+      "drive": "models/aqfm_do3_nofm_s2.pt",
+      "sha256": "46156deb206c8d6691082c3e465c5b4716aabfaf6472cd21fe00f8afe9a62f50",
+      "code": "4b0c7d6",
+      "train": "python -m aqfm.train --phase main --out runs/main_s2_do3_nofm --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 2 --no-future-met"
     }
   },
 
@@ -147,6 +203,51 @@
       "what": "IBM TTM zero-shot (hourly-mean and 15-min scoring), 2025 test; downloads the pinned model revision",
       "models": [], "code": "63946a8", "minutes": 60, "cwd": "baselines",
       "run": "python run_baselines_ttm.py"
+    },
+    "results/aqfm_do3_nospatial_s0_results.json": {
+      "what": "Ablation E3 (no spatial attention), 2025 test",
+      "models": ["aqfm_do3_nospatial_s0"], "code": "4b0c7d6", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_nospatial/best.pt --out results/aqfm_do3_nospatial_s0_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_nowind_s0_results.json": {
+      "what": "Ablation E3 (distance-only spatial bias), 2025 test",
+      "models": ["aqfm_do3_nowind_s0"], "code": "4b0c7d6", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_nowind/best.pt --out results/aqfm_do3_nowind_s0_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_pm25direct_s0_results.json": {
+      "what": "Ablation E4 (PM2.5 predicted directly), 2025 test; includes the PM2.5 > PM10 share",
+      "models": ["aqfm_do3_pm25direct_s0"], "code": "a509c69", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_pm25direct/best.pt --out results/aqfm_do3_pm25direct_s0_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_gapfillonly_s0_results.json": {
+      "what": "Ablation E5 (gap-filling only), 2025 test",
+      "models": ["aqfm_do3_gapfillonly_s0"], "code": "4b0c7d6", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_gapfillonly/best.pt --out results/aqfm_do3_gapfillonly_s0_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_noblh_s0_results.json": {
+      "what": "Ablation E2 (no BLH), 2025 test",
+      "models": ["aqfm_do3_noblh_s0"], "code": "4b0c7d6", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_noblh/best.pt --out results/aqfm_do3_noblh_s0_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_nofm_s1_results.json": {
+      "what": "Final setup without future weather, seed 1, 2025 test",
+      "models": ["aqfm_do3_nofm_s1"], "code": "4b0c7d6", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s1_do3_nofm/best.pt --out results/aqfm_do3_nofm_s1_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_nofm_s2_results.json": {
+      "what": "Final setup without future weather, seed 2, 2025 test",
+      "models": ["aqfm_do3_nofm_s2"], "code": "4b0c7d6", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s2_do3_nofm/best.pt --out results/aqfm_do3_nofm_s2_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_nofm_ens3_results.json": {
+      "what": "Final setup without future weather, pooled 3-seed ensemble, 2025 test",
+      "models": ["aqfm_do3_nofm_s0", "aqfm_do3_nofm_s1", "aqfm_do3_nofm_s2"], "code": "4b0c7d6", "minutes": 40,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_nofm/best.pt runs/main_s1_do3_nofm/best.pt runs/main_s2_do3_nofm/best.pt --out results/aqfm_do3_nofm_ens3_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_nofm_seeds_stats.json": {
+      "what": "Mean and std (ddof=1) over seeds 0/1/2 of every metric, without future weather",
+      "models": [], "code": "4b0c7d6", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/aqfm_do3_nofm_seeds_stats.json results/aqfm_do3_nofm_s0_results.json results/aqfm_do3_nofm_s1_results.json results/aqfm_do3_nofm_s2_results.json"
     }
   }
 }
