@@ -1,0 +1,29 @@
+[2026-10-13 12:08:40] waiting for anneal_s0 (pid 11949)
+step=8000 lr=5e-07 gnorm=0.529 s_per_step=0.4554 nll_forecast=1.266 crps_forecast=0.5201 physical=0.3136 total=1.604
+  [val] step 8000: nll_forecast=1.5533 crps_forecast=0.6404 physical=0.3338 total=1.9570
+done. best val total=1.8214  (60.8 min)
+  candidate runs/main_s0/best.pt: step 5000 score 1.8185
+  candidate runs/anneal_s0/best.pt: step 1000 score 1.8214
+[2026-10-13 12:55:26] run 1 selected on validation: runs/main_s0/best.pt
+[2026-10-13 12:55:26] evaluate run 1
+PM2.5 {'1h': 33.6055, '6h': 33.7473, '24h': 35.8479, '72h': 38.8294}
+PM10 {'1h': 62.8273, '6h': 55.9634, '24h': 65.7239, '72h': 69.5296}
+saved results/aqfm_results.json
+[2026-10-13 13:09:46] run 2 main: --steps 12000 --weight-decay 0.1
+  [val] step 12000: nll_forecast=1.5878 crps_forecast=0.6439 physical=0.3364 total=1.9939
+done. best val total=1.8229  (100.1 min)
+[2026-10-13 14:49:55] run 2 anneal: 4000 steps from runs/main_s0_wd/best.pt
+  [val] step 4000: nll_forecast=1.5328 crps_forecast=0.6369 physical=0.3322 total=1.9343
+done. best val total=1.8221  (30.4 min)
+  candidate runs/main_s0_wd/best.pt: step 5000 score 1.8229
+  candidate runs/anneal_s0_wd/best.pt: step 1000 score 1.8221
+[2026-10-13 15:20:26] run 2 selected on validation: runs/anneal_s0_wd/best.pt
+[2026-10-13 15:20:26] evaluate run 2
+PM2.5 {'1h': 32.6433, '6h': 33.2161, '24h': 35.0548, '72h': 38.9059}
+PM10 {'1h': 61.1873, '6h': 54.3875, '24h': 64.4875, '72h': 69.4461}
+saved results/aqfm_s0_wd_results.json
+[2026-10-13 15:34:37] FINAL choice between runs (validation only):
+  candidate runs/main_s0/best.pt: step 5000 score 1.8185
+  candidate runs/anneal_s0_wd/best.pt: step 1000 score 1.8221
+runs/main_s0/best.pt
+[2026-10-13 15:34:38] pipeline finished

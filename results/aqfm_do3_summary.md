@@ -5,7 +5,7 @@
 patience 3 on the 2024 validation score (nll + 0.5·crps, forecast part), best checkpoint kept.
 Every choice below was made on **2024 validation only**; 2025 test numbers never selected anything.
 
-**Code added for this (uncommitted, 37 tests pass):**
+**Code added for this (commit 5f7a057; 37 tests passed then):**
 - `train.py --dropout P` (main phase only) and `--compile` (torch.compile with inductor
   `fallback_random=True`, so dropout draws match eager mode; 0.49 → 0.38 s/step; 300-step losses
   match eager to the 4th digit, the same as eager-vs-eager GPU nondeterminism).
@@ -18,7 +18,7 @@ Every choice below was made on **2024 validation only**; 2025 test numbers never
 `results/aqfm_do3_ens3_results.json` (ensemble), `results/aqfm_do3_nofm_s0_results.json`
 (no future met). 2025 test: 362 origins, 13,394 windows, median of 200 samples, sampling seed 0.
 **Runs:** `runs/main_s0_do2`, `runs/main_s0_do3`, `runs/main_s1_do3`, `runs/main_s2_do3`,
-`runs/main_s0_do3_nofm`; chain script `runs/pipeline.sh`, log `runs/pipeline_dropout.log`.
+`runs/main_s0_do3_nofm`; chain script `scripts/pipeline_2026-10-14.sh`, log `runs/pipeline_dropout.log`.
 
 ## Validation (2024): selection score nll + 0.5·crps (lower is better)
 

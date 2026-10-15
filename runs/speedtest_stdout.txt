@@ -1,0 +1,13 @@
+building data store (train_end=210336, test_start=245472) ...
+  era5 met NaN fraction after scaling: 0.0000%
+  outage LogNormal fit on train split (gaps >= 16 steps): mu=3.932 sigma=1.030 n=3033 median=12.8 h
+parameters: 23.79M   device=cuda  amp=torch.bfloat16
+step=1 lr=1.5e-07 gnorm=5.871 s_per_step=0.8894 nll_forecast=2.019 crps_forecast=0.7942 nll_impute=1.789 crps_impute=0.7438 physical=0.5105 total=2.538
+step=50 lr=7.5e-06 gnorm=1.012 s_per_step=0.4959 nll_forecast=1.629 crps_forecast=0.6692 nll_impute=1.612 crps_impute=0.648 physical=0.4776 total=2.082
+step=100 lr=1.5e-05 gnorm=0.3813 s_per_step=0.4937 nll_forecast=1.629 crps_forecast=0.6883 nll_impute=1.707 crps_impute=0.7434 physical=0.4329 total=2.084
+step=150 lr=2.25e-05 gnorm=0.5419 s_per_step=0.4933 nll_forecast=1.598 crps_forecast=0.6718 nll_impute=1.894 crps_impute=0.8785 physical=0.5126 total=2.078
+step=200 lr=3e-05 gnorm=0.7189 s_per_step=0.4934 nll_forecast=1.588 crps_forecast=0.6774 nll_impute=1.596 crps_impute=0.7001 physical=0.4123 total=2.03
+  [val] step 200: nll_forecast=1.6351 crps_forecast=0.7042 physical=0.3893 total=2.0846
+  [val] new best 1.9872 -> best.pt
+done. best val total=1.9872  (1.9 min)
+wall=116.24 s maxrss=5257384 KB

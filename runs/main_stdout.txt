@@ -1,0 +1,45 @@
+building data store (train_end=210336, test_start=245472) ...
+  era5 met NaN fraction after scaling: 0.0000%
+  outage LogNormal fit on train split (gaps >= 16 steps): mu=3.932 sigma=1.030 n=3033 median=12.8 h
+parameters: 23.79M   device=cuda  amp=torch.bfloat16
+step=1 lr=1.5e-07 gnorm=5.871 s_per_step=0.831 nll_forecast=2.019 crps_forecast=0.7942 nll_impute=1.789 crps_impute=0.7438 physical=0.5105 total=2.538
+step=50 lr=7.5e-06 gnorm=1.012 s_per_step=0.6246 nll_forecast=1.629 crps_forecast=0.6692 nll_impute=1.612 crps_impute=0.648 physical=0.4776 total=2.082
+step=100 lr=1.5e-05 gnorm=0.3811 s_per_step=0.6017 nll_forecast=1.629 crps_forecast=0.6883 nll_impute=1.707 crps_impute=0.7434 physical=0.4329 total=2.084
+step=150 lr=2.25e-05 gnorm=0.5423 s_per_step=0.5622 nll_forecast=1.598 crps_forecast=0.6718 nll_impute=1.894 crps_impute=0.8785 physical=0.5126 total=2.078
+step=200 lr=3e-05 gnorm=0.7195 s_per_step=0.5424 nll_forecast=1.588 crps_forecast=0.6774 nll_impute=1.596 crps_impute=0.7001 physical=0.4123 total=2.03
+step=250 lr=3.75e-05 gnorm=1.234 s_per_step=0.5306 nll_forecast=1.654 crps_forecast=0.7184 nll_impute=1.722 crps_impute=0.7761 physical=0.4523 total=2.129
+step=300 lr=4.5e-05 gnorm=1.634 s_per_step=0.5228 nll_forecast=1.557 crps_forecast=0.6613 nll_impute=1.746 crps_impute=0.7605 physical=0.4082 total=2
+step=350 lr=5.25e-05 gnorm=0.5855 s_per_step=0.519 nll_forecast=1.519 crps_forecast=0.6303 nll_impute=1.678 crps_impute=0.7407 physical=0.4041 total=1.942
+step=400 lr=6e-05 gnorm=2.915 s_per_step=0.5155 nll_forecast=1.854 crps_forecast=0.8591 nll_impute=1.446 crps_impute=0.578 physical=0.4379 total=2.356
+step=450 lr=6.75e-05 gnorm=0.5932 s_per_step=0.5132 nll_forecast=1.501 crps_forecast=0.6268 nll_impute=2.019 crps_impute=0.9701 physical=0.4005 total=1.943
+step=500 lr=7.5e-05 gnorm=1.01 s_per_step=0.5112 nll_forecast=1.639 crps_forecast=0.7344 nll_impute=1.451 crps_impute=0.5726 physical=0.4081 total=2.093
+step=550 lr=8.25e-05 gnorm=1.001 s_per_step=0.5096 nll_forecast=1.514 crps_forecast=0.627 nll_impute=1.491 crps_impute=0.603 physical=0.3943 total=1.925
+step=600 lr=9e-05 gnorm=0.609 s_per_step=0.5081 nll_forecast=1.588 crps_forecast=0.6811 nll_impute=1.545 crps_impute=0.6253 physical=0.3939 total=2.025
+step=650 lr=9.75e-05 gnorm=0.6232 s_per_step=0.5066 nll_forecast=1.524 crps_forecast=0.6392 nll_impute=1.324 crps_impute=0.4908 physical=0.3605 total=1.923
+step=700 lr=0.000105 gnorm=0.7289 s_per_step=0.5053 nll_forecast=1.536 crps_forecast=0.654 nll_impute=1.449 crps_impute=0.5788 physical=0.4016 total=1.958
+step=750 lr=0.0001125 gnorm=0.9804 s_per_step=0.5049 nll_forecast=1.457 crps_forecast=0.5904 nll_impute=1.522 crps_impute=0.6233 physical=0.3648 total=1.845
+step=800 lr=0.00012 gnorm=0.4069 s_per_step=0.5043 nll_forecast=1.574 crps_forecast=0.7009 nll_impute=1.726 crps_impute=0.8064 physical=0.4025 total=2.034
+step=850 lr=0.0001275 gnorm=0.6905 s_per_step=0.5032 nll_forecast=1.431 crps_forecast=0.5864 nll_impute=1.359 crps_impute=0.527 physical=0.3824 total=1.815
+step=900 lr=0.000135 gnorm=0.5867 s_per_step=0.5029 nll_forecast=1.528 crps_forecast=0.6416 nll_impute=1.582 crps_impute=0.6736 physical=0.3832 total=1.946
+step=950 lr=0.0001425 gnorm=0.687 s_per_step=0.502 nll_forecast=1.535 crps_forecast=0.6622 nll_impute=1.415 crps_impute=0.5711 physical=0.3875 total=1.957
+step=1000 lr=0.00015 gnorm=0.6647 s_per_step=0.5012 nll_forecast=1.451 crps_forecast=0.6051 nll_impute=1.332 crps_impute=0.5342 physical=0.4054 total=1.853
+  [val] step 1000: nll_forecast=1.5424 crps_forecast=0.6543 physical=0.3607 total=1.9597
+  [val] new best 1.8696 -> best.pt
+step=1050 lr=0.0001575 gnorm=0.8823 s_per_step=0.5079 nll_forecast=1.62 crps_forecast=0.7232 nll_impute=1.893 crps_impute=0.8985 physical=0.4346 total=2.095
+step=1100 lr=0.000165 gnorm=0.5022 s_per_step=0.5069 nll_forecast=1.49 crps_forecast=0.6127 nll_impute=1.616 crps_impute=0.7126 physical=0.3677 total=1.897
+step=1150 lr=0.0001725 gnorm=0.7342 s_per_step=0.5061 nll_forecast=1.517 crps_forecast=0.6533 nll_impute=1.364 crps_impute=0.5308 physical=0.3989 total=1.937
+step=1200 lr=0.00018 gnorm=0.8975 s_per_step=0.5052 nll_forecast=1.467 crps_forecast=0.637 nll_impute=1.493 crps_impute=0.6126 physical=0.3879 total=1.883
+step=1250 lr=0.0001875 gnorm=0.6442 s_per_step=0.5048 nll_forecast=1.444 crps_forecast=0.6156 nll_impute=1.506 crps_impute=0.6223 physical=0.3729 total=1.848
+step=1300 lr=0.000195 gnorm=0.5981 s_per_step=0.5045 nll_forecast=1.44 crps_forecast=0.5976 nll_impute=1.188 crps_impute=0.4377 physical=0.3787 total=1.825
+step=1350 lr=0.0002025 gnorm=0.9779 s_per_step=0.5041 nll_forecast=1.584 crps_forecast=0.6881 nll_impute=1.937 crps_impute=0.9909 physical=0.3659 total=2.031
+step=1400 lr=0.00021 gnorm=0.5255 s_per_step=0.5038 nll_forecast=1.452 crps_forecast=0.6007 nll_impute=1.376 crps_impute=0.551 physical=0.3614 total=1.841
+step=1450 lr=0.0002175 gnorm=0.7093 s_per_step=0.5032 nll_forecast=1.439 crps_forecast=0.5852 nll_impute=1.205 crps_impute=0.4515 physical=0.3691 total=1.814
+step=1500 lr=0.000225 gnorm=0.4937 s_per_step=0.5025 nll_forecast=1.496 crps_forecast=0.6272 nll_impute=1.398 crps_impute=0.5526 physical=0.3626 total=1.898
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/phalak/aqfm/AQFM-Honors/aqfm/train.py", line 236, in <module>
+    main()
+  File "/home/phalak/aqfm/AQFM-Honors/aqfm/train.py", line 204, in main
+    raise FloatingPointError(f"non-finite loss at step {i}: {parts}")
+FloatingPointError: non-finite loss at step 1547: {'nll_forecast': 1.3567789793014526, 'crps_forecast': 0.556182324886322, 'nll_impute': 1.216564416885376, 'crps_impute': 0.47276240587234497, 'physical': nan, 'total': nan}

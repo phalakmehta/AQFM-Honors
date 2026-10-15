@@ -1,0 +1,38 @@
+[2026-10-14 11:06:08] train runs/main_s0_do2: --dropout 0.2 --seed 0
+done. best val total=1.7306  (51.5 min)
+[2026-10-14 11:57:45] train runs/main_s0_do3: --dropout 0.3 --seed 0
+done. best val total=1.7299  (51.5 min)
+  candidate runs/main_s0_anchor/best.pt: step 5000 dropout 0.1 score 1.7299
+  candidate runs/main_s0_do2/best.pt: step 5000 dropout 0.2 score 1.7306
+  candidate runs/main_s0_do3/best.pt: step 5000 dropout 0.3 score 1.7299
+[2026-10-14 12:49:21] final setup chosen on validation: dropout 0.3 (runs/main_s0_do3/best.pt)
+[2026-10-14 12:49:21] train runs/main_s1_do3: --dropout 0.3 --seed 1
+done. best val total=1.7290  (51.3 min)
+[2026-10-14 13:40:43] train runs/main_s2_do3: --dropout 0.3 --seed 2
+done. best val total=1.7255  (57.6 min)
+[2026-10-14 14:38:24] evaluate -> results/aqfm_do3_s0_results.json: runs/main_s0_do3/best.pt
+PM2.5 {'1h': 16.2537, '6h': 28.0592, '24h': 33.9727, '72h': 38.7375}
+PM10 {'1h': 29.8013, '6h': 47.0107, '24h': 62.8703, '72h': 69.6694}
+saved results/aqfm_do3_s0_results.json
+[2026-10-14 14:52:42] evaluate -> results/aqfm_do3_s1_results.json: runs/main_s1_do3/best.pt
+PM2.5 {'1h': 16.0927, '6h': 28.1068, '24h': 32.457, '72h': 36.3699}
+PM10 {'1h': 29.2727, '6h': 46.2885, '24h': 59.9749, '72h': 65.7477}
+saved results/aqfm_do3_s1_results.json
+[2026-10-14 15:07:11] evaluate -> results/aqfm_do3_s2_results.json: runs/main_s2_do3/best.pt
+PM2.5 {'1h': 15.9054, '6h': 28.2153, '24h': 33.2437, '72h': 38.0021}
+PM10 {'1h': 29.1675, '6h': 46.3094, '24h': 60.2921, '72h': 67.0983}
+saved results/aqfm_do3_s2_results.json
+PM2.5 1h 16.08±0.17 6h 28.13±0.08 24h 33.22±0.76 72h 37.70±1.21
+PM10 1h 29.41±0.34 6h 46.54±0.41 24h 61.05±1.59 72h 67.51±1.99
+saved results/aqfm_do3_seeds_stats.json
+[2026-10-14 15:21:29] evaluate -> results/aqfm_do3_ens3_results.json: runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt
+PM2.5 {'1h': 15.7079, '6h': 27.5372, '24h': 32.0408, '72h': 36.5099}
+PM10 {'1h': 28.8785, '6h': 45.5037, '24h': 58.7756, '72h': 64.9315}
+saved results/aqfm_do3_ens3_results.json
+[2026-10-14 16:02:21] train runs/main_s0_do3_nofm: --no-future-met --dropout 0.3 --seed 0
+done. best val total=1.7986  (58.0 min)
+[2026-10-14 17:00:26] evaluate -> results/aqfm_do3_nofm_s0_results.json: runs/main_s0_do3_nofm/best.pt
+PM2.5 {'1h': 16.4737, '6h': 28.4455, '24h': 38.7735, '72h': 42.8382}
+PM10 {'1h': 28.717, '6h': 47.5642, '24h': 73.3198, '72h': 81.8008}
+saved results/aqfm_do3_nofm_s0_results.json
+[2026-10-14 17:14:34] pipeline finished

@@ -22,4 +22,11 @@ Thumbs.db
 
 # Superseded material
 _archive_old/
-runs/
+
+# Trained models are too large for git: they stay in runs/ and on Google Drive (see scripts/manifest.json).
+# Everything else in runs/ (settings, training logs) is tracked.
+runs/**/*.pt
+runs/pipeline.sh
+runs/seed_stats.py
+# output of scripts/check_submission.py --reproduce
+reproduce_out/

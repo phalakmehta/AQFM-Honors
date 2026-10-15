@@ -1,0 +1,49 @@
+building data store (train_end=210336, test_start=245472) ...
+  era5 met NaN fraction after scaling: 0.0000%
+  outage LogNormal fit on train split (gaps >= 16 steps): mu=3.932 sigma=1.030 n=3033 median=12.8 h
+parameters: 0.31M   device=cuda  amp=torch.bfloat16
+step=1 lr=1.5e-07 gnorm=1.162 s_per_step=0.389 nll_forecast=1.959 crps_forecast=0.8167 nll_impute=1.716 crps_impute=0.7061 physical=0.5763 total=2.484
+step=50 lr=7.5e-06 gnorm=1.763 s_per_step=0.02546 nll_forecast=2.064 crps_forecast=0.8994 nll_impute=2.32 crps_impute=0.9602 physical=0.4849 total=2.69
+step=100 lr=1.5e-05 gnorm=0.6524 s_per_step=0.02186 nll_forecast=1.791 crps_forecast=0.7452 nll_impute=1.652 crps_impute=0.6675 physical=0.4821 total=2.263
+  [val] step 100: nll_forecast=1.9264 crps_forecast=0.8111 physical=0.4162 total=2.4360
+  [val] new best 2.3320 -> best.pt
+step=150 lr=2.25e-05 gnorm=1.115 s_per_step=0.024 nll_forecast=1.797 crps_forecast=0.7398 nll_impute=1.597 crps_impute=0.6325 physical=0.5434 total=2.265
+step=200 lr=3e-05 gnorm=0.4799 s_per_step=0.02235 nll_forecast=1.783 crps_forecast=0.7758 nll_impute=2.338 crps_impute=1.121 physical=0.4225 total=2.404
+  [val] step 200: nll_forecast=1.8377 crps_forecast=0.7935 physical=0.4046 total=2.3356
+  [val] new best 2.2344 -> best.pt
+step=250 lr=3.75e-05 gnorm=0.2799 s_per_step=0.02329 nll_forecast=1.815 crps_forecast=0.8119 nll_impute=1.903 crps_impute=0.868 physical=0.4905 total=2.354
+step=300 lr=4.5e-05 gnorm=0.3254 s_per_step=0.02275 nll_forecast=1.915 crps_forecast=0.8776 nll_impute=1.877 crps_impute=0.8604 physical=0.5202 total=2.478
+  [val] step 300: nll_forecast=1.7918 crps_forecast=0.7827 physical=0.3981 total=2.2827
+  [val] new best 2.1832 -> best.pt
+step=350 lr=5.25e-05 gnorm=0.2659 s_per_step=0.02352 nll_forecast=1.819 crps_forecast=0.8237 nll_impute=2.286 crps_impute=1.245 physical=0.4353 total=2.405
+step=400 lr=6e-05 gnorm=0.1748 s_per_step=0.02284 nll_forecast=1.865 crps_forecast=0.8775 nll_impute=1.698 crps_impute=0.7439 physical=0.4557 total=2.372
+  [val] step 400: nll_forecast=1.7654 crps_forecast=0.7774 physical=0.3950 total=2.2529
+  [val] new best 2.1541 -> best.pt
+step=450 lr=6.75e-05 gnorm=0.2938 s_per_step=0.02313 nll_forecast=1.704 crps_forecast=0.7402 nll_impute=1.51 crps_impute=0.5783 physical=0.4169 total=2.146
+step=500 lr=7.5e-05 gnorm=0.2541 s_per_step=0.02257 nll_forecast=1.698 crps_forecast=0.7533 nll_impute=1.854 crps_impute=0.8886 physical=0.4056 total=2.213
+  [val] step 500: nll_forecast=1.7483 crps_forecast=0.7753 physical=0.3932 total=2.2343
+  [val] new best 2.1360 -> best.pt
+done. best val total=2.1360  (0.2 min)
+	Command being timed: "../.venv/bin/python -m aqfm.train --small --steps 500 --val-every 100 --out runs/sanity"
+	User time (seconds): 85.12
+	System time (seconds): 1.62
+	Percent of CPU this job got: 550%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:15.76
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 5257212
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 806959
+	Voluntary context switches: 14586
+	Involuntary context switches: 2923
+	Swaps: 0
+	File system inputs: 80
+	File system outputs: 24920
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,152 @@
+{
+  "about": "Every input, model and result the paper relies on: where it lives, its checksum, and the exact command that makes it. Commands run from the repo root (baselines: from baselines/). 'code' is the git commit that produced the item. Checked by scripts/check_submission.py; explained in SUBMISSION.md.",
+
+  "data": {
+    "where": "Google Drive: Foundation Model(Mainak Sir)/preproccesed -> data/preprocessed/ (not in git: too large). Raw inputs: Drive yearly_data.zip and ERA 5/; pipeline code in data_pipeline/.",
+    "sha256": {
+      "data/preprocessed/coords.npy": "a1daabd187d30f308c77fa24eaaf9b4b228eacb28c7b4c4b58861660832888d6",
+      "data/preprocessed/era5_met.npy": "13fdf7f524ed8b65210b2bf9a0bfa85b6e618902b89dc5581efa25763523002f",
+      "data/preprocessed/observed.npy": "db601839ad5e987c478d73505f78fef05529a65fe7e484bd7c2070d062f52fcb",
+      "data/preprocessed/preprocessing_report.json": "28721ef0d90db66b18524a4c83efb449612fd5c4d02e0a36e1011766ca390ad8",
+      "data/preprocessed/static.npy": "83168737afeef0683c776ae8304c9d264f7706771647f8f0d17d8cfd4605122d",
+      "data/preprocessed/timestamps_h.npy": "fe44f865f76eb1bf5a15005951e15513bd0f750ad7b2625dfc530114ed478e76",
+      "data/preprocessed/values.npy": "b7b0173af7d1dc97005a922ccbca279bbbddcdd6d46786ec5057e9cd189baaae",
+      "data/stations.csv": "9b1efec7286c783c6e57fb1d47bfad729a6f52d4fb545db204b1df14de930fa8"
+    }
+  },
+
+  "models": {
+    "aqfm_do3_s0": {
+      "what": "Final setup (anchor, dropout 0.3), seed 0; best at step 5000",
+      "path": "runs/main_s0_do3/best.pt",
+      "drive": "models/aqfm_do3_s0.pt",
+      "sha256": "1ecbf089b909a9caa8603e89e4398ca627f65ec12890d3f362373f7fbc18f409",
+      "code": "5f7a057",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_do3 --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0"
+    },
+    "aqfm_do3_s1": {
+      "what": "Final setup, seed 1; best at step 5000",
+      "path": "runs/main_s1_do3/best.pt",
+      "drive": "models/aqfm_do3_s1.pt",
+      "sha256": "9be05f29ac1a980f140e62784141b37fa4c7417ae76f2615131d12eb5c3c3509",
+      "code": "5f7a057",
+      "train": "python -m aqfm.train --phase main --out runs/main_s1_do3 --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 1"
+    },
+    "aqfm_do3_s2": {
+      "what": "Final setup, seed 2; best at step 6000",
+      "path": "runs/main_s2_do3/best.pt",
+      "drive": "models/aqfm_do3_s2.pt",
+      "sha256": "6059dd09b7621726fe50daaacf43dbf31aaf9b1973ecf626f905148a98d8d584",
+      "code": "5f7a057",
+      "train": "python -m aqfm.train --phase main --out runs/main_s2_do3 --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 2"
+    },
+    "aqfm_do3_nofm_s0": {
+      "what": "Final setup WITHOUT future weather (oracle-gap ablation), seed 0; best at step 6000",
+      "path": "runs/main_s0_do3_nofm/best.pt",
+      "drive": "models/aqfm_do3_nofm_s0.pt",
+      "sha256": "672c8b5db5d38b6793666506b2bb2a91ab87dea48f09e470e3191448e2dc2873",
+      "code": "5f7a057",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_do3_nofm --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0 --no-future-met"
+    },
+    "aqfm_anchor_do1_s0": {
+      "what": "Anchor run, dropout 0.1, seed 0 (2026-10-13); best at step 5000",
+      "path": "runs/main_s0_anchor/best.pt",
+      "drive": "models/aqfm_anchor_do1_s0.pt",
+      "sha256": "c1a03a9b5dc3271b25608dbbb5308f211135db834a422eee6db7bd47809ec600",
+      "code": "df590e1",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_anchor --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --seed 0"
+    },
+    "aqfm_run1_s0": {
+      "what": "Run 1: no anchor (code before the anchor existed), seed 0 (2026-10-12/13)",
+      "path": "runs/main_s0/best.pt",
+      "drive": "models/aqfm_run1_s0.pt",
+      "sha256": "adb6bca77b18b483356423e50d5e02ceeeafae976dc23a08520c33e6420d76f0",
+      "code": "5cada92",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0 --device cuda --batch-size 8 --steps 45000 --weight-decay 0.05 --seed 0"
+    },
+    "aqfm_run2_wd_main_s0": {
+      "what": "Run 2 main phase: no anchor, weight decay 0.1, seed 0. Only needed to retrain aqfm_run2_wd_anneal_s0 (no result uses it directly)",
+      "path": "runs/main_s0_wd/best.pt",
+      "drive": null,
+      "sha256": "2efdc48b3f31cf5b667bf4aab8ff3f98d20562f3d0fd5e4df5c717d13b77911f",
+      "code": "5cada92",
+      "train": "python -m aqfm.train --phase main --out runs/main_s0_wd --device cuda --batch-size 8 --steps 12000 --weight-decay 0.1 --seed 0"
+    },
+    "aqfm_run2_wd_anneal_s0": {
+      "what": "Run 2 after the forecast anneal (starts from aqfm_run2_wd_main_s0)",
+      "path": "runs/anneal_s0_wd/best.pt",
+      "drive": "models/aqfm_run2_wd_anneal_s0.pt",
+      "sha256": "c36b765c980ca71369639350990c5b9eb9795ec008579eec7119ddbc1294dd8a",
+      "code": "5cada92",
+      "train": "python -m aqfm.train --phase anneal --init runs/main_s0_wd/best.pt --out runs/anneal_s0_wd --device cuda --batch-size 8 --steps 4000 --weight-decay 0.1 --seed 0"
+    }
+  },
+
+  "results": {
+    "results/aqfm_do3_s0_results.json": {
+      "what": "Final setup, seed 0, 2025 test",
+      "models": ["aqfm_do3_s0"], "code": "5f7a057", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3/best.pt --out results/aqfm_do3_s0_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_s1_results.json": {
+      "what": "Final setup, seed 1, 2025 test",
+      "models": ["aqfm_do3_s1"], "code": "5f7a057", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s1_do3/best.pt --out results/aqfm_do3_s1_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_s2_results.json": {
+      "what": "Final setup, seed 2, 2025 test",
+      "models": ["aqfm_do3_s2"], "code": "5f7a057", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s2_do3/best.pt --out results/aqfm_do3_s2_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_seeds_stats.json": {
+      "what": "Mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "5f7a057", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/aqfm_do3_seeds_stats.json results/aqfm_do3_s0_results.json results/aqfm_do3_s1_results.json results/aqfm_do3_s2_results.json"
+    },
+    "results/aqfm_do3_ens3_results.json": {
+      "what": "Final setup, pooled 3-seed ensemble, 2025 test (headline result)",
+      "models": ["aqfm_do3_s0", "aqfm_do3_s1", "aqfm_do3_s2"], "code": "5f7a057", "minutes": 40,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt --out results/aqfm_do3_ens3_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_do3_nofm_s0_results.json": {
+      "what": "Final setup without future weather, seed 0, 2025 test",
+      "models": ["aqfm_do3_nofm_s0"], "code": "5f7a057", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_nofm/best.pt --out results/aqfm_do3_nofm_s0_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_anchor_s0_results.json": {
+      "what": "Anchor run (dropout 0.1), seed 0, 2025 test. Originally evaluated from best_step5000.pt, a byte-identical copy of best.pt",
+      "models": ["aqfm_anchor_do1_s0"], "code": "df590e1", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0_anchor/best.pt --out results/aqfm_anchor_s0_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_results.json": {
+      "what": "Run 1 (no anchor), seed 0, 2025 test",
+      "models": ["aqfm_run1_s0"], "code": "5cada92", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/main_s0/best.pt --out results/aqfm_results.json --device cuda --seed 0"
+    },
+    "results/aqfm_s0_wd_results.json": {
+      "what": "Run 2 (no anchor, weight decay 0.1, after anneal), seed 0, 2025 test",
+      "models": ["aqfm_run2_wd_anneal_s0"], "code": "5cada92", "minutes": 14,
+      "run": "python -m aqfm.evaluate --ckpt runs/anneal_s0_wd/best.pt --out results/aqfm_s0_wd_results.json --device cuda --seed 0"
+    },
+    "baselines/results/classical_results.json": {
+      "what": "Persistence, seasonal naive, climatology, 2025 test",
+      "models": [], "code": "63946a8", "minutes": 5, "cwd": "baselines",
+      "run": "python run_baselines_classical.py"
+    },
+    "baselines/results/xgboost_results.json": {
+      "what": "XGBoost with past data only, 2025 test",
+      "models": [], "code": "63946a8", "minutes": 60, "cwd": "baselines",
+      "run": "python run_baselines_xgboost.py"
+    },
+    "baselines/results/xgboost_future_met_results.json": {
+      "what": "XGBoost + ERA5 weather at the target time (the fair bar for AQFM), 2025 test",
+      "models": [], "code": "63946a8", "minutes": 60, "cwd": "baselines",
+      "run": "python run_baselines_xgboost.py --future-met"
+    },
+    "baselines/results/ttm_results.json": {
+      "what": "IBM TTM zero-shot (hourly-mean and 15-min scoring), 2025 test; downloads the pinned model revision",
+      "models": [], "code": "63946a8", "minutes": 60, "cwd": "baselines",
+      "run": "python run_baselines_ttm.py"
+    }
+  }
+}

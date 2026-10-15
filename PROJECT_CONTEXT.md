@@ -3,7 +3,7 @@
 > Read this first. It tells you what the project is, what state each part is in, which bugs were found and fixed on 2026-10-08, and what remains to be done (**§6 is the roadmap**).
 > Older docs (`_archive_old/project_handoff.md`, `_archive_old/preprocessing_result_aqfm`, the presentation PDF) contain **numbers and claims that are now stale**. Where they disagree with this file, this file wins.
 
-## Status at a glance (last updated 2026-10-14, 17:45 IST)
+## Status at a glance (last updated 2026-10-15)
 
 | Area | State |
 |---|---|
@@ -11,9 +11,10 @@
 | ERA5 download 2017-12→2020-12 | ✅ complete, 37/37 months |
 | `data/preprocessed/` arrays on disk | ✅ **rebuilt and verified** — (37, 18, 280512) + `era5_met.npy`, all gates passed |
 | Baselines | ✅ **re-run on the rebuilt data** — see §4. New bar: **XGBoost PM2.5 @24 h = 38.63** |
-| Model `aqfm/` | ✅ built, 37 tests pass, mutation-checked; latest-value anchor added 2026-10-13 (§7.3 item 9) |
+| Model `aqfm/` | ✅ built, 45 tests pass, mutation-checked; latest-value anchor added 2026-10-13 (§7.3 item 9) |
 | Training / evaluation runs | ✅ **final setup trained and evaluated** on an RTX 4000 Ada: dropout 0.3, 3 seeds + pooled ensemble, no-future-met — **§4b** |
-| Ablations / competitors / paper | ⬜ E1 (oracle gap) done; E2–E7, F, G not started (§6; §9, §10) |
+| Reproducibility | ✅ `scripts/manifest.json` (every model and result with its command, commit and sha256), `scripts/check_submission.py` (one-command check), `results/TABLES.md` (all tables, generated), **`SUBMISSION.md`** (what the paper needs, where it lives, status) — §8 |
+| Ablations / competitors / paper | 🔄 E1 and E7 done; E2–E5 + no-future-met seeds 1/2 running overnight from 2026-10-15 (`scripts/pipeline_2026-10-15_ablations.sh`); F, G not started (§6; §9, §10) |
 
 **Are we on track?** Yes. AQFM is trained and evaluated (§4b; full tables in `results/aqfm_do3_summary.md`). The 3-seed ensemble beats XGBoost + future ERA5 on PM2.5 at 1/6/24 h (24 h: **32.04 vs 33.65**), ties at 72 h (36.51 vs 36.45), is best in the Severe band (89.0 vs 93.4) and is well calibrated; single models (mean ± std over 3 seeds) win at 1/6 h and tie at 24 h. Next milestones: the remaining ablations (§6 Stage E), at least one deep competitor (Stage F), then the write-up (Stage G).
 
@@ -55,8 +56,12 @@ Key design references: `files_AqFM/aqfm_design.tex` (full spec), `docs/aqfm_impl
 | `data_pipeline/interpolate_era5_to_stations.py` | Bilinear to stations, hourly → 15 min → `data/era5_interpolated.parquet` | **fixed** (§3 D1) |
 | `data_pipeline/generate_stations_csv.py` | Geocodes station names (Nominatim) → `data/stations.csv` | ok (one-off; coordinates are geocoded, not official) |
 | `data_pipeline/preprocess_aqfm.py` | CPCB + ERA5 → `data/preprocessed/{values,observed}.npy (37,18,280512)` (17 CPCB channels + **BLH** as channel 17), **`era5_met.npy (37,8,280512)`** (pure ERA5, IST: AT, RH, U, V, SR, BP, TOT_RF, BLH; NaN = missing), `timestamps_h.npy`, `coords.npy`, `static.npy (37,4)`, `preprocessing_report.json` | **fixed** (§3 D2, D3), BLH + era5_met added. Re-run and verified 2026-10-08 (§6 Stage A) |
-| `aqfm/` | **The model (new).** See §7 | built and tested, not yet trained |
-| `tests/test_aqfm.py` | 31 tests for `aqfm/` (`python -m pytest tests -q`) | all pass |
+| `aqfm/` | **The model (new).** See §7 | trained and evaluated (§4b) |
+| `tests/test_aqfm.py` | 45 tests for `aqfm/` (`python -m pytest tests -q`) | all pass |
+| `scripts/` | `manifest.json` (every data file, model and result: path, sha256, git commit, exact command), `check_submission.py` (checks all of it; `--reproduce` re-runs every result), `make_tables.py` (→ `results/TABLES.md`), `seed_stats.py` (mean ± std over seeds), `pipeline_2026-10-14.sh` (the chain that produced the final-setup results), `pipeline_2026-10-15_ablations.sh` (Stage E), `environment_gpu.txt` (exact GPU environment) | ok |
+| `results/` | AQFM results JSONs, `TABLES.md` (generated: **quote numbers from here only**), `aqfm_do3_summary.md` (explanation) | ok |
+| `runs/` | Per-run `config.json`, `log.jsonl` and console logs (tracked); checkpoints `*.pt` are git-ignored and live on Drive (manifest `drive`) | ok |
+| `SUBMISSION.md` | One-page checklist: everything the paper needs, where it lives, ✅/⬜ | keep updated |
 | `baselines/baseline_utils.py` | Shared split (test = 2025), horizons {1h:4, 6h:24, 24h:96, 72h:288 steps}, MAE/RMSE, AQI bands, episode detection | ok |
 | `baselines/run_baselines_classical.py` | Persistence, seasonal-naive, climatology | ok |
 | `baselines/run_baselines_xgboost.py` | XGBoost with lagged features, one model per (target, horizon) | **fixed** (§3 B1) |
@@ -238,7 +243,7 @@ The design gaps (future met, BLH, imputation, continuous lead) are also closed i
 
 ## 6. TO DO — the full remaining roadmap
 
-Status key: ⬜ not started · 🔄 in progress · ✅ done. Do the stages in order; each depends on the one before. **Nothing below has produced a real-data number yet.**
+Status key: ⬜ not started · 🔄 in progress · ✅ done. Do the stages in order; each depends on the one before.
 
 ### Stage A — Data rebuild ✅ DONE (2026-10-08 19:05)
 
@@ -316,15 +321,15 @@ anchor (§7.3 item 9). **Final recipe:**
 
 ### Stage E — Ablations and the oracle gap (only once Stage D is in)
 
-Each is a separate training run, so budget GPU time. All switches already exist (§7.5).
+Each is a separate training run with the final recipe, seed 0, one switch changed; compare with `results/aqfm_do3_s0_results.json`. Chain: `scripts/pipeline_2026-10-15_ablations.sh` (outputs `runs/main_s0_do3_<tag>`, `results/aqfm_do3_<tag>_s0_results.json`). A single seed moves PM2.5 24 h MAE by ±0.76 (std over seeds), so differences under ~1.5 are not clear effects.
 - ✅ **E1. Oracle gap** — `--no-future-met`. **Mandatory for honesty:** ERA5 is reanalysis, not a forecast, so the main result overstates operational skill. Reviewers will ask.
   Done (seed 0, `runs/main_s0_do3_nofm`): PM2.5 MAE 16.47 / 28.45 / 38.77 / 42.84 — ties plain XGBoost at 24 h (38.63), better at 1/6/72 h. Removing future met costs AQFM +4.8 / +4.1 at 24 / 72 h, XGBoost +5.0 / +7.3.
-- ⬜ **E2. No BLH** — the design doc expects this to be the largest single-feature effect. Needs a config/preprocessing switch to drop channel 17 (not yet implemented).
-- ⬜ **E3. Spatial ablations** — `--no-spatial` (no cross-station attention) and `--spatial-bias distance` (drops the wind asymmetry).
-- ⬜ **E4. No physical reparameterisation** — `target_channels` with `PM2.5` directly instead of `PM10 + PM_FRAC`. Count the PM2.5 > PM10 violations that appear.
-- ⬜ **E5. Random-only masking** — `forecast_targets_always=False`, `p_tail_mask=0`.
+- 🔄 **E2. No BLH** (`--no-blh`, tag `noblh`) — the design doc expects this to be the largest single-feature effect. BLH is hidden everywhere: the input channel is never observed and the future-ERA5 BLH column is set to its training mean (`make_sample`; test `test_no_blh_hides_blh_everywhere`).
+- 🔄 **E3. Spatial ablations** — `--no-spatial` (tag `nospatial`: no cross-station attention) and `--spatial-bias distance` (tag `nowind`: drops the wind asymmetry).
+- 🔄 **E4. No physical reparameterisation** (`--pm25-direct`, tag `pm25direct`) — the PM_FRAC slot becomes PM2.5 (8 targets; the NOx pair is kept, so only the PM2.5 path changes). `evaluate.py` then reports `AQFM_extras.pm25_gt_pm10`: the share of point forecasts with PM2.5 > PM10 (0 by construction for the reparameterised model), next to the share in the observed data (0.44% of all observed points, 2018–2025).
+- 🔄 **E5. Random-only masking** (`--random-masking`, tag `gapfillonly`) — `forecast_targets_always=False`, `p_tail_mask=0`: block/channel masks only, so training has imputation targets and no forecast targets (design-doc hypothesis: imputation holds, forecasting degrades).
 - ⬜ **E6. Not implemented, build only if a reviewer needs it:** Design A (one decoder per pollutant) and a point head + MSE.
-- ⬜ **E7. Anchor ablation** — `--no-last-obs` with the final recipe (run 1 has no anchor but an older recipe, so it is not a clean comparison).
+- ✅ **E7. Anchor ablation** — not re-run (user decision 2026-10-15). Run 1 (`runs/main_s0`, no anchor) and the dropout-0.1 anchor run (`runs/main_s0_anchor`) have identical code and settings except the anchor and the planned schedule length (45k vs 12k steps: at the best step, 5000, the learning rate is ~99% vs ~80% of its peak). Run 2 (no anchor, 12k schedule, wd 0.1) lands at the same validation score as run 1 (1.8229 vs 1.8185), against 1.7299 with the anchor, so the gap comes from the anchor, not the schedule. 2025 PM2.5 MAE: see the run 1 and dropout-0.1 rows of `results/TABLES.md`.
 
 ### Stage F — Competing published models (needed for a strong paper)
 
@@ -353,7 +358,7 @@ Run their public code on **our exact 2025 protocol**; do not copy numbers from t
 
 ## 7. The model: `aqfm/` (built 2026-10-08)
 
-Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new package (old one frozen); known-future ERA5 met in the decoder behind a switch; full imputation (trained and scored separately); BLH as an input channel. **Status: implemented, 31 tests passing, CLI smoke runs pass (main + anneal + evaluate). NOT yet trained on real data.**
+Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new package (old one frozen); known-future ERA5 met in the decoder behind a switch; full imputation (trained and scored separately); BLH as an input channel. **Status: 45 tests passing; trained and evaluated on real data (§4b).**
 
 ### 7.1 Files
 | File | Contents |
@@ -392,7 +397,7 @@ Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new pac
 
 ### 7.5 Evaluation (`evaluate.py`) and ablation switches
 - The same origins, horizons, metric functions and AQI bands as the baselines (it imports `baseline_utils`). The point forecast is the median of 200 samples. Extras: CRPS by lead hour, PIT histograms, 90/95% coverage, PM2.5 > 250 episode precision/recall/F1 at 24 h and 48 h, and **imputation of a 24 h station-wide outage** scored against linear interpolation on the same cells.
-- Switches (CLI flags / config): `--no-future-met` (oracle gap), `--no-last-obs` (no latest-value anchor), `--spatial-bias distance|none`, `--no-spatial`, `forecast_targets_always=False` + `p_tail_mask=0` (random-only masking), `target_channels=(..."PM2.5"...)` without fractions (no physical reparam). Not implemented: Design A decoder and the point-head + MSE ablation.
+- Switches (`train.py` flags → config): `--no-future-met` (oracle gap), `--no-last-obs` (no latest-value anchor), `--spatial-bias distance|none`, `--no-spatial`, `--no-blh` (`use_blh=False`), `--pm25-direct` (PM_FRAC target slot → PM2.5), `--random-masking` (`forecast_targets_always=False` + `p_tail_mask=0`). Not implemented: Design A decoder and the point-head + MSE ablation.
 - **Ensemble:** `--ckpt A B C` pools ceil(200 / M) samples from each model (equal weights) and scores the pool; the checkpoints' configs must match. **Speed:** `train.py --compile` (torch.compile with inductor `fallback_random=True`, so dropout draws match eager mode; losses match eager to the 4th digit, like eager-vs-eager GPU nondeterminism).
 
 ### 7.6 Deviations from the design doc (deliberate; mention them in the paper)
@@ -406,7 +411,7 @@ Built to `files_AqFM/aqfm_design.tex`, with the user's four decisions: a new pac
 - Samples are capped at log1p = 20 (about 4.9e8 ug/m3) before back-transformation, to prevent float32 overflow.
 
 ### 7.7 Verification done
-- 37 pytest tests: horizon-perturbation invariance (bit-identical encoder), RevIN visible-only statistics, mask partition and derived-visibility rules, block outages are station-wide, every lead is a target, imputation targets equal the hidden truth, alignment with the baseline protocol, CRPS (order-statistic == pairwise exactly; closed form == Monte Carlo; known single-Gaussian value), NLL == `torch.distributions`, no gradient from unobserved targets, gap feature, wind geometry (upwind ⇒ cos = 1), station-permutation equivariance, gradient checkpointing gives identical gradients, all ablation configs run, a fixed batch can be overfitted, the outage fit recovers its parameters, and the evaluation pipeline runs end to end. Added 2026-10-13/14: latest-value anchor (value/age/flag, a decoder-level no-leak test that catches a deliberately broken version, pre-anchor checkpoints load) and the pooled ensemble.
+- 45 pytest tests: horizon-perturbation invariance (bit-identical encoder), RevIN visible-only statistics, mask partition and derived-visibility rules, block outages are station-wide, every lead is a target, imputation targets equal the hidden truth, alignment with the baseline protocol, CRPS (order-statistic == pairwise exactly; closed form == Monte Carlo; known single-Gaussian value), NLL == `torch.distributions`, no gradient from unobserved targets, gap feature, wind geometry (upwind ⇒ cos = 1), station-permutation equivariance, gradient checkpointing gives identical gradients, all ablation configs run, a fixed batch can be overfitted, the outage fit recovers its parameters, and the evaluation pipeline runs end to end. Added 2026-10-13/14: latest-value anchor (value/age/flag, a decoder-level no-leak test that catches a deliberately broken version, pre-anchor checkpoints load) and the pooled ensemble.
 - **Mutation check:** 6 deliberately injected bugs (no derived-visibility rule, ratio in the wrong space, RevIN using hidden cells, context shifted into the horizon, CRPS sign, wind FROM/TO flipped) are each caught by a test.
 - Verified on real data (2026-10-12/14): GPU speed and memory (§6 C1), training and validation losses, and skill (§4b).
 
@@ -426,7 +431,7 @@ python run_baselines_xgboost.py
 python run_baselines_xgboost.py --future-met # same + ERA5 weather at the target time -> xgboost_future_met_results.json
 python run_baselines_ttm.py                  # needs granite-tsfm; model cached in ~/.cache/huggingface
 cd ..
-python -m pytest tests -q                    # 37 tests, ~30 s on CPU
+python -m pytest tests -q                    # 45 tests, ~15 s
 for s in 0 1 2; do                           # final recipe, ~55 min per seed on an RTX 4000 Ada
   python -m aqfm.train --phase main --out runs/main_s${s}_do3 --device cuda --batch-size 8 --steps 12000 \
       --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed $s
@@ -435,8 +440,27 @@ done
 python -m aqfm.evaluate --ckpt runs/main_s{0,1,2}_do3/best.pt --out results/aqfm_do3_ens3_results.json --device cuda --seed 0
 python -m aqfm.train --phase main --out runs/main_s0_do3_nofm --device cuda --batch-size 8 --steps 12000 \
     --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 0 --no-future-met    # oracle gap (E1)
-# runs/pipeline.sh chains all of this and runs/seed_stats.py computes the mean ± std (both machine-local: runs/ is git-ignored)
+python scripts/seed_stats.py results/aqfm_do3_seeds_stats.json results/aqfm_do3_s{0,1,2}_results.json   # mean ± std
+python scripts/make_tables.py                # -> results/TABLES.md (every table; quote numbers from here)
+# scripts/pipeline_2026-10-14.sh is the exact chain that produced the final-setup results
 ```
+
+**Checking and reproducing (added 2026-10-14).** `scripts/manifest.json` is the source of truth: for every
+data file, model and result it records the path, sha256, the git commit that produced it and the exact command
+(models also have their Drive name). Two commands use it:
+
+```bash
+python scripts/check_submission.py              # ~1 min: every result registered; data/model checksums match;
+                                                # the commits exist; TABLES.md is fresh; tests pass; git clean and pushed
+python scripts/check_submission.py --reproduce  # ~5.5 h: re-runs every registered result into reproduce_out/
+                                                # (committed files untouched); IDENTICAL / NOISE / DIFFERENT per file
+python scripts/check_submission.py --reproduce results/aqfm_do3_s0_results.json   # just one
+```
+
+Rules: every new results file goes into the manifest (with its command and models) before it is reported;
+numbers are copied from `results/TABLES.md`, never typed by hand; the full `--reproduce` runs last, just before
+submission. Models are on Drive (`drive_upload_2026-10-14/models`, checksums in `SHA256SUMS.txt`); to re-run a
+result, put each model back at its manifest `path`. `SUBMISSION.md` tracks what is done and where it lives.
 
 ---
 
