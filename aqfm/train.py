@@ -140,6 +140,11 @@ def main():
     ap.add_argument("--no-last-obs", action="store_true", help="ablation: no latest-value anchor")
     ap.add_argument("--spatial-bias", choices=["wind", "distance", "none"], default="wind")
     ap.add_argument("--no-spatial", action="store_true")
+    ap.add_argument("--no-blh", action="store_true", help="ablation: no boundary-layer height anywhere")
+    ap.add_argument("--pm25-direct", action="store_true",
+                    help="ablation: predict PM2.5 directly instead of PM10 x fraction (NOx pair unchanged)")
+    ap.add_argument("--random-masking", action="store_true",
+                    help="ablation: block/channel masking only, no forecast targets in training")
     args = ap.parse_args()
 
     torch.manual_seed(args.seed)
@@ -156,9 +161,13 @@ def main():
     else:
         kw = dict(grad_checkpoint=args.grad_checkpoint, use_future_met=not args.no_future_met,
                   spatial_bias=args.spatial_bias, use_spatial_attention=not args.no_spatial,
-                  use_last_obs=not args.no_last_obs)
+                  use_last_obs=not args.no_last_obs, use_blh=not args.no_blh)
         if args.dropout is not None:
             kw["dropout"] = args.dropout
+        if args.pm25_direct:
+            kw["target_channels"] = tuple("PM2.5" if c == "PM_FRAC" else c for c in AQFMConfig.target_channels)
+        if args.random_masking:
+            kw.update(p_tail_mask=0.0, forecast_targets_always=False)
         cfg = AQFMConfig.small(**kw) if args.small else AQFMConfig(**kw)
 
     # ---- data ------------------------------------------------------------

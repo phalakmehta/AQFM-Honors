@@ -173,6 +173,13 @@ def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, ba
             e["episodes_gt250"] = {k: episode_detection(a["true"][:, j], a["pred"][:, j], a["mask"][:, j])
                                    for k, j in EPISODE_STEPS.items()}
         extras[c] = e
+    if "PM_FRAC" not in cfg.target_channels:     # PM2.5 predicted directly: PM2.5 > PM10 is possible
+        (p25, t25, m25), (p10, t10, m10) = ((np.concatenate(acc[c][k]) for k in ("pred", "true", "mask"))
+                                            for c in TARGETS)
+        both = (m25 > 0.5) & (m10 > 0.5)
+        extras["pm25_gt_pm10"] = {"forecast": float((p25 > p10).mean()),        # all windows and steps
+                                  "observed": float((t25 > t10)[both].mean()),  # the data, for reference
+                                  "n_observed": int(both.sum())}
     res["AQFM_extras"] = extras
     res["n_origins"], res["n_windows"] = int(len(origins)), int(len(pairs))
     return res
@@ -274,6 +281,7 @@ def main():
     train_code = [ck.get("code") for _, _, ck in loaded]
     res["train_code"] = train_code[0] if len(train_code) == 1 else train_code
     res["seed"] = args.seed
+    res["args"] = vars(args)          # every option this evaluation ran with
     res["cfg"] = dataclasses.asdict(cfg)
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     json.dump(res, open(args.out, "w"), indent=2, default=str)

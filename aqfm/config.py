@@ -74,6 +74,7 @@ class AQFMConfig:
     use_last_obs: bool = True          # decoder anchors on each series' latest visible value
     use_spatial_attention: bool = True
     spatial_bias: str = "wind"         # "wind" | "distance" | "none"
+    use_blh: bool = True               # False: boundary-layer height hidden everywhere (input and future met)
 
     # ---- output head ---------------------------------------------------
     n_mixture: int = 3

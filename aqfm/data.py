@@ -25,6 +25,7 @@ def haversine_km(a, b):
 
 
 _MET_LOG = tuple(ERA5_MET_CHANNELS.index(c) for c in ("TOT_RF", "BLH"))
+_MET_BLH = ERA5_MET_CHANNELS.index("BLH")
 
 
 class AQData:
@@ -90,6 +91,9 @@ def make_sample(data: AQData, cfg: AQFMConfig, sel, t0, rng=None, masker=None):
     sl = slice(t0, t0 + Tc + Th)
     x = data.x[sel, :, sl]                                     # (S,C,W) fancy index -> copy
     m = data.m[sel, :, sl].astype(np.float32)
+    if not cfg.use_blh:                                        # no-BLH ablation: never observed
+        x[:, CH["BLH"]] = 0.0
+        m[:, CH["BLH"]] = 0.0
     t = data.t[sl]
     tgt = list(cfg.target_index)
     S = len(sel)
@@ -137,6 +141,8 @@ def make_sample(data: AQData, cfg: AQFMConfig, sel, t0, rng=None, masker=None):
     met_ctx = met_hz = np.zeros((S, cfg.n_met_future, 1), np.float32)
     if data.met is not None:
         met = data.met[sel, :, sl]
+        if not cfg.use_blh:
+            met[:, _MET_BLH] = 0.0                             # standardised: 0 = training mean
         met_ctx, met_hz = _patch_mean(met[..., :Tc], P), _patch_mean(met[..., Tc:], P)
 
     f = lambda a: torch.from_numpy(np.ascontiguousarray(a))

@@ -466,7 +466,9 @@ def test_grad_checkpoint_is_exact(data):
 
 @pytest.mark.parametrize("kw", [dict(use_future_met=False), dict(spatial_bias="distance"),
                                 dict(spatial_bias="none"), dict(use_spatial_attention=False),
-                                dict(use_last_obs=False),
+                                dict(use_last_obs=False), dict(use_blh=False),
+                                dict(p_tail_mask=0.0, forecast_targets_always=False),
+                                dict(target_channels=("PM10", "PM2.5", "NOx", "NOX_FRAC", "Ozone", "SO2", "CO", "NH3")),
                                 dict(target_channels=("PM2.5", "PM10", "NOx", "Ozone"))])
 def test_ablation_configs_run(raw, kw):
     cfg = AQFMConfig.small(**kw)
@@ -560,3 +562,74 @@ def test_ensemble_pools_equal_shares(raw):
     imp = evaluate_imputation(models, cfg, d, v, o, test_start=2400, device=torch.device("cpu"),
                               batch_size=4, n_samples=20, limit_origins=1)
     assert imp["PM2.5"]["aqfm"]["n"] > 0
+
+
+# ---------------------------------------------------------------------------
+# ablation switches (Stage E)
+# ---------------------------------------------------------------------------
+def test_no_blh_hides_blh_everywhere(raw):
+    """With use_blh=False, changing BLH (input channel and future ERA5) must
+    leave the model output bit-identical; with BLH on, the same change must
+    reach the output (so the test can fail)."""
+    v, o, t, c, s, e = raw
+    v2, e2 = v.copy(), e.copy()
+    v2[:, R["BLH"]] = v2[:, R["BLH"]] * 3 + 500
+    e2[:, -1] = e2[:, -1] * 3 + 500                          # ERA5_MET_CHANNELS[-1] == "BLH"
+    sel, t0 = np.arange(4), 400
+    outs = {}
+    for use_blh in (False, True):
+        cfg = AQFMConfig.small(use_blh=use_blh)
+        torch.manual_seed(0)
+        model = AQFM(cfg).eval()
+        for name, (vv, ee) in {"orig": (v, e), "pert": (v2, e2)}.items():
+            d = AQData(vv, o, t, c, s, train_end=2000, era5_met=ee)
+            b = collate([make_sample(d, cfg, sel, t0)])
+            q, _, _ = build_queries(cfg, b, impute=False)
+            with torch.no_grad():
+                outs[use_blh, name] = model(b, q)["mu"]
+        if not use_blh:
+            assert not b["m_ctx"][:, :, CH["BLH"]].any()
+    assert torch.equal(outs[False, "orig"], outs[False, "pert"])
+    assert not torch.equal(outs[True, "orig"], outs[True, "pert"])
+
+
+def test_random_masking_trains_imputation_only(data):
+    """Random-only masking: training samples carry imputation targets and no
+    forecast targets; evaluation samples still have forecast targets."""
+    cfg = AQFMConfig.small(p_tail_mask=0.0, forecast_targets_always=False)
+    ds = TrainWindows(data, cfg, 0, 1500, 20, pretrain=True, seed=0)
+    items = [ds[i] for i in range(20)]
+    assert all(it["m_hz"].sum() == 0 and it["phys_hz"][:, 1].sum() == 0 for it in items)
+    assert sum(int(it["imp_valid"].any()) for it in items) > 10
+    ev = make_sample(data, cfg, np.arange(cfg.n_neighbours), 400)
+    assert ev["m_hz"].sum() > 0
+
+
+def test_pm25_direct_reports_violations(raw):
+    """PM2.5 as a direct target: evaluation reports how often PM2.5 > PM10."""
+    from aqfm.evaluate import evaluate
+    tc = tuple("PM2.5" if x == "PM_FRAC" else x for x in AQFMConfig.target_channels)
+    cfg = AQFMConfig.small(n_horizon_patches=18, n_context_patches=32, target_channels=tc)
+    assert cfg.physical_pairs() == [("NOX", 2, 3)]
+    v, o, t, c, s, e = raw
+    d = AQData(v, o, t, c, s, train_end=1500, era5_met=e)
+    model = AQFM(cfg)
+    model.revin.set_global_stats(d.global_mean, d.global_std)
+    res = evaluate(model, cfg, d, v, o, test_start=2400, device=torch.device("cpu"),
+                   batch_size=4, n_samples=20, limit_origins=1)
+    viol = res["AQFM_extras"]["pm25_gt_pm10"]
+    assert 0.0 <= viol["forecast"] <= 1.0 and viol["n_observed"] > 0
+    assert viol["observed"] == 0.0                            # synthetic PM2.5 < PM10 by construction
+
+
+def test_ablation_flags_reach_the_config(tmp_path, monkeypatch):
+    """--no-blh / --pm25-direct / --random-masking end up in the saved config."""
+    import json
+    from aqfm import train
+    monkeypatch.setattr(sys, "argv", [
+        "train", "--synthetic", "--small", "--steps", "1", "--batch-size", "2", "--val-windows", "2",
+        "--device", "cpu", "--out", str(tmp_path), "--no-blh", "--pm25-direct", "--random-masking"])
+    train.main()
+    cfg = json.load(open(tmp_path / "config.json"))["cfg"]
+    assert cfg["use_blh"] is False and cfg["p_tail_mask"] == 0.0 and cfg["forecast_targets_always"] is False
+    assert cfg["target_channels"][:2] == ["PM10", "PM2.5"] and "PM_FRAC" not in cfg["target_channels"]
