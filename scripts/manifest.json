@@ -159,6 +159,54 @@
       "sha256": "e5778ea516cb3d55324149acdccdc323d74a8ba3ea26bf11e784796f2707c2ff",
       "code": "889e82d",
       "train": "python deep_baselines/patchtst.py train --out deep_baselines/runs/patchtst40k_do1_s2 --seed 2 --dropout 0.1 --steps 40000 --patience 0"
+    },
+    "estgcn_pm25_s0": {
+      "what": "E-STGCN (our re-implementation), PM2.5 model, learning rate 4e-4, seed 0; best at step 5000 (validation MSE 0.4563). Learning rate chosen on 2024 validation from the seed-0 sweep (best validation MSE: 1e-4: 0.4627, 2e-4: 0.4623, 4e-4: 0.4563)",
+      "path": "deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt",
+      "drive": "models/estgcn_pm25_s0.pt",
+      "sha256": "96ca40110bc0815b58aa722ab8853410f8b1a347057cb92de41d68595d684e87",
+      "code": "16ed23b",
+      "train": "python deep_baselines/estgcn/estgcn.py train --out deep_baselines/estgcn/runs/pm25_lr4_s0 --steps 20000 --target PM2.5 --seed 0 --lr 4e-4"
+    },
+    "estgcn_pm25_s1": {
+      "what": "E-STGCN (our re-implementation), PM2.5 model, learning rate 4e-4, seed 1; best at step 18000 (validation MSE 0.4530)",
+      "path": "deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt",
+      "drive": "models/estgcn_pm25_s1.pt",
+      "sha256": "65dced0c867fb4500770ee2c96720ffe7c2aeca8a3956080929663230ed1fb70",
+      "code": "16ed23b",
+      "train": "python deep_baselines/estgcn/estgcn.py train --out deep_baselines/estgcn/runs/pm25_lr4_s1 --steps 20000 --target PM2.5 --seed 1 --lr 4e-4"
+    },
+    "estgcn_pm25_s2": {
+      "what": "E-STGCN (our re-implementation), PM2.5 model, learning rate 4e-4, seed 2; best at step 12000 (validation MSE 0.4547)",
+      "path": "deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt",
+      "drive": "models/estgcn_pm25_s2.pt",
+      "sha256": "215aa236ce7162a6e13ae0a1e8b5374c7630676147cbbca5bdc5dd303c8221cd",
+      "code": "16ed23b",
+      "train": "python deep_baselines/estgcn/estgcn.py train --out deep_baselines/estgcn/runs/pm25_lr4_s2 --steps 20000 --target PM2.5 --seed 2 --lr 4e-4"
+    },
+    "estgcn_pm10_s0": {
+      "what": "E-STGCN (our re-implementation), PM10 model, learning rate 2e-4, seed 0; best at step 16000 (validation MSE 0.4488). Learning rate chosen on 2024 validation from the seed-0 sweep (best validation MSE: 1e-4: 0.4505, 2e-4: 0.4488, 4e-4: 0.4550)",
+      "path": "deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt",
+      "drive": "models/estgcn_pm10_s0.pt",
+      "sha256": "3edbc1a1565df76ca66fce2b3af63b627d6af8ab422616eee36cd186fc9db068",
+      "code": "16ed23b",
+      "train": "python deep_baselines/estgcn/estgcn.py train --out deep_baselines/estgcn/runs/pm10_lr2_s0 --steps 20000 --target PM10 --seed 0 --lr 2e-4"
+    },
+    "estgcn_pm10_s1": {
+      "what": "E-STGCN (our re-implementation), PM10 model, learning rate 2e-4, seed 1; best at step 14000 (validation MSE 0.4493)",
+      "path": "deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt",
+      "drive": "models/estgcn_pm10_s1.pt",
+      "sha256": "6e5c59ea3c15c42c5835c7cb357f1b2d77f24c071a18dfc80d3e7240ea763240",
+      "code": "16ed23b",
+      "train": "python deep_baselines/estgcn/estgcn.py train --out deep_baselines/estgcn/runs/pm10_lr2_s1 --steps 20000 --target PM10 --seed 1 --lr 2e-4"
+    },
+    "estgcn_pm10_s2": {
+      "what": "E-STGCN (our re-implementation), PM10 model, learning rate 2e-4, seed 2; best at step 12000 (validation MSE 0.4551)",
+      "path": "deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt",
+      "drive": "models/estgcn_pm10_s2.pt",
+      "sha256": "956b356ecd05643370ff6387146628a9de4d36841635836512c5e6539bbaf05d",
+      "code": "16ed23b",
+      "train": "python deep_baselines/estgcn/estgcn.py train --out deep_baselines/estgcn/runs/pm10_lr2_s2 --steps 20000 --target PM10 --seed 2 --lr 2e-4"
     }
   },
 
@@ -297,6 +345,31 @@
       "what": "PatchTST: mean and std (ddof=1) over seeds 0/1/2 of every metric",
       "models": [], "code": "889e82d", "minutes": 0,
       "run": "python deep_baselines/seed_stats.py baselines/results/patchtst_seeds_stats.json baselines/results/patchtst_s0_results.json baselines/results/patchtst_s1_results.json baselines/results/patchtst_s2_results.json"
+    },
+    "baselines/results/estgcn_s0_results.json": {
+      "what": "E-STGCN (our re-implementation), seed 0 (PM2.5 and PM10 models), 2025 test",
+      "models": ["estgcn_pm25_s0", "estgcn_pm10_s0"], "code": "16ed23b", "minutes": 1,
+      "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt --out baselines/results/estgcn_s0_results.json"
+    },
+    "baselines/results/estgcn_s1_results.json": {
+      "what": "E-STGCN (our re-implementation), seed 1 (PM2.5 and PM10 models), 2025 test",
+      "models": ["estgcn_pm25_s1", "estgcn_pm10_s1"], "code": "16ed23b", "minutes": 1,
+      "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt --out baselines/results/estgcn_s1_results.json"
+    },
+    "baselines/results/estgcn_s2_results.json": {
+      "what": "E-STGCN (our re-implementation), seed 2 (PM2.5 and PM10 models), 2025 test",
+      "models": ["estgcn_pm25_s2", "estgcn_pm10_s2"], "code": "16ed23b", "minutes": 1,
+      "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt --out baselines/results/estgcn_s2_results.json"
+    },
+    "baselines/results/estgcn_ens3_results.json": {
+      "what": "E-STGCN, 3-seed ensemble (mean of the point forecasts per pollutant), 2025 test",
+      "models": ["estgcn_pm25_s0", "estgcn_pm10_s0", "estgcn_pm25_s1", "estgcn_pm10_s1", "estgcn_pm25_s2", "estgcn_pm10_s2"], "code": "16ed23b", "minutes": 1,
+      "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt --out baselines/results/estgcn_ens3_results.json"
+    },
+    "baselines/results/estgcn_seeds_stats.json": {
+      "what": "E-STGCN: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "16ed23b", "minutes": 0,
+      "run": "python deep_baselines/seed_stats.py baselines/results/estgcn_seeds_stats.json baselines/results/estgcn_s0_results.json baselines/results/estgcn_s1_results.json baselines/results/estgcn_s2_results.json"
     }
   }
 }

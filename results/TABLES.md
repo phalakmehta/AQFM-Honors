@@ -28,6 +28,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | PatchTST seed 0 | 16.31 | 28.07 | 37.81 | 43.45 | `baselines/results/patchtst_s0_results.json` |
 | PatchTST seed 1 | 16.80 | 28.31 | 37.70 | 43.16 | `baselines/results/patchtst_s1_results.json` |
 | PatchTST seed 2 | 16.40 | 28.04 | 37.94 | 43.51 | `baselines/results/patchtst_s2_results.json` |
+| E-STGCN ensemble (3 seeds; our re-implementation) | 16.37 | 30.91 | 38.64 | 44.62 | `baselines/results/estgcn_ens3_results.json` |
+| E-STGCN, mean ± std (3 seeds) | 17.11 ± 0.50 | 31.52 ± 0.35 | 39.05 ± 0.48 | 45.19 ± 0.26 | `baselines/results/estgcn_seeds_stats.json` |
+| E-STGCN seed 0 | 17.69 | 31.22 | 38.51 | 44.91 | `baselines/results/estgcn_s0_results.json` |
+| E-STGCN seed 1 | 16.80 | 31.43 | 39.44 | 45.42 | `baselines/results/estgcn_s1_results.json` |
+| E-STGCN seed 2 | 16.84 | 31.91 | 39.19 | 45.24 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 20.23 | 32.43 | 37.70 | 41.32 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 20.95 | 32.13 | 39.16 | 42.75 | `baselines/results/ttm_results.json` |
 | Persistence | 15.89 | 35.53 | 43.78 | 54.54 | `baselines/results/classical_results.json` |
@@ -58,6 +63,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | PatchTST seed 0 | 33.69 | 47.38 | 64.60 | 72.66 | `baselines/results/patchtst_s0_results.json` |
 | PatchTST seed 1 | 35.12 | 47.89 | 64.54 | 72.47 | `baselines/results/patchtst_s1_results.json` |
 | PatchTST seed 2 | 33.56 | 47.09 | 64.29 | 72.21 | `baselines/results/patchtst_s2_results.json` |
+| E-STGCN ensemble (3 seeds; our re-implementation) | 29.99 | 48.62 | 63.61 | 72.24 | `baselines/results/estgcn_ens3_results.json` |
+| E-STGCN, mean ± std (3 seeds) | 30.84 ± 0.57 | 49.48 ± 0.29 | 64.25 ± 1.10 | 73.02 ± 0.93 | `baselines/results/estgcn_seeds_stats.json` |
+| E-STGCN seed 0 | 31.32 | 49.78 | 63.34 | 72.47 | `baselines/results/estgcn_s0_results.json` |
+| E-STGCN seed 1 | 31.01 | 49.21 | 65.47 | 74.09 | `baselines/results/estgcn_s1_results.json` |
+| E-STGCN seed 2 | 30.21 | 49.46 | 63.94 | 72.50 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 37.07 | 52.61 | 64.23 | 69.47 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 38.23 | 51.56 | 65.93 | 71.17 | `baselines/results/ttm_results.json` |
 | Persistence | 29.85 | 60.85 | 75.85 | 92.13 | `baselines/results/classical_results.json` |
@@ -88,6 +98,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | PatchTST seed 0 | 30.74 | 47.74 | 74.05 | 84.68 | `baselines/results/patchtst_s0_results.json` |
 | PatchTST seed 1 | 31.85 | 47.71 | 73.88 | 84.14 | `baselines/results/patchtst_s1_results.json` |
 | PatchTST seed 2 | 30.41 | 47.48 | 73.96 | 84.78 | `baselines/results/patchtst_s2_results.json` |
+| E-STGCN ensemble (3 seeds; our re-implementation) | 30.64 | 50.71 | 72.58 | 84.47 | `baselines/results/estgcn_ens3_results.json` |
+| E-STGCN, mean ± std (3 seeds) | 31.54 ± 0.43 | 51.83 ± 0.88 | 73.05 ± 0.43 | 85.00 ± 0.78 | `baselines/results/estgcn_seeds_stats.json` |
+| E-STGCN seed 0 | 31.07 | 52.54 | 73.07 | 84.56 | `baselines/results/estgcn_s0_results.json` |
+| E-STGCN seed 1 | 31.64 | 50.85 | 73.47 | 85.90 | `baselines/results/estgcn_s1_results.json` |
+| E-STGCN seed 2 | 31.92 | 52.10 | 72.61 | 84.54 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 37.55 | 52.80 | 71.74 | 79.25 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 38.96 | 53.10 | 75.09 | 82.51 | `baselines/results/ttm_results.json` |
 | Persistence | 31.28 | 71.47 | 84.64 | 106.47 | `baselines/results/classical_results.json` |
@@ -118,6 +133,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | PatchTST seed 0 | 52.28 | 72.13 | 106.13 | 118.22 | `baselines/results/patchtst_s0_results.json` |
 | PatchTST seed 1 | 54.07 | 71.87 | 105.86 | 117.80 | `baselines/results/patchtst_s1_results.json` |
 | PatchTST seed 2 | 51.26 | 71.99 | 105.89 | 117.82 | `baselines/results/patchtst_s2_results.json` |
+| E-STGCN ensemble (3 seeds; our re-implementation) | 50.49 | 72.84 | 102.94 | 116.16 | `baselines/results/estgcn_ens3_results.json` |
+| E-STGCN, mean ± std (3 seeds) | 51.38 ± 0.33 | 74.38 ± 0.41 | 103.56 ± 0.49 | 116.90 ± 1.24 | `baselines/results/estgcn_seeds_stats.json` |
+| E-STGCN seed 0 | 51.01 | 74.82 | 103.10 | 116.02 | `baselines/results/estgcn_s0_results.json` |
+| E-STGCN seed 1 | 51.65 | 74.00 | 104.07 | 118.32 | `baselines/results/estgcn_s1_results.json` |
+| E-STGCN seed 2 | 51.49 | 74.31 | 103.50 | 116.37 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 58.63 | 76.76 | 102.88 | 111.73 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 60.12 | 77.76 | 106.09 | 114.59 | `baselines/results/ttm_results.json` |
 | Persistence | 52.39 | 106.03 | 124.50 | 150.84 | `baselines/results/classical_results.json` |
@@ -148,6 +168,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | PatchTST seed 0 | 16.3 | 16.4 | 23.0 | 34.8 | 49.0 | 111.2 | `baselines/results/patchtst_s0_results.json` |
 | PatchTST seed 1 | 16.3 | 16.2 | 22.9 | 34.7 | 48.4 | 112.1 | `baselines/results/patchtst_s1_results.json` |
 | PatchTST seed 2 | 16.8 | 17.0 | 23.4 | 35.0 | 49.4 | 109.0 | `baselines/results/patchtst_s2_results.json` |
+| E-STGCN ensemble (3 seeds; our re-implementation) | 19.5 | 17.9 | 25.0 | 37.2 | 53.2 | 98.7 | `baselines/results/estgcn_ens3_results.json` |
+| E-STGCN, mean ± std (3 seeds) | 19.5 ± 0.7 | 18.1 ± 1.0 | 25.4 ± 0.7 | 37.5 ± 1.3 | 53.8 ± 1.5 | 99.8 ± 2.9 | `baselines/results/estgcn_seeds_stats.json` |
+| E-STGCN seed 0 | 19.6 | 17.4 | 26.2 | 38.9 | 52.1 | 97.8 | `baselines/results/estgcn_s0_results.json` |
+| E-STGCN seed 1 | 18.8 | 17.8 | 24.9 | 37.3 | 55.1 | 103.1 | `baselines/results/estgcn_s1_results.json` |
+| E-STGCN seed 2 | 20.2 | 19.2 | 25.0 | 36.3 | 54.3 | 98.5 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 18.6 | 17.1 | 23.0 | 35.0 | 49.8 | 112.4 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 18.1 | 16.9 | 23.7 | 37.8 | 51.5 | 111.0 | `baselines/results/ttm_results.json` |
 | Persistence | 16.7 | 20.4 | 28.3 | 41.2 | 60.2 | 119.3 | `baselines/results/classical_results.json` |

@@ -14,9 +14,10 @@ changes them, so the code behind the existing results stays as it was.
 | `runs/` | per-run `config.json`, `log.jsonl`, console logs (tracked); checkpoints `*.pt` are git-ignored and on Drive |
 | `estgcn/` | E-STGCN (Panja et al., JRSS-A 2026), our PyTorch re-implementation: its own folder, code, tests, chain and runs; see `estgcn/README.md` |
 
-Results go to `baselines/results/patchtst_*.json` (so `check_submission.py` and `make_tables.py` see them),
+Results go to `baselines/results/patchtst_*.json` and `estgcn_*.json` (so `check_submission.py` and `make_tables.py` see them),
 every result is registered in `scripts/manifest.json`, and the numbers are quoted from `results/TABLES.md`.
-Comparison and caveats: `results/patchtst_summary.md`.
+Comparison and caveats: `results/patchtst_summary.md` (PatchTST), `results/estgcn_summary.md` (E-STGCN, and all
+models without future weather in one table).
 
 ## Like for like: what is the same as for AQFM
 

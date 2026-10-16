@@ -1,0 +1,81 @@
+loading PM10 (train_end=210336, test_start=245472) ...
+parameters: 40746  edges: 254  isolated stations: 5  device=cuda
+GPD per station (xi, sigma): (-0.161,197.9) (-0.046,122.1) (-0.184,222.2) (-0.076,168.5) (-0.243,256.0) (-0.160,195.2) (-0.125,154.3) (-0.098,187.2) (-0.137,210.4) (-0.059,143.3) (-0.124,153.8) (-0.075,122.4) (-0.093,139.8) (-0.212,245.5) (-0.148,170.9) (0.117,100.8) (-0.154,169.4) (-0.104,137.7) (-0.213,253.3) (-0.087,128.4) (-0.185,203.9) (-0.105,181.2) (-0.088,161.6) (-0.171,194.9) (-0.164,190.6) (-0.137,173.3) (-0.114,176.7) (-0.185,187.7) (-0.035,121.4) (-0.128,172.0) (-0.159,219.0) (-0.142,199.7) (-0.137,193.8) (-0.168,194.5) (-0.078,119.8) (-0.172,206.4) (-0.194,233.5)
+code: 16ed23b
+step=1 loss=0.8531 mse=0.8469 gpd=1.459 s_per_step=0.2127
+step=500 loss=0.6848 mse=0.6731 gpd=1.843 s_per_step=0.05367
+step=1000 loss=0.4661 mse=0.4533 gpd=1.735 s_per_step=0.05349
+  [val] step 1000: mse=0.5030 mae=70.6033
+  [val] new best 0.5030 -> best.pt
+step=1500 loss=0.5765 mse=0.5644 gpd=1.778 s_per_step=0.05357
+step=2000 loss=0.6786 mse=0.6677 gpd=1.755 s_per_step=0.05352
+  [val] step 2000: mse=0.5007 mae=70.4130
+  [val] new best 0.5007 -> best.pt
+step=2500 loss=0.6105 mse=0.5988 gpd=1.767 s_per_step=0.05356
+step=3000 loss=0.5379 mse=0.5254 gpd=1.772 s_per_step=0.05353
+  [val] step 3000: mse=0.4973 mae=70.9068
+  [val] new best 0.4973 -> best.pt
+step=3500 loss=0.4634 mse=0.4516 gpd=1.631 s_per_step=0.05356
+step=4000 loss=0.624 mse=0.6124 gpd=1.768 s_per_step=0.05354
+  [val] step 4000: mse=0.5015 mae=68.7281
+step=4500 loss=0.7066 mse=0.6954 gpd=1.823 s_per_step=0.05356
+step=5000 loss=0.5933 mse=0.5813 gpd=1.787 s_per_step=0.05354
+  [val] step 5000: mse=0.4928 mae=70.1085
+  [val] new best 0.4928 -> best.pt
+step=5500 loss=0.6357 mse=0.6233 gpd=1.866 s_per_step=0.05355
+step=6000 loss=0.5599 mse=0.5463 gpd=1.913 s_per_step=0.05354
+  [val] step 6000: mse=0.4885 mae=68.9757
+  [val] new best 0.4885 -> best.pt
+step=6500 loss=0.4755 mse=0.4627 gpd=1.741 s_per_step=0.05355
+step=7000 loss=0.48 mse=0.4668 gpd=1.791 s_per_step=0.05354
+  [val] step 7000: mse=0.4837 mae=68.6280
+  [val] new best 0.4837 -> best.pt
+step=7500 loss=0.576 mse=0.5631 gpd=1.855 s_per_step=0.05355
+step=8000 loss=0.5118 mse=0.4995 gpd=1.728 s_per_step=0.05354
+  [val] step 8000: mse=0.4734 mae=67.8575
+  [val] new best 0.4734 -> best.pt
+step=8500 loss=0.5769 mse=0.5634 gpd=1.911 s_per_step=0.05355
+step=9000 loss=0.5715 mse=0.5586 gpd=1.845 s_per_step=0.05355
+  [val] step 9000: mse=0.4747 mae=66.2858
+step=9500 loss=0.5889 mse=0.5747 gpd=1.995 s_per_step=0.05355
+step=10000 loss=0.4781 mse=0.4641 gpd=1.862 s_per_step=0.05355
+  [val] step 10000: mse=0.4666 mae=65.4203
+  [val] new best 0.4666 -> best.pt
+step=10500 loss=0.6526 mse=0.6392 gpd=1.973 s_per_step=0.05356
+step=11000 loss=0.4579 mse=0.4459 gpd=1.642 s_per_step=0.05355
+  [val] step 11000: mse=0.4624 mae=66.8477
+  [val] new best 0.4624 -> best.pt
+step=11500 loss=0.5913 mse=0.5773 gpd=1.979 s_per_step=0.05356
+step=12000 loss=0.454 mse=0.44 gpd=1.841 s_per_step=0.05355
+  [val] step 12000: mse=0.4605 mae=65.4602
+  [val] new best 0.4605 -> best.pt
+step=12500 loss=0.5679 mse=0.5555 gpd=1.802 s_per_step=0.05356
+step=13000 loss=0.4889 mse=0.4754 gpd=1.833 s_per_step=0.05355
+  [val] step 13000: mse=0.4573 mae=65.9504
+  [val] new best 0.4573 -> best.pt
+step=13500 loss=0.5839 mse=0.571 gpd=1.852 s_per_step=0.05355
+step=14000 loss=0.4728 mse=0.4596 gpd=1.779 s_per_step=0.05355
+  [val] step 14000: mse=0.4544 mae=65.5553
+  [val] new best 0.4544 -> best.pt
+step=14500 loss=0.5032 mse=0.49 gpd=1.812 s_per_step=0.05356
+step=15000 loss=0.5301 mse=0.517 gpd=1.824 s_per_step=0.05355
+  [val] step 15000: mse=0.4532 mae=65.9147
+  [val] new best 0.4532 -> best.pt
+step=15500 loss=0.6472 mse=0.6342 gpd=1.94 s_per_step=0.05356
+step=16000 loss=0.5872 mse=0.5737 gpd=1.923 s_per_step=0.05355
+  [val] step 16000: mse=0.4547 mae=66.4723
+step=16500 loss=0.4868 mse=0.4724 gpd=1.916 s_per_step=0.05356
+step=17000 loss=0.6356 mse=0.6225 gpd=1.927 s_per_step=0.05355
+  [val] step 17000: mse=0.4531 mae=65.6838
+  [val] new best 0.4531 -> best.pt
+step=17500 loss=0.5115 mse=0.4991 gpd=1.739 s_per_step=0.05355
+step=18000 loss=0.3986 mse=0.3846 gpd=1.786 s_per_step=0.05355
+  [val] step 18000: mse=0.4505 mae=65.3694
+  [val] new best 0.4505 -> best.pt
+step=18500 loss=0.4806 mse=0.4667 gpd=1.858 s_per_step=0.05355
+step=19000 loss=0.4593 mse=0.4451 gpd=1.866 s_per_step=0.05355
+  [val] step 19000: mse=0.4570 mae=66.3919
+step=19500 loss=0.5234 mse=0.5104 gpd=1.803 s_per_step=0.05355
+step=20000 loss=0.5732 mse=0.56 gpd=1.876 s_per_step=0.05355
+  [val] step 20000: mse=0.4722 mae=65.0151
+done. best val mse=0.4505  (17.9 min)

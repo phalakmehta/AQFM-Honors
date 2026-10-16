@@ -1,0 +1,44 @@
+[2026-10-16 12:07:48] code at commit 16ed23b, starting
+10 passed in 7.01s
+[2026-10-16 12:07:55] train deep_baselines/estgcn/runs/pm25_lr1_s0: --target PM2.5 --seed 0 --lr 1e-4
+done. best val mse=0.4627  (17.9 min)
+[2026-10-16 12:25:53] train deep_baselines/estgcn/runs/pm25_lr2_s0: --target PM2.5 --seed 0 --lr 2e-4
+done. best val mse=0.4623  (17.9 min)
+[2026-10-16 12:43:51] train deep_baselines/estgcn/runs/pm25_lr4_s0: --target PM2.5 --seed 0 --lr 4e-4
+done. best val mse=0.4563  (17.8 min)
+[2026-10-16 13:01:47] pm25 validation: lr1=0.46267 lr2=0.46229 lr4=0.45631 -> chosen: lr4
+[2026-10-16 13:01:47] train deep_baselines/estgcn/runs/pm25_lr4_s1: --target PM2.5 --seed 1 --lr 4e-4
+done. best val mse=0.4530  (17.8 min)
+[2026-10-16 13:19:44] train deep_baselines/estgcn/runs/pm25_lr4_s2: --target PM2.5 --seed 2 --lr 4e-4
+done. best val mse=0.4547  (17.9 min)
+[2026-10-16 13:37:47] train deep_baselines/estgcn/runs/pm10_lr1_s0: --target PM10 --seed 0 --lr 1e-4
+done. best val mse=0.4505  (17.9 min)
+[2026-10-16 13:55:47] train deep_baselines/estgcn/runs/pm10_lr2_s0: --target PM10 --seed 0 --lr 2e-4
+done. best val mse=0.4488  (17.8 min)
+[2026-10-16 14:13:46] train deep_baselines/estgcn/runs/pm10_lr4_s0: --target PM10 --seed 0 --lr 4e-4
+done. best val mse=0.4550  (17.8 min)
+[2026-10-16 14:31:43] pm10 validation: lr1=0.45052 lr2=0.44884 lr4=0.45503 -> chosen: lr2
+[2026-10-16 14:31:43] train deep_baselines/estgcn/runs/pm10_lr2_s1: --target PM10 --seed 1 --lr 2e-4
+done. best val mse=0.4493  (17.8 min)
+[2026-10-16 14:49:41] train deep_baselines/estgcn/runs/pm10_lr2_s2: --target PM10 --seed 2 --lr 2e-4
+done. best val mse=0.4551  (17.8 min)
+[2026-10-16 15:07:38] evaluate -> baselines/results/estgcn_s0_results.json: deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt
+PM2.5 {'1h': 17.688, '6h': 31.2189, '24h': 38.5085, '72h': 44.9118}
+PM10 {'1h': 31.0715, '6h': 52.542, '24h': 73.0704, '72h': 84.5606}
+saved baselines/results/estgcn_s0_results.json
+[2026-10-16 15:07:50] evaluate -> baselines/results/estgcn_s1_results.json: deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt
+PM2.5 {'1h': 16.8009, '6h': 31.4307, '24h': 39.444, '72h': 45.4165}
+PM10 {'1h': 31.6399, '6h': 50.8457, '24h': 73.4663, '72h': 85.8988}
+saved baselines/results/estgcn_s1_results.json
+[2026-10-16 15:08:03] evaluate -> baselines/results/estgcn_s2_results.json: deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt
+PM2.5 {'1h': 16.8378, '6h': 31.9051, '24h': 39.1945, '72h': 45.2447}
+PM10 {'1h': 31.9176, '6h': 52.1004, '24h': 72.6101, '72h': 84.5377}
+saved baselines/results/estgcn_s2_results.json
+E-STGCN PM2.5 1h 17.11±0.50 6h 31.52±0.35 24h 39.05±0.48 72h 45.19±0.26
+E-STGCN PM10 1h 31.54±0.43 6h 51.83±0.88 24h 73.05±0.43 72h 85.00±0.78
+saved baselines/results/estgcn_seeds_stats.json
+[2026-10-16 15:08:16] evaluate -> baselines/results/estgcn_ens3_results.json: deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt
+PM2.5 {'1h': 16.3682, '6h': 30.9062, '24h': 38.6437, '72h': 44.6197}
+PM10 {'1h': 30.6353, '6h': 50.7117, '24h': 72.5762, '72h': 84.4726}
+saved baselines/results/estgcn_ens3_results.json
+[2026-10-16 15:08:30] pipeline finished; failed: none

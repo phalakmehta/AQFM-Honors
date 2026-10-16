@@ -1,0 +1,132 @@
+{
+  "E-STGCN": {
+    "PM2.5": {
+      "1h": {
+        "MAE": 17.688,
+        "RMSE": 31.3219,
+        "n": 12210
+      },
+      "6h": {
+        "MAE": 31.2189,
+        "RMSE": 49.7797,
+        "n": 11998
+      },
+      "24h": {
+        "MAE": 38.5085,
+        "RMSE": 63.3389,
+        "n": 10309
+      },
+      "72h": {
+        "MAE": 44.9118,
+        "RMSE": 72.4668,
+        "n": 10306
+      },
+      "24h_aqi": {
+        "Good": {
+          "MAE": 19.5641,
+          "RMSE": 25.9621,
+          "n": 1555
+        },
+        "Satisfactory": {
+          "MAE": 17.3575,
+          "RMSE": 26.6947,
+          "n": 2646
+        },
+        "Moderate": {
+          "MAE": 26.1575,
+          "RMSE": 36.517,
+          "n": 1603
+        },
+        "Poor": {
+          "MAE": 38.9261,
+          "RMSE": 54.0953,
+          "n": 1005
+        },
+        "Very Poor": {
+          "MAE": 52.083,
+          "RMSE": 65.4699,
+          "n": 2248
+        },
+        "Severe": {
+          "MAE": 97.8438,
+          "RMSE": 137.6141,
+          "n": 1252
+        }
+      }
+    },
+    "PM10": {
+      "1h": {
+        "MAE": 31.0715,
+        "RMSE": 51.0145,
+        "n": 12528
+      },
+      "6h": {
+        "MAE": 52.542,
+        "RMSE": 74.8233,
+        "n": 12341
+      },
+      "24h": {
+        "MAE": 73.0704,
+        "RMSE": 103.1024,
+        "n": 10634
+      },
+      "72h": {
+        "MAE": 84.5606,
+        "RMSE": 116.024,
+        "n": 10633
+      }
+    }
+  },
+  "n_origins": 362,
+  "n_windows": 13394,
+  "selected": [
+    {
+      "target": "PM2.5",
+      "step": 5000,
+      "val": {
+        "mse": 0.45630597815959284,
+        "mae": 38.04178663758384
+      }
+    },
+    {
+      "target": "PM10",
+      "step": 16000,
+      "val": {
+        "mse": 0.4488365470951005,
+        "mae": 65.85174858569818
+      }
+    }
+  ],
+  "checkpoint": [
+    "deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt",
+    "deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt"
+  ],
+  "code": {
+    "commit": "16ed23b1d61460c37b78d67781e8a9c64fdbbfee",
+    "dirty": false,
+    "changed": []
+  },
+  "train_code": [
+    {
+      "commit": "16ed23b1d61460c37b78d67781e8a9c64fdbbfee",
+      "dirty": false,
+      "changed": []
+    },
+    {
+      "commit": "16ed23b1d61460c37b78d67781e8a9c64fdbbfee",
+      "dirty": false,
+      "changed": []
+    }
+  ],
+  "args": {
+    "cmd": "evaluate",
+    "ckpt": [
+      "deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt",
+      "deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt"
+    ],
+    "out": "baselines/results/estgcn_s0_results.json",
+    "data": "/home/phalak/aqfm/AQFM-Honors/data/preprocessed",
+    "device": "cuda",
+    "eval_batch": 64
+  }
+}

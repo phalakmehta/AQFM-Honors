@@ -39,7 +39,7 @@ PM10 MAE, same models (1/6/24/72 h): AQFM no future met mean 28.63 / 46.63 / 73.
   (37.82 ± 0.12 vs 38.98 ± 0.24, single models; 37.75 vs 38.41, ensembles). PatchTST beats XGBoost at every
   lead. At 72 h every model without future weather is within ~1 µg/m³ (TTM lowest, 42.75).
 - **Where AQFM's extra inputs pay off without future weather:** the Severe band (105.7 ± 1.2 vs
-  110.7 ± 1.6 at 24 h), PM10 at short leads (1 h 28.63 vs 31.00; 6 h 46.63 vs 47.64), and AQFM gives
+  110.7 ± 1.6 at 24 h; but E-STGCN, 99.8 ± 2.9, beats both there: `results/estgcn_summary.md`), PM10 at short leads (1 h 28.63 vs 31.00; 6 h 46.63 vs 47.64), and AQFM gives
   calibrated intervals, CRPS and episode probabilities, which PatchTST does not.
 - **AQFM's large 24–72 h advantage comes with future weather:** AQFM ensemble 32.04 at 24 h vs PatchTST
   37.75. That weather is reanalysis, so this is an upper bound on operational skill (E1, oracle gap).

@@ -9,10 +9,10 @@ daily means, train 2019–2022, test 2023, 30/60/90 days ahead. Ours: 15-min val
 Error sizes are not comparable across those tasks. Their code (`github.com/mad-stat/E_STGCN`: one Keras
 notebook and an R script) is built for the daily task and the repository has **no license**, so we wrote our
 own PyTorch version from the paper and the notebook. None of their files is copied here. Cite the paper and
-call the results "E-STGCN (our re-implementation)".
+call the results "E-STGCN (our re-implementation)". Results and comparison: `results/estgcn_summary.md`.
 
 ```bash
-bash deep_baselines/estgcn/pipeline_estgcn.sh                 # everything below, ~see the chain header
+bash deep_baselines/estgcn/pipeline_estgcn.sh                 # sweep, seeds, 2025 test (~3 h on an RTX 4000 Ada)
 python -m pytest deep_baselines/estgcn/tests -q               # 10 tests
 ```
 

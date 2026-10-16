@@ -3,7 +3,7 @@
 > Read this first. It tells you what the project is, what state each part is in, which bugs were found and fixed on 2026-10-08, and what remains to be done (**§6 is the roadmap**).
 > Older docs (`_archive_old/project_handoff.md`, `_archive_old/preprocessing_result_aqfm`, the presentation PDF) contain **numbers and claims that are now stale**. Where they disagree with this file, this file wins.
 
-## Status at a glance (last updated 2026-10-16, 12:15 IST)
+## Status at a glance (last updated 2026-10-16, 15:45 IST)
 
 | Area | State |
 |---|---|
@@ -14,9 +14,9 @@
 | Model `aqfm/` | ✅ built, 45 tests pass, mutation-checked; latest-value anchor added 2026-10-13 (§7.3 item 9) |
 | Training / evaluation runs | ✅ **final setup trained and evaluated** on an RTX 4000 Ada: dropout 0.3, 3 seeds + pooled ensemble, no-future-met — **§4b** |
 | Reproducibility | ✅ `scripts/manifest.json` (every model and result with its command, commit and sha256), `scripts/check_submission.py` (one-command check), `results/TABLES.md` (all tables, generated), **`SUBMISSION.md`** (what the paper needs, where it lives, status) — §8 |
-| Ablations / competitors / paper | ✅ **Stage E done 2026-10-15** (E1–E5, E7): `results/aqfm_ablations_summary.md`. ✅ **F1 PatchTST done 2026-10-16** (`deep_baselines/`, `results/patchtst_summary.md`); 🔄 F4 E-STGCN port written and tested, training next; ⬜ G (write-up) (§6; §9, §10) |
+| Ablations / competitors / paper | ✅ **Stage E done 2026-10-15** (E1–E5, E7): `results/aqfm_ablations_summary.md`. ✅ **F1 PatchTST done 2026-10-16** (`deep_baselines/`, `results/patchtst_summary.md`); ✅ **F4 E-STGCN done 2026-10-16** (our re-implementation, `deep_baselines/estgcn/`, `results/estgcn_summary.md`); ⬜ G (write-up) (§6; §9, §10) |
 
-**Are we on track?** Yes. AQFM is trained and evaluated (§4b; full tables in `results/aqfm_do3_summary.md`). The 3-seed ensemble beats XGBoost + future ERA5 on PM2.5 at 1/6/24 h (24 h: **32.04 vs 33.65**), ties at 72 h (36.51 vs 36.45), is best in the Severe band (89.0 vs 93.4) and is well calibrated; single models (mean ± std over 3 seeds) win at 1/6 h and tie at 24 h. Without future weather (3 seeds) AQFM beats plain XGBoost at 1/6 h and ties it at 24/72 h. The ablations (§6 Stage E) show what each part does. PatchTST, trained and selected exactly like AQFM, ties AQFM-without-future-weather on average error (better at 24 h, worse at 1 h and in the Severe band; `results/patchtst_summary.md`), so AQFM's large 24–72 h margin comes with future weather. Next milestones: E-STGCN (F4, ported, training next), then the write-up (Stage G).
+**Are we on track?** Yes. AQFM is trained and evaluated (§4b; full tables in `results/aqfm_do3_summary.md`). The 3-seed ensemble beats XGBoost + future ERA5 on PM2.5 at 1/6/24 h (24 h: **32.04 vs 33.65**), ties at 72 h (36.51 vs 36.45), is best in the Severe band (89.0 vs 93.4) and is well calibrated; single models (mean ± std over 3 seeds) win at 1/6 h and tie at 24 h. Without future weather (3 seeds) AQFM beats plain XGBoost at 1/6 h and ties it at 24/72 h. The ablations (§6 Stage E) show what each part does. PatchTST, trained and selected exactly like AQFM, ties AQFM-without-future-weather on average error (better at 24 h, worse at 1 h and in the Severe band; `results/patchtst_summary.md`), so AQFM's large 24–72 h margin comes with future weather. E-STGCN (re-implemented, same treatment) is weaker on average error but the best model without future weather in the Severe band (`results/estgcn_summary.md`). Next milestone: the write-up (Stage G).
 
 ---
 
@@ -68,7 +68,7 @@ Key design references: `files_AqFM/aqfm_design.tex` (full spec), `docs/aqfm_impl
 | `baselines/run_baselines_ttm.py` | IBM Granite TTM r2, zero-shot, hourly | ok (see caveat in §3 B3) |
 | `baselines/results/*.json` | Baseline metrics (incl. PatchTST `patchtst_*`) | regenerated (see §4) |
 | `deep_baselines/` | **Deep baselines (Stage F), own folder; imports `aqfm/` and `baselines/`, changes neither.** `common.py` (data, splits, AQFM's validation set, RevIN, scoring), `patchtst.py` (train / evaluate-from-checkpoint), `seed_stats.py`, `pipeline_patchtst.sh`, `tests/` (8), `runs/` (logs tracked, `*.pt` on Drive), `README.md` (like-for-like table) | PatchTST done |
-| `deep_baselines/estgcn/` | E-STGCN, our PyTorch re-implementation (own folder): `estgcn.py`, `pipeline_estgcn.sh`, `tests/` (10), `README.md` (what was kept and changed, and why) | written and tested, not trained |
+| `deep_baselines/estgcn/` | E-STGCN, our PyTorch re-implementation (own folder): `estgcn.py`, `pipeline_estgcn.sh`, `tests/` (10), `runs/`, `README.md` (what was kept and changed, and why) | done |
 | `files_AqFM/` | Original reference model + design `.tex/.pdf` + README | **frozen**; superseded by `aqfm/`; its bugs are listed in §5 (all fixed in `aqfm/`) |
 | `_archive_old/` | **Superseded material, moved here 2026-10-11.** `project_handoff.md` (replaced by this file), `preprocessing_result_aqfm` (describes the old 17-channel output), `Zeroshot forecast/` (the leaky TTM experiment behind the slides' "32.6 MAE"), `era5_data_2021_2025.zip`, `baseline_results_OLD_invalid/` (pre-fix baseline JSONs; only the XGBoost one differs from the current results), `preprocessing_plan_aqfm` (old plain-language plan, describes 38 stations × 19 channels), and `cpcb_raw_intermediates/` (the `preprocess2017..2020/` folders + zip that were misfiled inside `data/era5_data_raw/`; already processed into `data/yearly_data/`). Gitignored. Safe to delete to free ~371 MB | archive |
 | `docs/` | `PROJECT_DOCUMENTATION.md` (full plain-language write-up, basis for the slides), `DATA_REPORT.md`, `BOTTLENECKS_AND_IMPROVEMENTS.md`, `aqfm_implementation_plan.md`, `baselines/` (baseline plan, report, testing guide) | docs |
@@ -362,7 +362,7 @@ Run their public code on **our exact 2025 protocol**; do not copy numbers from t
   Not done: iTransformer (optional).
 - ⬜ **F2. AirFormer** (AAAI 2023, code public) — closest architecture: attention + uncertainty.
 - ⬜ **F3. AirPhyNet** (ICLR 2024, code public) — closest physics claim.
-- 🔄 **F4. E-STGCN** (arXiv 2411.12258; JRSS-A 2026, doi 10.1093/jrsssa/qnag010). **2026-10-16: ported** to PyTorch in its own folder `deep_baselines/estgcn/` (written from the paper and notebook, nothing copied; 10 tests incl. our loss = their notebook formula for one sample and the every-sample fix). Kept/changed and why: `deep_baselines/estgcn/README.md`. Same selection as PatchTST (learning rate 1e-4/2e-4/4e-4 on seed 0, then seeds 1, 2, per pollutant). Training not started (~3 h, `deep_baselines/estgcn/pipeline_estgcn.sh`). Earlier notes: — reports results on **37 Delhi stations**, most likely the same network, so it is the closest direct competitor.
+- ✅ **F4. E-STGCN** (arXiv 2411.12258; JRSS-A 2026, doi 10.1093/jrsssa/qnag010). **2026-10-16: ported, trained and tested** to PyTorch in its own folder `deep_baselines/estgcn/` (written from the paper and notebook, nothing copied; 10 tests incl. our loss = their notebook formula for one sample and the every-sample fix). Kept/changed and why: `deep_baselines/estgcn/README.md`. Same selection as PatchTST (learning rate 1e-4/2e-4/4e-4 on seed 0, then seeds 1, 2, per pollutant; chosen 4e-4 PM2.5, 2e-4 PM10), chain `deep_baselines/estgcn/pipeline_estgcn.sh` (~3 h), write-up `results/estgcn_summary.md`. **Result:** without future weather it is behind AQFM and PatchTST on MAE at 6/24/72 h but the best in the Severe band (its extreme-value loss), and best on RMSE at 1 h (MSE training). Numbers: `results/TABLES.md`. Earlier notes: — reports results on **37 Delhi stations**, most likely the same network, so it is the closest direct competitor.
   **Checked 2026-10-15 (paper v2 read, repo inspected, nothing run):** code is public at `github.com/mad-stat/E_STGCN`
   (paper's "Data and Code Availability Statement"), but the repo has **no license** — run/port it for the comparison,
   cite it, and do not copy their files into this repo. Contents: one Keras/TensorFlow notebook (`E_STGCN_Code_Share.ipynb`,
@@ -481,6 +481,7 @@ python scripts/make_tables.py                # -> results/TABLES.md (every table
 # scripts/pipeline_2026-10-14.sh is the exact chain that produced the final-setup results
 # scripts/pipeline_2026-10-15_ablations.sh: Stage E ablations + no-future-met seeds 1, 2 (each command is also in the manifest)
 bash deep_baselines/pipeline_patchtst.sh     # Stage F1: PatchTST dropout sweep, seeds, 2025 test (~55 min); see the manifest
+bash deep_baselines/estgcn/pipeline_estgcn.sh   # Stage F4: E-STGCN learning-rate sweep, seeds, 2025 test (~3 h)
 python -m pytest deep_baselines/tests deep_baselines/estgcn/tests -q   # deep-baseline tests (not part of check_submission)
 ```
 
