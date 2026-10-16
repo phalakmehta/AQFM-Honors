@@ -375,6 +375,9 @@ Run their public code on **our exact 2025 protocol**; do not copy numbers from t
   trains the model — check before porting and document whatever we do. To compare on our protocol (15-min, 1–72 h,
   2025 test) it must be ported (PyTorch, small) and retrained on our splits; their published numbers are not comparable.
 
+- ⬜ **F5. O3 and NO2 for every model** (requested 2026-10-16, to run later): AQFM needs no retraining (it already predicts
+  both); all baselines need new runs; ~6 h. Full plan: `docs/plan_o3_no2.md`.
+
 ### Stage G — Write-up
 
 - ⬜ **G1. Literature review** before any novelty claim (§9 is a starting list, not a review).

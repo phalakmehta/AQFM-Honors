@@ -63,6 +63,7 @@ Last updated: 2026-10-16, 15:45.
 | E2 no BLH · E3 no spatial attention, no wind · E4 PM2.5 predicted directly · E5 gap-filling only (seed 0 each) | ✅ (`results/aqfm_ablations_summary.md`) |
 | F1 PatchTST on our 2025 protocol (same treatment as AQFM; `results/patchtst_summary.md`) | ✅ |
 | F4 E-STGCN, our re-implementation on our protocol (same treatment; `results/estgcn_summary.md`) | ✅ |
+| F5 O3 and NO2 for every model (plan: `docs/plan_o3_no2.md`, ~6 h) | ⬜ |
 | G write-up: literature review, methods deviations (§7.6), figures, slides with real numbers | ⬜ |
 | H open risks: COVID year, single test year, station types (discuss or test) | ⬜ |
 
