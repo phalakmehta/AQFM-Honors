@@ -8,7 +8,7 @@ import sys
 
 import numpy as np
 
-MODELS = ("PatchTST",)          # the results section of each deep baseline
+MODELS = ("PatchTST", "E-STGCN")          # the results section of each deep baseline
 
 
 def leaves(d, prefix=""):
