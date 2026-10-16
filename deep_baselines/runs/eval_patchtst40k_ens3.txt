@@ -1,0 +1,3 @@
+PM2.5 {'1h': 16.2576, '6h': 28.0397, '24h': 37.753, '72h': 43.308}
+PM10 {'1h': 30.58, '6h': 47.4859, '24h': 73.8794, '72h': 84.4394}
+saved baselines/results/patchtst_ens3_results.json

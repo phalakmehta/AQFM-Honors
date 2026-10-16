@@ -1,0 +1,33 @@
+[2026-10-16 10:52:31] code at commit 889e82d, starting
+8 passed in 9.28s
+[2026-10-16 10:52:41] train deep_baselines/runs/patchtst40k_do1_s0: --seed 0 --dropout 0.1 --steps 40000 --patience 0
+done. best val l1=0.8840  (10.2 min)
+[2026-10-16 11:02:55] train deep_baselines/runs/patchtst40k_do2_s0: --seed 0 --dropout 0.2 --steps 40000 --patience 0
+done. best val l1=0.8849  (10.3 min)
+[2026-10-16 11:13:14] train deep_baselines/runs/patchtst40k_do3_s0: --seed 0 --dropout 0.3 --steps 40000 --patience 0
+done. best val l1=0.8855  (10.2 min)
+[2026-10-16 11:23:28] validation: do1=0.88400 do2=0.88487 do3=0.88554 -> chosen: do1
+[2026-10-16 11:23:28] train deep_baselines/runs/patchtst40k_do1_s1: --seed 1 --dropout 0.1 --steps 40000 --patience 0
+done. best val l1=0.8843  (10.2 min)
+[2026-10-16 11:33:41] train deep_baselines/runs/patchtst40k_do1_s2: --seed 2 --dropout 0.1 --steps 40000 --patience 0
+done. best val l1=0.8849  (10.2 min)
+[2026-10-16 11:43:55] evaluate -> baselines/results/patchtst_s0_results.json: deep_baselines/runs/patchtst40k_do1_s0/best.pt
+PM2.5 {'1h': 16.3058, '6h': 28.0701, '24h': 37.8112, '72h': 43.4451}
+PM10 {'1h': 30.7355, '6h': 47.736, '24h': 74.0504, '72h': 84.6848}
+saved baselines/results/patchtst_s0_results.json
+[2026-10-16 11:43:59] evaluate -> baselines/results/patchtst_s1_results.json: deep_baselines/runs/patchtst40k_do1_s1/best.pt
+PM2.5 {'1h': 16.7988, '6h': 28.3113, '24h': 37.703, '72h': 43.1612}
+PM10 {'1h': 31.851, '6h': 47.7054, '24h': 73.8797, '72h': 84.1424}
+saved baselines/results/patchtst_s1_results.json
+[2026-10-16 11:44:03] evaluate -> baselines/results/patchtst_s2_results.json: deep_baselines/runs/patchtst40k_do1_s2/best.pt
+PM2.5 {'1h': 16.4027, '6h': 28.041, '24h': 37.9405, '72h': 43.5057}
+PM10 {'1h': 30.4117, '6h': 47.4806, '24h': 73.9648, '72h': 84.7806}
+saved baselines/results/patchtst_s2_results.json
+PatchTST PM2.5 1h 16.50±0.26 6h 28.14±0.15 24h 37.82±0.12 72h 43.37±0.18
+PatchTST PM10 1h 31.00±0.76 6h 47.64±0.14 24h 73.96±0.09 72h 84.54±0.34
+saved baselines/results/patchtst_seeds_stats.json
+[2026-10-16 11:44:06] evaluate -> baselines/results/patchtst_ens3_results.json: deep_baselines/runs/patchtst40k_do1_s0/best.pt deep_baselines/runs/patchtst40k_do1_s1/best.pt deep_baselines/runs/patchtst40k_do1_s2/best.pt
+PM2.5 {'1h': 16.2576, '6h': 28.0397, '24h': 37.753, '72h': 43.308}
+PM10 {'1h': 30.58, '6h': 47.4859, '24h': 73.8794, '72h': 84.4394}
+saved baselines/results/patchtst_ens3_results.json
+[2026-10-16 11:44:11] pipeline finished; failed: none

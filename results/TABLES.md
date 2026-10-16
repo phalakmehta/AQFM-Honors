@@ -23,6 +23,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM run 1: no anchor | 33.61 | 33.75 | 35.85 | 38.83 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 17.99 | 28.48 | 33.65 | 36.45 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 18.17 | 30.06 | 38.63 | 43.74 | `baselines/results/xgboost_results.json` |
+| PatchTST ensemble (3 seeds) | 16.26 | 28.04 | 37.75 | 43.31 | `baselines/results/patchtst_ens3_results.json` |
+| PatchTST, mean ± std (3 seeds) | 16.50 ± 0.26 | 28.14 ± 0.15 | 37.82 ± 0.12 | 43.37 ± 0.18 | `baselines/results/patchtst_seeds_stats.json` |
+| PatchTST seed 0 | 16.31 | 28.07 | 37.81 | 43.45 | `baselines/results/patchtst_s0_results.json` |
+| PatchTST seed 1 | 16.80 | 28.31 | 37.70 | 43.16 | `baselines/results/patchtst_s1_results.json` |
+| PatchTST seed 2 | 16.40 | 28.04 | 37.94 | 43.51 | `baselines/results/patchtst_s2_results.json` |
 | IBM TTM (zero-shot) | 20.23 | 32.43 | 37.70 | 41.32 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 20.95 | 32.13 | 39.16 | 42.75 | `baselines/results/ttm_results.json` |
 | Persistence | 15.89 | 35.53 | 43.78 | 54.54 | `baselines/results/classical_results.json` |
@@ -48,6 +53,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM run 1: no anchor | 58.14 | 55.17 | 61.10 | 66.35 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 35.14 | 46.19 | 57.54 | 62.07 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 35.26 | 48.67 | 66.00 | 72.64 | `baselines/results/xgboost_results.json` |
+| PatchTST ensemble (3 seeds) | 33.82 | 47.31 | 64.39 | 72.36 | `baselines/results/patchtst_ens3_results.json` |
+| PatchTST, mean ± std (3 seeds) | 34.12 ± 0.87 | 47.45 ± 0.40 | 64.48 ± 0.17 | 72.45 ± 0.22 | `baselines/results/patchtst_seeds_stats.json` |
+| PatchTST seed 0 | 33.69 | 47.38 | 64.60 | 72.66 | `baselines/results/patchtst_s0_results.json` |
+| PatchTST seed 1 | 35.12 | 47.89 | 64.54 | 72.47 | `baselines/results/patchtst_s1_results.json` |
+| PatchTST seed 2 | 33.56 | 47.09 | 64.29 | 72.21 | `baselines/results/patchtst_s2_results.json` |
 | IBM TTM (zero-shot) | 37.07 | 52.61 | 64.23 | 69.47 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 38.23 | 51.56 | 65.93 | 71.17 | `baselines/results/ttm_results.json` |
 | Persistence | 29.85 | 60.85 | 75.85 | 92.13 | `baselines/results/classical_results.json` |
@@ -73,6 +83,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM run 1: no anchor | 62.83 | 55.96 | 65.72 | 69.53 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 34.24 | 47.22 | 62.07 | 67.16 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 34.71 | 49.44 | 73.65 | 83.46 | `baselines/results/xgboost_results.json` |
+| PatchTST ensemble (3 seeds) | 30.58 | 47.49 | 73.88 | 84.44 | `baselines/results/patchtst_ens3_results.json` |
+| PatchTST, mean ± std (3 seeds) | 31.00 ± 0.76 | 47.64 ± 0.14 | 73.96 ± 0.09 | 84.54 ± 0.34 | `baselines/results/patchtst_seeds_stats.json` |
+| PatchTST seed 0 | 30.74 | 47.74 | 74.05 | 84.68 | `baselines/results/patchtst_s0_results.json` |
+| PatchTST seed 1 | 31.85 | 47.71 | 73.88 | 84.14 | `baselines/results/patchtst_s1_results.json` |
+| PatchTST seed 2 | 30.41 | 47.48 | 73.96 | 84.78 | `baselines/results/patchtst_s2_results.json` |
 | IBM TTM (zero-shot) | 37.55 | 52.80 | 71.74 | 79.25 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 38.96 | 53.10 | 75.09 | 82.51 | `baselines/results/ttm_results.json` |
 | Persistence | 31.28 | 71.47 | 84.64 | 106.47 | `baselines/results/classical_results.json` |
@@ -98,6 +113,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM run 1: no anchor | 92.27 | 81.97 | 93.95 | 100.54 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 57.59 | 72.89 | 88.86 | 96.27 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 58.46 | 75.39 | 105.49 | 116.23 | `baselines/results/xgboost_results.json` |
+| PatchTST ensemble (3 seeds) | 52.03 | 71.79 | 105.83 | 117.81 | `baselines/results/patchtst_ens3_results.json` |
+| PatchTST, mean ± std (3 seeds) | 52.54 ± 1.42 | 72.00 ± 0.13 | 105.96 ± 0.15 | 117.95 ± 0.23 | `baselines/results/patchtst_seeds_stats.json` |
+| PatchTST seed 0 | 52.28 | 72.13 | 106.13 | 118.22 | `baselines/results/patchtst_s0_results.json` |
+| PatchTST seed 1 | 54.07 | 71.87 | 105.86 | 117.80 | `baselines/results/patchtst_s1_results.json` |
+| PatchTST seed 2 | 51.26 | 71.99 | 105.89 | 117.82 | `baselines/results/patchtst_s2_results.json` |
 | IBM TTM (zero-shot) | 58.63 | 76.76 | 102.88 | 111.73 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 60.12 | 77.76 | 106.09 | 114.59 | `baselines/results/ttm_results.json` |
 | Persistence | 52.39 | 106.03 | 124.50 | 150.84 | `baselines/results/classical_results.json` |
@@ -123,6 +143,11 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM run 1: no anchor | 16.1 | 14.7 | 22.7 | 33.8 | 48.5 | 100.8 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 17.8 | 15.2 | 22.1 | 32.6 | 41.7 | 93.4 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 21.8 | 17.5 | 23.2 | 35.1 | 47.6 | 110.5 | `baselines/results/xgboost_results.json` |
+| PatchTST ensemble (3 seeds) | 16.4 | 16.5 | 23.0 | 34.8 | 48.8 | 110.6 | `baselines/results/patchtst_ens3_results.json` |
+| PatchTST, mean ± std (3 seeds) | 16.5 ± 0.3 | 16.5 ± 0.4 | 23.1 ± 0.3 | 34.8 ± 0.1 | 48.9 ± 0.5 | 110.7 ± 1.6 | `baselines/results/patchtst_seeds_stats.json` |
+| PatchTST seed 0 | 16.3 | 16.4 | 23.0 | 34.8 | 49.0 | 111.2 | `baselines/results/patchtst_s0_results.json` |
+| PatchTST seed 1 | 16.3 | 16.2 | 22.9 | 34.7 | 48.4 | 112.1 | `baselines/results/patchtst_s1_results.json` |
+| PatchTST seed 2 | 16.8 | 17.0 | 23.4 | 35.0 | 49.4 | 109.0 | `baselines/results/patchtst_s2_results.json` |
 | IBM TTM (zero-shot) | 18.6 | 17.1 | 23.0 | 35.0 | 49.8 | 112.4 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 18.1 | 16.9 | 23.7 | 37.8 | 51.5 | 111.0 | `baselines/results/ttm_results.json` |
 | Persistence | 16.7 | 20.4 | 28.3 | 41.2 | 60.2 | 119.3 | `baselines/results/classical_results.json` |

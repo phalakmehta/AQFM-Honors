@@ -1,0 +1,113 @@
+{
+  "PatchTST": {
+    "PM2.5": {
+      "1h": {
+        "MAE": 16.7988,
+        "RMSE": 35.1218,
+        "n": 12210
+      },
+      "6h": {
+        "MAE": 28.3113,
+        "RMSE": 47.8854,
+        "n": 11998
+      },
+      "24h": {
+        "MAE": 37.703,
+        "RMSE": 64.5448,
+        "n": 10309
+      },
+      "72h": {
+        "MAE": 43.1612,
+        "RMSE": 72.4695,
+        "n": 10306
+      },
+      "24h_aqi": {
+        "Good": {
+          "MAE": 16.2527,
+          "RMSE": 22.7901,
+          "n": 1555
+        },
+        "Satisfactory": {
+          "MAE": 16.2065,
+          "RMSE": 23.0482,
+          "n": 2646
+        },
+        "Moderate": {
+          "MAE": 22.8625,
+          "RMSE": 29.8997,
+          "n": 1603
+        },
+        "Poor": {
+          "MAE": 34.6772,
+          "RMSE": 44.1829,
+          "n": 1005
+        },
+        "Very Poor": {
+          "MAE": 48.3599,
+          "RMSE": 60.987,
+          "n": 2248
+        },
+        "Severe": {
+          "MAE": 112.0713,
+          "RMSE": 152.1366,
+          "n": 1252
+        }
+      }
+    },
+    "PM10": {
+      "1h": {
+        "MAE": 31.851,
+        "RMSE": 54.0721,
+        "n": 12528
+      },
+      "6h": {
+        "MAE": 47.7054,
+        "RMSE": 71.871,
+        "n": 12341
+      },
+      "24h": {
+        "MAE": 73.8797,
+        "RMSE": 105.8633,
+        "n": 10634
+      },
+      "72h": {
+        "MAE": 84.1424,
+        "RMSE": 117.8045,
+        "n": 10633
+      }
+    }
+  },
+  "n_origins": 362,
+  "n_windows": 13394,
+  "selected": [
+    {
+      "step": 33000,
+      "val": {
+        "l1": 0.8843221175092562,
+        "mae_pm25": 36.401106939475845,
+        "mae_pm10": 63.79965166327367
+      }
+    }
+  ],
+  "checkpoint": "deep_baselines/runs/patchtst40k_do1_s1/best.pt",
+  "code": {
+    "commit": "889e82d106831bc6535604f3befb9c0623751c46",
+    "dirty": false,
+    "changed": []
+  },
+  "train_code": {
+    "commit": "889e82d106831bc6535604f3befb9c0623751c46",
+    "dirty": false,
+    "changed": []
+  },
+  "args": {
+    "cmd": "evaluate",
+    "ckpt": [
+      "deep_baselines/runs/patchtst40k_do1_s1/best.pt"
+    ],
+    "out": "baselines/results/patchtst_s1_results.json",
+    "data": "/home/phalak/aqfm/AQFM-Honors/data/preprocessed",
+    "device": "cuda",
+    "eval_batch": 512
+  }
+}

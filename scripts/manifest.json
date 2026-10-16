@@ -135,6 +135,30 @@
       "sha256": "46156deb206c8d6691082c3e465c5b4716aabfaf6472cd21fe00f8afe9a62f50",
       "code": "4b0c7d6",
       "train": "python -m aqfm.train --phase main --out runs/main_s2_do3_nofm --device cuda --batch-size 8 --steps 12000 --weight-decay 0.05 --patience 3 --dropout 0.3 --compile --seed 2 --no-future-met"
+    },
+    "patchtst_s0": {
+      "what": "PatchTST, dropout 0.1, seed 0, whole 40k-step schedule; best at step 38000 (validation L1 0.8840). Dropout chosen on 2024 validation from the seed-0 sweep (best validation L1 per dropout: 0.1: 0.8840, 0.2: 0.8849, 0.3: 0.8855)",
+      "path": "deep_baselines/runs/patchtst40k_do1_s0/best.pt",
+      "drive": "models/patchtst_s0.pt",
+      "sha256": "1e6ef20922732e53e9ae1fb54be6404e9ab3af434113563f4051f13f496a7d9b",
+      "code": "889e82d",
+      "train": "python deep_baselines/patchtst.py train --out deep_baselines/runs/patchtst40k_do1_s0 --seed 0 --dropout 0.1 --steps 40000 --patience 0"
+    },
+    "patchtst_s1": {
+      "what": "PatchTST, dropout 0.1, seed 1, whole 40k-step schedule; best at step 33000 (validation L1 0.8843)",
+      "path": "deep_baselines/runs/patchtst40k_do1_s1/best.pt",
+      "drive": "models/patchtst_s1.pt",
+      "sha256": "249b6e9bb14ae45dfd7956d72f00b7a7614c409404fd2897190d1f55048e3bd0",
+      "code": "889e82d",
+      "train": "python deep_baselines/patchtst.py train --out deep_baselines/runs/patchtst40k_do1_s1 --seed 1 --dropout 0.1 --steps 40000 --patience 0"
+    },
+    "patchtst_s2": {
+      "what": "PatchTST, dropout 0.1, seed 2, whole 40k-step schedule; best at step 22000 (validation L1 0.8849)",
+      "path": "deep_baselines/runs/patchtst40k_do1_s2/best.pt",
+      "drive": "models/patchtst_s2.pt",
+      "sha256": "e5778ea516cb3d55324149acdccdc323d74a8ba3ea26bf11e784796f2707c2ff",
+      "code": "889e82d",
+      "train": "python deep_baselines/patchtst.py train --out deep_baselines/runs/patchtst40k_do1_s2 --seed 2 --dropout 0.1 --steps 40000 --patience 0"
     }
   },
 
@@ -248,6 +272,31 @@
       "what": "Mean and std (ddof=1) over seeds 0/1/2 of every metric, without future weather",
       "models": [], "code": "4b0c7d6", "minutes": 0,
       "run": "python scripts/seed_stats.py results/aqfm_do3_nofm_seeds_stats.json results/aqfm_do3_nofm_s0_results.json results/aqfm_do3_nofm_s1_results.json results/aqfm_do3_nofm_s2_results.json"
+    },
+    "baselines/results/patchtst_s0_results.json": {
+      "what": "PatchTST, seed 0, 2025 test",
+      "models": ["patchtst_s0"], "code": "889e82d", "minutes": 1,
+      "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s0/best.pt --out baselines/results/patchtst_s0_results.json"
+    },
+    "baselines/results/patchtst_s1_results.json": {
+      "what": "PatchTST, seed 1, 2025 test",
+      "models": ["patchtst_s1"], "code": "889e82d", "minutes": 1,
+      "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s1/best.pt --out baselines/results/patchtst_s1_results.json"
+    },
+    "baselines/results/patchtst_s2_results.json": {
+      "what": "PatchTST, seed 2, 2025 test",
+      "models": ["patchtst_s2"], "code": "889e82d", "minutes": 1,
+      "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s2/best.pt --out baselines/results/patchtst_s2_results.json"
+    },
+    "baselines/results/patchtst_ens3_results.json": {
+      "what": "PatchTST, 3-seed ensemble (mean of the point forecasts), 2025 test",
+      "models": ["patchtst_s0", "patchtst_s1", "patchtst_s2"], "code": "889e82d", "minutes": 1,
+      "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s0/best.pt deep_baselines/runs/patchtst40k_do1_s1/best.pt deep_baselines/runs/patchtst40k_do1_s2/best.pt --out baselines/results/patchtst_ens3_results.json"
+    },
+    "baselines/results/patchtst_seeds_stats.json": {
+      "what": "PatchTST: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "889e82d", "minutes": 0,
+      "run": "python deep_baselines/seed_stats.py baselines/results/patchtst_seeds_stats.json baselines/results/patchtst_s0_results.json baselines/results/patchtst_s1_results.json baselines/results/patchtst_s2_results.json"
     }
   }
 }
