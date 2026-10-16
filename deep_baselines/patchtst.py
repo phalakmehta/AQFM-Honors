@@ -18,8 +18,11 @@ Same treatment as AQFM, so the comparison is like for like:
   - inputs: the last 512 steps (128 h), AQFM's context; the same 2025 points scored by the same functions;
   - training windows drawn like AQFM's (window start and station uniform, horizon before 2024);
   - validation: AQFM's 512 fixed 2024 windows at the same 12 stations each (common.validation_series),
-    every --val-every steps; the best checkpoint is kept; stop after --patience validations without
-    improvement (AQFM: 1000 steps, patience 3);
+    every --val-every steps (as AQFM: 1000); the best checkpoint is kept. AQFM stops after 3 validations
+    without improvement: its validation rises after the peak (overfitting), so stopping costs nothing.
+    PatchTST's validation keeps falling slowly to the end of the schedule, and patience 3 stopped 2 of
+    5 runs on a noisy flat stretch (deep_baselines/runs/patchtst_do*_s*/log.jsonl). So PatchTST runs
+    its whole schedule (--patience 0), 40k steps; both models keep their best validation checkpoint;
   - tuning budget: AQFM's (dropout 0.1 / 0.2 / 0.3 on seed 0, chosen on 2024 validation, then seeds 1
     and 2 of the choice; deep_baselines/pipeline_patchtst.sh);
   - point forecast: L1 loss, i.e. the median, as AQFM's median of samples.
@@ -157,7 +160,7 @@ def train(args):
                 print(f"  [val] new best {best:.4f} -> best.pt", flush=True)
             else:
                 bad += 1
-                if bad >= args.patience:
+                if args.patience and bad >= args.patience:
                     print(f"  early stop: no improvement in {bad} validations")
                     break
     print(f"done. best val l1={best:.4f}  ({(time.time() - t_start) / 60:.1f} min)")
@@ -224,7 +227,8 @@ def main():
     tr.add_argument("--warmup", type=int, default=1000)
     tr.add_argument("--val-every", type=int, default=1000)
     tr.add_argument("--val-windows", type=int, default=512, help="AQFM windows (x 12 stations each)")
-    tr.add_argument("--patience", type=int, default=3, help="validations without improvement")
+    tr.add_argument("--patience", type=int, default=3,
+                    help="validations without improvement before stopping; 0 = run the whole schedule")
     tr.add_argument("--patch-len", type=int, default=16)
     tr.add_argument("--stride", type=int, default=8)
     tr.add_argument("--layers", type=int, default=3)

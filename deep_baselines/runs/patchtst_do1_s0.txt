@@ -1,0 +1,36 @@
+loading series (train_end=210336, test_start=245472) ...
+parameters: 2.73M  device=cuda
+validation: 512 windows x 12 stations = 6144 series
+code: de1bffb
+step=1 lr=1e-07 loss=1.835 s_per_step=0.2025
+step=500 lr=5e-05 loss=1.096 s_per_step=0.01533
+step=1000 lr=0.0001 loss=0.9861 s_per_step=0.01519
+  [val] step 1000: l1=0.9066 mae_pm25=37.2265 mae_pm10=65.2712
+  [val] new best 0.9066 -> best.pt
+step=1500 lr=9.983e-05 loss=0.9093 s_per_step=0.01537
+step=2000 lr=9.933e-05 loss=0.8845 s_per_step=0.01526
+  [val] step 2000: l1=0.8955 mae_pm25=36.9382 mae_pm10=64.6828
+  [val] new best 0.8955 -> best.pt
+step=2500 lr=9.849e-05 loss=0.8906 s_per_step=0.01534
+step=3000 lr=9.732e-05 loss=0.8428 s_per_step=0.01529
+  [val] step 3000: l1=0.8947 mae_pm25=36.8349 mae_pm10=64.5908
+  [val] new best 0.8947 -> best.pt
+step=3500 lr=9.583e-05 loss=0.9425 s_per_step=0.01536
+step=4000 lr=9.404e-05 loss=0.8906 s_per_step=0.01532
+  [val] step 4000: l1=0.8938 mae_pm25=36.7784 mae_pm10=64.4970
+  [val] new best 0.8938 -> best.pt
+step=4500 lr=9.194e-05 loss=0.913 s_per_step=0.01536
+step=5000 lr=8.957e-05 loss=0.9322 s_per_step=0.01533
+  [val] step 5000: l1=0.8913 mae_pm25=36.7504 mae_pm10=64.4032
+  [val] new best 0.8913 -> best.pt
+step=5500 lr=8.692e-05 loss=0.8643 s_per_step=0.01537
+step=6000 lr=8.403e-05 loss=0.9125 s_per_step=0.01535
+  [val] step 6000: l1=0.8917 mae_pm25=36.7328 mae_pm10=64.4055
+step=6500 lr=8.091e-05 loss=0.837 s_per_step=0.01539
+step=7000 lr=7.758e-05 loss=0.9196 s_per_step=0.01538
+  [val] step 7000: l1=0.8944 mae_pm25=36.9523 mae_pm10=64.6801
+step=7500 lr=7.407e-05 loss=0.8195 s_per_step=0.01544
+step=8000 lr=7.039e-05 loss=0.8728 s_per_step=0.01544
+  [val] step 8000: l1=0.8914 mae_pm25=36.6014 mae_pm10=64.2294
+  early stop: no improvement in 3 validations
+done. best val l1=0.8913  (2.1 min)

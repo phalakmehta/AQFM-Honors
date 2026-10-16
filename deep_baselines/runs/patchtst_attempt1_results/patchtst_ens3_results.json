@@ -1,0 +1,147 @@
+{
+  "PatchTST": {
+    "PM2.5": {
+      "1h": {
+        "MAE": 16.8413,
+        "RMSE": 35.0479,
+        "n": 12210
+      },
+      "6h": {
+        "MAE": 28.3366,
+        "RMSE": 47.4359,
+        "n": 11998
+      },
+      "24h": {
+        "MAE": 37.8477,
+        "RMSE": 64.4695,
+        "n": 10309
+      },
+      "72h": {
+        "MAE": 43.2866,
+        "RMSE": 72.3696,
+        "n": 10306
+      },
+      "24h_aqi": {
+        "Good": {
+          "MAE": 16.461,
+          "RMSE": 23.1126,
+          "n": 1555
+        },
+        "Satisfactory": {
+          "MAE": 16.5021,
+          "RMSE": 23.6855,
+          "n": 2646
+        },
+        "Moderate": {
+          "MAE": 23.0768,
+          "RMSE": 30.5345,
+          "n": 1603
+        },
+        "Poor": {
+          "MAE": 34.9086,
+          "RMSE": 45.076,
+          "n": 1005
+        },
+        "Very Poor": {
+          "MAE": 49.16,
+          "RMSE": 62.3416,
+          "n": 2248
+        },
+        "Severe": {
+          "MAE": 110.4823,
+          "RMSE": 150.2367,
+          "n": 1252
+        }
+      }
+    },
+    "PM10": {
+      "1h": {
+        "MAE": 31.3932,
+        "RMSE": 53.3201,
+        "n": 12528
+      },
+      "6h": {
+        "MAE": 47.8464,
+        "RMSE": 72.2281,
+        "n": 12341
+      },
+      "24h": {
+        "MAE": 73.898,
+        "RMSE": 105.9212,
+        "n": 10634
+      },
+      "72h": {
+        "MAE": 84.4999,
+        "RMSE": 118.0315,
+        "n": 10633
+      }
+    }
+  },
+  "n_origins": 362,
+  "n_windows": 13394,
+  "selected": [
+    {
+      "step": 20000,
+      "val": {
+        "l1": 0.8864795223818449,
+        "mae_pm25": 36.488068380865684,
+        "mae_pm10": 64.02332556488129
+      }
+    },
+    {
+      "step": 6000,
+      "val": {
+        "l1": 0.8913487432710414,
+        "mae_pm25": 36.75317848348237,
+        "mae_pm10": 64.44336543519705
+      }
+    },
+    {
+      "step": 20000,
+      "val": {
+        "l1": 0.8864739027676123,
+        "mae_pm25": 36.44867423612833,
+        "mae_pm10": 64.03401008820966
+      }
+    }
+  ],
+  "checkpoint": [
+    "deep_baselines/runs/patchtst_do2_s0/best.pt",
+    "deep_baselines/runs/patchtst_do2_s1/best.pt",
+    "deep_baselines/runs/patchtst_do2_s2/best.pt"
+  ],
+  "code": {
+    "commit": "de1bffbe953763fe6203a6b1c73f73b14413abc4",
+    "dirty": false,
+    "changed": []
+  },
+  "train_code": [
+    {
+      "commit": "de1bffbe953763fe6203a6b1c73f73b14413abc4",
+      "dirty": false,
+      "changed": []
+    },
+    {
+      "commit": "de1bffbe953763fe6203a6b1c73f73b14413abc4",
+      "dirty": false,
+      "changed": []
+    },
+    {
+      "commit": "de1bffbe953763fe6203a6b1c73f73b14413abc4",
+      "dirty": false,
+      "changed": []
+    }
+  ],
+  "args": {
+    "cmd": "evaluate",
+    "ckpt": [
+      "deep_baselines/runs/patchtst_do2_s0/best.pt",
+      "deep_baselines/runs/patchtst_do2_s1/best.pt",
+      "deep_baselines/runs/patchtst_do2_s2/best.pt"
+    ],
+    "out": "baselines/results/patchtst_ens3_results.json",
+    "data": "/home/phalak/aqfm/AQFM-Honors/data/preprocessed",
+    "device": "cuda",
+    "eval_batch": 512
+  }
+}

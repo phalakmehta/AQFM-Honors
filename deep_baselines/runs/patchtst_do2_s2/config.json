@@ -1,0 +1,102 @@
+{
+  "model": "PatchTST",
+  "args": {
+    "cmd": "train",
+    "out": "deep_baselines/runs/patchtst_do2_s2",
+    "seed": 2,
+    "steps": 20000,
+    "batch_size": 128,
+    "lr": 0.0001,
+    "warmup": 1000,
+    "val_every": 1000,
+    "val_windows": 512,
+    "patience": 3,
+    "patch_len": 16,
+    "stride": 8,
+    "layers": 3,
+    "d_model": 128,
+    "heads": 16,
+    "ffn": 256,
+    "dropout": 0.2,
+    "data": "/home/phalak/aqfm/AQFM-Honors/data/preprocessed",
+    "device": "cuda",
+    "eval_batch": 512
+  },
+  "hf_config": {
+    "transformers_version": "5.16.1",
+    "architectures": null,
+    "output_hidden_states": false,
+    "return_dict": true,
+    "dtype": null,
+    "chunk_size_feed_forward": 0,
+    "is_encoder_decoder": false,
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1"
+    },
+    "label2id": {
+      "LABEL_0": 0,
+      "LABEL_1": 1
+    },
+    "problem_type": null,
+    "num_input_channels": 2,
+    "context_length": 512,
+    "distribution_output": "student_t",
+    "loss": "mse",
+    "patch_length": 16,
+    "patch_stride": 8,
+    "num_hidden_layers": 3,
+    "d_model": 128,
+    "num_attention_heads": 16,
+    "share_embedding": true,
+    "channel_attention": false,
+    "ffn_dim": 256,
+    "norm_type": "batchnorm",
+    "norm_eps": 1e-05,
+    "attention_dropout": 0.0,
+    "positional_dropout": 0.2,
+    "path_dropout": 0.2,
+    "ff_dropout": 0.2,
+    "bias": true,
+    "activation_function": "gelu",
+    "pre_norm": false,
+    "positional_encoding_type": "random",
+    "use_cls_token": false,
+    "init_std": 0.02,
+    "share_projection": true,
+    "scaling": null,
+    "do_mask_input": null,
+    "mask_type": "random",
+    "random_mask_ratio": 0.5,
+    "num_forecast_mask_patches": [
+      2
+    ],
+    "channel_consistent_masking": false,
+    "unmasked_channel_indices": null,
+    "mask_value": 0,
+    "pooling_type": null,
+    "head_dropout": 0.0,
+    "prediction_length": 288,
+    "num_targets": 1,
+    "output_range": null,
+    "num_parallel_samples": 100,
+    "_name_or_path": "",
+    "model_type": "patchtst",
+    "output_attentions": false
+  },
+  "val_start": 210336,
+  "test_start": 245472,
+  "global_mean": [
+    103.75615692138672,
+    208.93589782714844
+  ],
+  "global_std": [
+    97.90216827392578,
+    149.46444702148438
+  ],
+  "code": {
+    "commit": "de1bffbe953763fe6203a6b1c73f73b14413abc4",
+    "dirty": false,
+    "changed": []
+  }
+}
