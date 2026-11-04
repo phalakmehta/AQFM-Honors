@@ -1,0 +1,6 @@
+  test: forecast; forecasting 4 anchor stations
+  forecast batch 1/91
+  forecast batch 51/91
+PM2.5 {'1h': 15.6169, '6h': 25.9776, '24h': 34.2806, '72h': 39.7361}
+PM10 {'1h': 28.1749, '6h': 49.4774, '24h': 65.0322, '72h': 72.3957}
+saved results/v2_s0_on_holdout4_results.json

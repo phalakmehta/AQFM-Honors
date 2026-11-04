@@ -1,0 +1,53 @@
+[2026-11-04 14:36:38] train runs/v2_s0_do015: --dropout 0.15 --seed 0
+done. best val total=1.7380  (17.2 min)
+[2026-11-04 14:53:55] train runs/v2_s0_do03: --dropout 0.3 --seed 0
+done. best val total=1.7372  (17.2 min)
+  candidate runs/v2_s0_do015/best.pt: step 11000 dropout 0.15 score 1.7380
+  candidate runs/v2_s0_do03/best.pt: step 9000 dropout 0.3 score 1.7372
+[2026-11-04 15:11:12] dropout chosen on validation: 0.3 (runs/v2_s0_do03/best.pt)
+[2026-11-04 15:11:12] train runs/v2_s1_do03: --dropout 0.3 --seed 1
+done. best val total=1.7494  (14.5 min)
+[2026-11-04 15:25:45] train runs/v2_s2_do03: --dropout 0.3 --seed 2
+done. best val total=1.7370  (17.1 min)
+[2026-11-04 15:42:57] evaluate -> results/v2_s0_results.json:  runs/v2_s0_do03/best.pt
+PM10 {'1h': 29.6017, '6h': 45.9918, '24h': 62.9647, '72h': 70.5841}
+saved results/v2_s0_results.json
+[2026-11-04 15:45:37] evaluate -> results/v2_s1_results.json:  runs/v2_s1_do03/best.pt
+PM10 {'1h': 29.8486, '6h': 47.8073, '24h': 62.386, '72h': 68.8152}
+saved results/v2_s1_results.json
+[2026-11-04 15:48:18] evaluate -> results/v2_s2_results.json:  runs/v2_s2_do03/best.pt
+PM10 {'1h': 29.6706, '6h': 47.2203, '24h': 62.635, '72h': 67.5995}
+saved results/v2_s2_results.json
+PM2.5 1h 16.59±0.25 6h 28.77±0.66 24h 34.48±0.24 72h 38.27±0.54
+PM10 1h 29.71±0.13 6h 47.01±0.93 24h 62.66±0.29 72h 69.00±1.50
+saved results/v2_seeds_stats.json
+[2026-11-04 15:50:59] evaluate -> results/v2_ens3_results.json:  runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt
+PM10 {'1h': 29.4244, '6h': 46.3303, '24h': 61.2485, '72h': 67.1801}
+saved results/v2_ens3_results.json
+[2026-11-04 15:57:16] train runs/v2_holdout4_s0_do03: --dropout 0.3 --seed 0 --holdout delhi:4
+done. best val total=1.7266  (17.1 min)
+[2026-11-04 16:14:29] hold-out stations: 4,7,32,35
+[2026-11-04 16:14:29] evaluate -> results/v2_holdout4_newstation_results.json: --stations held_out runs/v2_holdout4_s0_do03/best.pt
+PM10 {'1h': 28.8049, '6h': 51.3589, '24h': 68.7714, '72h': 75.1125}
+saved results/v2_holdout4_newstation_results.json
+[2026-11-04 16:14:51] evaluate -> results/v2_holdout4_virtual_results.json: --stations held_out --virtual-sensing runs/v2_holdout4_s0_do03/best.pt
+PM10 {'1h': 79.8592, '6h': 79.5766, '24h': 81.504, '72h': 80.0633}
+saved results/v2_holdout4_virtual_results.json
+[2026-11-04 16:15:04] evaluate -> results/v2_s0_on_holdout4_results.json: --stations 4,7,32,35 --no-imputation runs/v2_s0_do03/best.pt
+PM10 {'1h': 28.1749, '6h': 49.4774, '24h': 65.0322, '72h': 72.3957}
+saved results/v2_s0_on_holdout4_results.json
+[2026-11-04 16:15:19] nearest-neighbour band 0_5 km: stations 0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,21,22,24,25,26,27,28,29,30,31,32,34,35,36
+[2026-11-04 16:15:19] evaluate -> results/v2_ens3_nnband_0_5_results.json: --stations 0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,21,22,24,25,26,27,28,29,30,31,32,34,35,36 --no-imputation runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt
+PM10 {'1h': 28.1483, '6h': 45.5489, '24h': 60.0216, '72h': 65.8844}
+saved results/v2_ens3_nnband_0_5_results.json
+[2026-11-04 16:18:10] evaluate -> results/v2_v1ens3_nnband_0_5_results.json: --stations 0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,21,22,24,25,26,27,28,29,30,31,32,34,35,36 --no-imputation runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt
+PM10 {'1h': 27.5792, '6h': 44.7006, '24h': 57.5302, '72h': 63.6288}
+saved results/v2_v1ens3_nnband_0_5_results.json
+[2026-11-04 16:36:17] nearest-neighbour band 5_15 km: stations 1,2,18,19,20,23,33
+[2026-11-04 16:36:17] evaluate -> results/v2_ens3_nnband_5_15_results.json: --stations 1,2,18,19,20,23,33 --no-imputation runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt
+PM10 {'1h': 34.5267, '6h': 49.4907, '24h': 66.0766, '72h': 71.6356}
+saved results/v2_ens3_nnband_5_15_results.json
+[2026-11-04 16:36:59] evaluate -> results/v2_v1ens3_nnband_5_15_results.json: --stations 1,2,18,19,20,23,33 --no-imputation runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt
+PM10 {'1h': 33.8936, '6h': 48.6575, '24h': 63.9708, '72h': 69.8993}
+saved results/v2_v1ens3_nnband_5_15_results.json
+[2026-11-04 16:41:18] pipeline finished

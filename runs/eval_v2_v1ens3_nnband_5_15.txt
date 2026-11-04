@@ -1,0 +1,9 @@
+  WARNING: checkpoint has no met_stats (pre-v2); met scaled with this data's stats
+  test: forecast; forecasting 7 anchor stations
+  forecast batch 1/159
+  forecast batch 51/159
+  forecast batch 101/159
+  forecast batch 151/159
+PM2.5 {'1h': 17.8493, '6h': 28.6864, '24h': 35.3981, '72h': 38.8552}
+PM10 {'1h': 33.8936, '6h': 48.6575, '24h': 63.9708, '72h': 69.8993}
+saved results/v2_v1ens3_nnband_5_15_results.json

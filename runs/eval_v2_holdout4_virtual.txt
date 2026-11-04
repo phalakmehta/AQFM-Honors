@@ -1,0 +1,7 @@
+  test: virtual sensing (no readings at the station); forecasting 4 anchor stations; other held-out stations are not neighbours
+  forecast batch 1/91
+  forecast batch 51/91
+  virtual sensing: outage-imputation test skipped (the whole context is hidden)
+PM2.5 {'1h': 60.5909, '6h': 56.0855, '24h': 62.1672, '72h': 60.9474}
+PM10 {'1h': 79.8592, '6h': 79.5766, '24h': 81.504, '72h': 80.0633}
+saved results/v2_holdout4_virtual_results.json
