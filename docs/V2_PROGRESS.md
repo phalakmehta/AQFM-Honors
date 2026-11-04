@@ -407,7 +407,7 @@ Runs record `code: bd396a8 + uncommitted changes` (branch not committed).
 Generated from the results files; its v1 and baseline rows equal `results/TABLES.md`. Trainings: 17.2 / 17.2 / 14.5 /
 17.1 / 17.1 min (seed 1 early-stopped at 10k). Dropout: 0.3 (1.7372) vs 0.15 (1.7380) — a tie, like v1's sweep.
 Validation score per seed: v2 1.7372 / 1.7494 / 1.7370 (1.7412 ± 0.0071) vs v1 1.7299 / 1.7290 / 1.7255 (1.7281 ± 0.0023);
-v2's best steps 9k / 7k / 11k (v1: 5k / 5k / 6k).
+v2's best steps 9k / 7k / 10k (v1: 5k / 5k / 6k; corrected 2026-11-04 from "11k", checked in `runs/v2_s2_do03.txt`).
 
 PM2.5 MAE, 2025 test (µg/m³), 1 / 6 / 24 / 72 h, Severe 24 h:
 - v2 ensemble 16.37 / 28.29 / 33.90 / 37.44, 88.3 — v1 ensemble 15.71 / 27.54 / 32.04 / 36.51, 89.0.
@@ -458,7 +458,23 @@ Severe 89.0; XGBoost + future ERA5 17.99 / 28.48 / 33.65 / 36.45, Severe 93.4). 
 Bawana, Mundka, Najafgarh, Narela, NSIT Dwarka, Sonia Vihar), **none beyond 15 km** — Delhi has no sparse station, so the
 > 15 km band is empty (the chain skips it). With v1's coordinates: 28 / 9 / 0.
 
-### v2 without future weather — launched 2026-11-04 21:06 (user: "Yea train that also")
+### v2 without future weather — chain 21:06–22:20, no failures (user: "Yea train that also")
+
+Validation score per seed 1.8115 / 1.8092 / 1.7943 (best steps 6k / 9k / 11k; with future weather 1.7372 / 1.7494 /
+1.7370). PM2.5 MAE, 2025 test (µg/m³), 1 / 6 / 24 / 72 h, Severe 24 h (all 13,394 windows, `virtual_sensing` False):
+- v2 ensemble 16.35 / 29.08 / 38.43 / 42.40, 102.7 — v1 no-future-weather ensemble 15.77 / 27.97 / 38.41 / 43.20, 104.9.
+- v2 single 16.65 ± 0.67 / 30.02 ± 1.56 / 39.47 ± 1.30 / 43.66 ± 0.89, 104.2 ± 3.8 — v1 16.00 ± 0.42 / 28.33 ± 0.10 /
+  38.98 ± 0.24 / 43.77 ± 1.04, 105.7 ± 1.2 (v2's seeds vary more).
+- So without future weather v2 is behind v1 at 1 h (+0.58) and 6 h (+1.11), level at 24 h (+0.02), ahead at 72 h
+  (−0.80) and on Severe days (−2.2). PM10 ensemble 29.20 / 48.30 / 72.83 / 81.22 vs v1 28.46 / 46.02 / 72.49 / 81.98.
+- Future weather is worth 4.5 (24 h) and 5.0 (72 h) to v2 (33.90 / 37.44 with it) vs 6.4 and 6.7 to v1: most of v2's
+  gap to v1 in step 9 is in how much it gains from future weather (observation; cause not tested).
+- Against the baselines without weather (`deep_baselines/README.md`: PatchTST and E-STGCN see no weather): v2 beats
+  XGBoost (no future met) 18.17 / 30.06 / 38.63 / 43.74 at every lead and E-STGCN 16.37 / 30.91 / 38.64 / 44.62 at
+  6–72 h; PatchTST 16.26 / 28.04 / 37.75 / 43.31 is better than v2 (and v1) at 1, 6 and 24 h, v2 better at 72 h.
+  Persistence 15.89 is better at 1 h.
+- PM2.5 24 h (ensembles): CRPS 28.11 vs v1 27.96; 90 % coverage 0.905 vs 0.912; 95 % 0.949 vs 0.953.
+Tests after the chain (GPU free): `pytest tests` 66 passed; deep_baselines tests 18 passed.
 
 All step 9 v2 checkpoints (and v1's) have `use_future_met = True`: they are given the ERA5 weather for the forecast
 hours, like XGBoost + future ERA5. This run is v2's counterpart of v1's no-future-met rows (`results/aqfm_do3_nofm_*`):
@@ -484,7 +500,8 @@ The code under `aqfm/`, `data_pipeline/` and `tests/` is the same in both (last 
 - [x] The short Delhi run and the fine-tune runs work (step 8).
 - [x] Full Delhi training: done 2026-11-04 16:41 (`results/v2_delhi_summary.md`; step 9 results above).
 
-**Changed / new files on `aqfm-v2` (nothing committed):** `aqfm/{config,data,evaluate,layers,model,train}.py`;
+**Changed / new files on `aqfm-v2` (committed 2026-11-04 in 8be6172 and a356a6c, not pushed; the no-future-weather
+results are not committed yet):** `aqfm/{config,data,evaluate,layers,model,train}.py`;
 `data_pipeline/{preprocess_aqfm,interpolate_era5_to_stations,fetch_era5,fix_era5_zips,generate_stations_csv}.py`;
 new `data_pipeline/station_facts.py`, `data_pipeline/stations/{delhi.csv,delhi_facts.csv,SOURCES.md}`,
 `tests/test_aqfm_v2.py`, `tests/test_pipeline_v2.py`, `scripts/pipeline_v2_delhi.sh`, `scripts/v2_summary.py`,
