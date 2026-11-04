@@ -2,7 +2,7 @@
   "about": "Every input, model and result the paper relies on: where it lives, its checksum, and the exact command that makes it. Commands run from the repo root (baselines: from baselines/). 'code' is the git commit that produced the item. Checked by scripts/check_submission.py; explained in SUBMISSION.md.",
 
   "data": {
-    "where": "Google Drive: Foundation Model(Mainak Sir)/preproccesed -> data/preprocessed/ (not in git: too large). Raw inputs: Drive yearly_data.zip and ERA 5/; pipeline code in data_pipeline/.",
+    "where": "Google Drive: Foundation Model(Mainak Sir)/preproccesed -> data/preprocessed/ (not in git: too large). Raw inputs: Drive yearly_data.zip and ERA 5/; pipeline code in data_pipeline/. v2: data/delhi/ is built from the same raw inputs by the data_pipeline commands in docs/V2_PROGRESS.md (step 2); not on Drive.",
     "sha256": {
       "data/preprocessed/coords.npy": "a1daabd187d30f308c77fa24eaaf9b4b228eacb28c7b4c4b58861660832888d6",
       "data/preprocessed/era5_met.npy": "13fdf7f524ed8b65210b2bf9a0bfa85b6e618902b89dc5581efa25763523002f",
@@ -11,7 +11,14 @@
       "data/preprocessed/static.npy": "83168737afeef0683c776ae8304c9d264f7706771647f8f0d17d8cfd4605122d",
       "data/preprocessed/timestamps_h.npy": "fe44f865f76eb1bf5a15005951e15513bd0f750ad7b2625dfc530114ed478e76",
       "data/preprocessed/values.npy": "b7b0173af7d1dc97005a922ccbca279bbbddcdd6d46786ec5057e9cd189baaae",
-      "data/stations.csv": "9b1efec7286c783c6e57fb1d47bfad729a6f52d4fb545db204b1df14de930fa8"
+      "data/stations.csv": "9b1efec7286c783c6e57fb1d47bfad729a6f52d4fb545db204b1df14de930fa8",
+      "data/delhi/coords.npy": "d14d4ea149f1b9aa3019437f7c37572e81c27b774adeb8672be25852e628777b",
+      "data/delhi/era5_met.npy": "313887412b02ac03b39cd0c673f8379dcfaf4a0269cd00b4159dbd12c77e5c6a",
+      "data/delhi/observed.npy": "db601839ad5e987c478d73505f78fef05529a65fe7e484bd7c2070d062f52fcb",
+      "data/delhi/preprocessing_report.json": "b85ebe8de5356e0cd58f42a88bef1c7f2004323d9d6084fb5c7af2f9a0120b39",
+      "data/delhi/static.npy": "109871bac635c181b3fb0e88ad0de969ed96cb166f200bc597d6f89b6bb00441",
+      "data/delhi/timestamps_h.npy": "fe44f865f76eb1bf5a15005951e15513bd0f750ad7b2625dfc530114ed478e76",
+      "data/delhi/values.npy": "4f4f7fd29c6beb84a60d3590b07d5d786b75fdb68294a64b8df14f5e408e17af"
     }
   },
 
@@ -207,6 +214,62 @@
       "sha256": "956b356ecd05643370ff6387146628a9de4d36841635836512c5e6539bbaf05d",
       "code": "16ed23b",
       "train": "python deep_baselines/estgcn/estgcn.py train --out deep_baselines/estgcn/runs/pm10_lr2_s2 --steps 20000 --target PM10 --seed 2 --lr 2e-4"
+    },
+    "aqfm_v2_s0_do015": {
+      "what": "v2 city preset (1.17M), dropout 0.15, seed 0 (lost the dropout choice on 2024 validation: 1.7380 vs 1.7372); best at step 11000; trained at bd396a8 + uncommitted changes; that code equals commit 8be6172 (code files last edited 2026-11-04 12:07, before training)",
+      "path": "runs/v2_s0_do015/best.pt",
+      "sha256": "5e1f1e1a482deb639c5303149ef3843ba0d4f6c10b14ee7d21d191c29193451f",
+      "code": "8be6172",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_s0_do015 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --dropout 0.15 --seed 0"
+    },
+    "aqfm_v2_s0": {
+      "what": "v2 city preset (1.17M), dropout 0.3, seed 0; best at step 9000; trained at bd396a8 + uncommitted changes; that code equals commit 8be6172 (code files last edited 2026-11-04 12:07, before training)",
+      "path": "runs/v2_s0_do03/best.pt",
+      "sha256": "a67326d5a8eb6aa4398b61f7fab360dd469c6ddf33e85f0defe6328477626488",
+      "code": "8be6172",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --dropout 0.3 --seed 0"
+    },
+    "aqfm_v2_s1": {
+      "what": "v2 city preset, dropout 0.3, seed 1; best at step 7000; trained at bd396a8 + uncommitted changes; that code equals commit 8be6172 (code files last edited 2026-11-04 12:07, before training)",
+      "path": "runs/v2_s1_do03/best.pt",
+      "sha256": "828efb2caee225fdca1da5c2e1556922064467adefacf3bbc23082c423ca7925",
+      "code": "8be6172",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --dropout 0.3 --seed 1"
+    },
+    "aqfm_v2_s2": {
+      "what": "v2 city preset, dropout 0.3, seed 2; best at step 10000; trained at bd396a8 + uncommitted changes; that code equals commit 8be6172 (code files last edited 2026-11-04 12:07, before training)",
+      "path": "runs/v2_s2_do03/best.pt",
+      "sha256": "0ec8ef971bdc5eab1f77a3fbcbdd7c3a666b11a8581f3291b314e57bd58be277",
+      "code": "8be6172",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --dropout 0.3 --seed 2"
+    },
+    "aqfm_v2_holdout4_s0": {
+      "what": "v2 city preset, dropout 0.3, seed 0, 4 Delhi stations hidden in training (4, 7, 32, 35); best at step 9000; trained at bd396a8 + uncommitted changes; that code equals commit 8be6172 (code files last edited 2026-11-04 12:07, before training)",
+      "path": "runs/v2_holdout4_s0_do03/best.pt",
+      "sha256": "1b8a5ab27334f2a01bc2705e0d28f8bd91f17a434d011c36907e11fbe948e1de",
+      "code": "8be6172",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_holdout4_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --dropout 0.3 --seed 0 --holdout delhi:4"
+    },
+    "aqfm_v2_nofm_s0": {
+      "what": "v2 city preset WITHOUT future weather, dropout 0.3, seed 0; best at step 6000; trained at bd396a8 + uncommitted changes; that code equals commit 8be6172 (code files last edited 2026-11-04 12:07, before training)",
+      "path": "runs/v2_nofm_s0_do03/best.pt",
+      "sha256": "961d0afa1db4679999a8faee9983d189976f6b5dbccbfe9539180657fb56df55",
+      "code": "8be6172",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_nofm_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --no-future-met --dropout 0.3 --seed 0"
+    },
+    "aqfm_v2_nofm_s1": {
+      "what": "v2 city preset WITHOUT future weather, dropout 0.3, seed 1; best at step 9000; trained at bd396a8 + uncommitted changes; that code equals commit 8be6172 (code files last edited 2026-11-04 12:07, before training)",
+      "path": "runs/v2_nofm_s1_do03/best.pt",
+      "sha256": "49bbe375effba77fd9cb3378de5f01e8bf5d52812d0a5c64f468f4858ac5a3e1",
+      "code": "8be6172",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_nofm_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --no-future-met --dropout 0.3 --seed 1"
+    },
+    "aqfm_v2_nofm_s2": {
+      "what": "v2 city preset WITHOUT future weather, dropout 0.3, seed 2; best at step 11000",
+      "path": "runs/v2_nofm_s2_do03/best.pt",
+      "sha256": "f31e7c2f4aaa3731a884462dbe0e672bf5dc1df29c6257ae6d41aa861f8c6853",
+      "code": "a356a6c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --no-future-met --dropout 0.3 --seed 2"
     }
   },
 
@@ -370,6 +433,91 @@
       "what": "E-STGCN: mean and std (ddof=1) over seeds 0/1/2 of every metric",
       "models": [], "code": "16ed23b", "minutes": 0,
       "run": "python deep_baselines/seed_stats.py baselines/results/estgcn_seeds_stats.json baselines/results/estgcn_s0_results.json baselines/results/estgcn_s1_results.json baselines/results/estgcn_s2_results.json"
+    },
+    "results/v2_s0_results.json": {
+      "what": "v2 city preset on Delhi, seed 0, 2025 test",
+      "models": ["aqfm_v2_s0"], "code": "8be6172", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s0_do03/best.pt --out results/v2_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2_s1_results.json": {
+      "what": "v2 city preset on Delhi, seed 1, 2025 test",
+      "models": ["aqfm_v2_s1"], "code": "8be6172", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s1_do03/best.pt --out results/v2_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2_s2_results.json": {
+      "what": "v2 city preset on Delhi, seed 2, 2025 test",
+      "models": ["aqfm_v2_s2"], "code": "8be6172", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s2_do03/best.pt --out results/v2_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2_seeds_stats.json": {
+      "what": "v2: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "8be6172", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2_seeds_stats.json results/v2_s0_results.json results/v2_s1_results.json results/v2_s2_results.json"
+    },
+    "results/v2_ens3_results.json": {
+      "what": "v2 city preset on Delhi, pooled 3-seed ensemble, 2025 test",
+      "models": ["aqfm_v2_s0", "aqfm_v2_s1", "aqfm_v2_s2"], "code": "8be6172", "minutes": 7,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt --out results/v2_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2_holdout4_newstation_results.json": {
+      "what": "v2 unseen-station test: the 4 hidden stations, with their own history (hold-out run)",
+      "models": ["aqfm_v2_holdout4_s0"], "code": "8be6172", "minutes": 1,
+      "run": "python -m aqfm.evaluate --data data/delhi --stations held_out --ckpt runs/v2_holdout4_s0_do03/best.pt --out results/v2_holdout4_newstation_results.json --device cuda --seed 0"
+    },
+    "results/v2_holdout4_virtual_results.json": {
+      "what": "v2 virtual sensing: the 4 hidden stations with no readings at the station (hold-out run)",
+      "models": ["aqfm_v2_holdout4_s0"], "code": "8be6172", "minutes": 1,
+      "run": "python -m aqfm.evaluate --data data/delhi --stations held_out --virtual-sensing --ckpt runs/v2_holdout4_s0_do03/best.pt --out results/v2_holdout4_virtual_results.json --device cuda --seed 0"
+    },
+    "results/v2_s0_on_holdout4_results.json": {
+      "what": "v2 all-station model (seed 0) on the same 4 stations, seen in training",
+      "models": ["aqfm_v2_s0"], "code": "8be6172", "minutes": 1,
+      "run": "python -m aqfm.evaluate --data data/delhi --stations 4,7,32,35 --no-imputation --ckpt runs/v2_s0_do03/best.pt --out results/v2_s0_on_holdout4_results.json --device cuda --seed 0"
+    },
+    "results/v2_ens3_nnband_0_5_results.json": {
+      "what": "v2 ensemble on the 30 stations whose nearest neighbour is 0-5 km away",
+      "models": ["aqfm_v2_s0", "aqfm_v2_s1", "aqfm_v2_s2"], "code": "8be6172", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --stations 0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,21,22,24,25,26,27,28,29,30,31,32,34,35,36 --no-imputation --ckpt runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt --out results/v2_ens3_nnband_0_5_results.json --device cuda --seed 0"
+    },
+    "results/v2_v1ens3_nnband_0_5_results.json": {
+      "what": "v1 ensemble on the 30 stations whose nearest neighbour is 0-5 km away (for the v2 comparison)",
+      "models": ["aqfm_do3_s0", "aqfm_do3_s1", "aqfm_do3_s2"], "code": "8be6172", "minutes": 18,
+      "run": "python -m aqfm.evaluate --data data/preprocessed --stations 0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,21,22,24,25,26,27,28,29,30,31,32,34,35,36 --no-imputation --ckpt runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt --out results/v2_v1ens3_nnband_0_5_results.json --device cuda --seed 0"
+    },
+    "results/v2_ens3_nnband_5_15_results.json": {
+      "what": "v2 ensemble on the 7 stations whose nearest neighbour is 5-15 km away",
+      "models": ["aqfm_v2_s0", "aqfm_v2_s1", "aqfm_v2_s2"], "code": "8be6172", "minutes": 1,
+      "run": "python -m aqfm.evaluate --data data/delhi --stations 1,2,18,19,20,23,33 --no-imputation --ckpt runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt --out results/v2_ens3_nnband_5_15_results.json --device cuda --seed 0"
+    },
+    "results/v2_v1ens3_nnband_5_15_results.json": {
+      "what": "v1 ensemble on the 7 stations whose nearest neighbour is 5-15 km away (for the v2 comparison)",
+      "models": ["aqfm_do3_s0", "aqfm_do3_s1", "aqfm_do3_s2"], "code": "8be6172", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/preprocessed --stations 1,2,18,19,20,23,33 --no-imputation --ckpt runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt --out results/v2_v1ens3_nnband_5_15_results.json --device cuda --seed 0"
+    },
+    "results/v2_nofm_s0_results.json": {
+      "what": "v2 without future weather, seed 0, 2025 test",
+      "models": ["aqfm_v2_nofm_s0"], "code": "a356a6c", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s0_do03/best.pt --out results/v2_nofm_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2_nofm_s1_results.json": {
+      "what": "v2 without future weather, seed 1, 2025 test",
+      "models": ["aqfm_v2_nofm_s1"], "code": "a356a6c", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s1_do03/best.pt --out results/v2_nofm_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2_nofm_s2_results.json": {
+      "what": "v2 without future weather, seed 2, 2025 test",
+      "models": ["aqfm_v2_nofm_s2"], "code": "a356a6c", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s2_do03/best.pt --out results/v2_nofm_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2_nofm_seeds_stats.json": {
+      "what": "v2 without future weather: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a356a6c", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2_nofm_seeds_stats.json results/v2_nofm_s0_results.json results/v2_nofm_s1_results.json results/v2_nofm_s2_results.json"
+    },
+    "results/v2_nofm_ens3_results.json": {
+      "what": "v2 without future weather, pooled 3-seed ensemble, 2025 test",
+      "models": ["aqfm_v2_nofm_s0", "aqfm_v2_nofm_s1", "aqfm_v2_nofm_s2"], "code": "a356a6c", "minutes": 7,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s0_do03/best.pt runs/v2_nofm_s1_do03/best.pt runs/v2_nofm_s2_do03/best.pt --out results/v2_nofm_ens3_results.json --device cuda --seed 0"
     }
   }
 }
