@@ -418,18 +418,9 @@
   "neighbours_exclude_held_out": true,
   "checkpoint": "/home/phalak/aqfm/AQFM-Honors/runs/v2_holdout4_s0_do03/best.pt",
   "code": {
-    "commit": "bd396a85f3d131fe3ea3f234f20ce60f091d0451",
-    "dirty": true,
-    "changed": [
-      "aqfm/config.py",
-      "aqfm/data.py",
-      "aqfm/evaluate.py",
-      "aqfm/layers.py",
-      "aqfm/model.py",
-      "aqfm/train.py",
-      "tests/test_aqfm_v2.py",
-      "tests/test_pipeline_v2.py"
-    ]
+    "commit": "39ea48b4df486077ce0a58971b71ee2aa1913eda",
+    "dirty": false,
+    "changed": []
   },
   "train_code": {
     "commit": "bd396a85f3d131fe3ea3f234f20ce60f091d0451",

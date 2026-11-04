@@ -489,6 +489,25 @@ Code record: the v2 code was committed on `aqfm-v2` during this chain (user, 202
 before that record `bd396a8 + uncommitted changes` (all of step 9, nofm seeds 0 and 1); later ones record the new commit.
 The code under `aqfm/`, `data_pipeline/` and `tests/` is the same in both (last edited 12:07, before step 9).
 
+### Housekeeping (2026-11-05, user: "Do housekeeping")
+
+- Commits (as the user, no Claude lines): `277a666` no-future-weather results + log; `39ea48b` v2 in
+  `scripts/manifest.json` (7 `data/delhi/` files, 8 models, 17 results; old entries unchanged, checked by parsing)
+  and the 9 v2 training runs in `results/TABLES.md` (`python scripts/make_tables.py`); then this commit.
+- Model `code` in the manifest: `8be6172` for the runs that record `bd396a8 + uncommitted changes` (`git diff
+  8be6172 HEAD -- aqfm data_pipeline tests` is empty; code files last edited 12:07, training from 14:36), `a356a6c`
+  for nofm seed 2. The checkpoints keep their true `train_code`.
+- Step-9 results re-scored under the clean commit `39ea48b`: `python scripts/check_submission.py --skip-tests
+  --out reproduce_out/2026-11-05_v2step9 --reproduce <the 12 step-9 results>` → all 12 **IDENTICAL** (351–410 numbers
+  each, 41 min: 01:01–01:42). In the 11 evaluation files only `code` was replaced (now `39ea48b`, clean); `seeds_stats` has no code
+  field and is unchanged. Manifest `code` for those 11: `39ea48b`. `results/v2_delhi_summary.md` and `TABLES.md`
+  regenerate unchanged.
+- v2 checkpoints copied for Drive: `/home/phalak/aqfm/drive_upload_2026-11-05_v2/models/` (8 files, 37 MB,
+  `SHA256SUMS.txt` = manifest; README); manifest `drive` names added. `SUBMISSION.md`: v2 section.
+- `python scripts/check_submission.py` (full, with tests): everything OK, 66 tests pass; left: uncommitted files
+  (before this commit) and "GitHub main is at this commit" (the check compares with `main`; v2 is on `aqfm-v2`).
+- Not pushed (this PC has no GitHub login); the user pushes `aqfm-v2` from VS Code.
+
 ## Status against §8 "Done when"
 
 - [x] Branch `aqfm-v2` has the patch merged, all old tests pass, v1 equivalence shown (step 4).
@@ -500,8 +519,8 @@ The code under `aqfm/`, `data_pipeline/` and `tests/` is the same in both (last 
 - [x] The short Delhi run and the fine-tune runs work (step 8).
 - [x] Full Delhi training: done 2026-11-04 16:41 (`results/v2_delhi_summary.md`; step 9 results above).
 
-**Changed / new files on `aqfm-v2` (committed 2026-11-04 in 8be6172 and a356a6c, not pushed; the no-future-weather
-results are not committed yet):** `aqfm/{config,data,evaluate,layers,model,train}.py`;
+**Changed / new files on `aqfm-v2` (committed 2026-11-04 in 8be6172 and a356a6c, results and manifest 2026-11-05;
+not pushed):** `aqfm/{config,data,evaluate,layers,model,train}.py`;
 `data_pipeline/{preprocess_aqfm,interpolate_era5_to_stations,fetch_era5,fix_era5_zips,generate_stations_csv}.py`;
 new `data_pipeline/station_facts.py`, `data_pipeline/stations/{delhi.csv,delhi_facts.csv,SOURCES.md}`,
 `tests/test_aqfm_v2.py`, `tests/test_pipeline_v2.py`, `scripts/pipeline_v2_delhi.sh`, `scripts/v2_summary.py`,
