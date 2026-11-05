@@ -247,6 +247,9 @@ def main():
     ap.add_argument("--small", action="store_true")
     ap.add_argument("--preset", choices=["v1", "city"], default="v1",
                     help="city = ~1M-param multi-city config with all spatial-scale fixes")
+    ap.add_argument("--d-model", type=int, default=None, help="width (default: the preset's; new models only)")
+    ap.add_argument("--n-heads", type=int, default=None, help="attention heads (default: the preset's)")
+    ap.add_argument("--d-ff", type=int, default=None, help="feed-forward width (default: the preset's)")
     ap.add_argument("--freeze", choices=["none", "encoder", "backbone"], default="none",
                     help="finetune/anneal only")
     ap.add_argument("--train-months", type=int, default=None,
@@ -304,6 +307,9 @@ def main():
                   use_last_obs=not args.no_last_obs, use_blh=not args.no_blh)
         if args.dropout is not None:
             kw["dropout"] = args.dropout
+        for k in ("d_model", "n_heads", "d_ff"):
+            if getattr(args, k) is not None:
+                kw[k] = getattr(args, k)
         if args.pm25_direct:
             kw["target_channels"] = tuple("PM2.5" if c == "PM_FRAC" else c for c in AQFMConfig.target_channels)
         if args.random_masking:
