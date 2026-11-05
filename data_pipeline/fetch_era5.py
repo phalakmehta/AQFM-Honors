@@ -1,4 +1,10 @@
-import cdsapi
+"""ERA5 single-level download (CDS API), one NetCDF per month.
+
+    python data_pipeline/fetch_era5.py                      # v1 defaults: Delhi box, 2021-2025
+    python data_pipeline/fetch_era5.py --city <city> --area <N> <W> <S> <E> \
+        --start 2017-12 --end 2025-12 --out-dir data/era5_<city>_raw
+"""
+import argparse
 import os
 import time
 
@@ -16,10 +22,12 @@ VARIABLES = [
     'boundary_layer_height',
 ]
 
-def fetch_month(year, month, output_dir):
+def fetch_month(year, month, output_dir, area=AREA, city="delhi"):
+    """area: [North, West, South, East] degrees; files are era5_<city>_<year>_<month>.nc."""
+    import cdsapi
     c = cdsapi.Client()
     
-    filename = os.path.join(output_dir, f"era5_delhi_{year}_{month:02d}.nc")
+    filename = os.path.join(output_dir, f"era5_{city}_{year}_{month:02d}.nc")
     if os.path.exists(filename):
         print(f"{filename} already exists, skipping.", flush=True)
         return
@@ -51,7 +59,7 @@ def fetch_month(year, month, output_dir):
                     'month': f"{month:02d}",
                     'day': days,
                     'time': [f"{h:02d}:00" for h in range(24)],
-                    'area': AREA,
+                    'area': list(area),
                 },
                 filename)
             print(f"Saved to {filename}", flush=True)
@@ -61,10 +69,27 @@ def fetch_month(year, month, output_dir):
             print("Wi-Fi might be down or request failed. Waiting 60 seconds before retrying...", flush=True)
             time.sleep(60)
 
-if __name__ == '__main__':
-    output_dir = "data/era5_data_raw"
-    os.makedirs(output_dir, exist_ok=True)
+def months(start, end):
+    """'YYYY-MM' .. 'YYYY-MM' inclusive -> [(year, month), ...]"""
+    (y0, m0), (y1, m1) = (map(int, s.split("-")) for s in (start, end))
+    return [(k // 12, k % 12 + 1) for k in range(y0 * 12 + m0 - 1, y1 * 12 + m1)]
 
-    for year in range(2021, 2026):
-        for month in range(1, 13):
-            fetch_month(year, month, output_dir)
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--city", default="delhi", help="used in the file names")
+    ap.add_argument("--area", nargs=4, type=float, default=AREA, metavar=("N", "W", "S", "E"))
+    ap.add_argument("--start", default="2021-01", help="first month, YYYY-MM")
+    ap.add_argument("--end", default="2025-12", help="last month, YYYY-MM")
+    ap.add_argument("--out-dir", default="data/era5_data_raw")
+    args = ap.parse_args(argv)
+    n, w, s_, e = args.area
+    if not (n > s_ and e > w):
+        ap.error("--area is North West South East")
+    os.makedirs(args.out_dir, exist_ok=True)
+    for year, month in months(args.start, args.end):
+        fetch_month(year, month, args.out_dir, args.area, args.city)
+
+
+if __name__ == '__main__':
+    main()

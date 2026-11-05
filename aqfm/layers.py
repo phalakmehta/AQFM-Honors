@@ -156,29 +156,71 @@ class SpatialBias(nn.Module):
                      A station 8 km upwind gets a different bias from one 8 km
                      downwind; a distance-only graph cannot express that.
     mode="distance": the same MLP on distance features only (ablation).
+
+    v2 options (all off by default = v1 behaviour):
+    kernels_km   learnable multi-scale kernels exp(-d/lambda_m) replace the
+                 single fixed exp(-d/l); lambda_m are positive parameters
+                 initialised at kernels_km, so the model learns how far
+                 influence carries instead of inheriting Delhi's 25 km.
+    advection    t_adv = d cos / wind speed (hours for air from j to reach i;
+                 > 0 when j is upwind), squashed by tanh(t/24 h).
+    n_lags       keys also come from neighbours' previous patches. The bias for
+                 lag l gets l (in patches) and a match term exp(-(t_adv - l*P)^2
+                 / (2 P^2)) so "upwind station, one patch ago" can be preferred.
+    Output: (B, N, h, S_query, (n_lags+1) * S_key), keys lag-major.
     """
 
-    def __init__(self, n_heads, mode="wind", length_scale_km=25.0, hidden=32):
+    def __init__(self, n_heads, mode="wind", length_scale_km=25.0, hidden=32,
+                 kernels_km=(), advection=False, n_lags=0, patch_hours=4.0):
         super().__init__()
         assert mode in ("wind", "distance")
         self.mode, self.ls = mode, length_scale_km
-        n_in = 6 if mode == "wind" else 2
+        self.n_lags, self.patch_h = n_lags, patch_hours
+        self.advection = advection and mode == "wind"
+        self.log_lambda = (nn.Parameter(torch.log(torch.tensor(kernels_km, dtype=torch.float32)))
+                           if len(kernels_km) else None)
+        n_k = len(kernels_km) if len(kernels_km) else 1
+        n_in = 1 + n_k + (4 if mode == "wind" else 0) + (1 if self.advection else 0)
+        if n_lags:
+            n_in += 1 + (1 if self.advection else 0)
         self.mlp = nn.Sequential(nn.Linear(n_in, hidden), nn.GELU(), nn.Linear(hidden, n_heads))
 
+    def _kernels(self, d):
+        if self.log_lambda is None:
+            return [torch.exp(-d / self.ls)]
+        lam = self.log_lambda.exp()
+        return list(torch.exp(-d.unsqueeze(-1) / lam).unbind(-1))
+
     def forward(self, coords, u=None, v=None):
-        """coords (B,S,2); u, v: (B,S,N) patch-mean wind at each station.
-        Returns (B, N, h, S_query, S_key)."""
+        """coords (B,S,2); u, v: (B,S,N) patch-mean wind (m/s) at each station."""
         if self.mode == "distance":
             dist = pair_distance_km(coords)
-            b = self.mlp(torch.stack([torch.log1p(dist), torch.exp(-dist / self.ls)], -1))
             N = 1 if u is None else u.shape[-1]
-            return b.permute(0, 3, 1, 2).unsqueeze(1).expand(-1, N, -1, -1, -1)
+            d = dist.unsqueeze(-1).expand(-1, -1, -1, N)
+            feats = [torch.log1p(d), *self._kernels(d)]
+            t_adv = None
+        else:
+            dist, cos, sin, ws = wind_geometry(coords, u, v)
+            N = u.shape[-1]
+            d = dist.unsqueeze(-1).expand(-1, -1, -1, N)
+            feats = [torch.log1p(d), cos, sin, ws, cos * ws, *self._kernels(d)]
+            t_adv = None
+            if self.advection:
+                # km / (m/s * 3.6) = hours; floor speed at 0.5 m/s (calm air)
+                t_adv = d * cos / (3.6 * ws.clamp(min=0.5))
+                feats.append(torch.tanh(t_adv / 24.0))
+        base = torch.stack(feats, -1)                              # (B,Sq,Sk,N,F)
+        if not self.n_lags:
+            return self.mlp(base).permute(0, 3, 4, 1, 2)           # (B,N,h,Sq,Sk)
 
-        dist, cos, sin, ws = wind_geometry(coords, u, v)
-        N = u.shape[-1]
-        d = dist.unsqueeze(-1).expand(-1, -1, -1, N)
-        feats = torch.stack([torch.log1p(d), cos, sin, ws, cos * ws, torch.exp(-d / self.ls)], -1)
-        return self.mlp(feats).permute(0, 3, 4, 1, 2)         # (B,N,h,Sq,Sk)
+        out = []
+        for lag in range(self.n_lags + 1):
+            extra = [torch.full_like(d, lag / max(1, self.n_lags))]
+            if t_adv is not None:
+                extra.append(torch.exp(-0.5 * ((t_adv - lag * self.patch_h) / self.patch_h) ** 2))
+            out.append(self.mlp(torch.cat([base, torch.stack(extra, -1)], -1)))
+        b = torch.cat(out, 2)                                      # (B,Sq,(L+1)Sk,N,h)
+        return b.permute(0, 3, 4, 1, 2)
 
 
 def pair_distance_km(coords):
@@ -211,7 +253,8 @@ class AxialBlock(nn.Module):
     """Pre-norm attention over time, then channel, then station, then FFN.
     Cost O(SCN(S+C+N)) instead of O((SCN)^2)."""
 
-    def __init__(self, d_model, n_heads, d_ff, dropout, use_spatial=True):
+    def __init__(self, d_model, n_heads, d_ff, dropout, use_spatial=True,
+                 n_lags=0, use_sink=False):
         super().__init__()
         self.axes = ("time", "var", "space") if use_spatial else ("time", "var")
         self.attn = nn.ModuleDict({a: MaskedMHA(d_model, n_heads, dropout) for a in self.axes})
@@ -219,6 +262,42 @@ class AxialBlock(nn.Module):
         self.ff_norm = nn.LayerNorm(d_model)
         self.ff = FeedForward(d_model, d_ff, dropout)
         self.drop = nn.Dropout(dropout)
+        self.n_lags, self.n_heads = n_lags, n_heads
+        # sink: one learnable always-valid key/value for spatial attention, with
+        # a learnable per-head logit. Zero-initialised value: attending to it
+        # means "add nothing from neighbours".
+        self.sink = nn.Parameter(torch.zeros(d_model)) if use_sink and use_spatial else None
+        self.sink_logit = nn.Parameter(torch.zeros(n_heads)) if self.sink is not None else None
+
+    def _space(self, h, valid, spatial_bias):
+        """Spatial attention with optional lagged keys and sink. h: normed
+        (B,S,C,N,D). Returns (B,S,C,N,D)."""
+        B, S, C, N, D = h.shape
+        q, qv = self._fold(h, valid, "space")                      # (BCN,S,D)
+        keys, kval = [q], [qv]
+        for lag in range(1, self.n_lags + 1):                      # neighbour patch n-lag
+            hl = torch.cat([h.new_zeros(B, S, C, lag, D), h[:, :, :, :N - lag]], 3)
+            vl = torch.cat([valid.new_zeros(B, S, C, lag), valid[:, :, :, :N - lag]], 3)
+            k_, v_ = self._fold(hl, vl, "space")
+            keys.append(k_); kval.append(v_)
+        bias = None
+        if spatial_bias is not None:
+            nh, K = spatial_bias.shape[2], spatial_bias.shape[-1]
+            bias = (spatial_bias.unsqueeze(1).expand(B, C, N, nh, S, K)
+                    .reshape(B * C * N, nh, S, K))
+        if self.sink is not None:
+            keys.append(self.sink.view(1, 1, D).expand(B * C * N, 1, D))
+            kval.append(torch.ones(B * C * N, 1, dtype=torch.bool, device=h.device))
+            if bias is not None:
+                sb = self.sink_logit.view(1, -1, 1, 1).to(bias.dtype).expand(B * C * N, -1, S, 1)
+            else:
+                sb = self.sink_logit.view(1, -1, 1, 1).expand(B * C * N, -1, S, 1)
+                bias = torch.zeros(B * C * N, self.n_heads, S, sum(k.shape[1] for k in keys) - 1,
+                                   dtype=sb.dtype, device=h.device)
+            bias = torch.cat([bias, sb], -1)
+        kv = torch.cat(keys, 1)
+        out = self.attn["space"](q, kv=kv, key_valid=torch.cat(kval, 1), bias=bias)
+        return self._unfold(out, "space", h.shape)
 
     @staticmethod
     def _fold(x, valid, axis):
@@ -244,6 +323,9 @@ class AxialBlock(nn.Module):
         shape = x.shape
         B, S, C, N, D = shape
         for axis in self.axes:
+            if axis == "space" and (self.n_lags or self.sink is not None):
+                x = x + self.drop(self._space(self.norm[axis](x), valid, spatial_bias))
+                continue
             hf, vf = self._fold(self.norm[axis](x), valid, axis)
             bias = None
             if axis == "space" and spatial_bias is not None:

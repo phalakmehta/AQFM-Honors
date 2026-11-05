@@ -4,8 +4,7 @@ import zipfile
 import xarray as xr
 import tempfile
 
-def fix_zips():
-    raw_dir = "data/era5_data_raw"
+def fix_zips(raw_dir="data/era5_data_raw"):
     files = glob.glob(os.path.join(raw_dir, "*.nc"))
     
     for filepath in files:
@@ -40,4 +39,5 @@ def fix_zips():
         print(f"Successfully merged and saved {filepath}")
 
 if __name__ == "__main__":
-    fix_zips()
+    import sys
+    fix_zips(*sys.argv[1:2])            # optional: the ERA5 folder (default data/era5_data_raw)

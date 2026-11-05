@@ -1,0 +1,39 @@
+station_id,lat,lon,source,cpcb_name,cpcb_code
+"alipur,_delhi_-_dpcc_cleaned",28.8153,77.153,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Alipur, Delhi - DPCC",5024
+"ashok_vihar,_delhi_-_dpcc_cleaned",28.6954,77.1817,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Ashok Vihar, Delhi - DPCC",1420
+"aya_nagar,_delhi_-_iitm_cleaned",28.4707,77.1099,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Aya Nagar, Delhi - IMD",108
+"bawana,_delhi_-_dpcc_cleaned",28.7762,77.0511,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Bawana, Delhi - DPCC",1560
+"burari_crossing,_delhi_-_iitm_cleaned",28.7257,77.2012,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Burari Crossing, Delhi - IMD",104
+"chandni_chowk,_delhi_-_iitm_cleaned",28.6568,77.2272,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Chandni Chowk, Delhi - IITM",5393
+"crri_mathura_road,_delhi_-_iitm_cleaned",28.5512,77.2736,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"CRRI Mathura Road, Delhi - IMD",103
+"dr._karni_singh_shooting_range,_delhi_-_dpcc_cleaned",28.4986,77.2648,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Dr. Karni Singh Shooting Range, Delhi - DPCC",1421
+"dtu,_delhi_-_cpcb_cleaned",28.75,77.1113,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"DTU, Delhi - CPCB",118
+"dwarka-sector_8,_delhi_-_dpcc__cleaned",28.571,77.0719,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Dwarka-Sector 8, Delhi - DPCC",1422
+"igi_airport_(t3),_delhi_-_iitm_cleaned",28.5628,77.118,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"IGI Airport (T3), Delhi - IMD",106
+"ihbas,_dilshad_garden,_delhi_-_cpcb_cleaned",28.6812,77.3025,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"IHBAS, Dilshad Garden, Delhi - CPCB",114
+"imd_lodhi_road,_delhi_-_iitm_cleaned",28.5918,77.2273,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Lodhi Road, Delhi - IMD",109
+"ito,_delhi_-_cpcb_cleaned",28.6286,77.2411,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"ITO, Delhi - CPCB",117
+"jahangirpuri,_delhi_-_dpcc_cleaned",28.7328,77.1706,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Jahangirpuri, Delhi - DPCC",1423
+"jawaharlal_nehru_stadium,_delhi_-_dpcc_cleaned",28.5803,77.2338,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Jawaharlal Nehru Stadium, Delhi - DPCC",1424
+"lodhi_road,_delhi_-_iitm_cleaned",28.5883,77.2217,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Lodhi Road, Delhi - IITM",5395
+"major_dhyan_chand_national_stadium,_delhi_-_dpcc_cleaned",28.6113,77.2377,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Major Dhyan Chand National Stadium, Delhi - DPCC",1425
+"mandir_marg,_delhi_-_dpcc_cleaned",28.6364,77.2011,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Mandir Marg, Delhi - DPCC",122
+"mundka,_delhi_-_dpcc_cleaned",28.6847,77.0766,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Mundka, Delhi - DPCC",1561
+"najafgarh,_delhi_-_dpcc_cleaned",28.5702,76.9338,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Najafgarh, Delhi - DPCC",1427
+"narela,_delhi_-_dpcc_cleaned",28.8228,77.102,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Narela, Delhi - DPCC",1426
+"nehru_nagar,_delhi_-_dpcc_cleaned",28.5679,77.2505,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Nehru Nagar, Delhi - DPCC",1429
+"north_campus,_du,_delhi_-_iitm_cleaned",28.6574,77.1585,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"North Campus, DU, Delhi - IMD",105
+"nsit_dwarka,_delhi_-_cpcb_cleaned",28.6091,77.0325,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"NSIT Dwarka, Delhi - CPCB",115
+"okhla_phase-2,_delhi_-_dpcc_cleaned",28.5308,77.2713,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Okhla Phase-2, Delhi - DPCC",1428
+"patparganj,_delhi_-_dpcc_cleaned",28.6238,77.2872,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Patparganj, Delhi - DPCC",1431
+"punjabi_bagh,_delhi_-_dpcc_cleaned",28.674,77.131,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Punjabi Bagh, Delhi - DPCC",125
+"pusa,_delhi_-_dpcc_cleaned",28.6396,77.1463,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Pusa, Delhi - DPCC",1563
+"pusa,_delhi_-_iitm_cleaned",28.6396,77.1463,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Pusa, Delhi - IMD",107
+"r_k_puram,_delhi_-_dpcc_cleaned",28.5633,77.1869,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"R K Puram, Delhi - DPCC",124
+"rohini,_delhi_-_dpcc_cleaned",28.7325,77.1199,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Rohini, Delhi - DPCC",1430
+"shadipur,_delhi_-_cpcb_cleaned",28.6515,77.1473,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Shadipur, Delhi - CPCB",113
+"sirifort,_delhi_-_cpcb_cleaned",28.5504,77.2159,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Sirifort, Delhi - CPCB",119
+"sonia_vihar,_delhi_-_dpcc_cleaned",28.7105,77.2495,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Sonia Vihar, Delhi - DPCC",1432
+"sri_aurobindo_marg,_delhi_-_dpcc_cleaned",28.5313,77.1902,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Sri Aurobindo Marg, Delhi - DPCC",1562
+"vivek_vihar,_delhi_-_dpcc_cleaned",28.6723,77.3153,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Vivek Vihar, Delhi - DPCC",1435
+"wazirpur,_delhi_-_dpcc_cleaned",28.6998,77.1655,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Wazirpur, Delhi - DPCC",1434

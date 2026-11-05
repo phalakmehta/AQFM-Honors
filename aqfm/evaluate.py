@@ -39,7 +39,7 @@ from .config import CH, OUTAGE_CHANNELS, RAW_CHANNELS  # noqa: E402
 from .data import AQData, build_queries, make_sample  # noqa: E402
 from .losses import mixture_sample, sample_crps  # noqa: E402
 from .physical import LOG1P_MAX, reconstruct_pm25  # noqa: E402
-from .train import (code_version, load_checkpoint, load_preprocessed,  # noqa: E402
+from .train import (code_version, load_checkpoint, load_multi,  # noqa: E402
                     split_indices, to_device)
 
 TARGETS = ("PM2.5", "PM10")
@@ -62,15 +62,20 @@ class _FixedBlock:
 
 
 class _Windows(Dataset):
-    def __init__(self, data, cfg, pairs, masker=None):
+    """allowed: optional (S,) bool; other stations are never neighbours (the
+    anchor itself is always slot 0)."""
+
+    def __init__(self, data, cfg, pairs, masker=None, allowed=None):
         self.data, self.cfg, self.pairs, self.masker = data, cfg, pairs, masker
+        self.allowed = allowed
 
     def __len__(self):
         return len(self.pairs)
 
     def __getitem__(self, i):
         t0, a = self.pairs[i]
-        sel = self.data.neighbourhood(a, self.cfg.n_neighbours)
+        sel = self.data.neighbourhood(a, self.cfg.n_neighbours, self.cfg.neighbour_radius_km,
+                                      self.allowed)
         assert sel[0] == a
         return make_sample(self.data, self.cfg, sel, t0, np.random.default_rng(0), self.masker)
 
@@ -119,8 +124,13 @@ def pm25_gt_pm10(acc):
 
 @torch.no_grad()
 def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, batch_size=16,
-             n_samples=200, limit_origins=None, workers=0):
-    """models: one AQFM or a list of them (pooled ensemble)."""
+             n_samples=200, limit_origins=None, workers=0, anchors=None, allowed=None,
+             virtual_sensing=False):
+    """models: one AQFM or a list of them (pooled ensemble). anchors: station
+    indices to forecast (default all). allowed: stations usable as neighbours
+    (default all). virtual_sensing: hide the anchor's own pollutant readings
+    (and the fractions built from them) for the whole context, so the forecast
+    is made as for a place without a sensor."""
     models = _as_list(models)
     for m in models:
         m.eval()
@@ -131,12 +141,15 @@ def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, ba
     origins = np.arange(test_start, T - max(HORIZONS.values()), 96)
     if limit_origins:
         origins = origins[:limit_origins]
-    pairs = [(int(o - Tc), a) for o in origins for a in range(data.S)]
+    anchors = range(data.S) if anchors is None else anchors
+    pairs = [(int(o - Tc), int(a)) for o in origins for a in anchors]
     R = {n: i for i, n in enumerate(RAW_CHANNELS)}
 
     acc = {c: {"pred": [], "true": [], "mask": [], "crps": [], "pit": [], "c90": [], "c95": []}
            for c in TARGETS}
-    dl = DataLoader(_Windows(data, cfg, pairs), batch_size=batch_size, num_workers=workers)
+    masker = _FixedBlock(0, Tc) if virtual_sensing else None
+    dl = DataLoader(_Windows(data, cfg, pairs, masker, allowed), batch_size=batch_size,
+                    num_workers=workers)
     for bi, batch in enumerate(dl):
         t0s, anchors = batch["t0"].numpy(), batch["sel"][:, 0].numpy()
         batch = to_device(batch, device)
@@ -193,7 +206,8 @@ def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, ba
 
 @torch.no_grad()
 def evaluate_imputation(models, cfg, data, raw_values, raw_observed, test_start, device,
-                        batch_size=16, n_samples=200, limit_origins=None, gap_steps=96):
+                        batch_size=16, n_samples=200, limit_origins=None, gap_steps=96,
+                        anchors=None, allowed=None):
     """Hide the anchor's CPCB channels for 24 h ending 24 h before the origin;
     score the imputed PM2.5/PM10 against truth and against linear
     interpolation of the anchor's own visible series."""
@@ -208,9 +222,11 @@ def evaluate_imputation(models, cfg, data, raw_values, raw_observed, test_start,
     origins = np.arange(test_start, data.T - max(HORIZONS.values()), 96)
     if limit_origins:
         origins = origins[:limit_origins]
-    pairs = [(int(o - Tc), a) for o in origins for a in range(data.S)]
+    anchors = range(data.S) if anchors is None else anchors
+    pairs = [(int(o - Tc), int(a)) for o in origins for a in anchors]
     R = {n: i for i, n in enumerate(RAW_CHANNELS)}
-    dl = DataLoader(_Windows(data, icfg, pairs, _FixedBlock(start, gap_steps)), batch_size=batch_size)
+    dl = DataLoader(_Windows(data, icfg, pairs, _FixedBlock(start, gap_steps), allowed),
+                    batch_size=batch_size)
     err = {c: {"aqfm": [], "linear": []} for c in TARGETS}
     for batch in dl:
         t0s, anchors = batch["t0"].numpy(), batch["sel"][:, 0].numpy()
@@ -246,10 +262,43 @@ def evaluate_imputation(models, cfg, data, raw_values, raw_observed, test_start,
             for c, d in err.items()}
 
 
+TEST_NAMES = {"held_out": "new station that has its own history",
+              "virtual_sensing": "virtual sensing (no readings at the station)"}
+
+
+def select_stations(spec, data, held, same_data):
+    """--stations -> (anchors, allowed neighbours, test name). 'held_out': the
+    checkpoint's hidden stations, each forecast with only stations seen in
+    training as neighbours (the other hidden stations are left out)."""
+    allowed = None
+    if spec == "all":
+        anchors = list(range(data.S))
+    elif spec == "held_out":
+        assert same_data and held, "checkpoint has no spatial hold-out on this data"
+        anchors = list(held)
+        allowed = np.ones(data.S, bool)
+        allowed[anchors] = False
+    elif spec in data.group_names:
+        anchors = np.flatnonzero(data.group == data.group_names.index(spec)).tolist()
+    else:
+        anchors = [int(i) for i in spec.split(",")]
+    return anchors, allowed, TEST_NAMES.get(spec, "forecast")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ckpt", required=True, nargs="+", help="several = pooled equal-weight ensemble")
-    ap.add_argument("--data", default="data/preprocessed")
+    ap.add_argument("--data", default=["data/preprocessed"], nargs="+")
+    ap.add_argument("--val-year", type=int, default=2024)
+    ap.add_argument("--test-year", type=int, default=2025)
+    ap.add_argument("--stations", default="all",
+                    help="'all', 'held_out' (the checkpoint's spatial hold-out: a new station "
+                         "that has its own history), a city name, or comma-separated station indices")
+    ap.add_argument("--virtual-sensing", action="store_true",
+                    help="hide the anchor's own pollutant readings for the whole context "
+                         "(true virtual sensing; skips the outage-imputation test)")
+    ap.add_argument("--refit-met", action="store_true",
+                    help="scale met with the evaluated data's own stats (default: checkpoint's)")
     ap.add_argument("--out", default="results/aqfm_results.json")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--batch-size", type=int, default=16)
@@ -267,18 +316,39 @@ def main():
     cfg = loaded[0][1]
     for p, (_, c, _) in zip(args.ckpt, loaded):
         assert dataclasses.asdict(c) == dataclasses.asdict(cfg), f"{p}: config differs from {args.ckpt[0]}"
-    a = load_preprocessed(args.data)
-    val_start, test_start = split_indices(np.asarray(a["timestamps_h"]))
-    assert all(ck["test_start"] == test_start for _, _, ck in loaded), \
-        "split mismatch between training and evaluation"
+    a = load_multi(args.data)
+    val_start, test_start = split_indices(np.asarray(a["timestamps_h"]), args.val_year, args.test_year)
+    same_data = all(ck.get("cities", a["group_names"]) == a["group_names"] for _, _, ck in loaded)
+    if same_data:
+        assert all(ck["test_start"] == test_start for _, _, ck in loaded), \
+            "split mismatch between training and evaluation"
+    else:
+        print(f"  transfer evaluation: trained on {loaded[0][2].get('cities')}, "
+              f"evaluating on {a['group_names']}")
+    met_stats = None if args.refit_met else loaded[0][2].get("met_stats")
+    if cfg.use_future_met and met_stats is None and not args.refit_met:
+        print("  WARNING: checkpoint has no met_stats (pre-v2); met scaled with this data's stats")
     data = AQData(a["values"], a["observed"], a["timestamps_h"], a["coords"], a["static"],
-                  train_end=val_start, era5_met=a["era5_met"] if cfg.use_future_met else None)
-    res = evaluate(models, cfg, data, a["values"], a["observed"], test_start, device,
-                   args.batch_size, args.samples, args.limit_origins)
-    if not args.no_imputation:
+                  train_end=val_start, era5_met=a["era5_met"] if cfg.use_future_met else None,
+                  met_stats=met_stats, group=a["group"], group_names=a["group_names"])
+    held = loaded[0][2].get("held_out_stations") or []
+    anchors, allowed, test = select_stations(args.stations, data, held, same_data)
+    if args.virtual_sensing:
+        test = TEST_NAMES["virtual_sensing"]
+    print(f"  test: {test}; forecasting {len(anchors)} anchor stations"
+          + ("; other held-out stations are not neighbours" if allowed is not None else ""))
+    raw_v, raw_o = a["values"], a["observed"]
+    res = evaluate(models, cfg, data, raw_v, raw_o, test_start, device,
+                   args.batch_size, args.samples, args.limit_origins, anchors=anchors,
+                   allowed=allowed, virtual_sensing=args.virtual_sensing)
+    if args.virtual_sensing:
+        print("  virtual sensing: outage-imputation test skipped (the whole context is hidden)")
+    elif not args.no_imputation:
         res["imputation_24h_outage"] = evaluate_imputation(
-            models, cfg, data, a["values"], a["observed"], test_start, device,
-            args.batch_size, args.samples, args.limit_origins)
+            models, cfg, data, raw_v, raw_o, test_start, device,
+            args.batch_size, args.samples, args.limit_origins, anchors=anchors, allowed=allowed)
+    res["test"], res["stations"], res["cities"] = test, anchors, data.group_names
+    res["neighbours_exclude_held_out"] = allowed is not None
     paths = [os.path.abspath(p) for p in args.ckpt]
     res["checkpoint"] = paths[0] if len(paths) == 1 else paths
     # code that ran this evaluation, and the code each model was trained with (None for

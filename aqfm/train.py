@@ -4,6 +4,18 @@
     python -m aqfm.train --phase anneal --init runs/main/best.pt --out runs/anneal --device cuda
     python -m aqfm.train --synthetic --small --steps 50           # CPU smoke run
 
+Multi-city / transfer (v2, see docs):
+    # 1. Delhi model with the ~1M city config
+    python -m aqfm.train --phase main --preset city --data data/delhi --out runs/delhi
+    # 2. zero-shot on Mumbai: evaluate only
+    python -m aqfm.evaluate --ckpt runs/delhi/best.pt --data data/mumbai --out results/mumbai_zeroshot.json
+    # 3. fine-tune on Mumbai (optionally only the last N months, frozen encoder)
+    python -m aqfm.train --phase finetune --init runs/delhi/best.pt --data data/mumbai \
+        --out runs/mumbai_ft --freeze encoder --train-months 12
+    # 4. joint two-city model, city-balanced sampling, 3 Mumbai stations held out
+    python -m aqfm.train --phase main --preset city --data data/delhi data/mumbai \
+        --holdout mumbai:3 --out runs/joint
+
 Splits (by timestamp, fixed): train 2018-2023, validation 2024, test 2025.
 No training window's horizon reaches 2024; validation targets lie in 2024 only;
 2025 is never touched here. Every statistic (RevIN fallback, met scaling,
@@ -17,7 +29,8 @@ import math
 import os
 import subprocess
 import time
-from datetime import datetime
+import zlib
+from datetime import datetime, timedelta
 
 import numpy as np
 import torch
@@ -44,10 +57,92 @@ def load_preprocessed(path):
     return a
 
 
-def split_indices(t):
-    """(val_start, test_start) step indices for 2024-01-01 and 2025-01-01."""
-    return (int(np.searchsorted(t, hours_since_epoch(2024))),
-            int(np.searchsorted(t, hours_since_epoch(2025))))
+def load_multi(paths):
+    """Several per-city preprocessed folders -> one station-stacked dict plus
+    `group` (city id per station) and `group_names`. Cities must share the
+    time grid (same preprocess_aqfm.py run settings); a city with a shorter
+    record is placed on the union grid with its missing steps unobserved."""
+    if isinstance(paths, str):
+        paths = [paths]
+    parts = [load_preprocessed(p) for p in paths]
+    names = [os.path.basename(os.path.normpath(p)) for p in paths]
+    if len(parts) == 1:
+        a = parts[0]
+        a["group"], a["group_names"] = np.zeros(len(a["coords"]), np.int64), names
+        return a
+    step = float(np.median(np.diff(np.asarray(parts[0]["timestamps_h"][:1000]))))
+    lo = min(float(p["timestamps_h"][0]) for p in parts)
+    hi = max(float(p["timestamps_h"][-1]) for p in parts)
+    t = lo + step * np.arange(int(round((hi - lo) / step)) + 1)
+    out = {k: [] for k in ("values", "observed", "coords", "static", "era5_met", "group")}
+    has_met = all(p["era5_met"] is not None for p in parts)
+    for g, p in enumerate(parts):
+        tp = np.asarray(p["timestamps_h"], np.float64)
+        idx = np.rint((tp - lo) / step).astype(np.int64)
+        assert np.allclose(t[idx], tp, atol=1e-3), f"{paths[g]}: time grid not aligned"
+        S = len(p["coords"])
+        for k in ("values", "observed") + (("era5_met",) if has_met else ()):
+            src = p[k]
+            buf = np.zeros((S, src.shape[1], len(t)), np.float32)
+            if k == "era5_met":
+                buf[:] = np.nan
+            buf[:, :, idx] = src
+            out[k].append(buf)
+        out["coords"].append(np.asarray(p["coords"]))
+        out["static"].append(np.asarray(p["static"]))
+        out["group"].append(np.full(S, g, np.int64))
+    res = {k: np.concatenate(v, 0) for k, v in out.items() if v}
+    res["timestamps_h"], res["group_names"] = t, names
+    if not has_met:
+        res["era5_met"] = None
+    return res
+
+
+def parse_holdout(spec, group, group_names):
+    """'mumbai:3,delhi:2' -> (S,) bool `allowed` with that many stations per
+    city held out. The choice depends only on the city's name and stations,
+    never on the training seed, so every seed hides the same stations (and
+    'delhi:4' hides the same Delhi stations whichever other cities are
+    loaded). Also accepts explicit station indices: '12,30,41'.
+    Returns (allowed, held_out_indices)."""
+    allowed = np.ones(len(group), bool)
+    if not spec:
+        return allowed, []
+    for item in spec.split(","):
+        if ":" in item:
+            name, n = item.split(":")
+            g = group_names.index(name)
+            rng = np.random.default_rng(zlib.crc32(name.encode()))
+            pick = rng.permutation(np.flatnonzero(group == g))[:int(n)]
+            allowed[pick] = False
+        else:
+            allowed[int(item)] = False
+    return allowed, np.flatnonzero(~allowed).tolist()
+
+
+def fit_outages(data, val_start, min_len, stations=None):
+    """The outage fit: LogNormal of station-wide pollutant outage lengths on
+    the training split (sets the block-mask lengths of pre-training). With a
+    spatial hold-out pass `stations` (bool, the seen ones) so the hidden
+    stations' outages do not shape the masks."""
+    pol = [CH[n] for n in ("PM2.5", "PM10", "NO2", "NOx", "NO", "Ozone", "SO2", "NH3", "CO")]
+    fit = slice(None) if stations is None else np.flatnonzero(stations)
+    return fit_block_lognormal(data.m[fit][:, pol, :val_start], min_len=min_len)
+
+
+def train_months_start(t, val_start, n):
+    """Step index where the last n calendar months before step val_start
+    begin, so [index, val_start) is exactly n months of data (val_start is
+    Jan 1 of the validation year). Clipped to the start of the record."""
+    d = EPOCH + timedelta(hours=float(t[val_start]))
+    k = d.year * 12 + (d.month - 1) - n
+    return int(np.searchsorted(t, hours_since_epoch(k // 12, k % 12 + 1)))
+
+
+def split_indices(t, val_year=2024, test_year=2025):
+    """(val_start, test_start) step indices for Jan 1 of val_year / test_year."""
+    return (int(np.searchsorted(t, hours_since_epoch(val_year))),
+            int(np.searchsorted(t, hours_since_epoch(test_year))))
 
 
 def step(model, batch, cfg, forecast=True, impute=True):
@@ -100,6 +195,30 @@ def code_version():
         return None
 
 
+def set_trainable(model, freeze):
+    """Fine-tuning freeze policies. Returns the number of trainable params.
+    none     everything trains.
+    encoder  freeze the axial blocks and patch tokenizer value path; train the
+             station/position MLPs, spatial bias, sink, pooler, decoder, head.
+             The cheap default when the new city has < 1 year of data.
+    backbone freeze everything except station/position MLPs, spatial bias,
+             sink and the output head (smallest adaptation, ~5-10% of params).
+    Always trainable when not 'none': anything named station / spatial_bias /
+    sink / head / q_last / anchor_gate."""
+    always = ("station", "spatial_bias", "sink", "head", "q_last", "anchor_gate")
+    for n, p in model.named_parameters():
+        if freeze == "none":
+            p.requires_grad = True
+        elif freeze == "encoder":
+            p.requires_grad = (any(a in n for a in always)
+                               or not (n.startswith("blocks.") or n.startswith("tokenizer.")))
+        elif freeze == "backbone":
+            p.requires_grad = any(a in n for a in always)
+        else:
+            raise ValueError(freeze)
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
 def save(path, model, cfg, extra):
     torch.save({"model": model.state_dict(), "cfg": dataclasses.asdict(cfg), **extra}, path)
 
@@ -107,6 +226,10 @@ def save(path, model, cfg, extra):
 def load_checkpoint(path, device="cpu"):
     ck = torch.load(path, map_location=device, weights_only=False)
     ck["cfg"].setdefault("use_last_obs", False)          # checkpoints from before the anchor
+    for k in ("dist_kernels_km", "nbr_dropout_frac", "target_channels", "n_blocks_per_sample",
+              "channel_dropout_frac"):                   # json/pickle round trip -> tuples
+        if isinstance(ck["cfg"].get(k), list):
+            ck["cfg"][k] = tuple(ck["cfg"][k])
     cfg = AQFMConfig(**ck["cfg"])
     model = AQFM(cfg)
     model.load_state_dict(ck["model"])
@@ -115,11 +238,30 @@ def load_checkpoint(path, device="cpu"):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data", default="data/preprocessed")
+    ap.add_argument("--data", default=["data/preprocessed"], nargs="+",
+                    help="one or more per-city preprocessed folders (stacked by station)")
     ap.add_argument("--out", default="runs/debug")
-    ap.add_argument("--phase", choices=["main", "anneal"], default="main")
-    ap.add_argument("--init", help="checkpoint to start from (required for anneal)")
+    ap.add_argument("--phase", choices=["main", "anneal", "finetune"], default="main",
+                    help="finetune = main-phase objective (mixed masking) from --init")
+    ap.add_argument("--init", help="checkpoint to start from (required for anneal/finetune)")
     ap.add_argument("--small", action="store_true")
+    ap.add_argument("--preset", choices=["v1", "city"], default="v1",
+                    help="city = ~1M-param multi-city config with all spatial-scale fixes")
+    ap.add_argument("--d-model", type=int, default=None, help="width (default: the preset's; new models only)")
+    ap.add_argument("--n-heads", type=int, default=None, help="attention heads (default: the preset's)")
+    ap.add_argument("--d-ff", type=int, default=None, help="feed-forward width (default: the preset's)")
+    ap.add_argument("--freeze", choices=["none", "encoder", "backbone"], default="none",
+                    help="finetune/anneal only")
+    ap.add_argument("--train-months", type=int, default=None,
+                    help="use only the last N calendar months before validation for training "
+                         "(for the target city in multi-city runs: the last listed --data)")
+    ap.add_argument("--holdout", default="",
+                    help="spatial hold-out, e.g. 'mumbai:3' or station indices '4,17'")
+    ap.add_argument("--val-year", type=int, default=2024)
+    ap.add_argument("--test-year", type=int, default=2025)
+    ap.add_argument("--no-balance", action="store_true", help="sample anchors uniformly over stations")
+    ap.add_argument("--refit-stats", action="store_true",
+                    help="finetune/anneal: refit met/RevIN stats on the new data (default: keep the checkpoint's)")
     ap.add_argument("--synthetic", action="store_true")
     ap.add_argument("--steps", type=int, default=100_000)
     ap.add_argument("--batch-size", type=int, default=8)
@@ -154,45 +296,88 @@ def main():
     amp_dtype = torch.bfloat16 if device.type == "cuda" and torch.cuda.is_bf16_supported() else None
 
     # ---- config ----------------------------------------------------------
-    if args.phase == "anneal":
-        assert args.init, "--init is required for the anneal phase"
+    init_ck = None
+    if args.phase in ("anneal", "finetune"):
+        assert args.init, f"--init is required for the {args.phase} phase"
         assert args.dropout is None, "--dropout is main phase only; anneal keeps the checkpoint's"
-        model, cfg, _ = load_checkpoint(args.init, device)
+        model, cfg, init_ck = load_checkpoint(args.init, device)
     else:
         kw = dict(grad_checkpoint=args.grad_checkpoint, use_future_met=not args.no_future_met,
                   spatial_bias=args.spatial_bias, use_spatial_attention=not args.no_spatial,
                   use_last_obs=not args.no_last_obs, use_blh=not args.no_blh)
         if args.dropout is not None:
             kw["dropout"] = args.dropout
+        for k in ("d_model", "n_heads", "d_ff"):
+            if getattr(args, k) is not None:
+                kw[k] = getattr(args, k)
         if args.pm25_direct:
             kw["target_channels"] = tuple("PM2.5" if c == "PM_FRAC" else c for c in AQFMConfig.target_channels)
         if args.random_masking:
             kw.update(p_tail_mask=0.0, forecast_targets_always=False)
-        cfg = AQFMConfig.small(**kw) if args.small else AQFMConfig(**kw)
+        if args.small:
+            if args.preset == "city":
+                kw.update(coord_mode="relative", neighbour_radius_km=100.0,
+                          dist_kernels_km=(3.0, 10.0, 40.0), advection_feature=True,
+                          spatial_lags=1, spatial_sink=True, density_features=True,
+                          nbr_dropout_p=0.3)
+            cfg = AQFMConfig.small(**kw)
+        else:
+            cfg = AQFMConfig.city(**kw) if args.preset == "city" else AQFMConfig(**kw)
 
     # ---- data ------------------------------------------------------------
     if args.synthetic:
-        v, o, t, c, s, e = synthetic_raw(8, 4000, seed=args.seed)
+        # two toy "cities" when several --data paths are given, else one
+        n_city = len(args.data)
+        raws = [synthetic_raw(8, 4000, seed=args.seed + g) for g in range(n_city)]
+        for g, r in enumerate(raws):
+            r[3][:] += np.array([-9.5 * g, -4.3 * g], np.float32)       # move city g south-west
+        v, o, c, s = (np.concatenate([r[k] for r in raws]) for k in (0, 1, 3, 4))
+        e = np.concatenate([r[5] for r in raws])
+        t = raws[0][2]
+        group = np.concatenate([np.full(8, g) for g in range(n_city)])
+        group_names = [f"city{g}" for g in range(n_city)]
         val_start, test_start = 2600, 3300
     else:
-        a = load_preprocessed(args.data)
+        a = load_multi(args.data)
         v, o, t, c, s, e = (a[k] for k in ("values", "observed", "timestamps_h", "coords",
                                             "static", "era5_met"))
-        val_start, test_start = split_indices(np.asarray(t))
+        group, group_names = a["group"], a["group_names"]
+        val_start, test_start = split_indices(np.asarray(t), args.val_year, args.test_year)
         if e is None and cfg.use_future_met:
             raise SystemExit("era5_met.npy missing: re-run preprocess_aqfm.py or pass --no-future-met")
-    print(f"building data store (train_end={val_start}, test_start={test_start}) ...")
+    keep_stats = init_ck is not None and not args.refit_stats
+    met_stats = init_ck.get("met_stats") if keep_stats else None
+    if keep_stats and met_stats is None and cfg.use_future_met:
+        print("  WARNING: checkpoint has no met_stats (pre-v2); refitting met scaling on new data")
+    allowed, held_out = parse_holdout(args.holdout, group, group_names)
+    if (init_ck is not None and not args.holdout and init_ck.get("held_out_stations")
+            and init_ck.get("cities") == list(group_names)):
+        # same data as the checkpoint: its held-out stations stay unseen (anneal etc.)
+        held_out = list(init_ck["held_out_stations"])
+        allowed = np.ones(len(group), bool)
+        allowed[held_out] = False
+    if held_out:
+        print(f"  spatial hold-out (never seen in training): stations {held_out}")
+    print(f"building data store (train_end={val_start}, test_start={test_start}, "
+          f"cities={group_names}) ...")
+    # with a hold-out, every statistic fitted from data uses the seen stations only
     data = AQData(v, o, t, c, s, train_end=val_start,
-                  era5_met=e if cfg.use_future_met else None)
+                  era5_met=e if cfg.use_future_met else None, met_stats=met_stats,
+                  group=group, group_names=group_names,
+                  stats_stations=allowed if held_out else None)
     if data.met is not None:
         print(f"  era5 met NaN fraction after scaling: {data.met_nan_frac:.4%}")
+    if init_ck is not None and args.refit_stats:
+        model.revin.set_global_stats(data.global_mean, data.global_std)
+    if init_ck is not None:
+        n_tr = set_trainable(model, args.freeze)
+        print(f"  freeze={args.freeze}: {n_tr / 1e6:.3f}M trainable parameters")
 
     if args.phase == "main":
         if args.synthetic:
             print("  synthetic run: keeping default outage parameters")
         else:
-            pol = [CH[n] for n in ("PM2.5", "PM10", "NO2", "NOx", "NO", "Ozone", "SO2", "NH3", "CO")]
-            mu, sd, n_out = fit_block_lognormal(data.m[:, pol, :val_start], min_len=cfg.patch_len)
+            mu, sd, n_out = fit_outages(data, val_start, cfg.patch_len, allowed if held_out else None)
             cfg.block_len_lognormal_mu, cfg.block_len_lognormal_sigma = mu, sd
             print(f"  outage LogNormal fit on train split (gaps >= {cfg.patch_len} steps): "
                   f"mu={mu:.3f} sigma={sd:.3f} n={n_out} median={math.exp(mu) * cfg.step_hours:.1f} h")
@@ -206,21 +391,39 @@ def main():
         run = torch.compile(model)
 
     W, Tc = cfg.window_steps, cfg.context_steps
-    pretrain = args.phase == "main"
+    pretrain = args.phase in ("main", "finetune")
+    group_lo = None
+    if args.train_months:
+        # limit the target city (last --data) to exactly the last N calendar
+        # months before validation, windows included; other cities keep their full record
+        lo_t = train_months_start(data.t, val_start, args.train_months)
+        assert lo_t <= val_start - W, "--train-months is shorter than one training window"
+        target = int(data.group.max())
+        group_lo = {target: lo_t}
+        print(f"  {data.group_names[target]}: training data limited to steps [{lo_t}, {val_start}), "
+              f"the last {args.train_months} months before validation")
     train_ds = TrainWindows(data, cfg, 0, val_start - W, args.steps * args.batch_size,
-                            pretrain=pretrain, seed=args.seed)
+                            pretrain=pretrain, seed=args.seed, allowed=allowed,
+                            balance_groups=not args.no_balance, group_lo=group_lo)
     rng = np.random.default_rng(12345)                       # fixed validation set
     pairs = [(int(rng.integers(val_start - Tc, test_start - W + 1)), int(rng.integers(data.S)))
              for _ in range(args.val_windows)]
-    val_dl = DataLoader(FixedWindows(data, cfg, pairs), batch_size=args.batch_size,
+    if held_out:                                             # select models on seen stations only
+        rng = np.random.default_rng(12345)
+        seen = np.flatnonzero(allowed)
+        pairs = [(int(rng.integers(val_start - Tc, test_start - W + 1)), int(rng.choice(seen)))
+                 for _ in range(args.val_windows)]
+    val_dl = DataLoader(FixedWindows(data, cfg, pairs, allowed if held_out else None),
+                        batch_size=args.batch_size,
                         num_workers=args.workers)
     train_dl = DataLoader(train_ds, batch_size=args.batch_size, shuffle=False,
                           num_workers=args.workers, drop_last=True,
                           pin_memory=device.type == "cuda")
 
-    lr = args.lr or (3e-4 if args.phase == "main" else 5e-5)
-    decay = [p for n, p in model.named_parameters() if p.dim() >= 2 and "emb" not in n]
-    no_decay = [p for n, p in model.named_parameters() if not (p.dim() >= 2 and "emb" not in n)]
+    lr = args.lr or {"main": 3e-4, "finetune": 1e-4, "anneal": 5e-5}[args.phase]
+    named = [(n, p) for n, p in model.named_parameters() if p.requires_grad]
+    decay = [p for n, p in named if p.dim() >= 2 and "emb" not in n]
+    no_decay = [p for n, p in named if not (p.dim() >= 2 and "emb" not in n)]
     opt = torch.optim.AdamW([{"params": decay, "weight_decay": args.weight_decay},
                              {"params": no_decay, "weight_decay": 0.0}],
                             lr=lr, betas=(0.9, 0.95))
@@ -229,7 +432,10 @@ def main():
     print("code: " + ("not a git checkout" if code is None else
                       code["commit"][:7] + (f" + uncommitted changes {code['changed']}" if code["dirty"] else "")))
     meta = {"phase": args.phase, "args": vars(args), "val_start": val_start,
-            "test_start": test_start, "code": code}
+            "test_start": test_start, "code": code,
+            "met_stats": None if data.met_stats is None else [a.tolist() for a in data.met_stats],
+            "cities": data.group_names, "held_out_stations": held_out,
+            "init": os.path.abspath(args.init) if args.init else None}
     json.dump({"cfg": dataclasses.asdict(cfg), **meta}, open(os.path.join(args.out, "config.json"), "w"),
               indent=2)
     log = open(os.path.join(args.out, "log.jsonl"), "a")
@@ -247,7 +453,7 @@ def main():
             raise FloatingPointError(f"non-finite loss at step {i}: {parts}")
         opt.zero_grad(set_to_none=True)
         loss.backward()
-        gnorm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        gnorm = torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad], 1.0)
         opt.step()
 
         if (i + 1) % 50 == 0 or i == 0:

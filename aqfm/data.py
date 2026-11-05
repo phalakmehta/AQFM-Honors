@@ -38,7 +38,16 @@ class AQData:
     """
 
     def __init__(self, values, observed, timestamps_h, coords, static, train_end,
-                 era5_met=None):
+                 era5_met=None, met_stats=None, group=None, group_names=None,
+                 stats_stations=None):
+        """met_stats: optional (mean, std) of the met channels, from the
+        checkpoint being transferred. A Delhi model must see Mumbai's ERA5 in
+        Delhi's units, so for zero-shot / fine-tuning pass the checkpoint's
+        stats instead of refitting them on the new city.
+        group: optional (S,) int city id per station (multi-city training).
+        stats_stations: optional (S,) bool; the RevIN fallback and met stats
+        are fitted on these stations only (spatial hold-out: the hidden
+        stations' data must not shape the model). None = all stations."""
         x, m = derive_inputs(values, observed)
         for c in LOG_CHANNELS:
             x[:, c] = np.log1p(np.clip(x[:, c], 0, None)) * m[:, c]
@@ -49,32 +58,48 @@ class AQData:
         self.dist = haversine_km(self.coords, self.coords)
         self.train_end = int(train_end)
         self.S, self.C, self.T = x.shape
+        fit = slice(None) if stats_stations is None else np.flatnonzero(stats_stations)
 
         # global per-channel stats on the training split (RevIN fallback)
         self.global_mean = np.zeros(self.C, np.float32)
         self.global_std = np.ones(self.C, np.float32)
         for c in range(self.C):
-            mk = self.m[:, c, :train_end].astype(bool)
+            mk = self.m[fit, c, :train_end].astype(bool)
             if mk.any():
-                vals = self.x[:, c, :train_end][mk]
+                vals = self.x[fit, c, :train_end][mk]
                 self.global_mean[c], self.global_std[c] = vals.mean(), max(vals.std(), 1e-3)
 
-        self.met = None
+        self.group = (np.zeros(self.S, np.int64) if group is None
+                      else np.asarray(group, np.int64))
+        self.group_names = list(group_names) if group_names is not None else ["all"]
+        self.met, self.met_stats = None, None
         if era5_met is not None:
             met = np.array(era5_met, dtype=np.float32)       # copy; caller's array untouched
             for i in _MET_LOG:
                 met[:, i] = np.log1p(np.clip(met[:, i], 0, None))
-            mu = np.nanmean(met[:, :, :train_end], axis=(0, 2))
-            sd = np.nanstd(met[:, :, :train_end], axis=(0, 2))
+            if met_stats is None:
+                mu = np.nanmean(met[fit, :, :train_end], axis=(0, 2))
+                sd = np.nanstd(met[fit, :, :train_end], axis=(0, 2))
+            else:
+                mu, sd = (np.asarray(a, np.float32) for a in met_stats)
+            self.met_stats = (mu.astype(np.float32), sd.astype(np.float32))
             met = (met - mu[None, :, None]) / np.maximum(sd, 1e-3)[None, :, None]
             self.met_nan_frac = float(np.isnan(met).mean())
             self.met = np.nan_to_num(met, nan=0.0)            # 0 = training mean
 
-    def neighbourhood(self, anchor, k):
-        """k nearest stations, anchor first (even if another station shares
-        its coordinates)."""
+    def neighbourhood(self, anchor, k, r_max=None, allowed=None):
+        """Up to k nearest stations, anchor first (even if another station
+        shares its coordinates). r_max (km): drop neighbours farther than this,
+        so the result can be shorter than k (make_sample pads and masks).
+        allowed: optional (S,) bool; stations outside it are never neighbours
+        (spatial hold-out)."""
         order = np.argsort(self.dist[anchor], kind="stable")
-        return np.concatenate([[anchor], order[order != anchor]])[:k]
+        order = order[order != anchor]
+        if allowed is not None:
+            order = order[allowed[order]]
+        if r_max is not None:
+            order = order[self.dist[anchor, order] <= r_max]
+        return np.concatenate([[anchor], order])[:k]
 
 
 def _patch_mean(a, P):
@@ -88,9 +113,20 @@ def make_sample(data: AQData, cfg: AQFMConfig, sel, t0, rng=None, masker=None):
     targets; otherwise it is a pure forecasting sample."""
     Tc, Th, P, H, N = (cfg.context_steps, cfg.horizon_steps, cfg.patch_len,
                        cfg.n_horizon_patches, cfg.n_context_patches)
+    # Pad short neighbourhoods (radius cutoff, neighbour dropout) to a fixed
+    # n_neighbours slots: padded slots repeat the anchor index but are fully
+    # unobserved, so they are never attention keys, never targets, and are
+    # masked out of the decoder memory via st_valid.
+    sel = np.asarray(sel, np.int64)
+    n_real = len(sel)
+    if n_real < cfg.n_neighbours:
+        sel = np.concatenate([sel, np.full(cfg.n_neighbours - n_real, sel[0])])
+    st_valid = np.arange(len(sel)) < n_real
     sl = slice(t0, t0 + Tc + Th)
     x = data.x[sel, :, sl]                                     # (S,C,W) fancy index -> copy
     m = data.m[sel, :, sl].astype(np.float32)
+    m[~st_valid] = 0.0
+    x[~st_valid] = 0.0
     if not cfg.use_blh:                                        # no-BLH ablation: never observed
         x[:, CH["BLH"]] = 0.0
         m[:, CH["BLH"]] = 0.0
@@ -157,6 +193,7 @@ def make_sample(data: AQData, cfg: AQFMConfig, sel, t0, rng=None, masker=None):
         "imp_pos": f(imp_pos), "imp_valid": f(imp_valid),
         "imp_y": f(imp_y), "imp_m": f(imp_m), "imp_phys": f(imp_phys),
         "sel": f(np.asarray(sel, np.int64)), "t0": torch.tensor(t0),
+        "st_valid": f(st_valid),
     }
 
 
@@ -165,11 +202,23 @@ class TrainWindows(Dataset):
     is a pure function of (seed, epoch, index), so it is reproducible and safe
     across DataLoader workers. Call set_epoch() each epoch."""
 
-    def __init__(self, data: AQData, cfg: AQFMConfig, lo, hi, n_samples, pretrain, seed=0):
+    def __init__(self, data: AQData, cfg: AQFMConfig, lo, hi, n_samples, pretrain, seed=0,
+                 allowed=None, balance_groups=True, group_lo=None):
+        """allowed: (S,) bool, stations usable as anchors or neighbours (False =
+        spatial hold-out, never seen in training). balance_groups: draw the
+        city uniformly first, then a station in it, so a 37-station Delhi does
+        not drown a 25-station Mumbai. group_lo: optional {group id: earliest
+        window start} to limit how much history a city contributes (the
+        data-efficiency curve for fine-tuning)."""
         assert hi >= lo, (lo, hi)
         self.data, self.cfg, self.lo, self.hi = data, cfg, lo, hi
         self.n, self.seed, self.epoch = n_samples, seed, 0
         self.masker = MaskSampler(cfg) if pretrain else None
+        self.allowed = np.ones(data.S, bool) if allowed is None else np.asarray(allowed, bool)
+        self.group_lo = group_lo or {}
+        groups = np.unique(data.group[self.allowed])
+        self.anchor_sets = ([np.flatnonzero(self.allowed & (data.group == g)) for g in groups]
+                            if balance_groups else [np.flatnonzero(self.allowed)])
 
     def set_epoch(self, e):
         self.epoch = e
@@ -179,23 +228,45 @@ class TrainWindows(Dataset):
 
     def __getitem__(self, i):
         rng = np.random.default_rng([self.seed, self.epoch, i])
-        t0 = int(rng.integers(self.lo, self.hi + 1))
-        sel = self.data.neighbourhood(int(rng.integers(self.data.S)), self.cfg.n_neighbours)
-        return make_sample(self.data, self.cfg, sel, t0, rng, self.masker)
+        if len(self.anchor_sets) == 1 and not self.group_lo:
+            # one anchor pool, no history limit: the v1 draw order (t0, then
+            # anchor), so a v1 run sees exactly the windows it saw before
+            t0 = int(rng.integers(self.lo, self.hi + 1))
+            anchor = int(rng.choice(self.anchor_sets[0]))
+        else:
+            gi = int(rng.integers(len(self.anchor_sets)))
+            anchor = int(rng.choice(self.anchor_sets[gi]))
+            lo = max(self.lo, self.group_lo.get(int(self.data.group[anchor]), self.lo))
+            t0 = int(rng.integers(lo, self.hi + 1))
+        cfg = self.cfg
+        sel = self.data.neighbourhood(anchor, cfg.n_neighbours, cfg.neighbour_radius_km, self.allowed)
+        if self.group_lo:
+            # a city with limited history is not a neighbour in earlier windows either
+            ok = np.array([t0 >= self.group_lo.get(int(g), self.lo) for g in self.data.group[sel[1:]]], bool)
+            sel = np.concatenate([sel[:1], sel[1:][ok]])
+        if cfg.nbr_dropout_p > 0 and len(sel) > 1 and rng.random() < cfg.nbr_dropout_p:
+            keep = rng.random(len(sel) - 1) >= rng.uniform(*cfg.nbr_dropout_frac)
+            sel = np.concatenate([sel[:1], sel[1:][keep]])     # nearest-first order kept
+        return make_sample(self.data, cfg, sel, t0, rng, self.masker)
 
 
 class FixedWindows(Dataset):
-    """Deterministic list of (window start, anchor) pairs: validation/test."""
+    """Deterministic list of (window start, anchor) pairs: validation/test.
+    allowed: optional (S,) bool, the same mask as training: with a spatial
+    hold-out, hidden stations must not appear in any slot, or they would
+    still influence which checkpoint is selected."""
 
-    def __init__(self, data: AQData, cfg: AQFMConfig, pairs):
+    def __init__(self, data: AQData, cfg: AQFMConfig, pairs, allowed=None):
         self.data, self.cfg, self.pairs = data, cfg, list(pairs)
+        self.allowed = None if allowed is None else np.asarray(allowed, bool)
 
     def __len__(self):
         return len(self.pairs)
 
     def __getitem__(self, i):
         t0, anchor = self.pairs[i]
-        sel = self.data.neighbourhood(int(anchor), self.cfg.n_neighbours)
+        sel = self.data.neighbourhood(int(anchor), self.cfg.n_neighbours,
+                                      self.cfg.neighbour_radius_km, self.allowed)
         return make_sample(self.data, self.cfg, sel, int(t0))
 
 
@@ -224,7 +295,8 @@ def build_queries(cfg: AQFMConfig, batch, forecast=True, impute=True):
             "lead": batch["lead_hz"][:, h], "time": batch["t_hz_patch"][:, h],
             "task": torch.full((B, Q), FORECAST, device=dev),
             "met": met[:, s, hm],                                      # (B,Q,M)
-            "valid": torch.ones(B, Q, dtype=torch.bool, device=dev),
+            "valid": (batch["st_valid"][:, s] if "st_valid" in batch
+                      else torch.ones(B, Q, dtype=torch.bool, device=dev)),
             "y": batch["y_hz"].reshape(B, S, Ct, H, P).reshape(B, Q, P),
             "ym": batch["m_hz"].reshape(B, S, Ct, H, P).reshape(B, Q, P),
         })

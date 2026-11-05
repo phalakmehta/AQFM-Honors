@@ -378,5 +378,14 @@ The seed-noise row gives the std over seeds 0/1/2 of the full model: a change sm
 | main_s1_do3_nofm | no future met | 0.3 | 1 | 1.8015 | 7000 | 10 | `runs/main_s1_do3_nofm/log.jsonl` |
 | main_s2_do3 | – | 0.3 | 2 | 1.7255 | 6000 | 9 | `runs/main_s2_do3/log.jsonl` |
 | main_s2_do3_nofm | no future met | 0.3 | 2 | 1.8035 | 5000 | 8 | `runs/main_s2_do3_nofm/log.jsonl` |
+| v2_holdout4_s0_do03 | – | 0.3 | 0 | 1.7266 | 9000 | 12 | `runs/v2_holdout4_s0_do03/log.jsonl` |
+| v2_nofm_s0_do03 | no future met | 0.3 | 0 | 1.8115 | 6000 | 9 | `runs/v2_nofm_s0_do03/log.jsonl` |
+| v2_nofm_s1_do03 | no future met | 0.3 | 1 | 1.8092 | 9000 | 12 | `runs/v2_nofm_s1_do03/log.jsonl` |
+| v2_nofm_s2_do03 | no future met | 0.3 | 2 | 1.7943 | 11000 | 12 | `runs/v2_nofm_s2_do03/log.jsonl` |
+| v2_s0_do015 | – | 0.15 | 0 | 1.7380 | 11000 | 12 | `runs/v2_s0_do015/log.jsonl` |
+| v2_s0_do03 | – | 0.3 | 0 | 1.7372 | 9000 | 12 | `runs/v2_s0_do03/log.jsonl` |
+| v2_s1_do03 | – | 0.3 | 1 | 1.7494 | 7000 | 10 | `runs/v2_s1_do03/log.jsonl` |
+| v2_s2_do03 | – | 0.3 | 2 | 1.7370 | 10000 | 12 | `runs/v2_s2_do03/log.jsonl` |
+| v2_short_delhi | 3k-step schedule, patience 10 | 0.15 | 0 | 1.7878 | 3000 | 6 | `runs/v2_short_delhi/log.jsonl` |
 
 Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column.

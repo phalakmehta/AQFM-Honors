@@ -1,0 +1,6 @@
+  test: new station that has its own history; forecasting 4 anchor stations; other held-out stations are not neighbours
+  forecast batch 1/91
+  forecast batch 51/91
+PM2.5 {'1h': 15.7133, '6h': 26.7018, '24h': 35.8645, '72h': 40.36}
+PM10 {'1h': 28.8049, '6h': 51.3589, '24h': 68.7714, '72h': 75.1125}
+saved results/v2_holdout4_newstation_results.json

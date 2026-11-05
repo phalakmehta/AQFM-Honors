@@ -7,7 +7,7 @@ Every result's command, models and checksums: `scripts/manifest.json`. Every num
 Where: **GitHub** = github.com/phalakmehta/AQFM-Honors · **Drive** = Google Drive (`drive_upload_2026-10-14/` and
 `Foundation Model(Mainak Sir)/`) · **machine** = the GPU machine only (`/home/phalak/aqfm/`).
 
-Last updated: 2026-10-16, 15:45.
+Last updated: 2026-11-05 (v2 section).
 
 ## Code
 
@@ -52,6 +52,16 @@ Last updated: 2026-10-16, 15:45.
 | `results/TABLES.md` (all tables, generated) | GitHub + Drive | ✅ (PatchTST and E-STGCN rows added 2026-10-16, ⬜ commit) |
 | Training and evaluation logs (`runs/*/config.json`, `log.jsonl`, `runs/*.txt`; `deep_baselines/runs/`, `deep_baselines/estgcn/runs/`) | GitHub + Drive `run_logs/` | ✅ (E-STGCN logs ⬜ commit) |
 
+## AQFM v2 (city preset, 1.17M parameters; branch `aqfm-v2`; log: `docs/V2_PROGRESS.md`)
+
+| Item | Where | Status |
+|---|---|---|
+| v2 code: spatial-scale changes A1–A9, fixes B1, B3–B7, any-city data steps; 66 tests pass (46 v1 + 20 v2) | GitHub branch `aqfm-v2` | ✅ committed (`8be6172`), ⬜ push |
+| `data/delhi/` (built from the raw inputs, `docs/V2_PROGRESS.md` step 2; sha256 in the manifest) | machine | ✅ (rebuildable, not on Drive) |
+| v2 models: 3 seeds, dropout 0.15 run, 4-station hold-out run, 3 seeds without future weather (`aqfm_v2_*`) | machine + `drive_upload_2026-11-05_v2/models` | ✅ in the manifest; ⬜ upload to Drive |
+| v2 results: 3 seeds, mean ± std, ensemble, unseen stations, distance bands, without future weather (`results/v2_*`), `results/v2_delhi_summary.md` | GitHub branch `aqfm-v2` | ✅ committed, in the manifest; ⬜ push |
+| Step 10: transfer to a second city | — | ⬜ waits for the city's data |
+
 ## Experiments the paper needs (roadmap: `PROJECT_CONTEXT.md` §6)
 
 | Item | Status |
@@ -72,6 +82,6 @@ Last updated: 2026-10-16, 15:45.
 | Item | Status |
 |---|---|
 | Everything committed and pushed; Drive folder uploaded | ⬜ |
-| `python scripts/check_submission.py` prints `ALL OK` | ⬜ (all OK except "not pushed" after the E-STGCN commit) |
+| `python scripts/check_submission.py` prints `ALL OK` | ⬜ (all OK except "not pushed" after the E-STGCN commit; on branch `aqfm-v2` the check compares with GitHub `main`, so it fails until v2 is merged into `main`) |
 | `python scripts/check_submission.py --reproduce` (re-runs every result, ~7.7 h; LAST) | ⬜ |
 | Every number in the paper copied from `results/TABLES.md` | ⬜ |

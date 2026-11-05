@@ -4,7 +4,14 @@ AQFM Data Preprocessing Pipeline
 Transforms raw CPCB station CSVs (2018-2025) and ERA5 parquet into the dense
 (S, C, T) tensor arrays that AirQualityWindows expects.
 
-Outputs (saved to data/preprocessed/):
+Usage (defaults = the v1 Delhi build into data/preprocessed/):
+    python data_pipeline/preprocess_aqfm.py
+    # any city: its station list, raw CSV folder, ERA5 parquet and output folder
+    python data_pipeline/preprocess_aqfm.py --stations data_pipeline/stations/delhi.csv \
+        --era5 data/delhi_era5_interpolated.parquet --out data/delhi \
+        --bp-rule era5 --static facts --facts data_pipeline/stations/delhi_facts.csv
+
+Outputs (saved to --out, default data/preprocessed/):
     values.npy          (S, 18, T) - raw concentrations & met (+ ERA5 BLH), NaN -> 0
     observed.npy        (S, 18, T) - binary observation mask
     era5_met.npy        (S, 8, T)  - pure ERA5 met in IST (AT, RH, U, V, SR, BP, TOT_RF, BLH), NaN = missing
@@ -23,6 +30,7 @@ augment_with_ratios() when the dataset is constructed. This keeps the
 preprocessing clean and the ratio logic in one place.
 """
 
+import argparse
 import os
 import sys
 import json
@@ -38,7 +46,7 @@ warnings.filterwarnings("ignore", category=pd.errors.DtypeWarning)
 # ============================================================================
 # Configuration
 # ============================================================================
-ROOT = r"c:\Users\phala\Foundation Model"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))     # repo root
 YEARLY_DATA_DIR = os.path.join(ROOT, "data", "yearly_data")
 ERA5_PARQUET = os.path.join(ROOT, "data", "era5_interpolated.parquet")
 STATIONS_CSV = os.path.join(ROOT, "data", "stations.csv")
@@ -125,7 +133,7 @@ def map_csv_columns(csv_columns):
 # ============================================================================
 # Step 1: Load & align CPCB station CSVs
 # ============================================================================
-def load_cpcb_data(station_ids):
+def load_cpcb_data(station_ids, raw_dir=YEARLY_DATA_DIR):
     """Load all CPCB CSVs for all years, align to a common 15-min grid.
 
     Returns:
@@ -148,7 +156,7 @@ def load_cpcb_data(station_ids):
     for sid in station_ids:
         has_data = False
         for yr in YEARS:
-            csv_path = os.path.join(YEARLY_DATA_DIR, str(yr), f"{sid}.csv")
+            csv_path = os.path.join(raw_dir, str(yr), f"{sid}.csv")
             if os.path.exists(csv_path):
                 has_data = True
                 break
@@ -166,7 +174,7 @@ def load_cpcb_data(station_ids):
     for si, sid in enumerate(station_order):
         station_dfs = []
         for yr in YEARS:
-            csv_path = os.path.join(YEARLY_DATA_DIR, str(yr), f"{sid}.csv")
+            csv_path = os.path.join(raw_dir, str(yr), f"{sid}.csv")
             if not os.path.exists(csv_path):
                 continue
             try:
@@ -236,6 +244,21 @@ def fix_bp_units(values, observed):
     return values, int(hpa.sum())
 
 
+def bp_hpa_mask_era5(bp, obs, era5_bp_mmhg):
+    """--bp-rule era5: a unit rule for any altitude. A reading is hPa when it is
+    closer to ERA5's surface pressure in hPa than to ERA5's surface pressure in
+    mmHg at that place and time. ERA5 follows the station's altitude, so this
+    works where the fixed '> 900' cut fails (true pressure is below 900 hPa
+    above ~990 m). Per reading, so a mid-record unit change is handled. Where
+    ERA5 is missing, the station's median ERA5 pressure is used.
+    bp, obs, era5_bp_mmhg: (T,) arrays of one station."""
+    e = np.array(era5_bp_mmhg, dtype=np.float64)
+    if np.isnan(e).all():
+        raise ValueError("no ERA5 surface pressure for this station: cannot decide BP units")
+    e[np.isnan(e)] = np.nanmedian(e)
+    return obs & (np.abs(bp - e / 0.750062) < np.abs(bp - e))
+
+
 # ============================================================================
 # Step 2: Merge ERA5 covariates (gap-fill CPCB met channels)
 # ============================================================================
@@ -268,11 +291,13 @@ def _era5_derive(df):
     }
 
 
-def merge_era5(values, observed, timeline, station_order):
+def merge_era5(values, observed, timeline, station_order, era5_parquet=ERA5_PARQUET, bp_rule="threshold"):
     """Gap-fill the CPCB meteorological channels from ERA5, and return the
     pure-ERA5 met block used as the model's known-future covariate.
 
     Only fills where CPCB is missing; never overwrites a CPCB reading.
+    bp_rule="era5": convert hPa BP readings here, per station, with
+    bp_hpa_mask_era5 (before gap-filling). Returns the count as a 5th value.
 
     The parquet is read ONE STATION AT A TIME (pyarrow row filter). Loading all
     ~12M rows at once and adding derived columns needs several GB and fails on
@@ -289,10 +314,13 @@ def merge_era5(values, observed, timeline, station_order):
     era5_met = np.full((S, len(ERA5_MET_CHANNELS), T), np.nan, dtype=np.float32)
     shift = pd.Timedelta(hours=5, minutes=30)   # ERA5 is UTC, CPCB is IST
 
-    print(f"  Reading ERA5 per station from {os.path.basename(ERA5_PARQUET)} ...")
+    n_bp_hpa = 0
+    print(f"  Reading ERA5 per station from {os.path.basename(era5_parquet)} ...")
     for si, sid in enumerate(station_order):
-        tbl = pq.read_table(ERA5_PARQUET, filters=[("station_id", "==", sid)])
+        tbl = pq.read_table(era5_parquet, filters=[("station_id", "==", sid)])
         if tbl.num_rows == 0:
+            if bp_rule == "era5":
+                raise ValueError(f"no ERA5 rows for {sid}")
             print(f"    WARNING: no ERA5 rows for {sid}")
             continue
         st = tbl.to_pandas()
@@ -305,6 +333,11 @@ def merge_era5(values, observed, timeline, station_order):
 
         for mi, name in enumerate(ERA5_MET_CHANNELS):
             era5_met[si, mi] = der[name]
+        if bp_rule == "era5":
+            bi = AQFM_CHANNELS.index("BP")
+            hpa = bp_hpa_mask_era5(values[si, bi], observed[si, bi] > 0, der["BP"])
+            values[si, bi][hpa] *= 0.750062
+            n_bp_hpa += int(hpa.sum())
 
         for ch_name in fill_channels:
             ci = AQFM_CHANNELS.index(ch_name)
@@ -330,6 +363,9 @@ def merge_era5(values, observed, timeline, station_order):
         print(f"    {ch_name}: filled {gaps_filled[ch_name]:,} / {total_gaps[ch_name]:,} gaps "
               f"({fill_report[ch_name]['fill_pct']})")
 
+    if bp_rule == "era5":
+        print(f"    BP (era5 rule): converted {n_bp_hpa:,} hPa readings to mmHg")
+        return values, observed, fill_report, era5_met, n_bp_hpa
     return values, observed, fill_report, era5_met
 
 
@@ -408,13 +444,11 @@ def build_arrays(values, observed, timeline, station_order, stations_df):
     coords = np.zeros((len(station_order), 2), dtype=np.float32)
     for si, sid in enumerate(station_order):
         row = stations_df[stations_df["station_id"] == sid]
-        if len(row) > 0:
-            coords[si, 0] = row["lat"].values[0]
-            coords[si, 1] = row["lon"].values[0]
-        else:
-            print(f"    WARNING: No coordinates for station {sid}, using Delhi center")
-            coords[si, 0] = 28.6139
-            coords[si, 1] = 77.209
+        if len(row) == 0 or row[["lat", "lon"]].isna().any(axis=None):
+            raise ValueError(f"no coordinates for station {sid}: add them to the station file "
+                             f"(there is no default location)")
+        coords[si, 0] = row["lat"].values[0]
+        coords[si, 1] = row["lon"].values[0]
 
     return timestamps_h, coords
 
@@ -565,7 +599,29 @@ def compute_missingness_summary(observed, station_order):
 # ============================================================================
 # Main
 # ============================================================================
-def main():
+def parse_args(argv=None):
+    ap = argparse.ArgumentParser(description="CPCB CSVs + ERA5 parquet -> one city's model arrays. "
+                                             "Defaults reproduce the v1 Delhi build.")
+    ap.add_argument("--stations", default=STATIONS_CSV, help="CSV with station_id, lat, lon")
+    ap.add_argument("--raw-dir", default=YEARLY_DATA_DIR, help="<raw-dir>/<year>/<station_id>.csv")
+    ap.add_argument("--era5", default=ERA5_PARQUET, help="interpolate_era5_to_stations.py output")
+    ap.add_argument("--out", default=OUTPUT_DIR, help="output folder; its name is the city name (data/<city>)")
+    ap.add_argument("--bp-rule", choices=["threshold", "era5"], default="threshold",
+                    help="threshold: v1 (> 900 = hPa; Delhi only). era5: nearest of ERA5 pressure in "
+                         "hPa or mmHg (any altitude)")
+    ap.add_argument("--static", choices=["legacy", "facts"], default="legacy",
+                    help="legacy: v1 facts from each station's own readings, z-scored per city. "
+                         "facts: location facts from --facts (station_facts.py), fixed scaling")
+    ap.add_argument("--facts", help="station facts CSV (required with --static facts)")
+    args = ap.parse_args(argv)
+    if args.static == "facts" and not args.facts:
+        ap.error("--static facts needs --facts")
+    return args
+
+
+def main(argv=None):
+    args = parse_args(argv)
+    OUTPUT_DIR = args.out
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     report = {}
 
@@ -574,23 +630,27 @@ def main():
     print("=" * 70)
 
     # Load station metadata
-    stations_df = pd.read_csv(STATIONS_CSV)
+    stations_df = pd.read_csv(args.stations)
     station_ids = stations_df["station_id"].tolist()
 
     # --- Step 1: Load CPCB data ---
     print("\n[Step 1/6] Loading & aligning CPCB station CSVs...")
     t0 = datetime.now()
-    values, observed, timeline, station_order, cpcb_report = load_cpcb_data(station_ids)
+    values, observed, timeline, station_order, cpcb_report = load_cpcb_data(station_ids, args.raw_dir)
     report["cpcb"] = {"n_stations": len(station_order), "n_timesteps": len(timeline)}
     report["column_mapping"] = cpcb_report["column_mapping"]
     print(f"  Done in {(datetime.now() - t0).total_seconds():.1f}s")
     print(f"  Shape: values={values.shape}, observed={observed.shape}")
-    values, report["bp_hpa_converted"] = fix_bp_units(values, observed)
+    if args.bp_rule == "threshold":
+        values, report["bp_hpa_converted"] = fix_bp_units(values, observed)
 
     # --- Step 2: Merge ERA5 ---
     print("\n[Step 2/6] Merging ERA5 weather data (gap-filling CPCB met channels)...")
     t0 = datetime.now()
-    values, observed, era5_report, era5_met = merge_era5(values, observed, timeline, station_order)
+    merged = merge_era5(values, observed, timeline, station_order, args.era5, args.bp_rule)
+    values, observed, era5_report, era5_met = merged[:4]
+    if args.bp_rule == "era5":
+        report["bp_hpa_converted"], report["bp_rule"] = merged[4], "era5"
     report["era5_gap_fill"] = era5_report
     values, observed = append_blh(values, observed, era5_met)
     report["era5_met_nan_frac"] = {name: float(np.isnan(era5_met[:, i]).mean())
@@ -615,7 +675,14 @@ def main():
     # --- Step 5: Static features ---
     print("\n[Step 5/6] Computing static features...")
     t0 = datetime.now()
-    static = compute_static_features(values, observed, coords, station_order)
+    if args.static == "legacy":
+        static = compute_static_features(values, observed, coords, station_order)
+    else:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from station_facts import DEFAULT_FACTS, scaled_static
+        static = scaled_static(pd.read_csv(args.facts), station_order)
+        report["static_facts"] = {"names": list(DEFAULT_FACTS), "source": os.path.abspath(args.facts)}
+        print(f"  Static = location facts {list(DEFAULT_FACTS)} from {args.facts}")
     print(f"  Done in {(datetime.now() - t0).total_seconds():.1f}s")
 
     # --- Step 6: Outage distribution & save ---

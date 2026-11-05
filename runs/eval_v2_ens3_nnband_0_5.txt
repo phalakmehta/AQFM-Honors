@@ -1,0 +1,18 @@
+  test: forecast; forecasting 30 anchor stations
+  forecast batch 1/679
+  forecast batch 51/679
+  forecast batch 101/679
+  forecast batch 151/679
+  forecast batch 201/679
+  forecast batch 251/679
+  forecast batch 301/679
+  forecast batch 351/679
+  forecast batch 401/679
+  forecast batch 451/679
+  forecast batch 501/679
+  forecast batch 551/679
+  forecast batch 601/679
+  forecast batch 651/679
+PM2.5 {'1h': 15.7992, '6h': 27.6865, '24h': 33.1264, '72h': 36.7494}
+PM10 {'1h': 28.1483, '6h': 45.5489, '24h': 60.0216, '72h': 65.8844}
+saved results/v2_ens3_nnband_0_5_results.json

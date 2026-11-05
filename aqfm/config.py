@@ -6,7 +6,7 @@ change.
 """
 
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Optional, Tuple
 
 # values.npy / observed.npy axis 1, exactly as written by preprocess_aqfm.py
 RAW_CHANNELS = (
@@ -106,6 +106,69 @@ class AQFMConfig:
     episode_threshold: float = 250.0
 
     grad_checkpoint: bool = False
+
+    # ---- spatial scale / transfer (v2) ---------------------------------
+    # Every default below reproduces the original (v1, Delhi-only) behaviour,
+    # so v1 checkpoints load unchanged. AQFMConfig.city() switches them on.
+    #
+    # How station position enters the station embedding:
+    #   "delhi"        v1: lat/lon minus a hard-coded Delhi centre (28.6, 77.2), x10.
+    #                  Mumbai would arrive as (-95, -43): far outside training range.
+    #   "relative"     east/north km from the sample's anchor station / coord_scale_km.
+    #                  No absolute location: the same weights apply in any city.
+    #   "relative_abs" "relative" + multi-frequency Fourier features of absolute
+    #                  lat/lon. Only for many-city / national training; with two
+    #                  cities it just learns a city ID.
+    coord_mode: str = "delhi"
+    coord_scale_km: float = 25.0
+    n_coord_bands: int = 4                 # Fourier bands for "relative_abs"
+    # Neighbourhood: up to n_neighbours stations within this radius (None = no
+    # cutoff, v1). Missing slots are padded and masked everywhere.
+    neighbour_radius_km: Optional[float] = None
+    # Learnable distance kernels exp(-d / lambda_m), lambda initialised at these
+    # values (km). Empty = v1 single fixed kernel at wind_length_scale_km.
+    dist_kernels_km: Tuple[float, ...] = ()
+    # Advection-time feature t_adv = d cos(theta) / wind speed in the bias MLP
+    advection_feature: bool = False
+    # Spatial attention also sees neighbours' previous `spatial_lags` patches
+    # (transport delay); the bias MLP gets lag-vs-advection-time features.
+    spatial_lags: int = 0
+    # Learnable always-valid "sink" key in spatial attention, so a station can
+    # put weight on "no useful neighbour" instead of being forced onto noise.
+    spatial_sink: bool = False
+    # Per-sample neighbourhood-density features (nearest / mean neighbour
+    # distance, share within 5 / 20 km, share present) fed to the station MLP.
+    density_features: bool = False
+    # ALBERT-style weight sharing across axial blocks (same block applied n times)
+    share_axial_blocks: bool = False
+    # Training-only augmentation: with prob p drop a random share of the
+    # non-anchor neighbours, so the model also learns sparse networks.
+    nbr_dropout_p: float = 0.0
+    nbr_dropout_frac: Tuple[float, float] = (0.3, 0.7)
+
+    @classmethod
+    def city(cls, **kw):
+        """~1M-parameter multi-city config (Delhi -> Mumbai transfer)."""
+        base = dict(d_model=128, n_heads=4, d_ff=256, n_axial_blocks=2,
+                    n_latents_per_station=8, n_decoder_layers=2, dropout=0.15,
+                    coord_mode="relative", coord_scale_km=25.0,
+                    neighbour_radius_km=100.0, dist_kernels_km=(3.0, 10.0, 40.0),
+                    advection_feature=True, spatial_lags=1, spatial_sink=True,
+                    density_features=True, nbr_dropout_p=0.3)
+        base.update(kw)
+        return cls(**base)
+
+    @property
+    def n_density(self) -> int:
+        return 5 if self.density_features else 0
+
+    @property
+    def n_station_in(self) -> int:
+        """Input width of the station MLPs."""
+        n = 2 + self.n_static + self.n_density
+        if self.coord_mode == "relative_abs":
+            n += 4 * self.n_coord_bands
+        return n
 
     @classmethod
     def small(cls, **kw):
