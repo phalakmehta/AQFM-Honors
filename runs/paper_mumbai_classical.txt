@@ -1,0 +1,28 @@
+/home/phalak/aqfm/AQFM-Honors/scripts/city_baselines.py:75: RuntimeWarning: Mean of empty slice
+  c = np.nanmean(clim[s, :, feats["month"][tt]])
+  Building climatology lookup table for target channel...
+PM2.5 1h: Persistence 4.37  Seasonal Naive 12.04  Climatology 19.90  (n=3878)
+PM2.5 6h: Persistence 9.85  Seasonal Naive 10.84  Climatology 17.74  (n=3836)
+PM2.5 24h: Persistence 11.87  Seasonal Naive 11.89  Climatology 19.48  (n=3888)
+PM2.5 72h: Persistence 16.83  Seasonal Naive 12.15  Climatology 19.67  (n=3889)
+  Building climatology lookup table for target channel...
+PM10 1h: Persistence 10.45  Seasonal Naive 25.57  Climatology 42.04  (n=3944)
+PM10 6h: Persistence 25.05  Seasonal Naive 25.05  Climatology 36.75  (n=3915)
+PM10 24h: Persistence 26.99  Seasonal Naive 27.09  Climatology 42.39  (n=3962)
+PM10 72h: Persistence 35.73  Seasonal Naive 27.51  Climatology 42.49  (n=3959)
+  Building climatology lookup table for target channel...
+Ozone 1h: Persistence 3.59  Seasonal Naive 6.53  Climatology 11.27  (n=4093)
+Ozone 6h: Persistence 6.85  Seasonal Naive 6.16  Climatology 11.27  (n=4053)
+Ozone 24h: Persistence 7.03  Seasonal Naive 6.67  Climatology 11.40  (n=4102)
+Ozone 72h: Persistence 8.58  Seasonal Naive 6.61  Climatology 11.35  (n=4099)
+  Building climatology lookup table for target channel...
+NOx 1h: Persistence 4.61  Seasonal Naive 9.20  Climatology 28.67  (n=4078)
+NOx 6h: Persistence 9.06  Seasonal Naive 7.59  Climatology 26.68  (n=4026)
+NOx 24h: Persistence 9.44  Seasonal Naive 9.36  Climatology 27.55  (n=4084)
+NOx 72h: Persistence 12.10  Seasonal Naive 9.21  Climatology 27.59  (n=4074)
+  Building climatology lookup table for target channel...
+NO2 1h: Persistence 3.84  Seasonal Naive 7.71  Climatology 17.67  (n=4084)
+NO2 6h: Persistence 8.11  Seasonal Naive 6.25  Climatology 15.00  (n=4023)
+NO2 24h: Persistence 7.79  Seasonal Naive 7.65  Climatology 17.73  (n=4093)
+NO2 72h: Persistence 10.01  Seasonal Naive 7.63  Climatology 17.82  (n=4084)
+saved results/paper/mumbai_classical.json

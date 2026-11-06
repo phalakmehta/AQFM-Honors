@@ -1,0 +1,15 @@
+  transfer evaluation: trained on ['delhi', 'mumbai'], evaluating on ['mumbai']
+  test: forecast; forecasting 28 anchor stations
+  forecast batch 1/317
+  forecast batch 51/317
+  forecast batch 101/317
+  forecast batch 151/317
+  forecast batch 201/317
+  forecast batch 251/317
+  forecast batch 301/317
+PM2.5 {'1h': 5.6739, '6h': 8.7891, '24h': 11.9349, '72h': 14.7102}
+PM10 {'1h': 10.034, '6h': 19.4149, '24h': 24.7838, '72h': 30.304}
+Ozone {'1h': 3.5533, '6h': 5.904, '24h': 5.9164, '72h': 6.6904}
+NOx {'1h': 4.4234, '6h': 6.9752, '24h': 8.6262, '72h': 10.3567}
+NO2 {'1h': 14.1168, '6h': 12.0024, '24h': 15.3038, '72h': 16.192}
+saved results/paper/mumbai_joint_ens3.json

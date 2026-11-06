@@ -1,0 +1,399 @@
+{
+  "target": "PM2.5",
+  "models": {
+    "AQFM fine-tuned": "results/forecasts/mumbai_ft_m6_ens3.npz",
+    "AQFM from scratch": "results/forecasts/mumbai_scratch_m6_ens3.npz",
+    "XGBoost (same months)": "results/forecasts/mumbai_xgboost_m6.npz:xgboost",
+    "AQFM zero-shot": "results/forecasts/mumbai_zeroshot_v2_nofm_ens3.npz",
+    "Persistence": "results/forecasts/mumbai_classical.npz:persistence"
+  },
+  "pairs_in_common": 5068,
+  "leads": {
+    "1h": {
+      "n": 4093,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned": 6.173707365996966,
+        "AQFM from scratch": 5.7557722159929625,
+        "XGBoost (same months)": 7.06382744256366,
+        "AQFM zero-shot": 6.235440644976448,
+        "Persistence": 4.401536153889273
+      },
+      "vs_first": {
+        "AQFM from scratch": {
+          "MAE_diff": -0.41793515000400383,
+          "dm_z": -0.9335371973869666,
+          "dm_p": 0.3505426741318698,
+          "ci95": [
+            -1.198319372862655,
+            0.6878389238481096
+          ]
+        },
+        "XGBoost (same months)": {
+          "MAE_diff": 0.8901200765666939,
+          "dm_z": 1.744785775339892,
+          "dm_p": 0.08102216579344645,
+          "ci95": [
+            0.008677914339423493,
+            1.756603544590468
+          ]
+        },
+        "AQFM zero-shot": {
+          "MAE_diff": 0.061733278979481554,
+          "dm_z": 0.6062799875214164,
+          "dm_p": 0.5443288454179362,
+          "ci95": [
+            -0.13210712065234856,
+            0.2578697154069476
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": -1.7721712121076933,
+          "dm_z": -6.750061742598174,
+          "dm_p": 1.477817868078546e-11,
+          "ci95": [
+            -2.309957111052394,
+            -1.254067370624784
+          ]
+        }
+      }
+    },
+    "6h": {
+      "n": 4046,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned": 10.153486531855767,
+        "AQFM from scratch": 9.083332440671771,
+        "XGBoost (same months)": 9.609039000894283,
+        "AQFM zero-shot": 11.19230223076581,
+        "Persistence": 9.730432522091398
+      },
+      "vs_first": {
+        "AQFM from scratch": {
+          "MAE_diff": -1.070154091183996,
+          "dm_z": -5.035082949095916,
+          "dm_p": 4.776419562091405e-07,
+          "ci95": [
+            -1.4774349356236491,
+            -0.6782640007723107
+          ]
+        },
+        "XGBoost (same months)": {
+          "MAE_diff": -0.5444475309614845,
+          "dm_z": -1.4203676239521028,
+          "dm_p": 0.15550068326421007,
+          "ci95": [
+            -1.4254331539828866,
+            0.32577118713733966
+          ]
+        },
+        "AQFM zero-shot": {
+          "MAE_diff": 1.0388156989100423,
+          "dm_z": 2.369143769103488,
+          "dm_p": 0.01782932133274384,
+          "ci95": [
+            0.30508798554725547,
+            1.934892864810241
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": -0.42305400976436935,
+          "dm_z": -0.6636601929054935,
+          "dm_p": 0.5069078225449415,
+          "ci95": [
+            -1.682833757662195,
+            1.3556030121487954
+          ]
+        }
+      }
+    },
+    "24h": {
+      "n": 4097,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned": 12.211766638776457,
+        "AQFM from scratch": 11.48501132512663,
+        "XGBoost (same months)": 12.6174130737927,
+        "AQFM zero-shot": 15.13843375645907,
+        "Persistence": 11.54900784191487
+      },
+      "vs_first": {
+        "AQFM from scratch": {
+          "MAE_diff": -0.7267553136498268,
+          "dm_z": -1.6449246667496071,
+          "dm_p": 0.0999853473859631,
+          "ci95": [
+            -1.5346717407810497,
+            0.38277216003595577
+          ]
+        },
+        "XGBoost (same months)": {
+          "MAE_diff": 0.4056464350162443,
+          "dm_z": 0.6633954983109783,
+          "dm_p": 0.5070772882764896,
+          "ci95": [
+            -0.5501232687337698,
+            1.5844128802095034
+          ]
+        },
+        "AQFM zero-shot": {
+          "MAE_diff": 2.926667117682614,
+          "dm_z": 3.829613799996351,
+          "dm_p": 0.0001283445212600931,
+          "ci95": [
+            1.6379388929664715,
+            4.55849581328091
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": -0.6627587968615867,
+          "dm_z": -2.1870080429071805,
+          "dm_p": 0.02874193685725457,
+          "ci95": [
+            -1.3529138048205658,
+            0.05209220426205374
+          ]
+        }
+      },
+      "by_month": {
+        "7": {
+          "n": 707,
+          "AQFM fine-tuned": 7.288304804828244,
+          "AQFM from scratch": 5.140436448588904,
+          "XGBoost (same months)": 5.127568169817055,
+          "AQFM zero-shot": 7.76644373471194,
+          "Persistence": 5.806290650300292
+        },
+        "8": {
+          "n": 684,
+          "AQFM fine-tuned": 6.798097265568393,
+          "AQFM from scratch": 5.119894470039167,
+          "XGBoost (same months)": 5.453546763337844,
+          "AQFM zero-shot": 7.455410807279119,
+          "Persistence": 5.306937084211941
+        },
+        "9": {
+          "n": 639,
+          "AQFM fine-tuned": 7.961723978250799,
+          "AQFM from scratch": 5.898557347217823,
+          "XGBoost (same months)": 7.187130567146952,
+          "AQFM zero-shot": 8.894456736825068,
+          "Persistence": 6.068689328777212
+        },
+        "10": {
+          "n": 673,
+          "AQFM fine-tuned": 20.115573535835228,
+          "AQFM from scratch": 20.07437872988508,
+          "XGBoost (same months)": 23.372334451191847,
+          "AQFM zero-shot": 21.326468664638,
+          "Persistence": 18.117225226950328
+        },
+        "11": {
+          "n": 724,
+          "AQFM fine-tuned": 16.788136903752278,
+          "AQFM from scratch": 18.10196548535679,
+          "XGBoost (same months)": 19.454455670730844,
+          "AQFM zero-shot": 25.449322927064,
+          "Persistence": 18.094561555767587
+        },
+        "12": {
+          "n": 670,
+          "AQFM fine-tuned": 14.102901734878769,
+          "AQFM from scratch": 14.227965628211178,
+          "XGBoost (same months)": 14.822300384293742,
+          "AQFM zero-shot": 19.358515406366603,
+          "Persistence": 15.537380668298521
+        }
+      },
+      "by_band": {
+        "Good": {
+          "n": 2324,
+          "AQFM fine-tuned": {
+            "MAE": 7.267710940498801,
+            "share_of_error": 0.33758979429646396
+          },
+          "AQFM from scratch": {
+            "MAE": 5.182740086468383,
+            "share_of_error": 0.25597535948164724
+          },
+          "XGBoost (same months)": {
+            "MAE": 7.50568987584309,
+            "share_of_error": 0.3374352542198537
+          },
+          "AQFM zero-shot": {
+            "MAE": 8.640498821775905,
+            "share_of_error": 0.32376360736341847
+          },
+          "Persistence": {
+            "MAE": 5.8797977580440435,
+            "share_of_error": 0.28879380434526564
+          }
+        },
+        "Satisfactory": {
+          "n": 870,
+          "AQFM fine-tuned": {
+            "MAE": 13.745195356456712,
+            "share_of_error": 0.23901530367485951
+          },
+          "AQFM from scratch": {
+            "MAE": 11.888566118547287,
+            "share_of_error": 0.2198119699182274
+          },
+          "XGBoost (same months)": {
+            "MAE": 12.889523935317992,
+            "share_of_error": 0.21693011405254128
+          },
+          "AQFM zero-shot": {
+            "MAE": 19.02444860359718,
+            "share_of_error": 0.2668605778612832
+          },
+          "Persistence": {
+            "MAE": 12.92645405366503,
+            "share_of_error": 0.23767747185115148
+          }
+        },
+        "Moderate": {
+          "n": 567,
+          "AQFM fine-tuned": {
+            "MAE": 14.435235011724778,
+            "share_of_error": 0.1635921488849195
+          },
+          "AQFM from scratch": {
+            "MAE": 14.492028979817816,
+            "share_of_error": 0.17462839441255648
+          },
+          "XGBoost (same months)": {
+            "MAE": 15.066173733437083,
+            "share_of_error": 0.16525314926322449
+          },
+          "AQFM zero-shot": {
+            "MAE": 21.39227043804458,
+            "share_of_error": 0.19556585472153032
+          },
+          "Persistence": {
+            "MAE": 15.872852828347073,
+            "share_of_error": 0.19020739961441147
+          }
+        },
+        "Poor": {
+          "n": 234,
+          "AQFM fine-tuned": {
+            "MAE": 21.002861838055473,
+            "share_of_error": 0.09823129566523466
+          },
+          "AQFM from scratch": {
+            "MAE": 25.63460173158564,
+            "share_of_error": 0.127480876302989
+          },
+          "XGBoost (same months)": {
+            "MAE": 21.888474505171818,
+            "share_of_error": 0.09908206903858349
+          },
+          "AQFM zero-shot": {
+            "MAE": 27.762769405658428,
+            "share_of_error": 0.1047446221833205
+          },
+          "Persistence": {
+            "MAE": 24.76161348514068,
+            "share_of_error": 0.12245715275002206
+          }
+        },
+        "Very Poor": {
+          "n": 85,
+          "AQFM fine-tuned": {
+            "MAE": 45.412466991648955,
+            "share_of_error": 0.07715242133601476
+          },
+          "AQFM from scratch": {
+            "MAE": 61.79263604108025,
+            "share_of_error": 0.11162417352720483
+          },
+          "XGBoost (same months)": {
+            "MAE": 51.00221427468693,
+            "share_of_error": 0.08386324672319245
+          },
+          "AQFM zero-shot": {
+            "MAE": 36.41932907104492,
+            "share_of_error": 0.04991188337041725
+          },
+          "Persistence": {
+            "MAE": 50.312735546336455,
+            "share_of_error": 0.09038288846726227
+          }
+        },
+        "Severe": {
+          "n": 17,
+          "AQFM fine-tuned": {
+            "MAE": 248.4482421875,
+            "share_of_error": 0.08441903614250762
+          },
+          "AQFM from scratch": {
+            "MAE": 305.7940949832692,
+            "share_of_error": 0.11047922635737509
+          },
+          "XGBoost (same months)": {
+            "MAE": 296.2835596308989,
+            "share_of_error": 0.09743616670260459
+          },
+          "AQFM zero-shot": {
+            "MAE": 215.81324723187615,
+            "share_of_error": 0.05915345450003026
+          },
+          "Persistence": {
+            "MAE": 196.17132242988137,
+            "share_of_error": 0.0704812829718871
+          }
+        }
+      }
+    },
+    "72h": {
+      "n": 4094,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned": 14.93749266017718,
+        "AQFM from scratch": 14.09401805110687,
+        "XGBoost (same months)": 16.62363693835127,
+        "AQFM zero-shot": 18.63000104862798,
+        "Persistence": 16.32077677888977
+      },
+      "vs_first": {
+        "AQFM from scratch": {
+          "MAE_diff": -0.8434746090703094,
+          "dm_z": -2.1066552111474586,
+          "dm_p": 0.035147477213211875,
+          "ci95": [
+            -1.6159049397115428,
+            0.11202414191030916
+          ]
+        },
+        "XGBoost (same months)": {
+          "MAE_diff": 1.6861442781740923,
+          "dm_z": 1.2499022412454301,
+          "dm_p": 0.2113352606098844,
+          "ci95": [
+            -0.41642830803327824,
+            4.843240167235392
+          ]
+        },
+        "AQFM zero-shot": {
+          "MAE_diff": 3.6925083884508023,
+          "dm_z": 3.4902526463003745,
+          "dm_p": 0.0004825641042547346,
+          "ci95": [
+            1.8185292354859635,
+            5.897546160555681
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 1.3832841187125897,
+          "dm_z": 1.2930899097458484,
+          "dm_p": 0.1959799645560767,
+          "ci95": [
+            -0.22424451402081266,
+            3.6662945012468087
+          ]
+        }
+      }
+    }
+  }
+}

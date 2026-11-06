@@ -1,0 +1,14 @@
+  test: forecast; forecasting 28 anchor stations
+  forecast batch 1/317
+  forecast batch 51/317
+  forecast batch 101/317
+  forecast batch 151/317
+  forecast batch 201/317
+  forecast batch 251/317
+  forecast batch 301/317
+PM2.5 {'1h': 6.1737, '6h': 10.1535, '24h': 12.2624, '72h': 15.0128}
+PM10 {'1h': 9.8859, '6h': 20.3543, '24h': 24.3233, '72h': 29.9624}
+Ozone {'1h': 3.5495, '6h': 5.987, '24h': 5.9251, '72h': 6.6598}
+NOx {'1h': 4.4819, '6h': 6.8053, '24h': 8.6201, '72h': 10.2946}
+NO2 {'1h': 16.737, '6h': 14.4796, '24h': 18.1897, '72h': 19.0498}
+saved results/paper/mumbai_ft_m6_ens3.json

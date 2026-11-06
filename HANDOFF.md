@@ -253,7 +253,7 @@ cd /home/phalak/aqfm/reports/aqfm_v2 && ../../.venv/bin/python make_report.py &&
 
 **Decide first (with the supervisor):**
 1. **Paper model:** v2-M is best on Delhi. For Mumbai fine-tuning, the small v2 with its backbone frozen won on validation, by a small margin.
-2. **Claim and title:** the Mumbai curve (stages B–C, `docs/V2_PROGRESS.md` step 10) is mixed. Fine-tuned AQFM beats the same-data XGBoost at every amount and from-scratch AQFM with 1–3 months, and for PM10 at 24–72 h at every amount. But for PM2.5 with 6+ months, from scratch is better (12 months, 24 h: 11.28 vs 12.33). So "pretraining helps when a city has little data" is supported; "one model for every city" is not yet. The same-point significance tests (stage MUMBAI) come before any wording.
+2. **Claim and title:** the same-point Mumbai tests (`docs/V2_PROGRESS.md` step 10, stage MUMBAI) support "Delhi pretraining transfers to a new city" for NOx, ozone and PM10 at every data amount, and for PM2.5 with 1–3 months; for PM2.5 with 6+ months, training from scratch is better. Same-month XGBoost loses almost everywhere. Mumbai PM2.5 ties persistence at 24 h. Mumbai NO2 cannot be reported (no NO readings). A fair title: a data-efficient, transferable urban air-quality model, not "one model for every city".
 3. **O3/NO2:** in this paper or later (`docs/plan_o3_no2.md`, about 6 h).
 4. **Virtual sensing:** fix it (training change) or report it as a limitation.
 

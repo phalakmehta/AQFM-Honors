@@ -583,7 +583,7 @@ PM10 ensemble: v2m256 28.66 / 45.87 / 72.27 / 79.33; v1 28.46 / 46.02 / 72.49 / 
 - Results PDF updated (outside repo: `reports/aqfm_v2/AQFM_v2_results.pdf`, 4 pages; old one kept as
   `AQFM_v2_results_2026-11-04.pdf`). The 8-page report was not regenerated (its text is from 4 Nov).
 
-## Step 10: Mumbai (2026-11-06) — stages A–C done; D (one model for both cities) running
+## Step 10: Mumbai (2026-11-06) — stages A–D and the same-point comparison done
 
 **Data (user: "this is the only data we have of bombay, so whatever u want to do, do on this data"; and "our model
 has to adapt to every format").** Drive folder `1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR`, copied read-only (notebooks never
@@ -764,6 +764,184 @@ Best validation score (nll + 0.5 crps, 2024 H1) and best step / last step, seeds
   AQFM (PM2.5 12.15 vs 14.08; PM10 27.51 vs 29.75). 90 % interval coverage at 24 h: 0.84–0.93.
 - Next: the same-point comparison with significance (`scripts/pipeline_paper_extras.sh` stage MUMBAI). A possible
   follow-up (not run; decide with the user): fine-tuning with nothing frozen at 6 and 12 months.
+
+**Stage D finished 21:23 (no failures; runs and results record `a00d49d`, clean): one v2 model (no future weather)
+trained from scratch on Delhi 2018–2023 + Mumbai 2023 together**, picked on both validation periods (Delhi 2024 +
+Mumbai 2024 H1; best scores 1.7829 at step 9,000; 1.7888 at step 12,000; 1.7881 at step 12,000 of 12,000 — not comparable with the Mumbai-only scores).
+
+PM2.5 MAE, 3-seed ensembles, all without future weather:
+
+| test | model | 1 h | 6 h | 24 h | 72 h | CRPS 24 h | cov90 24 h |
+|---|---|---|---|---|---|---|---|
+| Mumbai | one model for both cities (joint) | 5.67 | 8.79 | 11.93 | 14.71 | 9.90 | 0.922 |
+| Mumbai | fine-tuned from Delhi, 12 months | 6.46 | 10.25 | 12.33 | 14.95 | 9.27 | 0.920 |
+| Mumbai | from scratch, 12 months | 5.39 | 8.79 | 11.28 | 14.21 | 9.64 | 0.928 |
+| Delhi 2025 | one model for both cities (joint) | 16.08 | 29.13 | 39.43 | 42.75 | 28.62 | 0.908 |
+| Delhi 2025 | v2 trained on Delhi only | 16.35 | 29.08 | 38.43 | 42.40 | 28.11 | 0.905 |
+| Delhi 2025 | v2-M trained on Delhi only | 15.92 | 27.67 | 38.09 | 41.54 | 27.84 | 0.910 |
+
+PM10 MAE, 3-seed ensembles, all without future weather:
+
+| test | model | 1 h | 6 h | 24 h | 72 h | CRPS 24 h | cov90 24 h |
+|---|---|---|---|---|---|---|---|
+| Mumbai | one model for both cities (joint) | 10.03 | 19.41 | 24.78 | 30.30 | 18.48 | 0.875 |
+| Mumbai | fine-tuned from Delhi, 12 months | 9.99 | 20.32 | 24.24 | 29.75 | 18.08 | 0.891 |
+| Mumbai | from scratch, 12 months | 10.33 | 20.10 | 24.86 | 30.56 | 19.28 | 0.878 |
+| Delhi 2025 | one model for both cities (joint) | 29.18 | 48.78 | 73.89 | 82.41 | 53.17 | 0.888 |
+| Delhi 2025 | v2 trained on Delhi only | 29.20 | 48.30 | 72.83 | 81.22 | 52.52 | 0.886 |
+| Delhi 2025 | v2-M trained on Delhi only | 28.66 | 45.87 | 72.27 | 79.33 | 51.94 | 0.895 |
+
+- On Mumbai the joint model lands between the 12-month fine-tune and from scratch for PM2.5 (24 h 11.93 vs 12.33 /
+  11.28) and is the best at 6 h for PM10 (19.41).
+- On Delhi it costs a little against the Delhi-only v2 (PM2.5 24 h 39.43 vs 38.43, +2.6 %): adding Mumbai did not
+  help Delhi.
+- **Budget caveat:** seeds 1 and 2 were best at the last step (12,000), so with twice the data the Delhi schedule may
+  be short for the joint model. The Delhi-only v2 runs peaked at steps 6,000–11,000. Option (not run): the joint
+  model with 24,000 steps, ~1.75 h GPU (3 seeds).
+
+**Commit `a239e03` (2026-11-06 21:25, pushed; user: "Yes to both"):** stages A–D results and logs, the evaluation
+patch (91 tests pass), the paper scripts and docs. Then `scripts/pipeline_paper_extras.sh` stage MUMBAI launched
+21:25 (log `runs/paper_MUMBAI.log`), recording `a239e03`.
+
+**Stage MUMBAI finished 21:51 (no failures; all 10 AQFM files record `a239e03`, clean).** Checks: the rerun with the new
+evaluation options gives every PM2.5 / PM10 number of the earlier Mumbai results exactly (7 files × 42 numbers);
+the committed `scripts/city_xgboost.py` reproduces `results/mumbai_xgboost_m{1,3,6,12}_results.json` exactly (4 × 42),
+and `scripts/city_baselines.py` reproduces `results/mumbai_classical_results.json` exactly (3 × 42). Same-point tables
+(every method scored on the points where all of them have a forecast; generated from the files named):
+PM2.5 MAE on the same points (`results/paper/mumbai_PM2.5_m<N>.json`). Each other method is marked against fine-tuned: `*` = different at p < 0.05 (Diebold–Mariano on daily means, Newey–West lag 7); **bold** = best in the row group:
+
+| months | method | 1 h | 6 h | 24 h | 72 h |
+|---|---|---|---|---|---|
+| 1 | fine-tuned | 5.86 | 10.38 | 12.23 | 15.04 |
+| 1 | from scratch | 10.89* | 10.51 | 12.35 | **13.94*** |
+| 1 | XGBoost (same months) | 13.51* | 29.27* | 27.11* | 29.94* |
+| 1 | zero-shot | 6.24* | 11.19* | 15.14* | 18.63* |
+| 1 | persistence | **4.40*** | **9.73** | **11.55*** | 16.32 |
+| 3 | fine-tuned | 5.99 | 10.03 | 12.00 | **14.73** |
+| 3 | from scratch | 6.85 | 10.42 | 12.74 | 15.63 |
+| 3 | XGBoost (same months) | 7.50* | 12.16* | 16.03* | 22.47* |
+| 3 | zero-shot | 6.24* | 11.19* | 15.14* | 18.63* |
+| 3 | persistence | **4.40*** | **9.73** | **11.55** | 16.32 |
+| 6 | fine-tuned | 6.17 | 10.15 | 12.21 | 14.94 |
+| 6 | from scratch | 5.76 | **9.08*** | **11.49** | **14.09*** |
+| 6 | XGBoost (same months) | 7.06 | 9.61 | 12.62 | 16.62 |
+| 6 | zero-shot | 6.24 | 11.19* | 15.14* | 18.63* |
+| 6 | persistence | **4.40*** | 9.73 | 11.55* | 16.32 |
+| 12 | fine-tuned | 6.46 | 10.25 | 12.28 | 14.88 |
+| 12 | from scratch | 5.39* | **8.79*** | **11.22*** | **14.08*** |
+| 12 | XGBoost (same months) | 6.88 | 9.04* | 12.24 | 16.62 |
+| 12 | zero-shot | 6.24* | 11.19* | 15.14* | 18.63* |
+| 12 | persistence | **4.40*** | 9.73 | 11.55* | 16.32 |
+
+Points per lead (1/6/24/72 h): 4,093 / 4,046 / 4,097 / 4,094 (days: 181).
+
+PM10 MAE on the same points (`results/paper/mumbai_PM10_m<N>.json`). Each other method is marked against fine-tuned: `*` = different at p < 0.05 (Diebold–Mariano on daily means, Newey–West lag 7); **bold** = best in the row group:
+
+| months | method | 1 h | 6 h | 24 h | 72 h |
+|---|---|---|---|---|---|
+| 1 | fine-tuned | 9.90 | **21.03** | **24.51** | 30.12 |
+| 1 | from scratch | 21.55* | 22.20 | 26.55* | **29.97** |
+| 1 | XGBoost (same months) | 26.19* | 53.83* | 47.97* | 60.45* |
+| 1 | zero-shot | **9.88** | 21.69 | 28.04* | 34.48* |
+| 1 | persistence | 10.31 | 24.71* | 26.57* | 35.23* |
+| 3 | fine-tuned | **9.87** | **20.58** | **24.18** | **29.68** |
+| 3 | from scratch | 12.71* | 21.95 | 26.55* | 31.74* |
+| 3 | XGBoost (same months) | 18.60* | 27.18* | 36.75* | 50.73* |
+| 3 | zero-shot | 9.88 | 21.69 | 28.04* | 34.48* |
+| 3 | persistence | 10.31* | 24.71* | 26.57* | 35.23* |
+| 6 | fine-tuned | 9.89 | **20.35** | **24.24** | **29.81** |
+| 6 | from scratch | 10.97* | 20.63 | 25.48 | 30.84 |
+| 6 | XGBoost (same months) | 16.15* | 22.57* | 28.58* | 35.83* |
+| 6 | zero-shot | **9.88** | 21.69* | 28.04* | 34.48* |
+| 6 | persistence | 10.31* | 24.71* | 26.57* | 35.23* |
+| 12 | fine-tuned | 9.99 | 20.32 | **24.14** | **29.57** |
+| 12 | from scratch | 10.33 | **20.10** | 24.79 | 30.41 |
+| 12 | XGBoost (same months) | 15.94* | 22.67* | 27.26* | 34.36* |
+| 12 | zero-shot | **9.88** | 21.69 | 28.04* | 34.48* |
+| 12 | persistence | 10.31 | 24.71* | 26.57* | 35.23* |
+
+Points per lead (1/6/24/72 h): 4,067 / 4,034 / 4,079 / 4,074 (days: 181).
+
+NOx MAE on the same points (`results/paper/mumbai_NOx_m<N>.json`). Each other method is marked against fine-tuned: `*` = different at p < 0.05 (Diebold–Mariano on daily means, Newey–West lag 7); **bold** = best in the row group:
+
+| months | method | 1 h | 6 h | 24 h | 72 h |
+|---|---|---|---|---|---|
+| 1 | fine-tuned | 4.58 | 7.12 | **8.53** | **10.17** |
+| 1 | from scratch | 7.62* | **7.04** | 9.62* | 10.59 |
+| 1 | XGBoost (same months) | 9.23* | 13.63* | 10.81* | 20.64* |
+| 1 | zero-shot | **4.52** | 7.24* | 9.04* | 10.82* |
+| 1 | persistence | 4.52 | 8.92* | 9.26* | 11.88* |
+| 3 | fine-tuned | 4.53 | **6.90** | **8.62** | **10.23** |
+| 3 | from scratch | 4.96* | 7.05 | 9.15* | 10.55* |
+| 3 | XGBoost (same months) | 7.55* | 10.30* | 12.73* | 19.98* |
+| 3 | zero-shot | **4.52** | 7.24* | 9.04 | 10.82 |
+| 3 | persistence | 4.52 | 8.92* | 9.26* | 11.88* |
+| 6 | fine-tuned | **4.48** | **6.81** | **8.60** | **10.22** |
+| 6 | from scratch | 4.58 | 6.83 | 9.20* | 10.60 |
+| 6 | XGBoost (same months) | 7.06* | 8.63* | 10.07* | 12.89* |
+| 6 | zero-shot | 4.52 | 7.24* | 9.04* | 10.82 |
+| 6 | persistence | 4.52 | 8.92* | 9.26* | 11.88* |
+| 12 | fine-tuned | **4.47** | **6.90** | **8.61** | **10.23** |
+| 12 | from scratch | 4.64* | 7.22* | 8.77 | 10.41* |
+| 12 | XGBoost (same months) | 6.81* | 8.25* | 9.69* | 12.17* |
+| 12 | zero-shot | 4.52 | 7.24* | 9.04 | 10.82 |
+| 12 | persistence | 4.52 | 8.92* | 9.26* | 11.88* |
+
+Points per lead (1/6/24/72 h): 4,201 / 4,148 / 4,200 / 4,186 (days: 181).
+
+Ozone MAE on the same points (`results/paper/mumbai_Ozone_m<N>.json`). Each other method is marked against fine-tuned: `*` = different at p < 0.05 (Diebold–Mariano on daily means, Newey–West lag 7); **bold** = best in the row group:
+
+| months | method | 1 h | 6 h | 24 h | 72 h |
+|---|---|---|---|---|---|
+| 1 | fine-tuned | 3.67 | **6.04** | 5.94 | 6.65 |
+| 1 | from scratch | 5.89* | 6.88* | 7.65* | 8.22* |
+| 1 | XGBoost (same months) | 5.91* | 9.48* | 8.77* | 9.19* |
+| 1 | zero-shot | 3.72* | 6.05 | **5.89** | **6.56*** |
+| 1 | persistence | **3.55** | 6.75* | 6.98* | 8.53* |
+| 3 | fine-tuned | 3.61 | **6.02** | 5.94 | 6.67 |
+| 3 | from scratch | 4.05* | 6.10* | 6.17* | 7.06* |
+| 3 | XGBoost (same months) | 5.05* | 7.34* | 7.01* | 8.65* |
+| 3 | zero-shot | 3.72* | 6.05 | **5.89** | **6.56*** |
+| 3 | persistence | **3.55** | 6.75* | 6.98* | 8.53* |
+| 6 | fine-tuned | **3.55** | 5.99 | 5.92 | 6.63 |
+| 6 | from scratch | 3.71* | **5.90** | 5.99 | 6.72 |
+| 6 | XGBoost (same months) | 4.89* | 6.70* | 6.61* | 7.56* |
+| 6 | zero-shot | 3.72* | 6.05 | **5.89** | **6.56** |
+| 6 | persistence | 3.55 | 6.75* | 6.98* | 8.53* |
+| 12 | fine-tuned | **3.51** | 6.01 | 5.96 | 6.63 |
+| 12 | from scratch | 3.58 | **5.90** | 6.05 | 6.95* |
+| 12 | XGBoost (same months) | 4.75* | 6.50* | 6.38* | 7.43* |
+| 12 | zero-shot | 3.72* | 6.05 | **5.89** | **6.56** |
+| 12 | persistence | 3.55 | 6.75* | 6.98* | 8.53* |
+
+Points per lead (1/6/24/72 h): 4,217 / 4,174 / 4,217 / 4,213 (days: 181).
+
+**Best AQFM against the simple methods, PM2.5** (`results/paper/mumbai_PM2.5_best_vs_simple.json`; same command with
+`--model "AQFM from scratch 12 months" results/forecasts/mumbai_scratch_m12_ens3.npz --model "AQFM fine-tuned 3 months"
+results/forecasts/mumbai_ft_m3_ens3.npz --model Persistence results/forecasts/mumbai_classical.npz:persistence --model
+"Seasonal naive" results/forecasts/mumbai_classical.npz:snaive`; PM10 in `..._PM10_best_vs_simple.json`):
+1 h persistence better (4.40 vs 5.39, p = 0.002); 6 h AQFM 8.78 vs persistence 9.71 (p = 0.23) and seasonal naive
+10.58 (p = 0.001); 24 h a tie (11.21 vs 11.55, p = 0.51; seasonal naive 11.57, p = 0.49); 72 h seasonal naive better
+(11.82 vs 14.06, p = 0.008). PM10: AQFM beats persistence at 6 h and 72 h (p ≤ 0.011) and seasonal naive at 1–24 h;
+seasonal naive is better at 72 h (27.09 vs 30.35, p = 0.043).
+
+**What this says (2024 H2 = monsoon and post-monsoon):**
+- **Delhi pretraining transfers for NOx, ozone and PM10 at every data amount.** A Delhi-pretrained model (fine-tuned,
+  or for ozone at 24–72 h the Delhi model with no Mumbai training) is best or tied at almost every lead. For NOx the
+  fine-tuned model still beats from scratch with 12 months (significant at 1, 6 and 72 h).
+- **PM2.5 is the exception:** fine-tuning helps with 1–3 months only. From scratch is significantly better with 12
+  months at every lead, and with 6 months at 6 h and 72 h.
+- **XGBoost on the same months is worse than fine-tuned AQFM in every cell for PM10, NOx and ozone and for PM2.5 with
+  1–3 months** (all significant). For PM2.5 with 6–12 months it is close (better at 6 h: 9.04 vs 10.25 with
+  12 months, p < 0.05).
+- **Mumbai PM2.5 is hard to beat:** the best AQFM ties persistence and seasonal naive at 24 h, loses to persistence at
+  1 h and to seasonal naive at 72 h.
+- **Mumbai NO2 is not usable from AQFM:** 1 h MAE 15.6–17.8 against persistence 3.79 and XGBoost 5.2–7.0
+  (`results/paper/mumbai_NO2_m<N>.json`). Cause: the model never reads NO2 directly; it reads NOx and the NO share,
+  which needs NO, and Mumbai has no NO. So Mumbai's NO2 readings never reach the model, and the NO2 output uses a
+  share the model never saw in Mumbai. Mumbai's NO2/NOx (ppb) ratio is lower and much more variable than Delhi's
+  (median 0.39 vs 0.53; 7 % of hours above 1 vs 2 %). Report NO2 for Delhi only, or as a limitation. A possible fix
+  (not done; needs retraining the Mumbai models): when NO is missing, take the share from NO2 and NOx.
 
 ## Status against §8 "Done when"
 
