@@ -1,0 +1,10 @@
+[2026-11-06 20:22:51] train runs/joint_delhi_mumbai_v2_s0
+[2026-11-06 20:40:54] train runs/joint_delhi_mumbai_v2_s1
+[2026-11-06 20:58:03] train runs/joint_delhi_mumbai_v2_s2
+[2026-11-06 21:15:14] evaluate -> results/mumbai_joint_v2_ens3_results.json: runs/joint_delhi_mumbai_v2_s0/best.pt runs/joint_delhi_mumbai_v2_s1/best.pt runs/joint_delhi_mumbai_v2_s2/best.pt
+PM10 {'1h': 10.034, '6h': 19.4149, '24h': 24.7838, '72h': 30.304}
+saved results/mumbai_joint_v2_ens3_results.json
+[2026-11-06 21:17:34] evaluate Delhi's usual 2025 test with the joint model (data/delhi alone: same windows as every Delhi result)
+PM10 {'1h': 29.1833, '6h': 48.78, '24h': 73.8868, '72h': 82.405}
+saved results/delhi_joint_v2_ens3_results.json
+[2026-11-06 21:23:52] pipeline finished (stage D)

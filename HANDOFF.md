@@ -7,7 +7,7 @@ Read this first, then `CLAUDE.md`. For detail, use:
 
 `PROJECT_CONTEXT.md`'s status table is from 2026-10-16. Where it disagrees with this file, this file wins.
 
-**Update 2026-11-06: Mumbai data arrived.** It is the only Mumbai data: an already-processed hourly array for 2023–2024, 28 stations. It is now `data/mumbai/`, built by `data_pipeline/convert_hourly_city.py`. Step 10 has started: Mumbai baselines are done and zero-shot evaluation is running. The protocol, data decisions and status are in `docs/V2_PROGRESS.md`, step 10. That section replaces "blocked on a second city's data" below.
+**Update 2026-11-06: Mumbai data arrived.** It is the only Mumbai data: an already-processed hourly array for 2023–2024, 28 stations. It is now `data/mumbai/`, built by `data_pipeline/convert_hourly_city.py`. Step 10: baselines, zero-shot and the data-amount study (stages A–C) are done; the one model for both cities (stage D) was running on the evening of 2026-11-06. The protocol, data decisions and status are in `docs/V2_PROGRESS.md`, step 10. That section replaces "blocked on a second city's data" below.
 
 ---
 
@@ -248,3 +248,56 @@ cd /home/phalak/aqfm/reports/aqfm_v2 && ../../.venv/bin/python make_report.py &&
 - Validation every 1,000 steps; the cosine learning-rate schedule spans `--steps`. A longer schedule is not "the same run, continued".
 - Single seeds differ by about 0.8 µg/m³ at 24 h. Never compare models on one seed when the gap is that small.
 - Check `git status` before telling the user something is committed. Check `git ls-remote origin` before saying it is pushed.
+
+## 8. Paper: what is left (2026-11-06)
+
+**Decide first (with the supervisor):**
+1. **Paper model:** v2-M is best on Delhi. For Mumbai fine-tuning, the small v2 with its backbone frozen won on validation, by a small margin.
+2. **Claim and title:** the Mumbai curve (stages B–C, `docs/V2_PROGRESS.md` step 10) is mixed. Fine-tuned AQFM beats the same-data XGBoost at every amount and from-scratch AQFM with 1–3 months, and for PM10 at 24–72 h at every amount. But for PM2.5 with 6+ months, from scratch is better (12 months, 24 h: 11.28 vs 12.33). So "pretraining helps when a city has little data" is supported; "one model for every city" is not yet. The same-point significance tests (stage MUMBAI) come before any wording.
+3. **O3/NO2:** in this paper or later (`docs/plan_o3_no2.md`, about 6 h).
+4. **Virtual sensing:** fix it (training change) or report it as a limitation.
+
+**Experiments still missing:**
+
+| What | Why | Cost |
+|---|---|---|
+| Mumbai stages B–C done; D (joint model) running | the transfer result | D ~1.5 h GPU |
+| Ablations on v2-M (no spatial attention, no wind, no BLH, no anchor, gap-filling only; seed 0) | the existing ablations are on v1 (23.8M) | ~2.5 h GPU |
+| v2-M with the spatial-scale changes off (Delhi, and one Mumbai fine-tune) | nothing yet shows A1–A9 help: v2 vs v1 changes size and these together | ~1 h GPU |
+| v2-M hold-out (new station, virtual sensing) and distance bands | tables 6–7 say "not run for v2-M" | ~1 h GPU |
+| Same points for baselines and AQFM (Mumbai classical: 3,888 vs 4,103; check Delhi) | fair comparison | small code change + reruns |
+| `city_xgboost.py` reproduces Delhi's published XGBoost without `--hourly` | trust in the Mumbai XGBoost numbers | ~20 min CPU |
+| Error by month or season; error share by AQI band (a figure) | the plateau argument | eval change + ~15 min |
+| Stage H risks: train without 2020 (COVID); a second test year (rolling origin); station type | reviewers will ask | ~1–2 h GPU each |
+| Forecast-weather caveat: ERA5 is the weather that happened (best case) | must be stated; optionally add noise to it | text, or ~1 h |
+
+**Writing:**
+- Literature review (G1).
+- Methods:
+  - data pipeline and the bugs found;
+  - architecture;
+  - the v2 changes (`docs/spatial scale changes.pdf`);
+  - deviations (`PROJECT_CONTEXT.md` §7.6);
+  - selection protocol.
+- Results tables generated from `results/TABLES.md`. Regenerate it first, with v2-M and a Mumbai section, keeping Mumbai runs out of the Delhi validation table.
+- Figures (none for the paper yet):
+  - station maps (Delhi, Mumbai);
+  - error by lead;
+  - error by AQI band;
+  - the Mumbai data-amount curve;
+  - calibration;
+  - optionally attention maps.
+- Limitations:
+  - the Mumbai data is a third party's gap-filled hourly array for 2023–2024;
+  - ERA5 future weather;
+  - one test year;
+  - virtual sensing.
+- Update the results PDF for the supervisor (add Mumbai) and the slides (G2).
+
+**Before submission:**
+- Manifest: add Mumbai (data, models, results).
+- Upload the Drive folders.
+- Merge `aqfm-v2` into `main`.
+- `scripts/check_submission.py` must print ALL OK.
+- `--reproduce` last; it now takes more than 10 h, so ask first.
+- Every number in the paper copied from `results/TABLES.md`.

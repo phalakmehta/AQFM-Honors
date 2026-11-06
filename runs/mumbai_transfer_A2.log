@@ -1,0 +1,9 @@
+[2026-11-06 16:15:26] train runs/mumbai_ft_v2_backbone_m3_lr0_s0: --phase finetune --steps 50 --warmup 1 --val-every 50 --patience 4 --lr 1e-12 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0
+done. best val total=1.9637  (0.3 min)
+[2026-11-06 16:15:47] train runs/mumbai_ft_v2_backbone_m3_lr1e-4_s0: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 1e-4 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0
+done. best val total=1.9207  (2.4 min)
+[2026-11-06 16:18:17] train runs/mumbai_ft_v2_backbone_m3_lr3e-5_s0: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0
+done. best val total=1.9196  (4.1 min)
+[2026-11-06 16:22:23] train runs/mumbai_ft_v2_backbone_m3_lr1e-5_s0: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 1e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0
+done. best val total=1.9209  (6.4 min)
+[2026-11-06 16:28:50] pipeline finished (stage A2)

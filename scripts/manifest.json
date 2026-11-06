@@ -278,6 +278,62 @@
       "sha256": "f31e7c2f4aaa3731a884462dbe0e672bf5dc1df29c6257ae6d41aa861f8c6853",
       "code": "a356a6c",
       "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --no-future-met --dropout 0.3 --seed 2"
+    },
+    "aqfm_v2_24k_s0": {
+      "what": "v2 city preset (1.17M), dropout 0.3, seed 0, 24,000-step schedule (test of longer training; better 2024 validation, worse 2025 test, not kept); best at step 16000",
+      "path": "runs/v2_s0_do03_24k/best.pt",
+      "drive": "models/aqfm_v2_24k_s0.pt",
+      "sha256": "253c8d5ad65117755dec76d282d332b14f9cfafcfb4274fcab74813fe36bed6e",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_s0_do03_24k --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 0 --steps 24000 --patience 24"
+    },
+    "aqfm_v2m_s0": {
+      "what": "v2-M: city preset at width 256 / 8 heads / d_ff 512 (4.57M), dropout 0.3, seed 0; best at step 10000",
+      "path": "runs/v2m256_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_s0.pt",
+      "sha256": "f9c334bd04eb3e29132b45ce105cc6db41df0e6ad66daa3a07195bb86502890b",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 0 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512"
+    },
+    "aqfm_v2m_s1": {
+      "what": "v2-M: city preset at width 256 / 8 heads / d_ff 512 (4.57M), dropout 0.3, seed 1; best at step 12000",
+      "path": "runs/v2m256_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_s1.pt",
+      "sha256": "b74fa18e21fc3544573cedfbdde41b54e1f6b4103472a1a8654c7e0e5c70a35b",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 1 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512"
+    },
+    "aqfm_v2m_s2": {
+      "what": "v2-M: city preset at width 256 / 8 heads / d_ff 512 (4.57M), dropout 0.3, seed 2; best at step 11000",
+      "path": "runs/v2m256_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_s2.pt",
+      "sha256": "03747821a5481b0e4703771957ce77b54cb9f56a634b7b2388d3abed9b02aae5",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 2 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512"
+    },
+    "aqfm_v2m_nofm_s0": {
+      "what": "v2-M (4.57M) WITHOUT future weather, dropout 0.3, seed 0; best at step 10000",
+      "path": "runs/v2m256_nofm_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_nofm_s0.pt",
+      "sha256": "ccaf46f79760546bec0bcca6fd1b3a669146c5053fbef3c13833270fa632c326",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_nofm_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 0 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512 --no-future-met"
+    },
+    "aqfm_v2m_nofm_s1": {
+      "what": "v2-M (4.57M) WITHOUT future weather, dropout 0.3, seed 1; best at step 11000",
+      "path": "runs/v2m256_nofm_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_nofm_s1.pt",
+      "sha256": "9603b67be1544789c1dbc0b43bb6da721e3696ae73b7ea2562dabdce5c94eb85",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_nofm_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 1 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512 --no-future-met"
+    },
+    "aqfm_v2m_nofm_s2": {
+      "what": "v2-M (4.57M) WITHOUT future weather, dropout 0.3, seed 2; best at step 11000",
+      "path": "runs/v2m256_nofm_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_nofm_s2.pt",
+      "sha256": "285e1feed6c54f7fed078a88dbf4097027a288ce6bef6b2871084252868c5268",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 2 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512 --no-future-met"
     }
   },
 
@@ -526,6 +582,61 @@
       "what": "v2 without future weather, pooled 3-seed ensemble, 2025 test",
       "models": ["aqfm_v2_nofm_s0", "aqfm_v2_nofm_s1", "aqfm_v2_nofm_s2"], "code": "a356a6c", "minutes": 7,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s0_do03/best.pt runs/v2_nofm_s1_do03/best.pt runs/v2_nofm_s2_do03/best.pt --out results/v2_nofm_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2_s0_24k_results.json": {
+      "what": "v2, 24,000-step schedule, seed 0, 2025 test",
+      "models": ["aqfm_v2_24k_s0"], "code": "f104c7c", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s0_do03_24k/best.pt --out results/v2_s0_24k_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_s0_results.json": {
+      "what": "v2-M (4.57M), seed 0, 2025 test",
+      "models": ["aqfm_v2m_s0"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s0_do03/best.pt --out results/v2m256_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_s1_results.json": {
+      "what": "v2-M (4.57M), seed 1, 2025 test",
+      "models": ["aqfm_v2m_s1"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s1_do03/best.pt --out results/v2m256_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_s2_results.json": {
+      "what": "v2-M (4.57M), seed 2, 2025 test",
+      "models": ["aqfm_v2m_s2"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s2_do03/best.pt --out results/v2m256_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_seeds_stats.json": {
+      "what": "v2-M (4.57M): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "f104c7c", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256_seeds_stats.json results/v2m256_s0_results.json results/v2m256_s1_results.json results/v2m256_s2_results.json"
+    },
+    "results/v2m256_ens3_results.json": {
+      "what": "v2-M (4.57M), pooled 3-seed ensemble, 2025 test",
+      "models": ["aqfm_v2m_s0", "aqfm_v2m_s1", "aqfm_v2m_s2"], "code": "f104c7c", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s0_do03/best.pt runs/v2m256_s1_do03/best.pt runs/v2m256_s2_do03/best.pt --out results/v2m256_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_nofm_s0_results.json": {
+      "what": "v2-M (4.57M) without future weather, seed 0, 2025 test",
+      "models": ["aqfm_v2m_nofm_s0"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s0_do03/best.pt --out results/v2m256_nofm_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_nofm_s1_results.json": {
+      "what": "v2-M (4.57M) without future weather, seed 1, 2025 test",
+      "models": ["aqfm_v2m_nofm_s1"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s1_do03/best.pt --out results/v2m256_nofm_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_nofm_s2_results.json": {
+      "what": "v2-M (4.57M) without future weather, seed 2, 2025 test",
+      "models": ["aqfm_v2m_nofm_s2"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s2_do03/best.pt --out results/v2m256_nofm_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_nofm_seeds_stats.json": {
+      "what": "v2-M (4.57M) without future weather: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "f104c7c", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256_nofm_seeds_stats.json results/v2m256_nofm_s0_results.json results/v2m256_nofm_s1_results.json results/v2m256_nofm_s2_results.json"
+    },
+    "results/v2m256_nofm_ens3_results.json": {
+      "what": "v2-M (4.57M) without future weather, pooled 3-seed ensemble, 2025 test",
+      "models": ["aqfm_v2m_nofm_s0", "aqfm_v2m_nofm_s1", "aqfm_v2m_nofm_s2"], "code": "f104c7c", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s0_do03/best.pt runs/v2m256_nofm_s1_do03/best.pt runs/v2m256_nofm_s2_do03/best.pt --out results/v2m256_nofm_ens3_results.json --device cuda --seed 0"
     }
   }
 }

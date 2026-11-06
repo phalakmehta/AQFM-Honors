@@ -1,0 +1,13 @@
+[2026-11-06 15:27:47] evaluate -> results/mumbai_zeroshot_v2m256_nofm_ens3_results.json: runs/v2m256_nofm_s0_do03/best.pt runs/v2m256_nofm_s1_do03/best.pt runs/v2m256_nofm_s2_do03/best.pt
+PM10 {'1h': 10.5141, '6h': 20.4779, '24h': 27.5437, '72h': 35.0067}
+saved results/mumbai_zeroshot_v2m256_nofm_ens3_results.json
+[2026-11-06 15:33:10] evaluate -> results/mumbai_zeroshot_v2_nofm_ens3_results.json: runs/v2_nofm_s0_do03/best.pt runs/v2_nofm_s1_do03/best.pt runs/v2_nofm_s2_do03/best.pt
+PM10 {'1h': 9.8849, '6h': 21.6929, '24h': 28.2432, '72h': 34.9331}
+saved results/mumbai_zeroshot_v2_nofm_ens3_results.json
+[2026-11-06 15:35:51] evaluate -> results/mumbai_zeroshot_v2m256_ens3_results.json: runs/v2m256_s0_do03/best.pt runs/v2m256_s1_do03/best.pt runs/v2m256_s2_do03/best.pt
+PM10 {'1h': 16.8646, '6h': 27.1964, '24h': 47.8502, '72h': 51.7931}
+saved results/mumbai_zeroshot_v2m256_ens3_results.json
+[2026-11-06 15:42:37] evaluate -> results/mumbai_zeroshot_v2_ens3_results.json: runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt
+PM10 {'1h': 10.6565, '6h': 20.8115, '24h': 33.3021, '72h': 38.5187}
+saved results/mumbai_zeroshot_v2_ens3_results.json
+[2026-11-06 15:46:30] pipeline finished

@@ -292,6 +292,9 @@ def main():
                     help="ablation: predict PM2.5 directly instead of PM10 x fraction (NOx pair unchanged)")
     ap.add_argument("--random-masking", action="store_true",
                     help="ablation: block/channel masking only, no forecast targets in training")
+    ap.add_argument("--v1-spatial", action="store_true",
+                    help="ablation: switch off the v2 spatial changes (relative coordinates, 100 km radius, "
+                         "distance kernels, travel time, look-back, sink, density, neighbour dropout)")
     args = ap.parse_args()
 
     torch.manual_seed(args.seed)
@@ -328,6 +331,10 @@ def main():
             cfg = AQFMConfig.small(**kw)
         else:
             cfg = AQFMConfig.city(**kw) if args.preset == "city" else AQFMConfig(**kw)
+        if args.v1_spatial:        # ablation: same sizes, every v2 spatial change off (A1-A7 as in v1)
+            cfg = dataclasses.replace(cfg, coord_mode="delhi", neighbour_radius_km=None, dist_kernels_km=(),
+                                      advection_feature=False, spatial_lags=0, spatial_sink=False,
+                                      density_features=False, nbr_dropout_p=0.0)
 
     # ---- data ------------------------------------------------------------
     if args.synthetic:

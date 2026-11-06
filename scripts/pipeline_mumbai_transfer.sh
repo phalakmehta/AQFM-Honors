@@ -14,19 +14,28 @@ cd "$(dirname "$0")/.."
 PY=${PY:-../.venv/bin/python}
 log() { echo "[$(date '+%F %T')] $*"; }
 SPLIT="--val-start 2024-01-01 --test-start 2024-07-01"
-FT="--phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4"       # lr: finetune default 1e-4
+# Fine-tune recipe from stage A2 (validation only): lr 3e-5 best (1.9196 at step 550; Delhi model untouched 1.9637;
+# lr 1e-4 1.9207 at step 150; 1e-5 1.9209 at step 1250). Stage A (lr 1e-4, validation every 250) chose v2 + backbone.
+# Budget 6,000 steps (was 1,500 until 2026-11-06 18:10): the 12-month fine-tune peaked at the 1,500-step limit
+# (validation 1.8983 at its last step); with 6,000 it reached 1.8782 at step 4,400 (runs/mumbai_ft_v2_backbone_m12_steps6000_s0).
+# The 1,500-step runs are kept as runs/mumbai_ft1500_*.
+FT="--phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5"
+SCRATCH="--steps 12000 --val-every 250 --patience 8"     # finer than Delhi's 1000/3: small data can overfit early
+FT_A="--phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4"   # stage A as run (lr: finetune default 1e-4)
 WIDE="--d-model 256 --n-heads 8 --d-ff 512"
 
-train() {  # out_dir, extra args...
+train() {  # out_dir, extra args... (skipped when that run already finished: resume after a stop)
   local out=$1; shift
+  if [ -f "$out/best.pt" ] && grep -q "^done" "$out.txt" 2>/dev/null; then log "skip $out (finished before)"; return; fi
   log "train $out: $*"
   $PY -u -m aqfm.train --data data/mumbai $SPLIT --out "$out" --device cuda --batch-size 8 \
       --weight-decay 0.05 --compile "$@" > "$out.txt" 2>&1
   tail -1 "$out.txt"
   grep -q "^done" "$out.txt" || { log "$out did not finish - stopping"; exit 1; }
 }
-evaluate() {  # out_json, log_file, checkpoints...
+evaluate() {  # out_json, log_file, checkpoints... (skipped when the result exists)
   local out=$1 lg=$2; shift 2
+  if [ -f "$out" ]; then log "skip $out (exists)"; return; fi
   log "evaluate -> $out: $*"
   $PY -u -m aqfm.evaluate --data data/mumbai $SPLIT --ckpt "$@" --out "$out" --device cuda --seed 0 > "$lg" 2>&1
   tail -2 "$lg"
@@ -38,15 +47,25 @@ case "${STAGE:?set STAGE=A|B|C|D}" in
 A)
   for size in v2m v2; do
     for fr in none encoder backbone; do
-      train runs/mumbai_ft_${size}_${fr}_m3_s0 $FT --init "$(init $size 0)" --freeze $fr --train-months 3 --seed 0
+      train runs/mumbai_stageA_ft_${size}_${fr}_m3_s0 $FT_A --init "$(init $size 0)" --freeze $fr --train-months 3 --seed 0
     done
   done
   $PY - <<'EOF'
 import glob, re
-for f in sorted(glob.glob("runs/mumbai_ft_*_m3_s0.txt")):
+for f in sorted(glob.glob("runs/mumbai_stageA_ft_*_m3_s0.txt")):
     m = re.search(r"best val total=([\d.]+)", open(f).read())
     print(f"{f}: best validation {m.group(1) if m else '?'}")
 EOF
+  ;;
+A2)
+  # Stage A peaked at its first validation (step 250) in every run: calibrate on validation. Reference = the Delhi
+  # model itself (50 steps at lr 1e-12 changes nothing); then learning rates with validation every 50 steps.
+  train runs/mumbai_ft_v2_backbone_m3_lr0_s0 --phase finetune --steps 50 --warmup 1 --val-every 50 --patience 4 \
+      --lr 1e-12 --init "$(init v2 0)" --freeze backbone --train-months 3 --seed 0
+  for lr in 1e-4 3e-5 1e-5; do
+    train runs/mumbai_ft_v2_backbone_m3_lr${lr}_s0 --phase finetune --steps 1500 --warmup 100 --val-every 50 \
+        --patience 8 --lr $lr --init "$(init v2 0)" --freeze backbone --train-months 3 --seed 0
+  done
   ;;
 B|C)
   : "${SIZE:?set SIZE=v2m|v2 from stage A}" "${FREEZE:?set FREEZE=none|encoder|backbone from stage A}"
@@ -55,7 +74,7 @@ B|C)
     for n in 1 3 6 12; do
       train runs/mumbai_ft_${SIZE}_${FREEZE}_m${n}_s$s $FT --init "$(init $SIZE $s)" --freeze $FREEZE --train-months $n --seed $s
       train runs/mumbai_scratch_${SIZE}_m${n}_s$s --phase main --preset city $(scratch_size $SIZE) --no-future-met \
-          --dropout 0.3 --steps 12000 --patience 3 --train-months $n --seed $s
+          --dropout 0.3 $SCRATCH --train-months $n --seed $s
     done
   done
   for s in $seeds; do

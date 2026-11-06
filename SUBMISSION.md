@@ -56,11 +56,11 @@ Last updated: 2026-11-05 (v2 section).
 
 | Item | Where | Status |
 |---|---|---|
-| v2 code: spatial-scale changes A1–A9, fixes B1, B3–B7, any-city data steps; 66 tests pass (46 v1 + 20 v2) | GitHub branch `aqfm-v2` | ✅ committed (`8be6172`), ⬜ push |
+| v2 code: spatial-scale changes A1–A9, fixes B1, B3–B7, any-city data steps, width flags, date splits, hourly-array converter; 86 tests pass (`tests/` 68 + `deep_baselines/` 18) | GitHub branch `aqfm-v2` | ✅ committed and pushed (`a00d49d`); `main` has it up to `f104c7c` (PR #1) |
 | `data/delhi/` (built from the raw inputs, `docs/V2_PROGRESS.md` step 2; sha256 in the manifest) | machine | ✅ (rebuildable, not on Drive) |
-| v2 models: 3 seeds, dropout 0.15 run, 4-station hold-out run, 3 seeds without future weather (`aqfm_v2_*`) | machine + `drive_upload_2026-11-05_v2/models` | ✅ in the manifest; ⬜ upload to Drive |
-| v2 results: 3 seeds, mean ± std, ensemble, unseen stations, distance bands, without future weather (`results/v2_*`), `results/v2_delhi_summary.md` | GitHub branch `aqfm-v2` | ✅ committed, in the manifest; ⬜ push |
-| Step 10: transfer to a second city | — | ⬜ waits for the city's data |
+| v2 models: 3 seeds, dropout 0.15 run, 4-station hold-out run, 3 seeds without future weather (`aqfm_v2_*`); v2-M (width 256, 4.57M) 3 seeds with and 3 without future weather (`aqfm_v2m_*`); 24k-step test (`aqfm_v2_24k_s0`) | machine + `drive_upload_2026-11-05_v2/models` (15 files, `SHA256SUMS.txt` checked) | ✅ in the manifest; ⬜ upload to Drive |
+| v2 results: 3 seeds, mean ± std, ensemble, unseen stations, distance bands, without future weather (`results/v2_*`), `results/v2_delhi_summary.md`; v2-M and 24k (`results/v2m256_*`, `results/v2_s0_24k_results.json`) | GitHub branch `aqfm-v2` | ✅ committed, pushed, in the manifest; ⬜ v2-M rows in `results/TABLES.md` (regenerate after the Mumbai chain) |
+| Step 10: transfer to Mumbai (`data/mumbai` from the only Mumbai data, an hourly 2023–2024 array; `docs/V2_PROGRESS.md` step 10) | machine + GitHub | ✅ data, baselines, zero-shot; 🔄 fine-tune vs scratch, joint (running 2026-11-06); ⬜ manifest |
 
 ## Experiments the paper needs (roadmap: `PROJECT_CONTEXT.md` §6)
 

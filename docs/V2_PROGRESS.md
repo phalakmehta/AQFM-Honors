@@ -583,7 +583,7 @@ PM10 ensemble: v2m256 28.66 / 45.87 / 72.27 / 79.33; v1 28.46 / 46.02 / 72.49 / 
 - Results PDF updated (outside repo: `reports/aqfm_v2/AQFM_v2_results.pdf`, 4 pages; old one kept as
   `AQFM_v2_results_2026-11-04.pdf`). The 8-page report was not regenerated (its text is from 4 Nov).
 
-## Step 10: Mumbai (2026-11-06) — data built; zero-shot running
+## Step 10: Mumbai (2026-11-06) — stages A–C done; D (one model for both cities) running
 
 **Data (user: "this is the only data we have of bombay, so whatever u want to do, do on this data"; and "our model
 has to adapt to every format").** Drive folder `1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR`, copied read-only (notebooks never
@@ -631,6 +631,139 @@ last N months of 2023), validation = 2024-01-01 .. 06-30, test = 2024-07-01 .. 1
 persistence 4.37 / 9.85 / 11.87 / 16.83; seasonal naive 12.04 / 10.84 / 11.89 / 12.15; climatology 19.90 / 17.74 /
 19.48 / 19.67 (n ≈ 3,880). Mumbai's H2-2024 PM2.5 is far lower than Delhi's (monsoon), so compare skill relative
 to persistence, not absolute MAE across cities.
+
+**Zero-shot (Delhi models, no Mumbai training; `scripts/pipeline_mumbai_zeroshot.sh`, log
+`runs/mumbai_zeroshot_pipeline.log`; 3-seed ensembles; 5,068 windows).** First run 15:11–15:27 (3 of 4 recorded
+uncommitted code); rerun 15:27–15:46 under `a00d49d` (clean): all 4 × 93 numbers identical. PM2.5 MAE 1/6/24/72 h:
+
+| | 1 h | 6 h | 24 h | 72 h | CRPS 24 h | cov90 24 h |
+|---|---|---|---|---|---|---|
+| v2-M, no future weather | 6.16 | 10.17 | 14.52 | 18.37 | 10.60 | 0.880 |
+| v2, no future weather | 6.24 | 11.19 | 15.22 | 18.77 | 11.31 | 0.903 |
+| v2-M, with future weather (AT, RH, SR missing) | 9.66 | 14.10 | 22.37 | 23.68 | 17.30 | 0.583 |
+| v2, with future weather (AT, RH, SR missing) | 6.52 | 10.26 | 15.43 | 17.51 | 10.97 | 0.858 |
+| persistence (n 3,888 vs AQFM 4,103) | 4.37 | 9.85 | 11.87 | 16.83 | | |
+| seasonal naive | 12.04 | 10.84 | 11.89 | 12.15 | | |
+
+- **Zero-shot does not beat persistence in Mumbai** (and loses to seasonal naive at 24/72 h). With-weather models get
+  3 of 8 future-weather inputs as "Delhi average" and suffer (v2-M badly: coverage 0.58).
+- 24 h outage imputation: AQFM 10.6–13.8 vs linear interpolation 9.56 (in Delhi AQFM beat linear).
+- Point sets differ: the classical baselines count a point only where all three have a forecast (Delhi's rule), so
+  they score ~5 % fewer points than AQFM. Before any paper number: score both on the same points.
+
+**XGBoost on Mumbai** (`scripts/city_xgboost.py --hourly`: the code, features and settings of
+`baselines/run_baselines_xgboost.py`, unchanged file; every lookup reads the latest hourly reading at or before the
+step — without that, the most recent lag (hh:00) is never observed and no forecast is valid). Same points as AQFM
+(n 4,103 at 24 h). PM2.5 MAE 1/6/24/72 h: trained on everything before the test (2023 + 2024 H1, Delhi's rule)
+6.62 / 8.86 / 12.15 / 16.22; on the last N months of 2023 only: 1 month 13.51 / 29.27 / 27.16 / 30.02;
+3 months 7.50 / 12.16 / 16.09 / 22.58; 6 months 7.06 / 9.61 / 12.69 / 16.74; 12 months 6.88 / 9.04 / 12.30 / 16.72
+(`results/mumbai_xgboost[_mN]_results.json`, log `runs/mumbai_xgboost.txt`). Not yet checked that the script
+reproduces Delhi's published XGBoost numbers without `--hourly` (~20 min CPU; do when the GPU chain is done).
+
+**Fine-tune setup (validation = 2024 H1 only).** `scripts/pipeline_mumbai_transfer.sh`.
+- Stage A (16:13; lr 1e-4, 3,000 steps, validation every 250, 3 months, seed 0), best validation score:
+  v2 + freeze backbone **1.9213**, v2 none 1.9231, v2-M backbone 1.9228, v2 encoder 1.9252, v2-M encoder 1.9470,
+  v2-M none 1.9551 → v2 (1.17M) + frozen backbone (6.5 % trainable). Margin ≤ 0.002 over the next two: a close call.
+  Every run peaked at its first validation (step 250).
+- So the chain (stages B–D, launched 16:14) was stopped after 1 minute (partial run moved to the scratchpad) and
+  stage A2 run (16:15–16:28): the Delhi model untouched scores **1.9637**; lr 1e-4 → 1.9207 at step 150 then flat;
+  **lr 3e-5 → 1.9196 at step 550**; lr 1e-5 → 1.9209 at step 1,250 (still creeping). Fine-tuning helps (−0.044).
+- Recipe now: fine-tune lr 3e-5, 1,500 steps, warmup 100, validation every 50, patience 8; from scratch: the Delhi
+  recipe but validation every 250 and patience 8 (small data may overfit early). Size and freeze stay from stage A.
+- **Stages B → C → D relaunched 16:29** (SIZE=v2 FREEZE=backbone; logs `runs/mumbai_transfer_{B,C,D}.log`; ~7 h):
+  B = seed 0 fine-tune vs scratch at 1/3/6/12 months; C = seeds 1, 2 + mean ± std + ensembles; D = joint Delhi +
+  Mumbai from scratch, 3 seeds, scored on Mumbai 2024 H2 and on Delhi's usual 2025 test. Runs record `a00d49d` (clean).
+
+**Stage B (1,500-step fine-tunes) finished 17:29; seed-0 validation:** fine-tuned / from scratch: 1 month 1.9322 /
+2.0431; 3 months 1.9196 / 1.9790; 6 months 1.9120 / 1.9462; 12 months 1.8983 / 1.8907. Best fine-tune steps 200, 550,
+650 and **1,500 = the limit** for 12 months; scratch best steps 500–2,750 (limit 12,000, not binding).
+- **Budget check (validation only; launched 17:19, before any 12-month AQFM test result existed):** the 12-month
+  fine-tune with 6,000 steps reaches **1.8782 at step 4,400** (`runs/mumbai_ft_v2_backbone_m12_steps6000_s0`;
+  46 min because the machine was overloaded, see below) — better than both the capped run and from scratch.
+- So the chain was stopped at 18:06 (stage C was at its 2nd fine-tune) and **fine-tuning now gets 6,000 steps for
+  every data amount** (early stopping ends small-data runs earlier). The 1,500-step runs and their seed-0 test
+  results are kept, renamed `runs/mumbai_ft1500_*` and `results/mumbai_ft1500_*` (logs `runs/mumbai_transfer_B_ft1500.log`,
+  `runs/mumbai_transfer_C_ft1500_stopped.log`); from-scratch runs are unaffected and reused.
+- The script now skips runs that already finished and results that exist (resume after a stop or power cut).
+  **Relaunched B → C → D at 18:07.**
+- **Folder collision found and fixed:** stage A and stage B both wrote `runs/mumbai_ft_v2_backbone_m3_s0`; stage B
+  appended to stage A's `log.jsonl` and replaced its config, checkpoint and console log (stage B's own results were
+  fine). Split back: the first 31 log lines (stage A: steps 1–1,250, 5 validations, best 1.9213, as printed in
+  `runs/mumbai_transfer_A.log`) are now `runs/mumbai_stageA_ft_v2_backbone_m3_s0/` (with a README); all stage-A runs
+  are renamed `runs/mumbai_stageA_*` and the script writes stage A there.
+- **Machine overload:** the low-priority XGBoost check (`n_jobs=-1`) plus two training processes pushed the load to
+  ~53 on 24 cores and slowed training ~6× (0.6 s/step, GPU 1 %). The check was stopped (rerun later, alone).
+
+**Stages B + C finished 20:22 (6,000-step fine-tunes; no failures; every run and result records `a00d49d`, clean).**
+Test = Mumbai 2024-07-01 .. 12-31 (181 origins, 5,068 windows). Tables generated from `results/mumbai_{ft_v2_backbone,
+scratch_v2}_m{1,3,6,12}_{ens3_results,seeds_stats}.json`, `results/mumbai_xgboost_m*_results.json`,
+`results/mumbai_classical_results.json` and the runs' `log.jsonl` (generator in the session scratchpad; the
+validation scores are checked against each run's printed `best val total`).
+PM2.5 MAE (3-seed ensemble; ± = sd of the 3 single seeds), 1 / 6 / 24 / 72 h:
+
+| months | method | 1 h | 6 h | 24 h | 72 h | CRPS 24 h | cov90 24 h |
+|---|---|---|---|---|---|---|---|
+| 1 | fine-tuned (Delhi v2, frozen backbone) | 5.86 ± 0.27 | 10.38 ± 0.50 | 12.28 ± 0.58 | 15.11 ± 0.45 | 9.22 | 0.928 |
+| 1 | from scratch (v2) | 10.89 ± 0.48 | 10.51 ± 0.14 | 12.41 ± 0.36 | 14.08 ± 0.32 | 9.25 | 0.929 |
+| 1 | XGBoost (same months) | 13.51 | 29.27 | 27.16 | 30.02 | | |
+| 3 | fine-tuned (Delhi v2, frozen backbone) | 5.99 ± 0.19 | 10.03 ± 0.21 | 12.05 ± 0.24 | 14.80 ± 0.13 | 9.06 | 0.934 |
+| 3 | from scratch (v2) | 6.85 ± 0.63 | 10.42 ± 0.11 | 12.80 ± 0.82 | 15.75 ± 0.82 | 9.46 | 0.908 |
+| 3 | XGBoost (same months) | 7.50 | 12.16 | 16.09 | 22.58 | | |
+| 6 | fine-tuned (Delhi v2, frozen backbone) | 6.17 ± 0.16 | 10.15 ± 0.31 | 12.26 ± 0.24 | 15.01 ± 0.32 | 9.24 | 0.925 |
+| 6 | from scratch (v2) | 5.76 ± 0.48 | 9.08 ± 0.18 | 11.55 ± 0.25 | 14.24 ± 0.22 | 8.64 | 0.921 |
+| 6 | XGBoost (same months) | 7.06 | 9.61 | 12.69 | 16.74 | | |
+| 12 | fine-tuned (Delhi v2, frozen backbone) | 6.46 ± 0.28 | 10.25 ± 0.36 | 12.33 ± 0.19 | 14.95 ± 0.25 | 9.27 | 0.920 |
+| 12 | from scratch (v2) | 5.39 ± 0.23 | 8.79 ± 0.15 | 11.28 ± 0.17 | 14.21 ± 0.36 | 9.64 | 0.928 |
+| 12 | XGBoost (same months) | 6.88 | 9.04 | 12.30 | 16.72 | | |
+| 0 | zero-shot (Delhi v2, no future weather) | 6.24 | 11.19 | 15.22 | 18.77 | | |
+| 0 | persistence (~5 % fewer points) | 4.37 | 9.85 | 11.87 | 16.83 | | |
+| 0 | seasonal naive (~5 % fewer points) | 12.04 | 10.84 | 11.89 | 12.15 | | |
+
+PM10 MAE (3-seed ensemble; ± = sd of the 3 single seeds), 1 / 6 / 24 / 72 h:
+
+| months | method | 1 h | 6 h | 24 h | 72 h | CRPS 24 h | cov90 24 h |
+|---|---|---|---|---|---|---|---|
+| 1 | fine-tuned (Delhi v2, frozen backbone) | 9.90 ± 0.13 | 21.03 ± 0.42 | 24.59 ± 0.52 | 30.28 ± 0.45 | 18.34 | 0.904 |
+| 1 | from scratch (v2) | 21.55 ± 0.83 | 22.20 ± 0.09 | 26.62 ± 0.63 | 30.13 ± 0.47 | 19.73 | 0.888 |
+| 1 | XGBoost (same months) | 26.19 | 53.83 | 48.03 | 60.49 | | |
+| 3 | fine-tuned (Delhi v2, frozen backbone) | 9.87 ± 0.12 | 20.58 ± 0.46 | 24.25 ± 0.39 | 29.79 ± 0.27 | 18.11 | 0.905 |
+| 3 | from scratch (v2) | 12.71 ± 1.49 | 21.95 ± 0.26 | 26.63 ± 1.48 | 31.89 ± 1.44 | 19.85 | 0.840 |
+| 3 | XGBoost (same months) | 18.60 | 27.18 | 36.82 | 50.78 | | |
+| 6 | fine-tuned (Delhi v2, frozen backbone) | 9.89 ± 0.13 | 20.35 ± 0.51 | 24.32 ± 0.45 | 29.96 ± 0.33 | 18.17 | 0.895 |
+| 6 | from scratch (v2) | 10.97 ± 0.75 | 20.63 ± 0.07 | 25.57 ± 0.73 | 31.03 ± 0.82 | 19.14 | 0.871 |
+| 6 | XGBoost (same months) | 16.15 | 22.57 | 28.65 | 35.91 | | |
+| 12 | fine-tuned (Delhi v2, frozen backbone) | 9.99 ± 0.10 | 20.32 ± 0.27 | 24.24 ± 0.30 | 29.75 ± 0.28 | 18.08 | 0.891 |
+| 12 | from scratch (v2) | 10.33 ± 0.25 | 20.10 ± 0.26 | 24.86 ± 0.51 | 30.56 ± 1.00 | 19.28 | 0.878 |
+| 12 | XGBoost (same months) | 15.94 | 22.67 | 27.37 | 34.46 | | |
+| 0 | zero-shot (Delhi v2, no future weather) | 9.88 | 21.69 | 28.24 | 34.93 | | |
+| 0 | persistence (~5 % fewer points) | 10.45 | 25.05 | 26.99 | 35.73 | | |
+| 0 | seasonal naive (~5 % fewer points) | 25.57 | 25.05 | 27.09 | 27.51 | | |
+
+Best validation score (nll + 0.5 crps, 2024 H1) and best step / last step, seeds 0 / 1 / 2:
+
+| months | fine-tuned | from scratch |
+|---|---|---|
+| 1 | 1.9322 (200/600); 1.9163 (600/1000); 1.8962 (650/1050) | 2.0431 (500/2500); 2.0273 (750/2750); 2.0403 (500/2500) |
+| 3 | 1.9197 (400/800); 1.8965 (1900/2300); 1.9033 (650/1050) | 1.9790 (1250/3250); 1.9837 (2000/4000); 1.9889 (1750/3750) |
+| 6 | 1.9117 (650/1050); 1.9007 (1500/1900); 1.8993 (2350/2750) | 1.9462 (2500/4500); 1.9279 (2250/4250); 1.9260 (1750/3750) |
+| 12 | 1.8782 (4450/4850); 1.8795 (4450/4850); 1.8808 (3400/3800) | 1.8907 (2750/4750); 1.8766 (3750/5750); 1.8792 (2750/4750) |
+
+- **No training budget was binding:** every run ended by early stopping (fine-tune best step ≤ 4,450 of 6,000;
+  from scratch ≤ 3,750 of 12,000).
+- **Delhi pretraining helps most with little Mumbai data.** With 1 month, PM2.5 at 1 h: fine-tuned 5.86 vs from
+  scratch 10.89; PM10 is better fine-tuned at every lead with 1–3 months. XGBoost trained on the same 1–3 months is
+  far worse (PM2.5 24 h: 27.16 / 16.09).
+- **PM2.5 with 6+ months: from scratch is better at every lead** (12 months, 24 h: 11.28 vs 12.33). The fine-tuned
+  model stays at ~12.0–12.3 (24 h) whatever the amount, while from scratch improves 12.41 → 11.28. Likely cause
+  (inference, not tested): only 6.5 % of the weights train (frozen backbone, chosen in stage A on 3 months only).
+  On validation the 12-month fine-tune was slightly better (seed mean 1.8795 vs 1.8822): the validation score covers
+  every forecast target and the validation half-year (Jan–Jun) differs from the test half (Jul–Dec, monsoon).
+- **PM10: fine-tuned beats from scratch at 24 h and 72 h for every amount** (12 months, 24 h: 24.24 vs 24.86).
+- **Against the simple methods (not yet on the same points):** persistence is best for PM2.5 at 1 h (4.37 vs best
+  AQFM 5.39); at 24 h AQFM is ahead (PM2.5 11.28 vs 11.87, PM10 24.24 vs 26.99); at 72 h seasonal naive beats every
+  AQFM (PM2.5 12.15 vs 14.08; PM10 27.51 vs 29.75). 90 % interval coverage at 24 h: 0.84–0.93.
+- Next: the same-point comparison with significance (`scripts/pipeline_paper_extras.sh` stage MUMBAI). A possible
+  follow-up (not run; decide with the user): fine-tuning with nothing frozen at 6 and 12 months.
 
 ## Status against §8 "Done when"
 

@@ -18,7 +18,7 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "baselines"))
-from baseline_utils import (HORIZONS, STEPS_PER_DAY, TARGET_CHANNELS, TARGET_NAMES,  # noqa: E402
+from baseline_utils import (CHANNEL_NAMES, HORIZONS, STEPS_PER_DAY, TARGET_NAMES,  # noqa: E402
                             aqi_stratified, compute_metrics, timestamps_to_dt_features)
 from run_baselines_classical import build_climatology_dict  # noqa: E402
 
@@ -29,6 +29,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", required=True)
     ap.add_argument("--test-start", default="2025-01-01", help="YYYY-MM-DD")
+    ap.add_argument("--test-end", default=None, help="YYYY-MM-DD: scored targets end before it (default: data end)")
+    ap.add_argument("--targets", nargs="+", default=list(TARGET_NAMES), choices=["PM2.5", "PM10", "Ozone", "NOx", "NO2"])
+    ap.add_argument("--save-forecasts", default=None,
+                    help=".npz: anchor, origin and per target <c>_true, <c>_mask, <c>_<method> at 1/6/24/72 h")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
     values = np.load(os.path.join(args.data, "values.npy"), mmap_mode="r")
@@ -36,12 +40,16 @@ def main():
     t = np.load(os.path.join(args.data, "timestamps_h.npy"))
     test_start = int(np.searchsorted(t, (datetime.fromisoformat(args.test_start) - EPOCH).total_seconds() / 3600))
     test_end = len(t)
+    score_end = (int(np.searchsorted(t, (datetime.fromisoformat(args.test_end) - EPOCH).total_seconds() / 3600))
+                 if args.test_end else test_end)
     S = values.shape[0]
     feats = timestamps_to_dt_features(t)
-    origins = np.arange(test_start, test_end - max(HORIZONS.values()), STEPS_PER_DAY)
+    origins = np.arange(test_start, score_end - max(HORIZONS.values()), STEPS_PER_DAY)
     max_walkback = 7 * STEPS_PER_DAY
-    res = {m: {c: {} for c in TARGET_NAMES} for m in ("Persistence", "Seasonal Naive", "Climatology")}
-    for ci, cn in zip(TARGET_CHANNELS, TARGET_NAMES):
+    res = {m: {c: {} for c in args.targets} for m in ("Persistence", "Seasonal Naive", "Climatology")}
+    saved = {"anchor": np.repeat(np.arange(S), len(origins)), "origin": np.tile(origins, S)}
+    for cn in args.targets:
+        ci = CHANNEL_NAMES.index(cn)
         v, o = np.asarray(values[:, ci]), np.asarray(observed[:, ci])
         clim = build_climatology_dict(values, observed, feats, test_start, S, ci)
         for hz, h in HORIZONS.items():
@@ -69,6 +77,12 @@ def main():
                     mk.append(1.0 if (o[s, tt] > 0.5 and not np.isnan(pers) and not np.isnan(snaive)
                                       and not np.isnan(c)) else 0.0)
             yt, mk = np.array(yt, np.float32), np.array(mk, np.float32)
+            assert len(yt) == S * len(origins)                  # station-major, as saved["anchor"/"origin"]
+            k = list(HORIZONS).index(hz)
+            for key, arr in ((f"{cn}_true", yt), (f"{cn}_mask", np.array([o[s, t0 + h - 1] for s in range(S)
+                                                                          for t0 in origins], np.float32)),
+                             (f"{cn}_persistence", pp), (f"{cn}_snaive", sn), (f"{cn}_clim", cl)):
+                saved.setdefault(key, np.full((S * len(origins), len(HORIZONS)), np.nan, np.float32))[:, k] = arr
             for name, p in (("Persistence", pp), ("Seasonal Naive", sn), ("Climatology", cl)):
                 p = np.array(p, np.float32)
                 res[name][cn][hz] = compute_metrics(yt, p, mk)
@@ -76,7 +90,10 @@ def main():
                     res[name][cn]["24h_aqi"] = aqi_stratified(yt, p, mk)
             print(f"{cn} {hz}: " + "  ".join(f"{n} {res[n][cn][hz]['MAE']:.2f}" for n in res)
                   + f"  (n={res['Persistence'][cn][hz]['n']})")
-    res["_meta"] = {"data": args.data, "test_start": args.test_start, "n_origins": len(origins), "stations": S}
+    res["_meta"] = {"data": args.data, "test_start": args.test_start, "test_end": args.test_end,
+                    "n_origins": len(origins), "stations": S}
+    if args.save_forecasts:
+        np.savez_compressed(args.save_forecasts, origin_hours=t[saved["origin"]], **saved)
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     json.dump(res, open(args.out, "w"), indent=2)
     print(f"saved {args.out}")

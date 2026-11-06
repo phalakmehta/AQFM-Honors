@@ -1,0 +1,10 @@
+building data store (train_end=35040, test_start=52512, cities=['mumbai']) ...
+  freeze=backbone: 0.076M trainable parameters
+parameters: 1.17M   device=cuda  amp=torch.bfloat16
+  mumbai: training data limited to steps [26208, 35040), the last 3 months before validation
+code: a00d49d
+step=1 lr=1e-12 gnorm=0.9858 s_per_step=1.978 nll_forecast=1.695 crps_forecast=0.7651 nll_impute=1.586 crps_impute=0.6625 physical=0.3789 total=2.163
+step=50 lr=1.102e-14 gnorm=0.9382 s_per_step=0.1847 nll_forecast=1.583 crps_forecast=0.6611 nll_impute=1.685 crps_impute=0.763 physical=0.3474 total=2.01
+  [val] step 50: nll_forecast=1.6175 crps_forecast=0.6924 physical=0.3688 total=2.0559
+  [val] new best 1.9637 -> best.pt
+done. best val total=1.9637  (0.3 min)

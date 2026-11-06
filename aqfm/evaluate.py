@@ -38,11 +38,12 @@ from baseline_utils import (HORIZONS, aqi_stratified, compute_metrics,  # noqa: 
 from .config import CH, OUTAGE_CHANNELS, RAW_CHANNELS  # noqa: E402
 from .data import AQData, build_queries, make_sample  # noqa: E402
 from .losses import mixture_sample, sample_crps  # noqa: E402
-from .physical import LOG1P_MAX, reconstruct_pm25  # noqa: E402
-from .train import (code_version, load_checkpoint, load_multi,  # noqa: E402
+from .physical import LOG1P_MAX, reconstruct_no_no2, reconstruct_pm25  # noqa: E402
+from .train import (code_version, hours_since_epoch, load_checkpoint, load_multi,  # noqa: E402
                     split_indices, to_device)
 
 TARGETS = ("PM2.5", "PM10")
+EXTRA_TARGETS = ("Ozone", "NOx", "NO2")      # --targets: Ozone and NOx (ppb) are outputs; NO2 = NOx x (1 - NO share)
 EPISODE_STEPS = {"24h": 95, "48h": 191}
 
 
@@ -108,6 +109,12 @@ def _to_targets(cfg, samp_slots):
     else:
         pm25 = samp_slots[:, :, tc.index("PM2.5")]
     out["PM2.5"] = torch.expm1(pm25.clamp(max=LOG1P_MAX)).clamp(min=0)
+    for c in ("Ozone", "NOx"):
+        if c in tc:
+            out[c] = torch.expm1(samp_slots[:, :, tc.index(c)].clamp(max=LOG1P_MAX)).clamp(min=0)
+    if "NOx" in tc and "NOX_FRAC" in tc:
+        _, no2 = reconstruct_no_no2(samp_slots[:, :, tc.index("NOx")], samp_slots[:, :, tc.index("NOX_FRAC")])
+        out["NO2"] = torch.expm1(no2.clamp(max=LOG1P_MAX)).clamp(min=0)
     return out
 
 
@@ -125,12 +132,16 @@ def pm25_gt_pm10(acc):
 @torch.no_grad()
 def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, batch_size=16,
              n_samples=200, limit_origins=None, workers=0, anchors=None, allowed=None,
-             virtual_sensing=False):
+             virtual_sensing=False, targets=TARGETS, test_end=None, met_noise=0.0, save_forecasts=None):
     """models: one AQFM or a list of them (pooled ensemble). anchors: station
     indices to forecast (default all). allowed: stations usable as neighbours
     (default all). virtual_sensing: hide the anchor's own pollutant readings
     (and the fractions built from them) for the whole context, so the forecast
-    is made as for a place without a sensor."""
+    is made as for a place without a sensor. targets: pollutants to score (TARGETS, then any of
+    EXTRA_TARGETS). test_end: last step + 1 a scored target may reach (default: the end of the data).
+    met_noise: std (in scaled units) of Gaussian noise added to the future weather, growing as
+    met_noise x sqrt(lead in days) per horizon patch (a stand-in for weather-forecast error; 0 = ERA5 as is).
+    save_forecasts: .npz path for every window's median, 90 % interval, truth and mask."""
     models = _as_list(models)
     for m in models:
         m.eval()
@@ -138,27 +149,35 @@ def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, ba
     Tc, Th, Ct, H, P = (cfg.context_steps, cfg.horizon_steps, cfg.n_target_channels,
                         cfg.n_horizon_patches, cfg.patch_len)
     assert Th >= max(HORIZONS.values()), f"model horizon {Th} steps < 72 h protocol"
-    origins = np.arange(test_start, T - max(HORIZONS.values()), 96)
+    origins = np.arange(test_start, (test_end or T) - max(HORIZONS.values()), 96)
     if limit_origins:
         origins = origins[:limit_origins]
     anchors = range(data.S) if anchors is None else anchors
     pairs = [(int(o - Tc), int(a)) for o in origins for a in anchors]
     R = {n: i for i, n in enumerate(RAW_CHANNELS)}
+    gen = torch.Generator(device=device).manual_seed(12345) if met_noise else None
+    lead_days = (torch.arange(H, device=device, dtype=torch.float32) + 0.5) * cfg.patch_hours / 24.0
 
-    acc = {c: {"pred": [], "true": [], "mask": [], "crps": [], "pit": [], "c90": [], "c95": []}
-           for c in TARGETS}
+    acc = {c: {"pred": [], "true": [], "mask": [], "crps": [], "pit": [], "c90": [], "c95": [],
+               "lo90": [], "hi90": []} for c in targets}
+    ids = {"anchor": [], "t0": []}
     masker = _FixedBlock(0, Tc) if virtual_sensing else None
     dl = DataLoader(_Windows(data, cfg, pairs, masker, allowed), batch_size=batch_size,
                     num_workers=workers)
     for bi, batch in enumerate(dl):
         t0s, anchors = batch["t0"].numpy(), batch["sel"][:, 0].numpy()
         batch = to_device(batch, device)
+        if met_noise and cfg.use_future_met:                     # met_hz: (B,S,M,H) scaled patch means
+            sd = met_noise * lead_days.sqrt()
+            batch["met_hz"] = batch["met_hz"] + sd * torch.randn(batch["met_hz"].shape, device=device,
+                                                                 generator=gen)
         q, _, _ = build_queries(cfg, batch, impute=False)
         sel_q = torch.arange(Ct * H, device=device)            # anchor = station 0 -> first Ct*H queries
         samp = _pooled(models, cfg, batch, q, sel_q, n_samples)  # (n,B,Ct*H,P)
         n, B = samp.shape[:2]
         ens = _to_targets(cfg, samp.reshape(n, B, Ct, H * P))
-        for c in TARGETS:
+        ids["anchor"].append(anchors); ids["t0"].append(t0s + Tc)
+        for c in targets:
             e = ens[c].float()                                   # (n,B,Th)
             y = np.stack([raw_values[a, R[c], t0 + Tc:t0 + Tc + Th] for a, t0 in zip(anchors, t0s)])
             m = np.stack([raw_observed[a, R[c], t0 + Tc:t0 + Tc + Th] for a, t0 in zip(anchors, t0s)])
@@ -170,12 +189,18 @@ def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, ba
             a["pit"].append((e < yt).float().mean(0).cpu().numpy())
             a["c90"].append(((yt >= qs[1]) & (yt <= qs[3])).float().cpu().numpy())
             a["c95"].append(((yt >= qs[0]) & (yt <= qs[4])).float().cpu().numpy())
+            a["lo90"].append(qs[1].cpu().numpy()); a["hi90"].append(qs[3].cpu().numpy())
         if bi % 50 == 0:
             print(f"  forecast batch {bi + 1}/{len(dl)}")
 
     res = {"AQFM": {}}
     extras = {}
-    for c in TARGETS:
+    if save_forecasts:
+        np.savez_compressed(save_forecasts, anchor=np.concatenate(ids["anchor"]), origin=np.concatenate(ids["t0"]),
+                            origin_hours=data.t[np.concatenate(ids["t0"])],
+                            **{f"{c}_{k}": np.concatenate(acc[c][k]).astype(np.float32)
+                               for c in targets for k in ("pred", "lo90", "hi90", "true", "mask", "crps")})
+    for c in targets:
         a = {k: np.concatenate(v) for k, v in acc[c].items()}   # (n_windows, Th)
         res["AQFM"][c] = {}
         for hz, h in HORIZONS.items():
@@ -197,7 +222,7 @@ def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, ba
             e["episodes_gt250"] = {k: episode_detection(a["true"][:, j], a["pred"][:, j], a["mask"][:, j])
                                    for k, j in EPISODE_STEPS.items()}
         extras[c] = e
-    if "PM_FRAC" not in cfg.target_channels:     # PM2.5 predicted directly: PM2.5 > PM10 is possible
+    if "PM_FRAC" not in cfg.target_channels and "PM10" in targets:   # PM2.5 predicted directly
         extras["pm25_gt_pm10"] = pm25_gt_pm10(acc)
     res["AQFM_extras"] = extras
     res["n_origins"], res["n_windows"] = int(len(origins)), int(len(pairs))
@@ -207,7 +232,7 @@ def evaluate(models, cfg, data, raw_values, raw_observed, test_start, device, ba
 @torch.no_grad()
 def evaluate_imputation(models, cfg, data, raw_values, raw_observed, test_start, device,
                         batch_size=16, n_samples=200, limit_origins=None, gap_steps=96,
-                        anchors=None, allowed=None):
+                        anchors=None, allowed=None, targets=TARGETS, test_end=None):
     """Hide the anchor's CPCB channels for 24 h ending 24 h before the origin;
     score the imputed PM2.5/PM10 against truth and against linear
     interpolation of the anchor's own visible series."""
@@ -219,7 +244,7 @@ def evaluate_imputation(models, cfg, data, raw_values, raw_observed, test_start,
     assert start % P == 0 and gap_steps % P == 0
     n_pos = gap_steps // P
     icfg = dataclasses.replace(cfg, max_impute_positions=max(cfg.max_impute_positions, n_pos))
-    origins = np.arange(test_start, data.T - max(HORIZONS.values()), 96)
+    origins = np.arange(test_start, (test_end or data.T) - max(HORIZONS.values()), 96)
     if limit_origins:
         origins = origins[:limit_origins]
     anchors = range(data.S) if anchors is None else anchors
@@ -227,7 +252,7 @@ def evaluate_imputation(models, cfg, data, raw_values, raw_observed, test_start,
     R = {n: i for i, n in enumerate(RAW_CHANNELS)}
     dl = DataLoader(_Windows(data, icfg, pairs, _FixedBlock(start, gap_steps), allowed),
                     batch_size=batch_size)
-    err = {c: {"aqfm": [], "linear": []} for c in TARGETS}
+    err = {c: {"aqfm": [], "linear": []} for c in targets}
     for batch in dl:
         t0s, anchors = batch["t0"].numpy(), batch["sel"][:, 0].numpy()
         batch = to_device(batch, device)
@@ -237,7 +262,7 @@ def evaluate_imputation(models, cfg, data, raw_values, raw_observed, test_start,
         samp = _pooled(models, icfg, batch, q, torch.arange(Pm * Ct, device=device), n_samples)
         n, B = samp.shape[:2]
         ens = _to_targets(icfg, samp.reshape(n, B, Pm, Ct, P).transpose(2, 3))  # (n,B,Pm,P)
-        for c in TARGETS:
+        for c in targets:
             med = ens[c].median(0).values.cpu().numpy()          # (B,Pm,P)
             for b in range(B):
                 a, t0 = anchors[b], t0s[b]
@@ -307,6 +332,12 @@ def main():
     ap.add_argument("--samples", type=int, default=200)
     ap.add_argument("--limit-origins", type=int, default=None, help="debug only")
     ap.add_argument("--no-imputation", action="store_true")
+    ap.add_argument("--targets", nargs="+", default=list(TARGETS), choices=list(TARGETS + EXTRA_TARGETS),
+                    help="pollutants to score (default PM2.5 PM10)")
+    ap.add_argument("--test-end", default=None, help="YYYY-MM-DD: scored targets end before this date")
+    ap.add_argument("--met-noise", type=float, default=0.0,
+                    help="future-weather noise std (scaled units) x sqrt(lead days); 0 = ERA5 as is")
+    ap.add_argument("--save-forecasts", default=None, help=".npz with every window's forecasts and truth")
     ap.add_argument("--seed", type=int, default=0, help="seeds the sampling, so results are repeatable")
     args = ap.parse_args()
 
@@ -341,15 +372,20 @@ def main():
     print(f"  test: {test}; forecasting {len(anchors)} anchor stations"
           + ("; other held-out stations are not neighbours" if allowed is not None else ""))
     raw_v, raw_o = a["values"], a["observed"]
+    test_end = (int(np.searchsorted(np.asarray(a["timestamps_h"]), hours_since_epoch(*map(int, args.test_end.split("-")))))
+                if args.test_end else None)
+    targets = tuple(args.targets)
     res = evaluate(models, cfg, data, raw_v, raw_o, test_start, device,
                    args.batch_size, args.samples, args.limit_origins, anchors=anchors,
-                   allowed=allowed, virtual_sensing=args.virtual_sensing)
+                   allowed=allowed, virtual_sensing=args.virtual_sensing, targets=targets, test_end=test_end,
+                   met_noise=args.met_noise, save_forecasts=args.save_forecasts)
     if args.virtual_sensing:
         print("  virtual sensing: outage-imputation test skipped (the whole context is hidden)")
     elif not args.no_imputation:
         res["imputation_24h_outage"] = evaluate_imputation(
             models, cfg, data, raw_v, raw_o, test_start, device,
-            args.batch_size, args.samples, args.limit_origins, anchors=anchors, allowed=allowed)
+            args.batch_size, args.samples, args.limit_origins, anchors=anchors, allowed=allowed,
+            targets=targets, test_end=test_end)
     res["test"], res["stations"], res["cities"] = test, anchors, data.group_names
     res["neighbours_exclude_held_out"] = allowed is not None
     paths = [os.path.abspath(p) for p in args.ckpt]
@@ -364,7 +400,7 @@ def main():
     res["cfg"] = dataclasses.asdict(cfg)
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     json.dump(res, open(args.out, "w"), indent=2, default=str)
-    for c in TARGETS:
+    for c in targets:
         print(c, {hz: res["AQFM"][c][hz]["MAE"] for hz in HORIZONS})
     print("saved", args.out)
 

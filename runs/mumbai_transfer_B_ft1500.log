@@ -1,0 +1,41 @@
+[2026-11-06 16:29:40] train runs/mumbai_ft_v2_backbone_m1_s0: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 1 --seed 0
+done. best val total=1.9322  (1.4 min)
+[2026-11-06 16:31:07] train runs/mumbai_scratch_v2_m1_s0: --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 1 --seed 0
+done. best val total=2.0431  (4.0 min)
+[2026-11-06 16:35:11] train runs/mumbai_ft_v2_backbone_m3_s0: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0
+done. best val total=1.9196  (2.0 min)
+[2026-11-06 16:37:12] train runs/mumbai_scratch_v2_m3_s0: --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 3 --seed 0
+done. best val total=1.9790  (5.3 min)
+[2026-11-06 16:42:31] train runs/mumbai_ft_v2_backbone_m6_s0: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 6 --seed 0
+done. best val total=1.9120  (2.2 min)
+[2026-11-06 16:44:44] train runs/mumbai_scratch_v2_m6_s0: --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 6 --seed 0
+done. best val total=1.9462  (7.0 min)
+[2026-11-06 16:51:45] train runs/mumbai_ft_v2_backbone_m12_s0: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 12 --seed 0
+done. best val total=1.8983  (3.1 min)
+[2026-11-06 16:54:52] train runs/mumbai_scratch_v2_m12_s0: --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 12 --seed 0
+done. best val total=1.8907  (8.5 min)
+[2026-11-06 17:03:21] evaluate -> results/mumbai_ft_v2_backbone_m1_s0_results.json: runs/mumbai_ft_v2_backbone_m1_s0/best.pt
+PM10 {'1h': 9.8796, '6h': 21.3962, '24h': 25.6753, '72h': 31.123}
+saved results/mumbai_ft_v2_backbone_m1_s0_results.json
+[2026-11-06 17:04:35] evaluate -> results/mumbai_scratch_v2_m1_s0_results.json: runs/mumbai_scratch_v2_m1_s0/best.pt
+PM10 {'1h': 21.6623, '6h': 22.1984, '24h': 26.7124, '72h': 30.2205}
+saved results/mumbai_scratch_v2_m1_s0_results.json
+[2026-11-06 17:07:13] evaluate -> results/mumbai_ft_v2_backbone_m3_s0_results.json: runs/mumbai_ft_v2_backbone_m3_s0/best.pt
+PM10 {'1h': 9.8794, '6h': 21.1058, '24h': 24.9817, '72h': 30.3365}
+saved results/mumbai_ft_v2_backbone_m3_s0_results.json
+[2026-11-06 17:10:14] evaluate -> results/mumbai_scratch_v2_m3_s0_results.json: runs/mumbai_scratch_v2_m3_s0/best.pt
+PM10 {'1h': 15.0108, '6h': 22.2937, '24h': 25.3207, '72h': 30.8531}
+saved results/mumbai_scratch_v2_m3_s0_results.json
+[2026-11-06 17:13:10] evaluate -> results/mumbai_ft_v2_backbone_m6_s0_results.json: runs/mumbai_ft_v2_backbone_m6_s0/best.pt
+PM10 {'1h': 9.8587, '6h': 21.0217, '24h': 25.0521, '72h': 30.5316}
+saved results/mumbai_ft_v2_backbone_m6_s0_results.json
+[2026-11-06 17:16:14] evaluate -> results/mumbai_scratch_v2_m6_s0_results.json: runs/mumbai_scratch_v2_m6_s0/best.pt
+PM10 {'1h': 10.5936, '6h': 20.8898, '24h': 25.7633, '72h': 32.2963}
+saved results/mumbai_scratch_v2_m6_s0_results.json
+[2026-11-06 17:19:13] evaluate -> results/mumbai_ft_v2_backbone_m12_s0_results.json: runs/mumbai_ft_v2_backbone_m12_s0/best.pt
+PM10 {'1h': 9.856, '6h': 20.9845, '24h': 25.0248, '72h': 30.4826}
+saved results/mumbai_ft_v2_backbone_m12_s0_results.json
+[2026-11-06 17:23:53] evaluate -> results/mumbai_scratch_v2_m12_s0_results.json: runs/mumbai_scratch_v2_m12_s0/best.pt
+PM10 {'1h': 10.8275, '6h': 20.2466, '24h': 24.9718, '72h': 30.3093}
+saved results/mumbai_scratch_v2_m12_s0_results.json
+[2026-11-06 17:29:02] pipeline finished (stage B)

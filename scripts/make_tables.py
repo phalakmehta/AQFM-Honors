@@ -21,19 +21,28 @@ NOFM_STATS = "results/aqfm_do3_nofm_seeds_stats.json"
 # (row label, results file, model name inside a baseline file; None for AQFM files, whose metrics sit
 # under a section: "AQFM", "AQFM_extras" or "imputation_24h_outage". STATS = mean ± std over seeds)
 ROWS = [
-    ("**AQFM ensemble (3 seeds)**", "results/aqfm_do3_ens3_results.json", None),
-    ("AQFM single model, mean ± std (3 seeds)", STATS, None),
-    ("AQFM seed 0", "results/aqfm_do3_s0_results.json", None),
-    ("AQFM seed 1", "results/aqfm_do3_s1_results.json", None),
-    ("AQFM seed 2", "results/aqfm_do3_s2_results.json", None),
-    ("AQFM no future met, ensemble (3 seeds)", "results/aqfm_do3_nofm_ens3_results.json", None),
-    ("AQFM no future met, mean ± std (3 seeds)", NOFM_STATS, None),
-    ("AQFM no future met, seed 0", "results/aqfm_do3_nofm_s0_results.json", None),
-    ("AQFM no future met, seed 1", "results/aqfm_do3_nofm_s1_results.json", None),
-    ("AQFM no future met, seed 2", "results/aqfm_do3_nofm_s2_results.json", None),
-    ("AQFM dropout 0.1, seed 0 (2026-10-13)", "results/aqfm_anchor_s0_results.json", None),
-    ("AQFM run 2: no anchor, wd 0.1, anneal", "results/aqfm_s0_wd_results.json", None),
-    ("AQFM run 1: no anchor", "results/aqfm_results.json", None),
+    ("**AQFM v2-M ensemble (3 seeds; 4.57M)**", "results/v2m256_ens3_results.json", None),
+    ("AQFM v2-M single model, mean ± std (3 seeds)", "results/v2m256_seeds_stats.json", None),
+    ("AQFM v2-M no future met, ensemble (3 seeds)", "results/v2m256_nofm_ens3_results.json", None),
+    ("AQFM v2-M no future met, mean ± std (3 seeds)", "results/v2m256_nofm_seeds_stats.json", None),
+    ("AQFM v2 ensemble (3 seeds; 1.17M)", "results/v2_ens3_results.json", None),
+    ("AQFM v2 single model, mean ± std (3 seeds)", "results/v2_seeds_stats.json", None),
+    ("AQFM v2 no future met, ensemble (3 seeds)", "results/v2_nofm_ens3_results.json", None),
+    ("AQFM v2 no future met, mean ± std (3 seeds)", "results/v2_nofm_seeds_stats.json", None),
+    ("AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds)", "results/delhi_joint_v2_ens3_results.json", None),
+    ("AQFM v1 ensemble (3 seeds; 23.8M)", "results/aqfm_do3_ens3_results.json", None),
+    ("AQFM v1 single model, mean ± std (3 seeds)", STATS, None),
+    ("AQFM v1 seed 0", "results/aqfm_do3_s0_results.json", None),
+    ("AQFM v1 seed 1", "results/aqfm_do3_s1_results.json", None),
+    ("AQFM v1 seed 2", "results/aqfm_do3_s2_results.json", None),
+    ("AQFM v1 no future met, ensemble (3 seeds)", "results/aqfm_do3_nofm_ens3_results.json", None),
+    ("AQFM v1 no future met, mean ± std (3 seeds)", NOFM_STATS, None),
+    ("AQFM v1 no future met, seed 0", "results/aqfm_do3_nofm_s0_results.json", None),
+    ("AQFM v1 no future met, seed 1", "results/aqfm_do3_nofm_s1_results.json", None),
+    ("AQFM v1 no future met, seed 2", "results/aqfm_do3_nofm_s2_results.json", None),
+    ("AQFM v1 dropout 0.1, seed 0 (2026-10-13)", "results/aqfm_anchor_s0_results.json", None),
+    ("AQFM v1 run 2: no anchor, wd 0.1, anneal", "results/aqfm_s0_wd_results.json", None),
+    ("AQFM v1 run 1: no anchor", "results/aqfm_results.json", None),
     ("XGBoost + future ERA5", "baselines/results/xgboost_future_met_results.json", "XGBoost + future ERA5"),
     ("XGBoost (no future met)", "baselines/results/xgboost_results.json", "XGBoost"),
     ("PatchTST ensemble (3 seeds)", "baselines/results/patchtst_ens3_results.json", "PatchTST"),
@@ -147,10 +156,46 @@ def ablation_tables():
                       "twice that std is not distinguishable from seed noise on a single seed.", ""]
 
 
+# Mumbai (step 10; docs/V2_PROGRESS.md): hourly 2023-2024 data, test 2024-07-01 .. 12-31. Rows whose file does not
+# exist yet are left out.
+MUMBAI_ROWS = (
+    [("Persistence", "results/mumbai_classical_results.json", "Persistence"),
+     ("Seasonal naive", "results/mumbai_classical_results.json", "Seasonal Naive"),
+     ("Climatology", "results/mumbai_classical_results.json", "Climatology"),
+     ("XGBoost, all data before the test", "results/mumbai_xgboost_results.json", "XGBoost"),
+     ("AQFM v2-M zero-shot (Delhi model, no future met)", "results/mumbai_zeroshot_v2m256_nofm_ens3_results.json", None),
+     ("AQFM v2 zero-shot (Delhi model, no future met)", "results/mumbai_zeroshot_v2_nofm_ens3_results.json", None),
+     ("AQFM v2-M zero-shot, with future weather (3 of 8 inputs missing)", "results/mumbai_zeroshot_v2m256_ens3_results.json", None),
+     ("AQFM v2 zero-shot, with future weather (3 of 8 inputs missing)", "results/mumbai_zeroshot_v2_ens3_results.json", None)]
+    + [row for n in (1, 3, 6, 12) for row in (
+        (f"{n} month(s): AQFM v2 fine-tuned from Delhi, ensemble", f"results/mumbai_ft_v2_backbone_m{n}_ens3_results.json", None),
+        (f"{n} month(s): AQFM v2 fine-tuned, mean ± std", f"results/mumbai_ft_v2_backbone_m{n}_seeds_stats.json", None),
+        (f"{n} month(s): AQFM v2 from scratch, ensemble", f"results/mumbai_scratch_v2_m{n}_ens3_results.json", None),
+        (f"{n} month(s): AQFM v2 from scratch, mean ± std", f"results/mumbai_scratch_v2_m{n}_seeds_stats.json", None),
+        (f"{n} month(s): XGBoost", f"results/mumbai_xgboost_m{n}_results.json", "XGBoost"))]
+    + [("Joint Delhi + Mumbai (12 months), ensemble", "results/mumbai_joint_v2_ens3_results.json", None)])
+
+
+def mumbai_tables():
+    rows = [r for r in MUMBAI_ROWS if os.path.exists(os.path.join(ROOT, r[1]))]
+    out = []
+    for c in ("PM2.5", "PM10"):
+        out += table(f"Mumbai test (2024-07-01 .. 12-31): {c} MAE (µg/m³)", HZ, rows,
+                     lambda s, k, h, c=c: get(s, k, "AQFM", (c, h, "MAE"), 2),
+                     note="Fine-tuned / from scratch / XGBoost use only the last N months of 2023; the classical "
+                          "baselines and 'all data' XGBoost use everything before the test. The classical baselines "
+                          "count only points where all three have a forecast (about 5 % fewer points).")
+    return out
+
+
 def change_label(cfg):
     """What a run changed relative to the final recipe, from its saved config.json."""
     a, c = cfg["args"], cfg["cfg"]
+    size = (f"v2 city preset, width {c['d_model']}" if c.get("coord_mode") == "relative"
+            else f"width {c['d_model']}, v1 spatial" if c["d_model"] != 384 else "")
     parts = [n for n, on in (
+        (size, bool(size)),
+        (f"fine-tune (freeze {a.get('freeze')}, {a.get('train_months')} months)", cfg.get("phase") == "finetune"),
         ("anneal", cfg.get("phase") == "anneal"),
         ("no anchor", not c.get("use_last_obs", False)),
         (f"{a['steps'] // 1000}k-step schedule", cfg.get("phase") == "main" and a["steps"] != 12000),
@@ -165,9 +210,12 @@ def change_label(cfg):
     return ", ".join(parts) or "–"
 
 
-def validation_table():
-    """Best 2024 validation score (nll + 0.5·crps, forecast part, as train.py selects) per run."""
-    out = ["## 2024 validation: best selection score per run (lower is better)", "",
+def validation_table(city="delhi"):
+    """Best validation score (nll + 0.5·crps, forecast part, as train.py selects) per run of one data set:
+    "delhi" (data/preprocessed or data/delhi; validation 2024), "mumbai" (validation 2024-01..06) or "joint"."""
+    title = {"delhi": "2024 validation (Delhi)", "mumbai": "Mumbai validation (2024-01-01 .. 06-30)",
+             "joint": "Joint Delhi + Mumbai validation (2024-01-01 .. 06-30)"}[city]
+    out = [f"## {title}: best selection score per run (lower is better)", "",
            "| run | change | dropout | seed | best score | best step | validations | source |",
            "|---|---|---|---|---|---|---|---|"]
     for log in sorted(glob.glob(os.path.join(ROOT, "runs/*/log.jsonl"))):
@@ -177,6 +225,11 @@ def validation_table():
             continue
         cfg = json.load(open(cfg_path))
         if cfg["args"].get("small") or cfg["args"].get("synthetic"):
+            continue
+        data = cfg["args"].get("data", ["data/preprocessed"])
+        data = [data] if isinstance(data, str) else data
+        kind = "joint" if len(data) > 1 else ("mumbai" if data == ["data/mumbai"] else "delhi")
+        if kind != city:
             continue
         c = cfg["cfg"]
         vals = [json.loads(line) for line in open(log) if '"val"' in line]
@@ -221,6 +274,11 @@ def build():
                    note="`linear` = linear interpolation across the same outages.")
     lines += ablation_tables()
     lines += validation_table()
+    lines += mumbai_tables()
+    for city in ("mumbai", "joint"):
+        v = validation_table(city)
+        if sum(line.startswith("| ") for line in v) > 1:   # more than the header row: skip empty tables
+            lines += v
     return "\n".join(lines)
 
 
