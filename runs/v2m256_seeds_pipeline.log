@@ -1,0 +1,17 @@
+[2026-11-05 16:34:31] train runs/v2m256_s1_do03: seed 1
+done. best val total=1.7248  (29.5 min)
+[2026-11-05 17:04:05] train runs/v2m256_s2_do03: seed 2
+done. best val total=1.7286  (29.3 min)
+[2026-11-05 17:33:27] evaluate -> results/v2m256_s1_results.json: runs/v2m256_s1_do03/best.pt
+PM10 {'1h': 28.8765, '6h': 45.6779, '24h': 58.2513, '72h': 65.6739}
+saved results/v2m256_s1_results.json
+[2026-11-05 17:38:35] evaluate -> results/v2m256_s2_results.json: runs/v2m256_s2_do03/best.pt
+PM10 {'1h': 29.1215, '6h': 45.8571, '24h': 59.7921, '72h': 66.4891}
+saved results/v2m256_s2_results.json
+PM2.5 1h 16.14±0.09 6h 28.27±0.32 24h 32.76±0.81 72h 37.36±0.46
+PM10 1h 29.03±0.13 6h 46.30±0.92 24h 59.65±1.33 72h 66.66±1.08
+saved results/v2m256_seeds_stats.json
+[2026-11-05 17:43:41] evaluate -> results/v2m256_ens3_results.json: runs/v2m256_s0_do03/best.pt runs/v2m256_s1_do03/best.pt runs/v2m256_s2_do03/best.pt
+PM10 {'1h': 28.9358, '6h': 45.7914, '24h': 58.7429, '72h': 65.8325}
+saved results/v2m256_ens3_results.json
+[2026-11-05 17:57:22] pipeline finished

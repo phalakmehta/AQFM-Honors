@@ -1,0 +1,11 @@
+[2026-11-05 15:08:05] train runs/v2_s0_do03_24k: --steps 24000 --patience 24
+done. best val total=1.7291  (35.3 min)
+[2026-11-05 15:43:28] train runs/v2m256_s0_do03: --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512
+done. best val total=1.7268  (29.6 min)
+[2026-11-05 16:13:07] evaluate -> results/v2_s0_24k_results.json: runs/v2_s0_do03_24k/best.pt
+PM10 {'1h': 29.4921, '6h': 48.0023, '24h': 63.3514, '72h': 69.3746}
+saved results/v2_s0_24k_results.json
+[2026-11-05 16:15:44] evaluate -> results/v2m256_s0_results.json: runs/v2m256_s0_do03/best.pt
+PM10 {'1h': 29.0917, '6h': 47.3619, '24h': 60.8946, '72h': 67.8152}
+saved results/v2m256_s0_results.json
+[2026-11-05 16:20:47] pipeline finished

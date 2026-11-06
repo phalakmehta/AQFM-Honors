@@ -1,0 +1,22 @@
+[2026-11-05 18:21:28] train runs/v2m256_nofm_s0_do03: seed 0
+done. best val total=1.7928  (29.4 min)
+[2026-11-05 18:50:57] train runs/v2m256_nofm_s1_do03: seed 1
+done. best val total=1.7898  (29.0 min)
+[2026-11-05 19:20:03] train runs/v2m256_nofm_s2_do03: seed 2
+done. best val total=1.7865  (29.3 min)
+[2026-11-05 19:49:25] evaluate -> results/v2m256_nofm_s0_results.json: runs/v2m256_nofm_s0_do03/best.pt
+PM10 {'1h': 28.6979, '6h': 46.7117, '24h': 72.6069, '72h': 80.2239}
+saved results/v2m256_nofm_s0_results.json
+[2026-11-05 19:54:27] evaluate -> results/v2m256_nofm_s1_results.json: runs/v2m256_nofm_s1_do03/best.pt
+PM10 {'1h': 28.7616, '6h': 46.7099, '24h': 74.9273, '72h': 81.7236}
+saved results/v2m256_nofm_s1_results.json
+[2026-11-05 19:59:27] evaluate -> results/v2m256_nofm_s2_results.json: runs/v2m256_nofm_s2_do03/best.pt
+PM10 {'1h': 28.5772, '6h': 45.6075, '24h': 72.0708, '72h': 80.759}
+saved results/v2m256_nofm_s2_results.json
+PM2.5 1h 16.00±0.17 6h 28.01±0.50 24h 38.80±1.13 72h 42.62±0.60
+PM10 1h 28.68±0.09 6h 46.34±0.64 24h 73.20±1.52 72h 80.90±0.76
+saved results/v2m256_nofm_seeds_stats.json
+[2026-11-05 20:04:29] evaluate -> results/v2m256_nofm_ens3_results.json: runs/v2m256_nofm_s0_do03/best.pt runs/v2m256_nofm_s1_do03/best.pt runs/v2m256_nofm_s2_do03/best.pt
+PM10 {'1h': 28.6567, '6h': 45.8667, '24h': 72.274, '72h': 79.3257}
+saved results/v2m256_nofm_ens3_results.json
+[2026-11-05 20:18:09] pipeline finished
