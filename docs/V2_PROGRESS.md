@@ -943,6 +943,33 @@ seasonal naive is better at 72 h (27.09 vs 30.35, p = 0.043).
   (median 0.39 vs 0.53; 7 % of hours above 1 vs 2 %). Report NO2 for Delhi only, or as a limitation. A possible fix
   (not done; needs retraining the Mumbai models): when NO is missing, take the share from NO2 and NOx.
 
+**Delhi XGBoost reproduction check (overnight chain, 2026-11-06 21:52–21:58).** `scripts/city_xgboost.py --data
+data/preprocessed` vs the published `baselines/results/xgboost_results.json`: same points (every `n` equal) but 28 of 42
+numbers differ by 0.1–0.7 % (PM2.5 MAE 1/6/24/72 h 18.30 / 30.03 / 38.49 / 43.78 vs 18.17 / 30.06 / 38.63 / 43.74;
+output `/home/phalak/aqfm/checks/xgb_delhi_repro.json`). The unchanged `baselines/run_baselines_xgboost.py` re-run today
+(`scripts/check_submission.py --skip-tests --reproduce baselines/results/xgboost_results.json --out
+/home/phalak/aqfm/checks/repro_xgb_v1`, 16 min) gives the same new numbers: **all 42 identical to `city_xgboost.py`**.
+So the new script is a faithful copy; the published XGBoost file came from another software state (it was committed
+2026-10-12 01:02; this venv's xgboost 3.0.5 was installed 2026-10-12 17:02). Consequences: `check_submission.py
+--reproduce` reports the two v1 XGBoost files as DIFFERENT (expected, by up to 0.7 %); for the paper, compare
+AQFM with the XGBoost runs made on this machine (stage SAVE, `results/paper/delhi_xgboost*.json`), which also have
+their forecasts saved for the same-point tests.
+
+## Step 11: paper experiments (`scripts/pipeline_paper_extras.sh` SAVE, ABL, FOLD, NOISE) — started 2026-11-06
+
+- **SAVE (Delhi, 21:58–23:45): done.** The main ensembles again with every forecast saved and ozone/NOx/NO2 scored;
+  classical, XGBoost and XGBoost + future ERA5 on `data/delhi` (made on this machine); same-point comparisons with
+  p-values (`results/paper/delhi_*`). Checks: the five ensembles (`v2m256`, `v2m256_nofm`, `v2`, `v2_nofm`, v1 `do3`)
+  have 82/82 PM2.5/PM10 numbers equal to the earlier `results/*_ens3_results.json`; every AQFM file records commit
+  `a1a9e23`, not dirty. Tables and findings will be written up with the other stages.
+- **Spatial ablations dropped (user, 2026-11-07 00:20):** the spatial part is there so the model works for any
+  city's station layout, not to improve accuracy. Stopped during the distance-bias run (moved out of the repo to
+  `/home/phalak/aqfm/cancelled_runs/2026-11-07/`, not used); `--v1-spatial` not run. The no-spatial-attention run
+  that had finished (seed 0, `results/paper/delhi_v2m256_abl_nospatial_s0.json`) is kept. Stage ABL now has no BLH,
+  no anchor and gap-filling only.
+- **Running:** the rest of ABL, then FOLD and NOISE, then the unfrozen Mumbai fine-tune
+  (`/home/phalak/aqfm/chains/resume_2026-11-07.sh`; see `RUNBOOK.md` §3).
+
 ## Status against §8 "Done when"
 
 - [x] Branch `aqfm-v2` has the patch merged, all old tests pass, v1 equivalence shown (step 4).

@@ -1,0 +1,28 @@
+[2026-11-06 21:37:43] waiting for stage MUMBAI
+[2026-11-06 21:52:13] Delhi XGBoost reproduction check: scripts/city_xgboost.py on data/preprocessed vs baselines/results/xgboost_results.json
+42 numbers compared, 28 differ
+  PM2.5/1h/MAE: new 18.3001 old 18.1749
+  PM2.5/1h/RMSE: new 35.5754 old 35.2641
+  PM2.5/6h/MAE: new 30.0292 old 30.0554
+  PM2.5/6h/RMSE: new 48.5816 old 48.6655
+  PM2.5/24h/MAE: new 38.4906 old 38.6284
+  PM2.5/24h/RMSE: new 65.6374 old 65.9986
+  PM2.5/24h_aqi/Good/MAE: new 21.6445 old 21.8053
+  PM2.5/24h_aqi/Good/RMSE: new 27.275 old 27.5886
+  PM2.5/24h_aqi/Satisfactory/MAE: new 17.4767 old 17.5013
+  PM2.5/24h_aqi/Satisfactory/RMSE: new 25.739 old 25.7131
+  PM2.5/24h_aqi/Moderate/MAE: new 23.3542 old 23.2435
+  PM2.5/24h_aqi/Moderate/RMSE: new 33.8957 old 33.6969
+  PM2.5/24h_aqi/Poor/MAE: new 34.9475 old 35.1305
+  PM2.5/24h_aqi/Poor/RMSE: new 48.4374 old 48.6906
+  PM2.5/24h_aqi/Very Poor/MAE: new 47.3757 old 47.6388
+  PM2.5/24h_aqi/Very Poor/RMSE: new 61.0726 old 61.7282
+  PM2.5/24h_aqi/Severe/MAE: new 110.0954 old 110.5011
+  PM2.5/24h_aqi/Severe/RMSE: new 151.9833 old 152.7243
+  PM2.5/72h/MAE: new 43.7829 old 43.7442
+  PM2.5/72h/RMSE: new 72.6476 old 72.6422
+[2026-11-06 21:58:17] XGBoost check: FAILED or DIFFERENT (see /home/phalak/aqfm/checks/) - continuing; SAVE's XGBoost numbers need a look
+[2026-11-06 21:58:17] stage SAVE
+[2026-11-06 23:45:56] stage SAVE finished
+[2026-11-06 23:45:56] stage ABL
+[2026-11-07 00:22:38] stopped by hand: the user dropped the spatial ablations (distbias was training; v1spatial not started). Resumed by /home/phalak/aqfm/chains/resume_2026-11-07.sh

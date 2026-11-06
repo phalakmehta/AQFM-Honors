@@ -262,8 +262,8 @@ cd /home/phalak/aqfm/reports/aqfm_v2 && ../../.venv/bin/python make_report.py &&
 | What | Why | Cost |
 |---|---|---|
 | Mumbai stages B–C done; D (joint model) running | the transfer result | D ~1.5 h GPU |
-| Ablations on v2-M (no spatial attention, no wind, no BLH, no anchor, gap-filling only; seed 0) | the existing ablations are on v1 (23.8M) | ~2.5 h GPU |
-| v2-M with the spatial-scale changes off (Delhi, and one Mumbai fine-tune) | nothing yet shows A1–A9 help: v2 vs v1 changes size and these together | ~1 h GPU |
+| Ablations on v2-M (no BLH, no anchor, gap-filling only; seed 0): stage ABL, running 2026-11-07 | the existing ablations are on v1 (23.8M) | ~1.5 h GPU |
+| ~~v2-M with the spatial-scale changes off~~ dropped (user, 2026-11-07): the spatial part is there so the model works for any city's station layout, not to improve accuracy. No spatial ablations; the one already made (no spatial attention, seed 0) is kept | — | — |
 | v2-M hold-out (new station, virtual sensing) and distance bands | tables 6–7 say "not run for v2-M" | ~1 h GPU |
 | Same points for baselines and AQFM (Mumbai classical: 3,888 vs 4,103; check Delhi) | fair comparison | small code change + reruns |
 | `city_xgboost.py` reproduces Delhi's published XGBoost without `--hourly` | trust in the Mumbai XGBoost numbers | ~20 min CPU |

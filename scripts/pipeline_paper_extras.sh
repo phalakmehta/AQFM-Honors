@@ -4,8 +4,9 @@
 #   STAGE=SAVE   Delhi: the main ensembles again with every forecast saved and Ozone/NOx/NO2 scored; the baselines
 #                (classical, XGBoost, XGBoost + future ERA5) on data/delhi with forecasts saved; same-point
 #                comparisons with significance (scripts/forecast_stats.py).                          ~2.5 h GPU + CPU
-#   STAGE=ABL    Ablations on v2-M (seed 0): no spatial attention, distance-only bias, no BLH, no anchor,
-#                gap-filling only; and v2-M with the v2 spatial changes off (--v1-spatial), seeds 0-2.   ~5 h GPU
+#   STAGE=ABL    Ablations on v2-M (seed 0): no BLH, no anchor, gap-filling only.                 ~1.5 h GPU
+#                (No spatial ablations: the spatial part is there so the model works for any city's station
+#                layout, not to improve accuracy - user, 2026-11-07.)
 #   STAGE=FOLD   A second test year: v2-M trained on 2018-2022, picked on 2023, tested on 2024 (3 seeds, with and
 #                without future weather) + the baselines on the same split.                          ~4 h GPU
 #   STAGE=MUMBAI after the Mumbai transfer chain: final Mumbai models + baselines with forecasts saved; same-point
@@ -73,14 +74,13 @@ SAVE)
   done
   ;;
 ABL)
-  for ab in "nospatial --no-spatial" "distbias --spatial-bias distance" "noblh --no-blh" "nolast --no-last-obs" \
-            "gapfillonly --random-masking"; do
+  # Run on 2026-11-06 before the spatial ablations were dropped, with this same loop: "nospatial --no-spatial"
+  # (results/paper/delhi_v2m256_abl_nospatial_s0.json).
+  for ab in "noblh --no-blh" "nolast --no-last-obs" "gapfillonly --random-masking"; do
     set -- $ab
     train runs/v2m256_abl_$1_s0 --seed 0 $WIDE "${@:2}"
     evaluate delhi_v2m256_abl_$1_s0 data/delhi "" runs/v2m256_abl_$1_s0/best.pt
   done
-  for s in 0 1 2; do train runs/v2m256_v1spatial_s${s}_do03 --seed $s $WIDE --v1-spatial; done
-  evaluate delhi_v2m256_v1spatial_ens3 data/delhi "" $(ens v2m256_v1spatial do03)
   ;;
 FOLD)
   F24="--val-year 2023 --test-year 2024"
