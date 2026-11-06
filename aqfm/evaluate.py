@@ -291,6 +291,8 @@ def main():
     ap.add_argument("--data", default=["data/preprocessed"], nargs="+")
     ap.add_argument("--val-year", type=int, default=2024)
     ap.add_argument("--test-year", type=int, default=2025)
+    ap.add_argument("--val-start", default=None, help="YYYY-MM-DD, as in train.py")
+    ap.add_argument("--test-start", default=None, help="YYYY-MM-DD: test origins start here (as in train.py)")
     ap.add_argument("--stations", default="all",
                     help="'all', 'held_out' (the checkpoint's spatial hold-out: a new station "
                          "that has its own history), a city name, or comma-separated station indices")
@@ -317,7 +319,8 @@ def main():
     for p, (_, c, _) in zip(args.ckpt, loaded):
         assert dataclasses.asdict(c) == dataclasses.asdict(cfg), f"{p}: config differs from {args.ckpt[0]}"
     a = load_multi(args.data)
-    val_start, test_start = split_indices(np.asarray(a["timestamps_h"]), args.val_year, args.test_year)
+    val_start, test_start = split_indices(np.asarray(a["timestamps_h"]), args.val_year, args.test_year,
+                                          args.val_start, args.test_start)
     same_data = all(ck.get("cities", a["group_names"]) == a["group_names"] for _, _, ck in loaded)
     if same_data:
         assert all(ck["test_start"] == test_start for _, _, ck in loaded), \

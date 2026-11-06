@@ -142,3 +142,78 @@ def test_fetch_and_geocode_helpers():
     assert gs.geocode(["ito,_delhi_-_cpcb_cleaned"], "Delhi, India", Fake(), pause=0)[0]["lat"] == 1.0
     with pytest.raises(SystemExit, match="nowhere"):
         gs.geocode(["nowhere,_delhi_-_x"], "Delhi, India", Fake(), pause=0)
+
+
+def _hourly_city(tmp, name, first_hour="2024-03-01", H=72):
+    """An already-processed hourly array (3 stations) like Mumbai's, built with convert_hourly_city.py."""
+    import convert_hourly_city as ch
+    rng = np.random.default_rng(0)
+    cols = ["PM2.5", "AT", "WS", "WD", "era5:u10", "era5:v10", "era5:sp", "skip", "era5:blh"]
+    a = np.zeros((H, 3, len(cols)))
+    a[:, :, 0] = 50 + np.arange(H)[:, None] + np.arange(3)                 # no accidental repeats
+    a[10:15, 0, 0] = 77.0                                                  # a filled gap: 5 identical hours
+    a[20:22, 0, 0] = 66.0                                                  # 2 identical hours: kept
+    a[:, :, 1] = 28 + rng.normal(0, 1, (H, 3))
+    a[:, 2, 1] = 1.0 + rng.normal(0, 0.1, H)                               # broken thermometer at station 2
+    a[:, :, 2] = 1.5 + rng.uniform(0, 1, (H, 3))
+    a[30, 1, 2] = 60.0                                                     # out of bounds (> 50 m/s)
+    a[:, :, 3] = 200.0 + np.arange(H)[:, None] % 7
+    a[:, :, 4] = np.arange(H)[:, None]                                     # u10 = row index
+    a[:, :, 5] = -1.0
+    a[:, :, 6] = 100000.0
+    a[:, :, 8] = 300 + 500 * (np.arange(H) % 24 == 8)[:, None]             # BLH peak at 08 UTC
+    np.save(tmp / f"{name}.npy", a)
+    st = pd.DataFrame({"station_id": ["a", "b", "c"], "lat": [19.0, 19.05, 19.1], "lon": [72.8, 72.85, 72.9]})
+    st.to_csv(tmp / f"{name}_st.csv", index=False)
+    st.assign(elevation_m=10.0, built_frac_1km=0.5, green_frac_1km=0.2, coast_km=2.0).to_csv(
+        tmp / f"{name}_facts.csv", index=False)
+    ch.main(["--array", str(tmp / f"{name}.npy"), "--columns", ",".join(cols), "--first-hour", first_hour,
+             "--stations", str(tmp / f"{name}_st.csv"), "--facts", str(tmp / f"{name}_facts.csv"),
+             "--out", str(tmp / name)])
+    return a
+
+
+def test_hourly_converter_places_masks_and_shifts(tmp_path):
+    a = _hourly_city(tmp_path, "city")
+    d = {k: np.load(tmp_path / "city" / f"{k}.npy") for k in ("values", "observed", "era5_met", "timestamps_h")}
+    rep = json.load(open(tmp_path / "city" / "preprocessing_report.json"))
+    v, o, e = d["values"], d["observed"], d["era5_met"]
+    H, T = 72, 72 * 4
+    pm = pp.AQFM_CHANNELS.index("PM2.5")
+    hs = np.arange(H) * 4 + 3                                               # hh:45
+    assert o[:, pm, hs].any() and not np.delete(o[:, pm], hs, axis=1).any()  # one reading per hour, at hh:45
+    np.testing.assert_allclose(v[1, pm, hs], a[:, 1, 0])
+    assert o[0, pm, hs[10]] and not o[0, pm, hs[11:15]].any()              # flat run: only its first hour kept
+    assert o[0, pm, hs[20:22]].all()                                       # two equal hours are not a filled gap
+    at = pp.AQFM_CHANNELS.index("AT")
+    assert not o[2, at].any() and o[0, at, hs].all()                       # broken sensor dropped (no t2m to fill)
+    assert rep["met_sensors_dropped"] == [rep["met_sensors_dropped"][0]] and "c:AT" in rep["met_sensors_dropped"][0]
+    ws = pp.AQFM_CHANNELS.index("WS")                                       # out of bounds -> gap-filled from ERA5
+    k = hs[30]
+    np.testing.assert_allclose(v[1, ws, k], np.hypot(e[1, 2, k], e[1, 3, k]), rtol=1e-6)
+    assert v[1, ws, k] < 50
+    # ERA5: UTC row r lands on IST step 4r + 22, linear in between, nothing before the first value
+    u = e[0, ERA5_U := 2]
+    assert np.isnan(u[:22]).all()
+    np.testing.assert_allclose(u[22:T:4][:10], np.arange(10))
+    np.testing.assert_allclose(u[23:T - 4:4][:10], np.arange(10) + 0.25)
+    assert np.isnan(e[:, 0]).all() and np.isnan(e[:, 4]).all()            # t2m, ssrd not given -> AT, SR NaN
+    bp = pp.AQFM_CHANNELS.index("BP")
+    np.testing.assert_allclose(v[0, bp, hs[10]], 100000.0 / 133.322, rtol=1e-5)
+    assert not np.delete(o[0, bp], hs).any()                               # station-type channels stay hourly
+    assert o[0, 17, 22:T - 4].all()                                        # BLH input: every step ERA5 covers
+    assert rep["blh_peak_hour_ist"] == 13                                  # 08 UTC + 5:30 = 13:30 IST
+    np.testing.assert_allclose(d["timestamps_h"][0], (pd.Timestamp("2024-03-01") - pd.Timestamp("2018-01-01"))
+                               / pd.Timedelta(hours=1))
+
+
+def test_hourly_city_stacks_with_another_and_date_splits(tmp_path):
+    from aqfm.train import load_multi, split_indices
+    _hourly_city(tmp_path, "x", "2024-03-01")
+    _hourly_city(tmp_path, "y", "2024-03-02")
+    m = load_multi([str(tmp_path / "x"), str(tmp_path / "y")])
+    assert m["values"].shape == (6, 18, 4 * 96) and m["group_names"] == ["x", "y"]   # union of the two grids
+    t = np.asarray(m["timestamps_h"])
+    assert split_indices(t, 2024, 2025) == (0, len(t))                     # year defaults unchanged
+    vs, ts = split_indices(t, 2024, 2025, "2024-03-02", "2024-03-03")
+    assert (vs, ts) == (96, 192)

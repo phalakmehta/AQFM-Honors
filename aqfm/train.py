@@ -139,10 +139,12 @@ def train_months_start(t, val_start, n):
     return int(np.searchsorted(t, hours_since_epoch(k // 12, k % 12 + 1)))
 
 
-def split_indices(t, val_year=2024, test_year=2025):
-    """(val_start, test_start) step indices for Jan 1 of val_year / test_year."""
-    return (int(np.searchsorted(t, hours_since_epoch(val_year))),
-            int(np.searchsorted(t, hours_since_epoch(test_year))))
+def split_indices(t, val_year=2024, test_year=2025, val_date=None, test_date=None):
+    """(val_start, test_start) step indices for Jan 1 of val_year / test_year,
+    or for val_date / test_date ("YYYY-MM-DD") when given."""
+    v = hours_since_epoch(*map(int, val_date.split("-"))) if val_date else hours_since_epoch(val_year)
+    s = hours_since_epoch(*map(int, test_date.split("-"))) if test_date else hours_since_epoch(test_year)
+    return int(np.searchsorted(t, v)), int(np.searchsorted(t, s))
 
 
 def step(model, batch, cfg, forecast=True, impute=True):
@@ -259,6 +261,9 @@ def main():
                     help="spatial hold-out, e.g. 'mumbai:3' or station indices '4,17'")
     ap.add_argument("--val-year", type=int, default=2024)
     ap.add_argument("--test-year", type=int, default=2025)
+    ap.add_argument("--val-start", default=None, help="YYYY-MM-DD: validation starts here, not on Jan 1 of --val-year")
+    ap.add_argument("--test-start", default=None,
+                    help="YYYY-MM-DD: the test (and the end of validation) starts here, not on Jan 1 of --test-year")
     ap.add_argument("--no-balance", action="store_true", help="sample anchors uniformly over stations")
     ap.add_argument("--refit-stats", action="store_true",
                     help="finetune/anneal: refit met/RevIN stats on the new data (default: keep the checkpoint's)")
@@ -342,7 +347,8 @@ def main():
         v, o, t, c, s, e = (a[k] for k in ("values", "observed", "timestamps_h", "coords",
                                             "static", "era5_met"))
         group, group_names = a["group"], a["group_names"]
-        val_start, test_start = split_indices(np.asarray(t), args.val_year, args.test_year)
+        val_start, test_start = split_indices(np.asarray(t), args.val_year, args.test_year,
+                                              args.val_start, args.test_start)
         if e is None and cfg.use_future_met:
             raise SystemExit("era5_met.npy missing: re-run preprocess_aqfm.py or pass --no-future-met")
     keep_stats = init_ck is not None and not args.refit_stats

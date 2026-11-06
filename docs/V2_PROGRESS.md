@@ -508,6 +508,130 @@ The code under `aqfm/`, `data_pipeline/` and `tests/` is the same in both (last 
   (before this commit) and "GitHub main is at this commit" (the check compares with `main`; v2 is on `aqfm-v2`).
 - Not pushed (this PC has no GitHub login); the user pushes `aqfm-v2` from VS Code.
 
+### Improving the metrics: longer training and medium width — launched 2026-11-05 15:08 (user: "run 1 and 2")
+
+Why: v2 underfits (train loss ≈ validation score, 1.73 vs 1.74; dropout 0.15 and 0.3 tie), its validation score
+improves until 9–10k and flattens as the cosine schedule ends at 12k; v1 overfits (best at 5k, worse by 8k).
+New flags `--d-model/--n-heads/--d-ff` in `aqfm/train.py` (default: the preset's; 74 tests pass; committed `f104c7c`
+on the user's OK). `scripts/pipeline_v2_size_steps.sh`, log `runs/v2_size_steps_pipeline.log`, seed 0, one change each:
+- A `runs/v2_s0_do03_24k`: 24,000 steps (patience 24, so early stopping cannot cut the schedule short).
+- B `runs/v2m256_s0_do03`: d_model 256, 8 heads, d_ff 512 = 4,572,219 parameters; 12,000 steps, patience 3.
+- Compared with `runs/v2_s0_do03` (validation 1.7372) on the 2024 validation score; the winner gets seeds 1, 2.
+  Then 2025 test: `results/v2_s0_24k_results.json`, `results/v2m256_s0_results.json`.
+- If the PC loses power: move the interrupted run's folder aside first (`train.py` appends to `log.jsonl`, so a rerun
+  into the same folder would mix two logs), then rerun the script; a finished run A can be skipped by editing the script.
+
+**Results (chain 15:08–16:20, no failures; all records `f104c7c`, clean).** A took 35.3 min, B 29.6 min.
+
+| seed 0 | params | best step | validation | PM2.5 1h | 6h | 24h | 72h | Severe 24h | CRPS 24h | cov90 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| v2 (12k) `runs/v2_s0_do03` | 1.17M | 9000 | 1.7372 | 16.36 | 28.01 | 34.27 | 38.84 | 89.3 | 25.07 | 0.894 |
+| A: 24k steps | 1.17M | 16000 | 1.7291 | 16.58 | 29.49 | 35.05 | 38.50 | 90.2 | 25.66 | 0.874 |
+| B: width 256 | 4.57M | 10000 | **1.7268** | 16.11 | 28.64 | 33.44 | 37.88 | 91.3 | 24.51 | 0.897 |
+| v1 `runs/main_s0_do3` | 23.8M | 5000 | 1.7299 | 16.25 | 28.06 | 33.97 | 38.74 | 91.0 | 25.00 | 0.906 |
+
+PM10 (1/6/24/72 h): v2 29.60 / 45.99 / 62.96 / 70.58; A 29.49 / 48.00 / 63.35 / 69.37; B 29.09 / 47.36 / 60.89 / 67.82;
+v1 29.80 / 47.01 / 62.87 / 69.67.
+- Winner on validation: **B** (also below v1 seed 0 on validation). A's validation gain did not carry to the test
+  (worse at 1–24 h); its validation curve is noisy (1.730 at 11k, 1.750 at 14k, 1.729 at 16k).
+- One seed only. v2's seed-to-seed std (PM2.5): 1h 0.25, 6h 0.66, 24h 0.24, 72h 0.54, so B's 24 h gain (−0.83) is
+  > 3 std, its 72 h gain (−0.96) ~2 std, its 6 h loss (+0.63) ~1 std. Seeds 1 and 2 of B decide (~1 h).
+- Seeds 1, 2 of B launched 2026-11-05 16:34 (user: "Yea Ok"): `scripts/pipeline_v2m256_seeds.sh`, log
+  `runs/v2m256_seeds_pipeline.log` → `runs/v2m256_s{1,2}_do03`, `results/v2m256_{s1,s2,ens3}_results.json`,
+  `results/v2m256_seeds_stats.json`. Code record `f104c7c` (clean).
+
+**3-seed results (chain 16:34–17:57, no failures; training and evaluation records `f104c7c`, clean).** Validation:
+v2m256 1.7268 / 1.7248 / 1.7286 (best steps 10k / 12k / 11k); v1 1.7299 / 1.7290 / 1.7255; v2 1.7372 / 1.7494 / 1.7370.
+
+| PM2.5 MAE | 1h | 6h | 24h | 72h | Severe 24h | CRPS 24h | cov90 / cov95 |
+|---|---|---|---|---|---|---|---|
+| v2m256 ensemble (4.57M) | 15.99 | 27.95 | 32.26 | 36.95 | 87.9 | 23.63 | 0.894 / 0.939 |
+| v2 ensemble (1.17M) | 16.37 | 28.29 | 33.90 | 37.44 | 88.3 | 24.80 | 0.899 / 0.942 |
+| v1 ensemble (23.8M) | 15.71 | 27.54 | 32.04 | 36.51 | 89.0 | 23.66 | 0.914 / 0.951 |
+| v2m256 single, mean ± std | 16.14 ± 0.09 | 28.27 ± 0.32 | 32.76 ± 0.81 | 37.36 ± 0.46 | 88.4 ± 2.8 | | |
+| v1 single, mean ± std | 16.08 ± 0.17 | 28.13 ± 0.08 | 33.22 ± 0.76 | 37.70 ± 1.21 | 91.5 ± 0.6 | | |
+
+PM10 ensembles: v2m256 28.94 / 45.79 / 58.74 / 65.83; v1 28.88 / 45.50 / 58.78 / 64.93; v2 29.42 / 46.33 / 61.25 / 67.18.
+PM10 single mean: v2m256 29.03 / 46.30 / 59.65 / 66.66; v1 29.41 / 46.54 / 61.05 / 67.51.
+- v2m256 vs v2 ensemble: better at every lead (PM2.5 −1.2 to −4.9%, PM10 −1.2 to −4.1%).
+- v2m256 vs v1 ensemble: PM2.5 +0.7 to +1.8% (was +2.6 to +5.8% for v2), Severe −1.3% (best of the three),
+  CRPS equal; PM10 within ±0.6% at 1–24 h, +1.4% at 72 h. Single-model mean is below v1's at 24 h, 72 h and Severe
+  (PM2.5) and at every lead (PM10). 19% of v1's parameters.
+- Coverage slightly under the nominal 90/95% (0.894 / 0.939), as for v2.
+- Not run for v2m256: the unseen-station / virtual-sensing hold-out, distance bands.
+
+### v2m256 without future weather — chain 2026-11-05 18:21–20:18, no failures (user: "Yea do without future also")
+
+`scripts/pipeline_v2m256_nofm.sh` (seeds 0–2, `--no-future-met`, same settings as the v2m256 seeds), log
+`runs/v2m256_nofm_pipeline.log` → `runs/v2m256_nofm_s{0,1,2}_do03`, `results/v2m256_nofm_{s0,s1,s2,ens3}_results.json`,
+`results/v2m256_nofm_seeds_stats.json`. Evaluation records `f104c7c` (clean). Training 29.0–29.4 min each;
+validation 1.7928 / 1.7898 / 1.7865 (best steps 10k / 11k / 11k); v1 nofm 1.7986 / 1.8015 / 1.8035.
+
+| PM2.5 MAE, no future weather | 1h | 6h | 24h | 72h | Severe 24h | CRPS 24h | cov90 / cov95 |
+|---|---|---|---|---|---|---|---|
+| v2m256 ensemble (4.57M) | 15.92 | **27.67** | 38.09 | **41.54** | 105.1 | 27.84 | 0.910 / 0.951 |
+| v2 ensemble (1.17M) | 16.35 | 29.08 | 38.43 | 42.40 | 102.7 | 28.11 | 0.905 / 0.949 |
+| v1 ensemble (23.8M) | **15.77** | 27.97 | 38.41 | 43.20 | 104.9 | 27.96 | 0.912 / 0.953 |
+| PatchTST, 3 seeds | 16.26 | 28.04 | **37.75** | 43.31 | 110.6 | | |
+| E-STGCN, 3 seeds | 16.37 | 30.91 | 38.64 | 44.62 | **98.7** | | |
+| v2m256 single, mean ± std | 16.00 ± 0.17 | 28.01 ± 0.50 | 38.80 ± 1.13 | 42.62 ± 0.60 | 106.1 ± 3.8 | | |
+
+PM10 ensemble: v2m256 28.66 / 45.87 / 72.27 / 79.33; v1 28.46 / 46.02 / 72.49 / 81.98; v2 29.20 / 48.30 / 72.83 / 81.22.
+- v2m256 vs v1 without future weather: better at 6 h (−0.30), 24 h (−0.32), 72 h (−1.66, −3.8%); +0.15 at 1 h;
+  Severe tie (+0.2); CRPS slightly lower (27.84 vs 27.96). Best AQFM model without future weather.
+- vs PatchTST: better at 1, 6, 72 h; PatchTST still lowest at 24 h (37.75 vs 38.09). E-STGCN still best on Severe.
+- Results PDF updated (outside repo: `reports/aqfm_v2/AQFM_v2_results.pdf`, 4 pages; old one kept as
+  `AQFM_v2_results_2026-11-04.pdf`). The 8-page report was not regenerated (its text is from 4 Nov).
+
+## Step 10: Mumbai (2026-11-06) — data built; zero-shot running
+
+**Data (user: "this is the only data we have of bombay, so whatever u want to do, do on this data"; and "our model
+has to adapt to every format").** Drive folder `1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR`, copied read-only (notebooks never
+run) to `/home/phalak/aqfm/raw_inputs/mumbai_drive_2026-11-06/`. Used: `mumbai_all_data_2324_28locs.npy`
+(sha256 `bb355573…3330`), float64 (17,544 h, 28 stations, 15 columns) = hourly 2023-01-01 .. 2024-12-31, built by a
+PM2.5-GNN Colab notebook from `*_combined_cleaned.csv`: PM2.5, PM10, NO2, O3, AT, RH, WS, WD, NOx (CPCB) + ERA5 BLH,
+K-index, u10, v10, sp, tp. Found:
+- **Gaps filled**: 0 % missing anywhere; 16.3 % of PM2.5 hours are the 2nd+ value of a run of >= 3 identical hours
+  (13.7 % in runs >= 24 h) — copied forward. Detectable, so hidden again (only the first value of a run kept).
+- **ERA5 columns are UTC**: BLH peaks at row-hour 8, station AT / O3 at 13 / 14 (IST). Shifted +5:30 (C3); after the
+  shift BLH peaks at 13:00 IST.
+- **Station order** = `Mumbai_28_loc.csv` order: on PM10 deviations from the city median, the co-located partner is
+  the best match in 4 of 6 co-located pairs (chance 1/27 each); PM10 similarity falls with distance (Spearman −0.25).
+- **Coordinates**: 19 stations are in CPCB's list (same PDF as Delhi, sha256 `72bd8763…5513`) and match exactly,
+  except **site_5397 (Khindipada-Bhandup West): file 19.0992, 72.5534 (in the sea), CPCB 19.1653, 72.9221** (39.4 km)
+  → CPCB used. 9 stations (site_5807 … site_5964) are not in CPCB's list → file coordinates (all on land in Mumbai).
+  `data_pipeline/stations/mumbai.csv`. Geometry: nearest neighbour median ~1.6 km; one station > 15 km (Vasai West,
+  17.5 km).
+- **Broken met sensors** (median > 5 robust SD from the other stations, automatic rule): AT at site_5104 (38.2 °C) and
+  site_5403 (1.7 °C); RH at site_5399 (27 %), site_5400 (2.4 %), site_5403 (14.5 %); WS (+WD) at site_5113 (25.6 m/s),
+  site_5403 (8.0), site_5413 (5.1). Dropped for the whole record (wind then comes from ERA5, as Delhi's gap-fill).
+- Missing compared with Delhi: 15-min resolution, NO, SO2, NH3, CO, Benzene, station SR/BP/rain; ERA5 t2m, d2m, ssrd
+  (so future AT, RH, SR are missing for the with-weather models); 2018–2022 and 2025.
+- Station facts (`data_pipeline/stations/mumbai_facts.csv`, tiles N18/N19 E072 DEM + WorldCover N18E072 downloaded
+  under the B3 permission; URLs and sha256 in `data_pipeline/stations/SOURCES.md`): elevation 1–69 m, coast 0.02–5.5 km (Delhi ~800 km).
+
+**New code (uncommitted):** `data_pipeline/convert_hourly_city.py` (any city given as a processed hourly array +
+column map; hourly value on the hh:45 step = the step the evaluation scores, other 3 steps unobserved; flat runs,
+PHYSICAL_BOUNDS, met-outlier rule; ERA5 shift + 15-min interpolation + `_era5_derive` + gap-fill on hourly steps;
+BLH at every step); `aqfm/train.py` + `aqfm/evaluate.py`: optional `--val-start` / `--test-start` dates (defaults =
+the old Jan-1 years, unchanged); `scripts/city_baselines.py` (classical baselines of `baselines/run_baselines_classical.py`
+for any folder/test start; that file is unchanged); `scripts/pipeline_mumbai_zeroshot.sh`; 2 tests in
+`tests/test_pipeline_v2.py` (converter: placement, flat runs, broken-sensor drop, ERA5 shift/interpolation, gap-fill
+hourly only, BLH; two cities stack; date splits). 86 tests pass. Mutation check: no ERA5 shift, no flat-run rule,
+readings on hh:00 → each caught (a 4th mutation was a no-op, so it shows nothing).
+
+Built: `data/mumbai/` (28 × 18 × 70,176 steps, 2023-01-01 .. 2024-12-31 23:45 IST; 0.7 s). Kept per channel after
+the rules: PM2.5 83.7 %, PM10 84.7 %, NO2 84.5 %, O3 86.2 %, NOx 85.1 %, AT 80.3 %, RH 66.2 %, WS 72.5 %, WD 75.1 %.
+
+**Mumbai protocol (my choice; the data has no 2025):** training / fine-tuning data = 2023 (`--train-months` N = the
+last N months of 2023), validation = 2024-01-01 .. 06-30, test = 2024-07-01 .. 12-31 (`--test-start 2024-07-01`;
+182 origins × 28 stations). Delhi stays 2018–2023 / 2024 / 2025.
+
+**Classical baselines** (`scripts/city_baselines.py`, `results/mumbai_classical_results.json`), PM2.5 MAE 1/6/24/72 h:
+persistence 4.37 / 9.85 / 11.87 / 16.83; seasonal naive 12.04 / 10.84 / 11.89 / 12.15; climatology 19.90 / 17.74 /
+19.48 / 19.67 (n ≈ 3,880). Mumbai's H2-2024 PM2.5 is far lower than Delhi's (monsoon), so compare skill relative
+to persistence, not absolute MAE across cities.
+
 ## Status against §8 "Done when"
 
 - [x] Branch `aqfm-v2` has the patch merged, all old tests pass, v1 equivalence shown (step 4).

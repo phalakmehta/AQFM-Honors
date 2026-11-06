@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+# Step 10, Delhi -> Mumbai transfer (docs/AQFM_V2_BUILD_PROMPT.md section 5, step 10; docs/V2_PROGRESS.md step 10).
+# Mumbai protocol: data/mumbai (hourly 2023-2024); training/fine-tuning data = the last N months of 2023
+# (--train-months N), validation = 2024-01-01 .. 06-30 (picks every setting), test = 2024-07-01 .. 12-31.
+# Models without future weather (Mumbai's ERA5 lacks temperature, humidity and sunlight). Fine-tuning starts from the
+# Delhi checkpoint of the same seed and keeps its Delhi scaling (A8, C10).
+#   STAGE=A  pick the fine-tune setup, seed 0, 3 months: v2-M and v2 x freeze none / encoder / backbone (validation only)
+#   STAGE=B  seed 0 curve: fine-tune vs from scratch with 1, 3, 6, 12 months (needs SIZE and FREEZE from stage A)
+#   STAGE=C  seeds 1, 2 of the curve; mean +- std; 3-seed ensembles
+#   STAGE=D  joint Delhi + Mumbai (12 months) from scratch, seeds 0-2
+# Run from anywhere:  STAGE=A nohup setsid bash scripts/pipeline_mumbai_transfer.sh > runs/mumbai_transfer_A.log 2>&1 &
+set -euo pipefail
+cd "$(dirname "$0")/.."
+PY=${PY:-../.venv/bin/python}
+log() { echo "[$(date '+%F %T')] $*"; }
+SPLIT="--val-start 2024-01-01 --test-start 2024-07-01"
+FT="--phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4"       # lr: finetune default 1e-4
+WIDE="--d-model 256 --n-heads 8 --d-ff 512"
+
+train() {  # out_dir, extra args...
+  local out=$1; shift
+  log "train $out: $*"
+  $PY -u -m aqfm.train --data data/mumbai $SPLIT --out "$out" --device cuda --batch-size 8 \
+      --weight-decay 0.05 --compile "$@" > "$out.txt" 2>&1
+  tail -1 "$out.txt"
+  grep -q "^done" "$out.txt" || { log "$out did not finish - stopping"; exit 1; }
+}
+evaluate() {  # out_json, log_file, checkpoints...
+  local out=$1 lg=$2; shift 2
+  log "evaluate -> $out: $*"
+  $PY -u -m aqfm.evaluate --data data/mumbai $SPLIT --ckpt "$@" --out "$out" --device cuda --seed 0 > "$lg" 2>&1
+  tail -2 "$lg"
+}
+init() { [ "$1" = v2m ] && echo runs/v2m256_nofm_s$2_do03/best.pt || echo runs/v2_nofm_s$2_do03/best.pt; }
+scratch_size() { [ "$1" = v2m ] && echo "$WIDE" || echo ""; }
+
+case "${STAGE:?set STAGE=A|B|C|D}" in
+A)
+  for size in v2m v2; do
+    for fr in none encoder backbone; do
+      train runs/mumbai_ft_${size}_${fr}_m3_s0 $FT --init "$(init $size 0)" --freeze $fr --train-months 3 --seed 0
+    done
+  done
+  $PY - <<'EOF'
+import glob, re
+for f in sorted(glob.glob("runs/mumbai_ft_*_m3_s0.txt")):
+    m = re.search(r"best val total=([\d.]+)", open(f).read())
+    print(f"{f}: best validation {m.group(1) if m else '?'}")
+EOF
+  ;;
+B|C)
+  : "${SIZE:?set SIZE=v2m|v2 from stage A}" "${FREEZE:?set FREEZE=none|encoder|backbone from stage A}"
+  seeds=$([ "$STAGE" = B ] && echo 0 || echo "1 2")
+  for s in $seeds; do
+    for n in 1 3 6 12; do
+      train runs/mumbai_ft_${SIZE}_${FREEZE}_m${n}_s$s $FT --init "$(init $SIZE $s)" --freeze $FREEZE --train-months $n --seed $s
+      train runs/mumbai_scratch_${SIZE}_m${n}_s$s --phase main --preset city $(scratch_size $SIZE) --no-future-met \
+          --dropout 0.3 --steps 12000 --patience 3 --train-months $n --seed $s
+    done
+  done
+  for s in $seeds; do
+    for n in 1 3 6 12; do
+      for kind in ft_${SIZE}_${FREEZE} scratch_${SIZE}; do
+        evaluate results/mumbai_${kind}_m${n}_s${s}_results.json runs/eval_mumbai_${kind}_m${n}_s${s}.txt \
+            runs/mumbai_${kind}_m${n}_s${s}/best.pt
+      done
+    done
+  done
+  if [ "$STAGE" = C ]; then
+    for n in 1 3 6 12; do
+      for kind in ft_${SIZE}_${FREEZE} scratch_${SIZE}; do
+        $PY scripts/seed_stats.py results/mumbai_${kind}_m${n}_seeds_stats.json \
+            results/mumbai_${kind}_m${n}_s{0,1,2}_results.json
+        evaluate results/mumbai_${kind}_m${n}_ens3_results.json runs/eval_mumbai_${kind}_m${n}_ens3.txt \
+            runs/mumbai_${kind}_m${n}_s{0,1,2}/best.pt
+      done
+    done
+  fi
+  ;;
+D)
+  : "${SIZE:?set SIZE=v2m|v2}"
+  for s in 0 1 2; do
+    log "train runs/joint_delhi_mumbai_${SIZE}_s$s"
+    $PY -u -m aqfm.train --data data/delhi data/mumbai $SPLIT --out runs/joint_delhi_mumbai_${SIZE}_s$s --device cuda \
+        --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city $(scratch_size $SIZE) --no-future-met \
+        --dropout 0.3 --steps 12000 --patience 3 --train-months 12 --seed $s > runs/joint_delhi_mumbai_${SIZE}_s$s.txt 2>&1
+    grep -q "^done" runs/joint_delhi_mumbai_${SIZE}_s$s.txt || { log "joint s$s did not finish - stopping"; exit 1; }
+  done
+  ck="runs/joint_delhi_mumbai_${SIZE}_s0/best.pt runs/joint_delhi_mumbai_${SIZE}_s1/best.pt runs/joint_delhi_mumbai_${SIZE}_s2/best.pt"
+  evaluate results/mumbai_joint_${SIZE}_ens3_results.json runs/eval_mumbai_joint_${SIZE}_ens3.txt $ck
+  log "evaluate Delhi's usual 2025 test with the joint model (data/delhi alone: same windows as every Delhi result)"
+  $PY -u -m aqfm.evaluate --data data/delhi --ckpt $ck \
+      --out results/delhi_joint_${SIZE}_ens3_results.json --device cuda --seed 0 > runs/eval_delhi_joint_${SIZE}_ens3.txt 2>&1
+  tail -2 runs/eval_delhi_joint_${SIZE}_ens3.txt
+  ;;
+esac
+log "pipeline finished (stage $STAGE)"
