@@ -1,0 +1,24 @@
+  test: forecast; forecasting 37 anchor stations
+  forecast batch 1/838
+  forecast batch 51/838
+  forecast batch 101/838
+  forecast batch 151/838
+  forecast batch 201/838
+  forecast batch 251/838
+  forecast batch 301/838
+  forecast batch 351/838
+  forecast batch 401/838
+  forecast batch 451/838
+  forecast batch 501/838
+  forecast batch 551/838
+  forecast batch 601/838
+  forecast batch 651/838
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 15.9227, '6h': 27.6715, '24h': 38.0927, '72h': 41.5417}
+PM10 {'1h': 28.6567, '6h': 45.8667, '24h': 72.274, '72h': 79.3257}
+Ozone {'1h': 5.2134, '6h': 7.0364, '24h': 9.6897, '72h': 10.576}
+NOx {'1h': 11.9542, '6h': 17.2548, '24h': 29.9406, '72h': 32.7707}
+NO2 {'1h': 9.7911, '6h': 11.1293, '24h': 15.9182, '72h': 17.9268}
+saved results/paper/delhi_v2m256_nofm_ens3.json

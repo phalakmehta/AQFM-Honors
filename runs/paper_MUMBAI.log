@@ -1,0 +1,171 @@
+[2026-11-06 21:25:50] evaluate mumbai_zeroshot_v2_nofm_ens3
+PM2.5 {'1h': 6.2354, '6h': 11.1923, '24h': 15.2219, '72h': 18.7704}
+PM10 {'1h': 9.8849, '6h': 21.6929, '24h': 28.2432, '72h': 34.9331}
+Ozone {'1h': 3.7232, '6h': 6.0479, '24h': 5.901, '72h': 6.5926}
+NOx {'1h': 4.5182, '6h': 7.2388, '24h': 9.0782, '72h': 10.9383}
+NO2 {'1h': 16.7664, '6h': 14.5236, '24h': 17.9967, '72h': 18.7616}
+saved results/paper/mumbai_zeroshot_v2_nofm_ens3.json
+[2026-11-06 21:28:27] evaluate mumbai_ft_m1_ens3
+PM2.5 {'1h': 5.8617, '6h': 10.3822, '24h': 12.2801, '72h': 15.1103}
+PM10 {'1h': 9.9047, '6h': 21.0342, '24h': 24.5937, '72h': 30.2793}
+Ozone {'1h': 3.6734, '6h': 6.0366, '24h': 5.9471, '72h': 6.6754}
+NOx {'1h': 4.5804, '6h': 7.116, '24h': 8.5464, '72h': 10.2366}
+NO2 {'1h': 17.7138, '6h': 15.1552, '24h': 18.7378, '72h': 19.506}
+saved results/paper/mumbai_ft_m1_ens3.json
+[2026-11-06 21:30:56] evaluate mumbai_scratch_m1_ens3
+PM2.5 {'1h': 10.8853, '6h': 10.5146, '24h': 12.4086, '72h': 14.0805}
+PM10 {'1h': 21.553, '6h': 22.1982, '24h': 26.6249, '72h': 30.1296}
+Ozone {'1h': 5.8889, '6h': 6.8758, '24h': 7.6592, '72h': 8.242}
+NOx {'1h': 7.6241, '6h': 7.0439, '24h': 9.6435, '72h': 10.6681}
+NO2 {'1h': 17.1938, '6h': 15.3569, '24h': 18.0951, '72h': 18.5704}
+saved results/paper/mumbai_scratch_m1_ens3.json
+[2026-11-06 21:33:24] evaluate mumbai_ft_m3_ens3
+PM2.5 {'1h': 5.9931, '6h': 10.0338, '24h': 12.0508, '72h': 14.803}
+PM10 {'1h': 9.8737, '6h': 20.5844, '24h': 24.2484, '72h': 29.7904}
+Ozone {'1h': 3.6068, '6h': 6.0227, '24h': 5.9487, '72h': 6.7005}
+NOx {'1h': 4.5328, '6h': 6.9005, '24h': 8.6366, '72h': 10.2939}
+NO2 {'1h': 17.7647, '6h': 15.3341, '24h': 18.766, '72h': 19.5934}
+saved results/paper/mumbai_ft_m3_ens3.json
+[2026-11-06 21:35:52] evaluate mumbai_scratch_m3_ens3
+PM2.5 {'1h': 6.8469, '6h': 10.421, '24h': 12.7958, '72h': 15.7509}
+PM10 {'1h': 12.7071, '6h': 21.954, '24h': 26.626, '72h': 31.8882}
+Ozone {'1h': 4.0478, '6h': 6.1016, '24h': 6.1887, '72h': 7.0939}
+NOx {'1h': 4.9563, '6h': 7.0531, '24h': 9.1754, '72h': 10.6377}
+NO2 {'1h': 15.1912, '6h': 13.6475, '24h': 16.7302, '72h': 17.4279}
+saved results/paper/mumbai_scratch_m3_ens3.json
+[2026-11-06 21:38:27] evaluate mumbai_ft_m6_ens3
+PM2.5 {'1h': 6.1737, '6h': 10.1535, '24h': 12.2624, '72h': 15.0128}
+PM10 {'1h': 9.8859, '6h': 20.3543, '24h': 24.3233, '72h': 29.9624}
+Ozone {'1h': 3.5495, '6h': 5.987, '24h': 5.9251, '72h': 6.6598}
+NOx {'1h': 4.4819, '6h': 6.8053, '24h': 8.6201, '72h': 10.2946}
+NO2 {'1h': 16.737, '6h': 14.4796, '24h': 18.1897, '72h': 19.0498}
+saved results/paper/mumbai_ft_m6_ens3.json
+[2026-11-06 21:40:55] evaluate mumbai_scratch_m6_ens3
+PM2.5 {'1h': 5.7558, '6h': 9.0833, '24h': 11.5498, '72h': 14.2411}
+PM10 {'1h': 10.967, '6h': 20.6286, '24h': 25.5727, '72h': 31.0341}
+Ozone {'1h': 3.7085, '6h': 5.8957, '24h': 5.9963, '72h': 6.7471}
+NOx {'1h': 4.5795, '6h': 6.8255, '24h': 9.228, '72h': 10.6992}
+NO2 {'1h': 13.8856, '6h': 12.3465, '24h': 16.2047, '72h': 16.9932}
+saved results/paper/mumbai_scratch_m6_ens3.json
+[2026-11-06 21:43:22] evaluate mumbai_ft_m12_ens3
+PM2.5 {'1h': 6.4584, '6h': 10.249, '24h': 12.3349, '72h': 14.9503}
+PM10 {'1h': 9.9938, '6h': 20.3158, '24h': 24.238, '72h': 29.7451}
+Ozone {'1h': 3.5127, '6h': 6.0067, '24h': 5.9656, '72h': 6.6627}
+NOx {'1h': 4.4725, '6h': 6.9049, '24h': 8.6298, '72h': 10.2934}
+NO2 {'1h': 15.5528, '6h': 13.7375, '24h': 17.6691, '72h': 18.5605}
+saved results/paper/mumbai_ft_m12_ens3.json
+[2026-11-06 21:45:53] evaluate mumbai_scratch_m12_ens3
+PM2.5 {'1h': 5.3943, '6h': 8.7862, '24h': 11.2812, '72h': 14.2102}
+PM10 {'1h': 10.3305, '6h': 20.0981, '24h': 24.8622, '72h': 30.5559}
+Ozone {'1h': 3.582, '6h': 5.9028, '24h': 6.0598, '72h': 6.9736}
+NOx {'1h': 4.6382, '6h': 7.2177, '24h': 8.7903, '72h': 10.4981}
+NO2 {'1h': 13.7694, '6h': 12.2091, '24h': 15.7588, '72h': 16.7272}
+saved results/paper/mumbai_scratch_m12_ens3.json
+[2026-11-06 21:48:21] evaluate mumbai_joint_ens3
+PM2.5 {'1h': 5.6739, '6h': 8.7891, '24h': 11.9349, '72h': 14.7102}
+PM10 {'1h': 10.034, '6h': 19.4149, '24h': 24.7838, '72h': 30.304}
+Ozone {'1h': 3.5533, '6h': 5.904, '24h': 5.9164, '72h': 6.6904}
+NOx {'1h': 4.4234, '6h': 6.9752, '24h': 8.6262, '72h': 10.3567}
+NO2 {'1h': 14.1168, '6h': 12.0024, '24h': 15.3038, '72h': 16.192}
+saved results/paper/mumbai_joint_ens3.json
+PM2.5 1h: n=4093 AQFM fine-tuned 5.86  AQFM from scratch 10.89  XGBoost (same months) 13.51  AQFM zero-shot 6.24  Persistence 4.40 | AQFM from scratch-AQFM fine-tuned +5.02 (p=0.002) | XGBoost (same months)-AQFM fine-tuned +7.65 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.37 (p=0.000) | Persistence-AQFM fine-tuned -1.46 (p=0.000)
+PM2.5 6h: n=4046 AQFM fine-tuned 10.38  AQFM from scratch 10.51  XGBoost (same months) 29.27  AQFM zero-shot 11.19  Persistence 9.73 | AQFM from scratch-AQFM fine-tuned +0.13 (p=0.773) | XGBoost (same months)-AQFM fine-tuned +18.89 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.81 (p=0.002) | Persistence-AQFM fine-tuned -0.65 (p=0.324)
+PM2.5 24h: n=4097 AQFM fine-tuned 12.23  AQFM from scratch 12.35  XGBoost (same months) 27.11  AQFM zero-shot 15.14  Persistence 11.55 | AQFM from scratch-AQFM fine-tuned +0.11 (p=0.863) | XGBoost (same months)-AQFM fine-tuned +14.88 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +2.90 (p=0.000) | Persistence-AQFM fine-tuned -0.69 (p=0.022)
+PM2.5 72h: n=4094 AQFM fine-tuned 15.04  AQFM from scratch 13.94  XGBoost (same months) 29.94  AQFM zero-shot 18.63  Persistence 16.32 | AQFM from scratch-AQFM fine-tuned -1.09 (p=0.005) | XGBoost (same months)-AQFM fine-tuned +14.90 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +3.59 (p=0.000) | Persistence-AQFM fine-tuned +1.28 (p=0.205)
+saved results/paper/mumbai_PM2.5_m1.json
+PM2.5 1h: n=4093 AQFM fine-tuned 5.99  AQFM from scratch 6.85  XGBoost (same months) 7.50  AQFM zero-shot 6.24  Persistence 4.40 | AQFM from scratch-AQFM fine-tuned +0.85 (p=0.226) | XGBoost (same months)-AQFM fine-tuned +1.50 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.24 (p=0.003) | Persistence-AQFM fine-tuned -1.59 (p=0.000)
+PM2.5 6h: n=4046 AQFM fine-tuned 10.03  AQFM from scratch 10.42  XGBoost (same months) 12.16  AQFM zero-shot 11.19  Persistence 9.73 | AQFM from scratch-AQFM fine-tuned +0.39 (p=0.201) | XGBoost (same months)-AQFM fine-tuned +2.13 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +1.16 (p=0.007) | Persistence-AQFM fine-tuned -0.30 (p=0.609)
+PM2.5 24h: n=4097 AQFM fine-tuned 12.00  AQFM from scratch 12.74  XGBoost (same months) 16.03  AQFM zero-shot 15.14  Persistence 11.55 | AQFM from scratch-AQFM fine-tuned +0.73 (p=0.111) | XGBoost (same months)-AQFM fine-tuned +4.02 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +3.13 (p=0.000) | Persistence-AQFM fine-tuned -0.45 (p=0.116)
+PM2.5 72h: n=4094 AQFM fine-tuned 14.73  AQFM from scratch 15.63  XGBoost (same months) 22.47  AQFM zero-shot 18.63  Persistence 16.32 | AQFM from scratch-AQFM fine-tuned +0.91 (p=0.066) | XGBoost (same months)-AQFM fine-tuned +7.75 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +3.90 (p=0.000) | Persistence-AQFM fine-tuned +1.59 (p=0.135)
+saved results/paper/mumbai_PM2.5_m3.json
+PM2.5 1h: n=4093 AQFM fine-tuned 6.17  AQFM from scratch 5.76  XGBoost (same months) 7.06  AQFM zero-shot 6.24  Persistence 4.40 | AQFM from scratch-AQFM fine-tuned -0.42 (p=0.351) | XGBoost (same months)-AQFM fine-tuned +0.89 (p=0.081) | AQFM zero-shot-AQFM fine-tuned +0.06 (p=0.544) | Persistence-AQFM fine-tuned -1.77 (p=0.000)
+PM2.5 6h: n=4046 AQFM fine-tuned 10.15  AQFM from scratch 9.08  XGBoost (same months) 9.61  AQFM zero-shot 11.19  Persistence 9.73 | AQFM from scratch-AQFM fine-tuned -1.07 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -0.54 (p=0.156) | AQFM zero-shot-AQFM fine-tuned +1.04 (p=0.018) | Persistence-AQFM fine-tuned -0.42 (p=0.507)
+PM2.5 24h: n=4097 AQFM fine-tuned 12.21  AQFM from scratch 11.49  XGBoost (same months) 12.62  AQFM zero-shot 15.14  Persistence 11.55 | AQFM from scratch-AQFM fine-tuned -0.73 (p=0.100) | XGBoost (same months)-AQFM fine-tuned +0.41 (p=0.507) | AQFM zero-shot-AQFM fine-tuned +2.93 (p=0.000) | Persistence-AQFM fine-tuned -0.66 (p=0.029)
+PM2.5 72h: n=4094 AQFM fine-tuned 14.94  AQFM from scratch 14.09  XGBoost (same months) 16.62  AQFM zero-shot 18.63  Persistence 16.32 | AQFM from scratch-AQFM fine-tuned -0.84 (p=0.035) | XGBoost (same months)-AQFM fine-tuned +1.69 (p=0.211) | AQFM zero-shot-AQFM fine-tuned +3.69 (p=0.000) | Persistence-AQFM fine-tuned +1.38 (p=0.196)
+saved results/paper/mumbai_PM2.5_m6.json
+PM2.5 1h: n=4093 AQFM fine-tuned 6.46  AQFM from scratch 5.39  XGBoost (same months) 6.88  AQFM zero-shot 6.24  Persistence 4.40 | AQFM from scratch-AQFM fine-tuned -1.06 (p=0.000) | XGBoost (same months)-AQFM fine-tuned +0.42 (p=0.575) | AQFM zero-shot-AQFM fine-tuned -0.22 (p=0.020) | Persistence-AQFM fine-tuned -2.06 (p=0.000)
+PM2.5 6h: n=4046 AQFM fine-tuned 10.25  AQFM from scratch 8.79  XGBoost (same months) 9.04  AQFM zero-shot 11.19  Persistence 9.73 | AQFM from scratch-AQFM fine-tuned -1.46 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -1.21 (p=0.002) | AQFM zero-shot-AQFM fine-tuned +0.94 (p=0.047) | Persistence-AQFM fine-tuned -0.52 (p=0.441)
+PM2.5 24h: n=4097 AQFM fine-tuned 12.28  AQFM from scratch 11.22  XGBoost (same months) 12.24  AQFM zero-shot 15.14  Persistence 11.55 | AQFM from scratch-AQFM fine-tuned -1.06 (p=0.002) | XGBoost (same months)-AQFM fine-tuned -0.05 (p=0.869) | AQFM zero-shot-AQFM fine-tuned +2.85 (p=0.000) | Persistence-AQFM fine-tuned -0.74 (p=0.025)
+PM2.5 72h: n=4094 AQFM fine-tuned 14.88  AQFM from scratch 14.08  XGBoost (same months) 16.62  AQFM zero-shot 18.63  Persistence 16.32 | AQFM from scratch-AQFM fine-tuned -0.80 (p=0.043) | XGBoost (same months)-AQFM fine-tuned +1.74 (p=0.217) | AQFM zero-shot-AQFM fine-tuned +3.75 (p=0.001) | Persistence-AQFM fine-tuned +1.44 (p=0.187)
+saved results/paper/mumbai_PM2.5_m12.json
+PM10 1h: n=4067 AQFM fine-tuned 9.90  AQFM from scratch 21.55  XGBoost (same months) 26.19  AQFM zero-shot 9.88  Persistence 10.31 | AQFM from scratch-AQFM fine-tuned +11.65 (p=0.000) | XGBoost (same months)-AQFM fine-tuned +16.29 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.02 (p=0.584) | Persistence-AQFM fine-tuned +0.41 (p=0.052)
+PM10 6h: n=4034 AQFM fine-tuned 21.03  AQFM from scratch 22.20  XGBoost (same months) 53.83  AQFM zero-shot 21.69  Persistence 24.71 | AQFM from scratch-AQFM fine-tuned +1.16 (p=0.146) | XGBoost (same months)-AQFM fine-tuned +32.80 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.66 (p=0.213) | Persistence-AQFM fine-tuned +3.67 (p=0.014)
+PM10 24h: n=4079 AQFM fine-tuned 24.51  AQFM from scratch 26.55  XGBoost (same months) 47.97  AQFM zero-shot 28.04  Persistence 26.57 | AQFM from scratch-AQFM fine-tuned +2.04 (p=0.007) | XGBoost (same months)-AQFM fine-tuned +23.46 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +3.53 (p=0.000) | Persistence-AQFM fine-tuned +2.06 (p=0.005)
+PM10 72h: n=4074 AQFM fine-tuned 30.12  AQFM from scratch 29.97  XGBoost (same months) 60.45  AQFM zero-shot 34.48  Persistence 35.23 | AQFM from scratch-AQFM fine-tuned -0.15 (p=0.857) | XGBoost (same months)-AQFM fine-tuned +30.33 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +4.36 (p=0.000) | Persistence-AQFM fine-tuned +5.11 (p=0.000)
+saved results/paper/mumbai_PM10_m1.json
+PM10 1h: n=4067 AQFM fine-tuned 9.87  AQFM from scratch 12.71  XGBoost (same months) 18.60  AQFM zero-shot 9.88  Persistence 10.31 | AQFM from scratch-AQFM fine-tuned +2.83 (p=0.004) | XGBoost (same months)-AQFM fine-tuned +8.73 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.01 (p=0.804) | Persistence-AQFM fine-tuned +0.44 (p=0.032)
+PM10 6h: n=4034 AQFM fine-tuned 20.58  AQFM from scratch 21.95  XGBoost (same months) 27.18  AQFM zero-shot 21.69  Persistence 24.71 | AQFM from scratch-AQFM fine-tuned +1.37 (p=0.066) | XGBoost (same months)-AQFM fine-tuned +6.60 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +1.11 (p=0.094) | Persistence-AQFM fine-tuned +4.12 (p=0.011)
+PM10 24h: n=4079 AQFM fine-tuned 24.18  AQFM from scratch 26.55  XGBoost (same months) 36.75  AQFM zero-shot 28.04  Persistence 26.57 | AQFM from scratch-AQFM fine-tuned +2.37 (p=0.002) | XGBoost (same months)-AQFM fine-tuned +12.57 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +3.86 (p=0.000) | Persistence-AQFM fine-tuned +2.39 (p=0.001)
+PM10 72h: n=4074 AQFM fine-tuned 29.68  AQFM from scratch 31.74  XGBoost (same months) 50.73  AQFM zero-shot 34.48  Persistence 35.23 | AQFM from scratch-AQFM fine-tuned +2.06 (p=0.012) | XGBoost (same months)-AQFM fine-tuned +21.05 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +4.80 (p=0.001) | Persistence-AQFM fine-tuned +5.55 (p=0.000)
+saved results/paper/mumbai_PM10_m3.json
+PM10 1h: n=4067 AQFM fine-tuned 9.89  AQFM from scratch 10.97  XGBoost (same months) 16.15  AQFM zero-shot 9.88  Persistence 10.31 | AQFM from scratch-AQFM fine-tuned +1.08 (p=0.046) | XGBoost (same months)-AQFM fine-tuned +6.26 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.00 (p=0.983) | Persistence-AQFM fine-tuned +0.43 (p=0.038)
+PM10 6h: n=4034 AQFM fine-tuned 20.35  AQFM from scratch 20.63  XGBoost (same months) 22.57  AQFM zero-shot 21.69  Persistence 24.71 | AQFM from scratch-AQFM fine-tuned +0.27 (p=0.551) | XGBoost (same months)-AQFM fine-tuned +2.22 (p=0.001) | AQFM zero-shot-AQFM fine-tuned +1.34 (p=0.039) | Persistence-AQFM fine-tuned +4.35 (p=0.006)
+PM10 24h: n=4079 AQFM fine-tuned 24.24  AQFM from scratch 25.48  XGBoost (same months) 28.58  AQFM zero-shot 28.04  Persistence 26.57 | AQFM from scratch-AQFM fine-tuned +1.24 (p=0.058) | XGBoost (same months)-AQFM fine-tuned +4.34 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +3.80 (p=0.000) | Persistence-AQFM fine-tuned +2.33 (p=0.000)
+PM10 72h: n=4074 AQFM fine-tuned 29.81  AQFM from scratch 30.84  XGBoost (same months) 35.83  AQFM zero-shot 34.48  Persistence 35.23 | AQFM from scratch-AQFM fine-tuned +1.04 (p=0.114) | XGBoost (same months)-AQFM fine-tuned +6.02 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +4.68 (p=0.001) | Persistence-AQFM fine-tuned +5.42 (p=0.000)
+saved results/paper/mumbai_PM10_m6.json
+PM10 1h: n=4067 AQFM fine-tuned 9.99  AQFM from scratch 10.33  XGBoost (same months) 15.94  AQFM zero-shot 9.88  Persistence 10.31 | AQFM from scratch-AQFM fine-tuned +0.34 (p=0.094) | XGBoost (same months)-AQFM fine-tuned +5.95 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.11 (p=0.337) | Persistence-AQFM fine-tuned +0.32 (p=0.113)
+PM10 6h: n=4034 AQFM fine-tuned 20.32  AQFM from scratch 20.10  XGBoost (same months) 22.67  AQFM zero-shot 21.69  Persistence 24.71 | AQFM from scratch-AQFM fine-tuned -0.22 (p=0.649) | XGBoost (same months)-AQFM fine-tuned +2.35 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +1.38 (p=0.053) | Persistence-AQFM fine-tuned +4.39 (p=0.007)
+PM10 24h: n=4079 AQFM fine-tuned 24.14  AQFM from scratch 24.79  XGBoost (same months) 27.26  AQFM zero-shot 28.04  Persistence 26.57 | AQFM from scratch-AQFM fine-tuned +0.65 (p=0.209) | XGBoost (same months)-AQFM fine-tuned +3.12 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +3.90 (p=0.000) | Persistence-AQFM fine-tuned +2.43 (p=0.000)
+PM10 72h: n=4074 AQFM fine-tuned 29.57  AQFM from scratch 30.41  XGBoost (same months) 34.36  AQFM zero-shot 34.48  Persistence 35.23 | AQFM from scratch-AQFM fine-tuned +0.84 (p=0.239) | XGBoost (same months)-AQFM fine-tuned +4.79 (p=0.002) | AQFM zero-shot-AQFM fine-tuned +4.91 (p=0.001) | Persistence-AQFM fine-tuned +5.66 (p=0.000)
+saved results/paper/mumbai_PM10_m12.json
+Ozone 1h: n=4217 AQFM fine-tuned 3.67  AQFM from scratch 5.89  XGBoost (same months) 5.91  AQFM zero-shot 3.72  Persistence 3.55 | AQFM from scratch-AQFM fine-tuned +2.22 (p=0.000) | XGBoost (same months)-AQFM fine-tuned +2.24 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.05 (p=0.000) | Persistence-AQFM fine-tuned -0.12 (p=0.245)
+Ozone 6h: n=4174 AQFM fine-tuned 6.04  AQFM from scratch 6.88  XGBoost (same months) 9.48  AQFM zero-shot 6.05  Persistence 6.75 | AQFM from scratch-AQFM fine-tuned +0.84 (p=0.002) | XGBoost (same months)-AQFM fine-tuned +3.44 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.01 (p=0.842) | Persistence-AQFM fine-tuned +0.71 (p=0.043)
+Ozone 24h: n=4217 AQFM fine-tuned 5.94  AQFM from scratch 7.65  XGBoost (same months) 8.77  AQFM zero-shot 5.89  Persistence 6.98 | AQFM from scratch-AQFM fine-tuned +1.71 (p=0.000) | XGBoost (same months)-AQFM fine-tuned +2.83 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.05 (p=0.079) | Persistence-AQFM fine-tuned +1.04 (p=0.000)
+Ozone 72h: n=4213 AQFM fine-tuned 6.65  AQFM from scratch 8.22  XGBoost (same months) 9.19  AQFM zero-shot 6.56  Persistence 8.53 | AQFM from scratch-AQFM fine-tuned +1.57 (p=0.000) | XGBoost (same months)-AQFM fine-tuned +2.54 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.08 (p=0.011) | Persistence-AQFM fine-tuned +1.88 (p=0.000)
+saved results/paper/mumbai_Ozone_m1.json
+Ozone 1h: n=4217 AQFM fine-tuned 3.61  AQFM from scratch 4.05  XGBoost (same months) 5.05  AQFM zero-shot 3.72  Persistence 3.55 | AQFM from scratch-AQFM fine-tuned +0.44 (p=0.000) | XGBoost (same months)-AQFM fine-tuned +1.44 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.12 (p=0.000) | Persistence-AQFM fine-tuned -0.05 (p=0.588)
+Ozone 6h: n=4174 AQFM fine-tuned 6.02  AQFM from scratch 6.10  XGBoost (same months) 7.34  AQFM zero-shot 6.05  Persistence 6.75 | AQFM from scratch-AQFM fine-tuned +0.08 (p=0.038) | XGBoost (same months)-AQFM fine-tuned +1.31 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.03 (p=0.550) | Persistence-AQFM fine-tuned +0.73 (p=0.036)
+Ozone 24h: n=4217 AQFM fine-tuned 5.94  AQFM from scratch 6.17  XGBoost (same months) 7.01  AQFM zero-shot 5.89  Persistence 6.98 | AQFM from scratch-AQFM fine-tuned +0.23 (p=0.012) | XGBoost (same months)-AQFM fine-tuned +1.07 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.05 (p=0.216) | Persistence-AQFM fine-tuned +1.04 (p=0.000)
+Ozone 72h: n=4213 AQFM fine-tuned 6.67  AQFM from scratch 7.06  XGBoost (same months) 8.65  AQFM zero-shot 6.56  Persistence 8.53 | AQFM from scratch-AQFM fine-tuned +0.39 (p=0.001) | XGBoost (same months)-AQFM fine-tuned +1.97 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.11 (p=0.009) | Persistence-AQFM fine-tuned +1.85 (p=0.000)
+saved results/paper/mumbai_Ozone_m3.json
+Ozone 1h: n=4217 AQFM fine-tuned 3.55  AQFM from scratch 3.71  XGBoost (same months) 4.89  AQFM zero-shot 3.72  Persistence 3.55 | AQFM from scratch-AQFM fine-tuned +0.16 (p=0.001) | XGBoost (same months)-AQFM fine-tuned +1.34 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.17 (p=0.000) | Persistence-AQFM fine-tuned +0.00 (p=0.894)
+Ozone 6h: n=4174 AQFM fine-tuned 5.99  AQFM from scratch 5.90  XGBoost (same months) 6.70  AQFM zero-shot 6.05  Persistence 6.75 | AQFM from scratch-AQFM fine-tuned -0.09 (p=0.095) | XGBoost (same months)-AQFM fine-tuned +0.71 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.06 (p=0.100) | Persistence-AQFM fine-tuned +0.76 (p=0.023)
+Ozone 24h: n=4217 AQFM fine-tuned 5.92  AQFM from scratch 5.99  XGBoost (same months) 6.61  AQFM zero-shot 5.89  Persistence 6.98 | AQFM from scratch-AQFM fine-tuned +0.07 (p=0.233) | XGBoost (same months)-AQFM fine-tuned +0.69 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.02 (p=0.591) | Persistence-AQFM fine-tuned +1.06 (p=0.000)
+Ozone 72h: n=4213 AQFM fine-tuned 6.63  AQFM from scratch 6.72  XGBoost (same months) 7.56  AQFM zero-shot 6.56  Persistence 8.53 | AQFM from scratch-AQFM fine-tuned +0.09 (p=0.068) | XGBoost (same months)-AQFM fine-tuned +0.93 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.07 (p=0.073) | Persistence-AQFM fine-tuned +1.90 (p=0.000)
+saved results/paper/mumbai_Ozone_m6.json
+Ozone 1h: n=4217 AQFM fine-tuned 3.51  AQFM from scratch 3.58  XGBoost (same months) 4.75  AQFM zero-shot 3.72  Persistence 3.55 | AQFM from scratch-AQFM fine-tuned +0.07 (p=0.195) | XGBoost (same months)-AQFM fine-tuned +1.24 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.21 (p=0.000) | Persistence-AQFM fine-tuned +0.04 (p=0.494)
+Ozone 6h: n=4174 AQFM fine-tuned 6.01  AQFM from scratch 5.90  XGBoost (same months) 6.50  AQFM zero-shot 6.05  Persistence 6.75 | AQFM from scratch-AQFM fine-tuned -0.10 (p=0.083) | XGBoost (same months)-AQFM fine-tuned +0.50 (p=0.006) | AQFM zero-shot-AQFM fine-tuned +0.04 (p=0.140) | Persistence-AQFM fine-tuned +0.74 (p=0.027)
+Ozone 24h: n=4217 AQFM fine-tuned 5.96  AQFM from scratch 6.05  XGBoost (same months) 6.38  AQFM zero-shot 5.89  Persistence 6.98 | AQFM from scratch-AQFM fine-tuned +0.10 (p=0.197) | XGBoost (same months)-AQFM fine-tuned +0.42 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.06 (p=0.289) | Persistence-AQFM fine-tuned +1.02 (p=0.000)
+Ozone 72h: n=4213 AQFM fine-tuned 6.63  AQFM from scratch 6.95  XGBoost (same months) 7.43  AQFM zero-shot 6.56  Persistence 8.53 | AQFM from scratch-AQFM fine-tuned +0.32 (p=0.005) | XGBoost (same months)-AQFM fine-tuned +0.80 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.07 (p=0.085) | Persistence-AQFM fine-tuned +1.89 (p=0.000)
+saved results/paper/mumbai_Ozone_m12.json
+NOx 1h: n=4201 AQFM fine-tuned 4.58  AQFM from scratch 7.62  XGBoost (same months) 9.23  AQFM zero-shot 4.52  Persistence 4.52 | AQFM from scratch-AQFM fine-tuned +3.04 (p=0.000) | XGBoost (same months)-AQFM fine-tuned +4.65 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.06 (p=0.072) | Persistence-AQFM fine-tuned -0.06 (p=0.259)
+NOx 6h: n=4148 AQFM fine-tuned 7.12  AQFM from scratch 7.04  XGBoost (same months) 13.63  AQFM zero-shot 7.24  Persistence 8.92 | AQFM from scratch-AQFM fine-tuned -0.07 (p=0.818) | XGBoost (same months)-AQFM fine-tuned +6.51 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.12 (p=0.025) | Persistence-AQFM fine-tuned +1.80 (p=0.000)
+NOx 24h: n=4200 AQFM fine-tuned 8.53  AQFM from scratch 9.62  XGBoost (same months) 10.81  AQFM zero-shot 9.04  Persistence 9.26 | AQFM from scratch-AQFM fine-tuned +1.10 (p=0.001) | XGBoost (same months)-AQFM fine-tuned +2.29 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.52 (p=0.006) | Persistence-AQFM fine-tuned +0.73 (p=0.000)
+NOx 72h: n=4186 AQFM fine-tuned 10.17  AQFM from scratch 10.59  XGBoost (same months) 20.64  AQFM zero-shot 10.82  Persistence 11.88 | AQFM from scratch-AQFM fine-tuned +0.42 (p=0.077) | XGBoost (same months)-AQFM fine-tuned +10.48 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.65 (p=0.030) | Persistence-AQFM fine-tuned +1.71 (p=0.000)
+saved results/paper/mumbai_NOx_m1.json
+NOx 1h: n=4201 AQFM fine-tuned 4.53  AQFM from scratch 4.96  XGBoost (same months) 7.55  AQFM zero-shot 4.52  Persistence 4.52 | AQFM from scratch-AQFM fine-tuned +0.42 (p=0.000) | XGBoost (same months)-AQFM fine-tuned +3.01 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.01 (p=0.446) | Persistence-AQFM fine-tuned -0.01 (p=0.832)
+NOx 6h: n=4148 AQFM fine-tuned 6.90  AQFM from scratch 7.05  XGBoost (same months) 10.30  AQFM zero-shot 7.24  Persistence 8.92 | AQFM from scratch-AQFM fine-tuned +0.15 (p=0.314) | XGBoost (same months)-AQFM fine-tuned +3.40 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.34 (p=0.014) | Persistence-AQFM fine-tuned +2.02 (p=0.000)
+NOx 24h: n=4200 AQFM fine-tuned 8.62  AQFM from scratch 9.15  XGBoost (same months) 12.73  AQFM zero-shot 9.04  Persistence 9.26 | AQFM from scratch-AQFM fine-tuned +0.53 (p=0.013) | XGBoost (same months)-AQFM fine-tuned +4.11 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.42 (p=0.054) | Persistence-AQFM fine-tuned +0.64 (p=0.002)
+NOx 72h: n=4186 AQFM fine-tuned 10.23  AQFM from scratch 10.55  XGBoost (same months) 19.98  AQFM zero-shot 10.82  Persistence 11.88 | AQFM from scratch-AQFM fine-tuned +0.32 (p=0.041) | XGBoost (same months)-AQFM fine-tuned +9.75 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.60 (p=0.106) | Persistence-AQFM fine-tuned +1.65 (p=0.001)
+saved results/paper/mumbai_NOx_m3.json
+NOx 1h: n=4201 AQFM fine-tuned 4.48  AQFM from scratch 4.58  XGBoost (same months) 7.06  AQFM zero-shot 4.52  Persistence 4.52 | AQFM from scratch-AQFM fine-tuned +0.10 (p=0.148) | XGBoost (same months)-AQFM fine-tuned +2.58 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.04 (p=0.120) | Persistence-AQFM fine-tuned +0.04 (p=0.282)
+NOx 6h: n=4148 AQFM fine-tuned 6.81  AQFM from scratch 6.83  XGBoost (same months) 8.63  AQFM zero-shot 7.24  Persistence 8.92 | AQFM from scratch-AQFM fine-tuned +0.02 (p=0.691) | XGBoost (same months)-AQFM fine-tuned +1.82 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.43 (p=0.003) | Persistence-AQFM fine-tuned +2.11 (p=0.000)
+NOx 24h: n=4200 AQFM fine-tuned 8.60  AQFM from scratch 9.20  XGBoost (same months) 10.07  AQFM zero-shot 9.04  Persistence 9.26 | AQFM from scratch-AQFM fine-tuned +0.60 (p=0.012) | XGBoost (same months)-AQFM fine-tuned +1.47 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.44 (p=0.045) | Persistence-AQFM fine-tuned +0.66 (p=0.001)
+NOx 72h: n=4186 AQFM fine-tuned 10.22  AQFM from scratch 10.60  XGBoost (same months) 12.89  AQFM zero-shot 10.82  Persistence 11.88 | AQFM from scratch-AQFM fine-tuned +0.38 (p=0.072) | XGBoost (same months)-AQFM fine-tuned +2.66 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.60 (p=0.117) | Persistence-AQFM fine-tuned +1.66 (p=0.001)
+saved results/paper/mumbai_NOx_m6.json
+NOx 1h: n=4201 AQFM fine-tuned 4.47  AQFM from scratch 4.64  XGBoost (same months) 6.81  AQFM zero-shot 4.52  Persistence 4.52 | AQFM from scratch-AQFM fine-tuned +0.17 (p=0.015) | XGBoost (same months)-AQFM fine-tuned +2.33 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.05 (p=0.154) | Persistence-AQFM fine-tuned +0.05 (p=0.133)
+NOx 6h: n=4148 AQFM fine-tuned 6.90  AQFM from scratch 7.22  XGBoost (same months) 8.25  AQFM zero-shot 7.24  Persistence 8.92 | AQFM from scratch-AQFM fine-tuned +0.31 (p=0.024) | XGBoost (same months)-AQFM fine-tuned +1.35 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.33 (p=0.002) | Persistence-AQFM fine-tuned +2.01 (p=0.000)
+NOx 24h: n=4200 AQFM fine-tuned 8.61  AQFM from scratch 8.77  XGBoost (same months) 9.69  AQFM zero-shot 9.04  Persistence 9.26 | AQFM from scratch-AQFM fine-tuned +0.16 (p=0.062) | XGBoost (same months)-AQFM fine-tuned +1.08 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.43 (p=0.067) | Persistence-AQFM fine-tuned +0.65 (p=0.002)
+NOx 72h: n=4186 AQFM fine-tuned 10.23  AQFM from scratch 10.41  XGBoost (same months) 12.17  AQFM zero-shot 10.82  Persistence 11.88 | AQFM from scratch-AQFM fine-tuned +0.19 (p=0.036) | XGBoost (same months)-AQFM fine-tuned +1.94 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.60 (p=0.139) | Persistence-AQFM fine-tuned +1.65 (p=0.001)
+saved results/paper/mumbai_NOx_m12.json
+NO2 1h: n=4237 AQFM fine-tuned 17.71  AQFM from scratch 17.19  XGBoost (same months) 6.95  AQFM zero-shot 16.77  Persistence 3.79 | AQFM from scratch-AQFM fine-tuned -0.52 (p=0.319) | XGBoost (same months)-AQFM fine-tuned -10.77 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.95 (p=0.000) | Persistence-AQFM fine-tuned -13.93 (p=0.000)
+NO2 6h: n=4170 AQFM fine-tuned 15.16  AQFM from scratch 15.36  XGBoost (same months) 8.94  AQFM zero-shot 14.52  Persistence 7.95 | AQFM from scratch-AQFM fine-tuned +0.20 (p=0.496) | XGBoost (same months)-AQFM fine-tuned -6.21 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.63 (p=0.001) | Persistence-AQFM fine-tuned -7.21 (p=0.000)
+NO2 24h: n=4234 AQFM fine-tuned 18.74  AQFM from scratch 18.10  XGBoost (same months) 9.31  AQFM zero-shot 18.00  Persistence 7.65 | AQFM from scratch-AQFM fine-tuned -0.64 (p=0.124) | XGBoost (same months)-AQFM fine-tuned -9.42 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.74 (p=0.000) | Persistence-AQFM fine-tuned -11.09 (p=0.000)
+NO2 72h: n=4222 AQFM fine-tuned 19.50  AQFM from scratch 18.56  XGBoost (same months) 11.65  AQFM zero-shot 18.75  Persistence 9.85 | AQFM from scratch-AQFM fine-tuned -0.94 (p=0.009) | XGBoost (same months)-AQFM fine-tuned -7.85 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.74 (p=0.002) | Persistence-AQFM fine-tuned -9.65 (p=0.000)
+saved results/paper/mumbai_NO2_m1.json
+NO2 1h: n=4237 AQFM fine-tuned 17.76  AQFM from scratch 15.19  XGBoost (same months) 5.54  AQFM zero-shot 16.77  Persistence 3.79 | AQFM from scratch-AQFM fine-tuned -2.57 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -12.22 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -1.00 (p=0.000) | Persistence-AQFM fine-tuned -13.98 (p=0.000)
+NO2 6h: n=4170 AQFM fine-tuned 15.33  AQFM from scratch 13.65  XGBoost (same months) 7.25  AQFM zero-shot 14.52  Persistence 7.95 | AQFM from scratch-AQFM fine-tuned -1.69 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -8.08 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.81 (p=0.000) | Persistence-AQFM fine-tuned -7.38 (p=0.000)
+NO2 24h: n=4234 AQFM fine-tuned 18.77  AQFM from scratch 16.73  XGBoost (same months) 7.95  AQFM zero-shot 18.00  Persistence 7.65 | AQFM from scratch-AQFM fine-tuned -2.04 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -10.82 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.77 (p=0.000) | Persistence-AQFM fine-tuned -11.11 (p=0.000)
+NO2 72h: n=4222 AQFM fine-tuned 19.59  AQFM from scratch 17.41  XGBoost (same months) 10.01  AQFM zero-shot 18.75  Persistence 9.85 | AQFM from scratch-AQFM fine-tuned -2.17 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -9.58 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.83 (p=0.000) | Persistence-AQFM fine-tuned -9.73 (p=0.000)
+saved results/paper/mumbai_NO2_m3.json
+NO2 1h: n=4237 AQFM fine-tuned 16.74  AQFM from scratch 13.89  XGBoost (same months) 5.51  AQFM zero-shot 16.77  Persistence 3.79 | AQFM from scratch-AQFM fine-tuned -2.85 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -11.22 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.03 (p=0.815) | Persistence-AQFM fine-tuned -12.95 (p=0.000)
+NO2 6h: n=4170 AQFM fine-tuned 14.48  AQFM from scratch 12.35  XGBoost (same months) 6.76  AQFM zero-shot 14.52  Persistence 7.95 | AQFM from scratch-AQFM fine-tuned -2.13 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -7.72 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.04 (p=0.607) | Persistence-AQFM fine-tuned -6.53 (p=0.000)
+NO2 24h: n=4234 AQFM fine-tuned 18.19  AQFM from scratch 16.20  XGBoost (same months) 8.26  AQFM zero-shot 18.00  Persistence 7.65 | AQFM from scratch-AQFM fine-tuned -1.99 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -9.93 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.19 (p=0.047) | Persistence-AQFM fine-tuned -10.54 (p=0.000)
+NO2 72h: n=4222 AQFM fine-tuned 19.04  AQFM from scratch 16.97  XGBoost (same months) 10.50  AQFM zero-shot 18.75  Persistence 9.85 | AQFM from scratch-AQFM fine-tuned -2.07 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -8.55 (p=0.000) | AQFM zero-shot-AQFM fine-tuned -0.29 (p=0.001) | Persistence-AQFM fine-tuned -9.19 (p=0.000)
+saved results/paper/mumbai_NO2_m6.json
+NO2 1h: n=4237 AQFM fine-tuned 15.55  AQFM from scratch 13.77  XGBoost (same months) 5.21  AQFM zero-shot 16.77  Persistence 3.79 | AQFM from scratch-AQFM fine-tuned -1.78 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -10.35 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +1.21 (p=0.000) | Persistence-AQFM fine-tuned -11.77 (p=0.000)
+NO2 6h: n=4170 AQFM fine-tuned 13.74  AQFM from scratch 12.21  XGBoost (same months) 6.52  AQFM zero-shot 14.52  Persistence 7.95 | AQFM from scratch-AQFM fine-tuned -1.53 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -7.22 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.79 (p=0.000) | Persistence-AQFM fine-tuned -5.79 (p=0.000)
+NO2 24h: n=4234 AQFM fine-tuned 17.67  AQFM from scratch 15.76  XGBoost (same months) 7.68  AQFM zero-shot 18.00  Persistence 7.65 | AQFM from scratch-AQFM fine-tuned -1.91 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -9.99 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.33 (p=0.237) | Persistence-AQFM fine-tuned -10.02 (p=0.000)
+NO2 72h: n=4222 AQFM fine-tuned 18.55  AQFM from scratch 16.71  XGBoost (same months) 9.87  AQFM zero-shot 18.75  Persistence 9.85 | AQFM from scratch-AQFM fine-tuned -1.84 (p=0.000) | XGBoost (same months)-AQFM fine-tuned -8.69 (p=0.000) | AQFM zero-shot-AQFM fine-tuned +0.20 (p=0.424) | Persistence-AQFM fine-tuned -8.70 (p=0.000)
+saved results/paper/mumbai_NO2_m12.json
+[2026-11-06 21:51:56] pipeline finished (stage MUMBAI)

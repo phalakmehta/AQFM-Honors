@@ -2,7 +2,7 @@
   "about": "Every input, model and result the paper relies on: where it lives, its checksum, and the exact command that makes it. Commands run from the repo root (baselines: from baselines/). 'code' is the git commit that produced the item. Checked by scripts/check_submission.py; explained in SUBMISSION.md.",
 
   "data": {
-    "where": "Google Drive: Foundation Model(Mainak Sir)/preproccesed -> data/preprocessed/ (not in git: too large). Raw inputs: Drive yearly_data.zip and ERA 5/; pipeline code in data_pipeline/. v2: data/delhi/ is built from the same raw inputs by the data_pipeline commands in docs/V2_PROGRESS.md (step 2); not on Drive.",
+    "where": "Google Drive: Foundation Model(Mainak Sir)/preproccesed -> data/preprocessed/ (not in git: too large). Raw inputs: Drive yearly_data.zip and ERA 5/; pipeline code in data_pipeline/. v2: data/delhi/ is built from the same raw inputs by the data_pipeline commands in docs/V2_PROGRESS.md (step 2); not on Drive. data/mumbai/ is built (in under a second) from the Mumbai Drive array mumbai_all_data_2324_28locs.npy (sha256 bb355573037d4db77bc08d7a603cccb05c06db31d2974fdbc960e694ba9e3330) by: python data_pipeline/convert_hourly_city.py --array <that file> --columns \"PM2.5,PM10,NO2,Ozone,AT,RH,WS,WD,NOx,era5:blh,skip,era5:u10,era5:v10,era5:sp,era5:tp\" --first-hour 2023-01-01 --stations data_pipeline/stations/mumbai.csv --facts data_pipeline/stations/mumbai_facts.csv --out data/mumbai (docs/V2_PROGRESS.md step 10; rebuilt 2026-11-06: all 7 files identical).",
     "sha256": {
       "data/preprocessed/coords.npy": "a1daabd187d30f308c77fa24eaaf9b4b228eacb28c7b4c4b58861660832888d6",
       "data/preprocessed/era5_met.npy": "13fdf7f524ed8b65210b2bf9a0bfa85b6e618902b89dc5581efa25763523002f",
@@ -18,7 +18,14 @@
       "data/delhi/preprocessing_report.json": "b85ebe8de5356e0cd58f42a88bef1c7f2004323d9d6084fb5c7af2f9a0120b39",
       "data/delhi/static.npy": "109871bac635c181b3fb0e88ad0de969ed96cb166f200bc597d6f89b6bb00441",
       "data/delhi/timestamps_h.npy": "fe44f865f76eb1bf5a15005951e15513bd0f750ad7b2625dfc530114ed478e76",
-      "data/delhi/values.npy": "4f4f7fd29c6beb84a60d3590b07d5d786b75fdb68294a64b8df14f5e408e17af"
+      "data/delhi/values.npy": "4f4f7fd29c6beb84a60d3590b07d5d786b75fdb68294a64b8df14f5e408e17af",
+      "data/mumbai/coords.npy": "b2514d3759c261d6d0ba3205351dd8bbaf1e46904bc86382b89e10cbbd9bb12a",
+      "data/mumbai/era5_met.npy": "ef1a97881e7bc25046458718ca698669850c8a97baf77b8917a774c1ac2d961d",
+      "data/mumbai/observed.npy": "e3e4823608384856347a504164e79be1d592f61422b0b2b6bee26397b84c61a3",
+      "data/mumbai/preprocessing_report.json": "5c3e4993865574261563d9ade2966f4f7fedbc5c3ae8b84d80610bc61268fb94",
+      "data/mumbai/static.npy": "2d5b86fa54d6f81b3751bb9592c9269ff698597ef0971a08d8c2abe9d80fab76",
+      "data/mumbai/timestamps_h.npy": "31567bf8b87b9a08d95ad7def88e6cf8783c7c4f7726a8465895da3cffa1c651",
+      "data/mumbai/values.npy": "eb00c517113577c7286ef38d5898644b0f2196f24167e65a44cdf4089372abdd"
     }
   },
 
@@ -278,6 +285,486 @@
       "sha256": "f31e7c2f4aaa3731a884462dbe0e672bf5dc1df29c6257ae6d41aa861f8c6853",
       "code": "a356a6c",
       "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --patience 3 --compile --steps 12000 --no-future-met --dropout 0.3 --seed 2"
+    },
+    "aqfm_v2_24k_s0": {
+      "what": "v2 city preset (1.17M), dropout 0.3, seed 0, 24,000-step schedule (test of longer training; better 2024 validation, worse 2025 test, not kept); best at step 16000",
+      "path": "runs/v2_s0_do03_24k/best.pt",
+      "drive": "models/aqfm_v2_24k_s0.pt",
+      "sha256": "253c8d5ad65117755dec76d282d332b14f9cfafcfb4274fcab74813fe36bed6e",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2_s0_do03_24k --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 0 --steps 24000 --patience 24"
+    },
+    "aqfm_v2m_s0": {
+      "what": "v2-M: city preset at width 256 / 8 heads / d_ff 512 (4.57M), dropout 0.3, seed 0; best at step 10000",
+      "path": "runs/v2m256_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_s0.pt",
+      "sha256": "f9c334bd04eb3e29132b45ce105cc6db41df0e6ad66daa3a07195bb86502890b",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 0 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512"
+    },
+    "aqfm_v2m_s1": {
+      "what": "v2-M: city preset at width 256 / 8 heads / d_ff 512 (4.57M), dropout 0.3, seed 1; best at step 12000",
+      "path": "runs/v2m256_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_s1.pt",
+      "sha256": "b74fa18e21fc3544573cedfbdde41b54e1f6b4103472a1a8654c7e0e5c70a35b",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 1 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512"
+    },
+    "aqfm_v2m_s2": {
+      "what": "v2-M: city preset at width 256 / 8 heads / d_ff 512 (4.57M), dropout 0.3, seed 2; best at step 11000",
+      "path": "runs/v2m256_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_s2.pt",
+      "sha256": "03747821a5481b0e4703771957ce77b54cb9f56a634b7b2388d3abed9b02aae5",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 2 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512"
+    },
+    "aqfm_v2m_nofm_s0": {
+      "what": "v2-M (4.57M) WITHOUT future weather, dropout 0.3, seed 0; best at step 10000",
+      "path": "runs/v2m256_nofm_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_nofm_s0.pt",
+      "sha256": "ccaf46f79760546bec0bcca6fd1b3a669146c5053fbef3c13833270fa632c326",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_nofm_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 0 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512 --no-future-met"
+    },
+    "aqfm_v2m_nofm_s1": {
+      "what": "v2-M (4.57M) WITHOUT future weather, dropout 0.3, seed 1; best at step 11000",
+      "path": "runs/v2m256_nofm_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_nofm_s1.pt",
+      "sha256": "9603b67be1544789c1dbc0b43bb6da721e3696ae73b7ea2562dabdce5c94eb85",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_nofm_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 1 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512 --no-future-met"
+    },
+    "aqfm_v2m_nofm_s2": {
+      "what": "v2-M (4.57M) WITHOUT future weather, dropout 0.3, seed 2; best at step 11000",
+      "path": "runs/v2m256_nofm_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_nofm_s2.pt",
+      "sha256": "285e1feed6c54f7fed078a88dbf4097027a288ce6bef6b2871084252868c5268",
+      "code": "f104c7c",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --seed 2 --steps 12000 --patience 3 --d-model 256 --n-heads 8 --d-ff 512 --no-future-met"
+    },
+    "aqfm_v2_mumbai_ft_m1_s0": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s0) fine-tuned on the last 1 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 0; best at step 200",
+      "path": "runs/mumbai_ft_v2_backbone_m1_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m1_s0.pt",
+      "sha256": "3889c25c41b59200eeb67ad89390e3ace9382e94f149896f0d1f109b55b9273a",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m1_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 1 --seed 0"
+    },
+    "aqfm_v2_mumbai_scratch_m1_s0": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 1 month(s) of 2023, dropout 0.3, seed 0; best at step 500",
+      "path": "runs/mumbai_scratch_v2_m1_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m1_s0.pt",
+      "sha256": "a438afb37a10bfb198943ec93b8788c9b9b38a5ac7dd5006055e9252b3082057",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m1_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 1 --seed 0"
+    },
+    "aqfm_v2_mumbai_ft_m1_s1": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s1) fine-tuned on the last 1 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 1; best at step 600",
+      "path": "runs/mumbai_ft_v2_backbone_m1_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m1_s1.pt",
+      "sha256": "da38543a87a84e639ef73bd0bf2278fa026a7d782a129f7cebc39ff3bb73a8e1",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m1_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s1_do03/best.pt --freeze backbone --train-months 1 --seed 1"
+    },
+    "aqfm_v2_mumbai_scratch_m1_s1": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 1 month(s) of 2023, dropout 0.3, seed 1; best at step 750",
+      "path": "runs/mumbai_scratch_v2_m1_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m1_s1.pt",
+      "sha256": "7b45be4fe01e564cb8bdf5e4a9b55ef675a605a4623aa80006819a37bc39d2e2",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m1_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 1 --seed 1"
+    },
+    "aqfm_v2_mumbai_ft_m1_s2": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s2) fine-tuned on the last 1 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 2; best at step 650",
+      "path": "runs/mumbai_ft_v2_backbone_m1_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m1_s2.pt",
+      "sha256": "6904b99f989d0c41899441c496b212f6b5c9e47060f2ad7f125055962ecdc04c",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m1_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s2_do03/best.pt --freeze backbone --train-months 1 --seed 2"
+    },
+    "aqfm_v2_mumbai_scratch_m1_s2": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 1 month(s) of 2023, dropout 0.3, seed 2; best at step 500",
+      "path": "runs/mumbai_scratch_v2_m1_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m1_s2.pt",
+      "sha256": "d99925c382f53f960baeccf03a89ee27cb4a630017117af3a44e813768b7c56e",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m1_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 1 --seed 2"
+    },
+    "aqfm_v2_mumbai_ft1500_m1_s0": {
+      "what": "Mumbai fine-tune as aqfm_v2_mumbai_ft_m1_s0 but capped at 1,500 steps (superseded: the 12-month run peaked at the cap; kept for the record); trained as runs/mumbai_ft_v2_backbone_m1_s0, folder renamed to runs/mumbai_ft1500_v2_backbone_m1_s0; best at step 200",
+      "path": "runs/mumbai_ft1500_v2_backbone_m1_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft1500_m1_s0.pt",
+      "sha256": "5cf5d11a52dfac3c6bae01045ea768d646811fefcc4400b4870b7cb956f03a8c",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft1500_v2_backbone_m1_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 1 --seed 0"
+    },
+    "aqfm_v2_mumbai_ft_m3_s0": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s0) fine-tuned on the last 3 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 0; best at step 400",
+      "path": "runs/mumbai_ft_v2_backbone_m3_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m3_s0.pt",
+      "sha256": "20851eba139642040f7317419c3f052b8697ca73b42ae023e89a7ffdabb71460",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m3_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0"
+    },
+    "aqfm_v2_mumbai_scratch_m3_s0": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 3 month(s) of 2023, dropout 0.3, seed 0; best at step 1250",
+      "path": "runs/mumbai_scratch_v2_m3_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m3_s0.pt",
+      "sha256": "9decf201e46f273136471cb6170152670a03662d0f077b6180d2f33032a59d43",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m3_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 3 --seed 0"
+    },
+    "aqfm_v2_mumbai_ft_m3_s1": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s1) fine-tuned on the last 3 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 1; best at step 1900",
+      "path": "runs/mumbai_ft_v2_backbone_m3_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m3_s1.pt",
+      "sha256": "21b77c08f9ac84644228fdd7beedeed8dae51ebc411aefaccc2ea99a8655fadb",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m3_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s1_do03/best.pt --freeze backbone --train-months 3 --seed 1"
+    },
+    "aqfm_v2_mumbai_scratch_m3_s1": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 3 month(s) of 2023, dropout 0.3, seed 1; best at step 2000",
+      "path": "runs/mumbai_scratch_v2_m3_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m3_s1.pt",
+      "sha256": "ef8f7fb908f71a79ccd8efc820433dcbd040ac07962ea8b19d27ea67a2526260",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m3_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 3 --seed 1"
+    },
+    "aqfm_v2_mumbai_ft_m3_s2": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s2) fine-tuned on the last 3 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 2; best at step 650",
+      "path": "runs/mumbai_ft_v2_backbone_m3_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m3_s2.pt",
+      "sha256": "1e1650ec82dbcdf4079e22450ea0b2612abf2ba3abad4773d8feaa270cad11b4",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m3_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s2_do03/best.pt --freeze backbone --train-months 3 --seed 2"
+    },
+    "aqfm_v2_mumbai_scratch_m3_s2": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 3 month(s) of 2023, dropout 0.3, seed 2; best at step 1750",
+      "path": "runs/mumbai_scratch_v2_m3_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m3_s2.pt",
+      "sha256": "a829c5dc8a2eccbed192236d5a741da3e806e5efa8a486b8c484a98ae5e8428c",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m3_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 3 --seed 2"
+    },
+    "aqfm_v2_mumbai_ft1500_m3_s0": {
+      "what": "Mumbai fine-tune as aqfm_v2_mumbai_ft_m3_s0 but capped at 1,500 steps (superseded: the 12-month run peaked at the cap; kept for the record); trained as runs/mumbai_ft_v2_backbone_m3_s0, folder renamed to runs/mumbai_ft1500_v2_backbone_m3_s0; best at step 550",
+      "path": "runs/mumbai_ft1500_v2_backbone_m3_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft1500_m3_s0.pt",
+      "sha256": "936adffee69336a31e31f7e328cf0e39272e5eb6bbde7e4b539bc79bf8d36c8e",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft1500_v2_backbone_m3_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0"
+    },
+    "aqfm_v2_mumbai_ft_m6_s0": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s0) fine-tuned on the last 6 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 0; best at step 650",
+      "path": "runs/mumbai_ft_v2_backbone_m6_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m6_s0.pt",
+      "sha256": "733eb733aef79f6e85cc3c3d2869dd0969a31b3b8249a459002aea56545cabcd",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m6_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 6 --seed 0"
+    },
+    "aqfm_v2_mumbai_scratch_m6_s0": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 6 month(s) of 2023, dropout 0.3, seed 0; best at step 2500",
+      "path": "runs/mumbai_scratch_v2_m6_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m6_s0.pt",
+      "sha256": "d9db6fd7024cfce3564e0fe9a8f0166fb887b0e0bb06b1c29d7e34f00f5d3af1",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m6_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 6 --seed 0"
+    },
+    "aqfm_v2_mumbai_ft_m6_s1": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s1) fine-tuned on the last 6 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 1; best at step 1500",
+      "path": "runs/mumbai_ft_v2_backbone_m6_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m6_s1.pt",
+      "sha256": "00f3a4275b318c791f5e357a25d5dc27cc48f204a69f3de7a629005d3da32cf7",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m6_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s1_do03/best.pt --freeze backbone --train-months 6 --seed 1"
+    },
+    "aqfm_v2_mumbai_scratch_m6_s1": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 6 month(s) of 2023, dropout 0.3, seed 1; best at step 2250",
+      "path": "runs/mumbai_scratch_v2_m6_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m6_s1.pt",
+      "sha256": "aace01b3d96f0fb917acc847fbf66b795bc219e076385c046d1ce9b6f89ca914",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m6_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 6 --seed 1"
+    },
+    "aqfm_v2_mumbai_ft_m6_s2": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s2) fine-tuned on the last 6 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 2; best at step 2350",
+      "path": "runs/mumbai_ft_v2_backbone_m6_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m6_s2.pt",
+      "sha256": "6ae9f27b06a85462a58efd21230e8f4e212919e746fd008c000ce33666366007",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m6_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s2_do03/best.pt --freeze backbone --train-months 6 --seed 2"
+    },
+    "aqfm_v2_mumbai_scratch_m6_s2": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 6 month(s) of 2023, dropout 0.3, seed 2; best at step 1750",
+      "path": "runs/mumbai_scratch_v2_m6_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m6_s2.pt",
+      "sha256": "a45fc7b843776ab7bb8f13302a1c5f41070f21d4809c487b2807e9d941b5c46e",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m6_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 6 --seed 2"
+    },
+    "aqfm_v2_mumbai_ft1500_m6_s0": {
+      "what": "Mumbai fine-tune as aqfm_v2_mumbai_ft_m6_s0 but capped at 1,500 steps (superseded: the 12-month run peaked at the cap; kept for the record); trained as runs/mumbai_ft_v2_backbone_m6_s0, folder renamed to runs/mumbai_ft1500_v2_backbone_m6_s0; best at step 650",
+      "path": "runs/mumbai_ft1500_v2_backbone_m6_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft1500_m6_s0.pt",
+      "sha256": "a67308423fcc3a2d854b17091101d42c3e4b863f1867be61fd78972ea2b74633",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft1500_v2_backbone_m6_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 6 --seed 0"
+    },
+    "aqfm_v2_mumbai_ft_m12_s0": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s0) fine-tuned on the last 12 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 0; best at step 4450",
+      "path": "runs/mumbai_ft_v2_backbone_m12_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m12_s0.pt",
+      "sha256": "3b49847e5f23f70ada0aa51268e6476b585a111df4438c0098972ce37632cc51",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m12_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 12 --seed 0"
+    },
+    "aqfm_v2_mumbai_scratch_m12_s0": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 12 month(s) of 2023, dropout 0.3, seed 0; best at step 2750",
+      "path": "runs/mumbai_scratch_v2_m12_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m12_s0.pt",
+      "sha256": "2569e0913894d8179323c994113f6f7700d5b97ce03dcb65b2480bfb234331b5",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m12_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 12 --seed 0"
+    },
+    "aqfm_v2_mumbai_ft_m12_s1": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s1) fine-tuned on the last 12 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 1; best at step 4450",
+      "path": "runs/mumbai_ft_v2_backbone_m12_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m12_s1.pt",
+      "sha256": "d8f768f5c894148590abbb8151073413971e41215df398413d887936d1505d40",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m12_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s1_do03/best.pt --freeze backbone --train-months 12 --seed 1"
+    },
+    "aqfm_v2_mumbai_scratch_m12_s1": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 12 month(s) of 2023, dropout 0.3, seed 1; best at step 3750",
+      "path": "runs/mumbai_scratch_v2_m12_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m12_s1.pt",
+      "sha256": "abf29e144a6c945a59273b8cf55ee722ab8ec921a9efacd28a51519437a680f2",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m12_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 12 --seed 1"
+    },
+    "aqfm_v2_mumbai_ft_m12_s2": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s2) fine-tuned on the last 12 month(s) of 2023, backbone frozen, lr 3e-5, up to 6,000 steps, seed 2; best at step 3400",
+      "path": "runs/mumbai_ft_v2_backbone_m12_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft_m12_s2.pt",
+      "sha256": "c12e048fa59483509c6d0fe6652d578ea71417f299d4be387c50c45737b322fc",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_backbone_m12_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s2_do03/best.pt --freeze backbone --train-months 12 --seed 2"
+    },
+    "aqfm_v2_mumbai_scratch_m12_s2": {
+      "what": "Mumbai: v2 city preset without future weather trained from scratch on the last 12 month(s) of 2023, dropout 0.3, seed 2; best at step 2750",
+      "path": "runs/mumbai_scratch_v2_m12_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_scratch_m12_s2.pt",
+      "sha256": "0b83da286951f3fd72ea839c898245f09277e9cfdc5fc02891fb95a9e34e52d1",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_scratch_v2_m12_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 12 --seed 2"
+    },
+    "aqfm_v2_mumbai_ft1500_m12_s0": {
+      "what": "Mumbai fine-tune as aqfm_v2_mumbai_ft_m12_s0 but capped at 1,500 steps (superseded: the 12-month run peaked at the cap; kept for the record); trained as runs/mumbai_ft_v2_backbone_m12_s0, folder renamed to runs/mumbai_ft1500_v2_backbone_m12_s0; best at step 1500",
+      "path": "runs/mumbai_ft1500_v2_backbone_m12_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ft1500_m12_s0.pt",
+      "sha256": "f44a43cb73bae63e316ad97666baed30740429a7fb084851c2a1fdc065902e3b",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft1500_v2_backbone_m12_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 12 --seed 0"
+    },
+    "aqfm_v2_joint_delhi_mumbai_s0": {
+      "what": "one v2 model (no future weather) trained from scratch on Delhi 2018-2023 and Mumbai 2023 together, picked on both validation periods, seed 0; best at step 9000",
+      "path": "runs/joint_delhi_mumbai_v2_s0/best.pt",
+      "drive": "models/aqfm_v2_joint_delhi_mumbai_s0.pt",
+      "sha256": "538fa5943315c1218926008a9ac5cf7d71e79767102a257dd32c9c2e4398fd15",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/delhi data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/joint_delhi_mumbai_v2_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --patience 3 --train-months 12 --seed 0"
+    },
+    "aqfm_v2_joint_delhi_mumbai_s1": {
+      "what": "one v2 model (no future weather) trained from scratch on Delhi 2018-2023 and Mumbai 2023 together, picked on both validation periods, seed 1; best at step 12000",
+      "path": "runs/joint_delhi_mumbai_v2_s1/best.pt",
+      "drive": "models/aqfm_v2_joint_delhi_mumbai_s1.pt",
+      "sha256": "609fa9f747a0245bb2c1520127ddb5a9ef349c77304dc0f59d9c26bad69aa159",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/delhi data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/joint_delhi_mumbai_v2_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --patience 3 --train-months 12 --seed 1"
+    },
+    "aqfm_v2_joint_delhi_mumbai_s2": {
+      "what": "one v2 model (no future weather) trained from scratch on Delhi 2018-2023 and Mumbai 2023 together, picked on both validation periods, seed 2; best at step 12000",
+      "path": "runs/joint_delhi_mumbai_v2_s2/best.pt",
+      "drive": "models/aqfm_v2_joint_delhi_mumbai_s2.pt",
+      "sha256": "18579d9615389b312a52ab24173be250943fad9f5f4724b781713d320fda45c9",
+      "code": "a00d49d",
+      "train": "python -m aqfm.train --data data/delhi data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/joint_delhi_mumbai_v2_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --patience 3 --train-months 12 --seed 2"
+    },
+    "aqfm_v2m_abl_nospatial_s0": {
+      "what": "v2-M ablation, seed 0: no spatial attention (run before the spatial ablations were dropped; for reference); otherwise as aqfm_v2m_s0; best at step 10000",
+      "path": "runs/v2m256_abl_nospatial_s0/best.pt",
+      "drive": "models/aqfm_v2m_abl_nospatial_s0.pt",
+      "sha256": "5d1ec39913b4ea8261ce9d58c282c42d92c9ce00e12538f4d31e9de60ad17af8",
+      "code": "a1a9e23",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_abl_nospatial_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no-spatial"
+    },
+    "aqfm_v2m_abl_noblh_s0": {
+      "what": "v2-M ablation, seed 0: no boundary-layer height input; otherwise as aqfm_v2m_s0; best at step 9000",
+      "path": "runs/v2m256_abl_noblh_s0/best.pt",
+      "drive": "models/aqfm_v2m_abl_noblh_s0.pt",
+      "sha256": "b2e76ce698aee7e27565133c181505887df1650675e9cfd4f30e6b2ec7d0294e",
+      "code": "a1a9e23",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_abl_noblh_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no-blh"
+    },
+    "aqfm_v2m_abl_nolast_s0": {
+      "what": "v2-M ablation, seed 0: no anchor (last observation); otherwise as aqfm_v2m_s0; best at step 5000",
+      "path": "runs/v2m256_abl_nolast_s0/best.pt",
+      "drive": "models/aqfm_v2m_abl_nolast_s0.pt",
+      "sha256": "b798c0afe6aaddeb3db50b423e824ed571029d801e6d008cf436d22bad31f936",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_abl_nolast_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no-last-obs"
+    },
+    "aqfm_v2m_abl_gapfillonly_s0": {
+      "what": "v2-M ablation, seed 0: gap-filling training only (random masking); otherwise as aqfm_v2m_s0; best at step 4000",
+      "path": "runs/v2m256_abl_gapfillonly_s0/best.pt",
+      "drive": "models/aqfm_v2m_abl_gapfillonly_s0.pt",
+      "sha256": "6eaf6d67be12eaaf570ec326127b675e0b5ce609eb00f876bf37a5e3746c888b",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_abl_gapfillonly_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --random-masking"
+    },
+    "aqfm_v2m_fold24_s0": {
+      "what": "v2-M with future weather, second test year: trained 2018-2022, picked on 2023, tested on 2024; dropout 0.3, seed 0; best at step 7000",
+      "path": "runs/v2m256_fold24_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_fold24_s0.pt",
+      "sha256": "5b9c25549116b16093b82d1e5b86b74093a70866aa3cd276cfb0afd13707a63a",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_fold24_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --val-year 2023 --test-year 2024"
+    },
+    "aqfm_v2m_fold24_nofm_s0": {
+      "what": "v2-M WITHOUT future weather, second test year: trained 2018-2022, picked on 2023, tested on 2024; dropout 0.3, seed 0; best at step 6000",
+      "path": "runs/v2m256_fold24_nofm_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_fold24_nofm_s0.pt",
+      "sha256": "d9286827cbf5c85670c8fcbb91fe625997bf85fee3817462bade93c16d010100",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_fold24_nofm_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --val-year 2023 --test-year 2024 --no-future-met"
+    },
+    "aqfm_v2m_fold24_s1": {
+      "what": "v2-M with future weather, second test year: trained 2018-2022, picked on 2023, tested on 2024; dropout 0.3, seed 1; best at step 11000",
+      "path": "runs/v2m256_fold24_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_fold24_s1.pt",
+      "sha256": "14e81ce848235cc19c740b5c340019ad68b8ba4d83522f45a15526bf580a7a60",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_fold24_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --val-year 2023 --test-year 2024"
+    },
+    "aqfm_v2m_fold24_nofm_s1": {
+      "what": "v2-M WITHOUT future weather, second test year: trained 2018-2022, picked on 2023, tested on 2024; dropout 0.3, seed 1; best at step 8000",
+      "path": "runs/v2m256_fold24_nofm_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_fold24_nofm_s1.pt",
+      "sha256": "255e90bc5c2ceec259e811b04e51b0fe367045ab8901359990c33cfca5aa595f",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_fold24_nofm_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --val-year 2023 --test-year 2024 --no-future-met"
+    },
+    "aqfm_v2m_fold24_s2": {
+      "what": "v2-M with future weather, second test year: trained 2018-2022, picked on 2023, tested on 2024; dropout 0.3, seed 2; best at step 12000",
+      "path": "runs/v2m256_fold24_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_fold24_s2.pt",
+      "sha256": "22c98929e8bd2e8c4dc785e38f6f7832a6f2e2efe7fd105b3043e27a831108a1",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_fold24_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --val-year 2023 --test-year 2024"
+    },
+    "aqfm_v2m_fold24_nofm_s2": {
+      "what": "v2-M WITHOUT future weather, second test year: trained 2018-2022, picked on 2023, tested on 2024; dropout 0.3, seed 2; best at step 8000",
+      "path": "runs/v2m256_fold24_nofm_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_fold24_nofm_s2.pt",
+      "sha256": "cfa20eeb3a489e3bff5db227a41c14a555e345802b974b446035bb1599d9423a",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_fold24_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --val-year 2023 --test-year 2024 --no-future-met"
+    },
+    "aqfm_v2_mumbai_ftnone_m6_s0": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s0) fine-tuned on the last 6 months of 2023, nothing frozen, lr 3e-5, up to 6,000 steps, seed 0; best at step 600",
+      "path": "runs/mumbai_ft_v2_none_m6_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ftnone_m6_s0.pt",
+      "sha256": "1f07c221d4766c8b20c19942f6acca2ddda2c5e71910f91b803704e9a7e26e32",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_none_m6_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze none --train-months 6 --seed 0"
+    },
+    "aqfm_v2_mumbai_ftnone_m6_s1": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s1) fine-tuned on the last 6 months of 2023, nothing frozen, lr 3e-5, up to 6,000 steps, seed 1; best at step 700",
+      "path": "runs/mumbai_ft_v2_none_m6_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ftnone_m6_s1.pt",
+      "sha256": "46d8edb4a9c4d7a5577d4a8e22d4081f9443b08789d712958fe3d234825320e1",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_none_m6_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s1_do03/best.pt --freeze none --train-months 6 --seed 1"
+    },
+    "aqfm_v2_mumbai_ftnone_m6_s2": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s2) fine-tuned on the last 6 months of 2023, nothing frozen, lr 3e-5, up to 6,000 steps, seed 2; best at step 250",
+      "path": "runs/mumbai_ft_v2_none_m6_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ftnone_m6_s2.pt",
+      "sha256": "6152660e4e3d09054477ac0bfab278e78c32b06e71ba7a77b59bf443070f959b",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_none_m6_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s2_do03/best.pt --freeze none --train-months 6 --seed 2"
+    },
+    "aqfm_v2_mumbai_ftnone_m12_s0": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s0) fine-tuned on the last 12 months of 2023, nothing frozen, lr 3e-5, up to 6,000 steps, seed 0; best at step 1700",
+      "path": "runs/mumbai_ft_v2_none_m12_s0/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ftnone_m12_s0.pt",
+      "sha256": "6e1e9a5eec0ffcdcf216b045c45b8aae15649f1ca106a39a7b0f594c20285cf2",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_none_m12_s0 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s0_do03/best.pt --freeze none --train-months 12 --seed 0"
+    },
+    "aqfm_v2_mumbai_ftnone_m12_s1": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s1) fine-tuned on the last 12 months of 2023, nothing frozen, lr 3e-5, up to 6,000 steps, seed 1; best at step 700",
+      "path": "runs/mumbai_ft_v2_none_m12_s1/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ftnone_m12_s1.pt",
+      "sha256": "ed8f4cdcb136b97ed5a904fec12940f98f07700e5ec482be80bf6e379dca0e4a",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_none_m12_s1 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s1_do03/best.pt --freeze none --train-months 12 --seed 1"
+    },
+    "aqfm_v2_mumbai_ftnone_m12_s2": {
+      "what": "Mumbai: Delhi v2 without future weather (aqfm_v2_nofm_s2) fine-tuned on the last 12 months of 2023, nothing frozen, lr 3e-5, up to 6,000 steps, seed 2; best at step 1100",
+      "path": "runs/mumbai_ft_v2_none_m12_s2/best.pt",
+      "drive": "models/aqfm_v2_mumbai_ftnone_m12_s2.pt",
+      "sha256": "cff55c30c206a21082a8ce3bacc980d0aa19d2d10ec4dbe54525363ee552df00",
+      "code": "c07d55a",
+      "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_none_m12_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s2_do03/best.pt --freeze none --train-months 12 --seed 2"
+    },
+    "aqfm_v2m_no2d_s0": {
+      "what": "v2-M (4.57M), NO2 forecast directly (--no2-direct), dropout 0.3, seed 0; otherwise as aqfm_v2m_s0; best at step 5000",
+      "path": "runs/v2m256_no2d_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_s0.pt",
+      "sha256": "c1cc02c5a6e8f16dcea41ba2bc804a1d5db27838b874f47915895fb7084578a0",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct"
+    },
+    "aqfm_v2m_no2d_s1": {
+      "what": "v2-M (4.57M), NO2 forecast directly (--no2-direct), dropout 0.3, seed 1; otherwise as aqfm_v2m_s1; best at step 12000",
+      "path": "runs/v2m256_no2d_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_s1.pt",
+      "sha256": "228c978b794ee59933138864eabf4d03f3fbcb6a2f4c1cbbd3e0aff03e235bc5",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct"
+    },
+    "aqfm_v2m_no2d_s2": {
+      "what": "v2-M (4.57M), NO2 forecast directly (--no2-direct), dropout 0.3, seed 2; otherwise as aqfm_v2m_s2; best at step 11000",
+      "path": "runs/v2m256_no2d_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_s2.pt",
+      "sha256": "31df18b31453fdc74772a4f73aa28fc29b170e846cdfbf951b94e08e713f7878",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct"
+    },
+    "aqfm_v2m_no2d_nofm_s0": {
+      "what": "v2-M (4.57M) WITHOUT future weather, NO2 forecast directly (--no2-direct), dropout 0.3, seed 0; otherwise as aqfm_v2m_nofm_s0; best at step 10000",
+      "path": "runs/v2m256_no2d_nofm_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_nofm_s0.pt",
+      "sha256": "905ae151a9dc0e74bcb7a6e32c3b4e2126e3521ed4d2106dd0b17b250c31cd7a",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_nofm_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met"
+    },
+    "aqfm_v2m_no2d_nofm_s1": {
+      "what": "v2-M (4.57M) WITHOUT future weather, NO2 forecast directly (--no2-direct), dropout 0.3, seed 1; otherwise as aqfm_v2m_nofm_s1; best at step 11000",
+      "path": "runs/v2m256_no2d_nofm_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_nofm_s1.pt",
+      "sha256": "f167124c617ede9c17d458d88a9adc582d49eaa0acd6a04160c77b4038c94bbf",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_nofm_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met"
+    },
+    "aqfm_v2m_no2d_nofm_s2": {
+      "what": "v2-M (4.57M) WITHOUT future weather, NO2 forecast directly (--no2-direct), dropout 0.3, seed 2; otherwise as aqfm_v2m_nofm_s2; best at step 12000",
+      "path": "runs/v2m256_no2d_nofm_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_nofm_s2.pt",
+      "sha256": "f0d7e63d95f5500ef824d7b95cb75c5c883f29566217269e1d03f293d860cc6b",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met"
     }
   },
 
@@ -328,8 +815,8 @@
       "run": "python -m aqfm.evaluate --ckpt runs/anneal_s0_wd/best.pt --out results/aqfm_s0_wd_results.json --device cuda --seed 0"
     },
     "baselines/results/classical_results.json": {
-      "what": "Persistence, seasonal naive, climatology, 2025 test",
-      "models": [], "code": "63946a8", "minutes": 5, "cwd": "baselines",
+      "what": "Persistence, seasonal naive, climatology, 2025 test (rerun after the seasonal-naive fix, docs/V2_PROGRESS.md step 13)",
+      "models": [], "code": "08ee3a1", "minutes": 1, "cwd": "baselines",
       "run": "python run_baselines_classical.py"
     },
     "baselines/results/xgboost_results.json": {
@@ -526,6 +1013,441 @@
       "what": "v2 without future weather, pooled 3-seed ensemble, 2025 test",
       "models": ["aqfm_v2_nofm_s0", "aqfm_v2_nofm_s1", "aqfm_v2_nofm_s2"], "code": "a356a6c", "minutes": 7,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s0_do03/best.pt runs/v2_nofm_s1_do03/best.pt runs/v2_nofm_s2_do03/best.pt --out results/v2_nofm_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2_s0_24k_results.json": {
+      "what": "v2, 24,000-step schedule, seed 0, 2025 test",
+      "models": ["aqfm_v2_24k_s0"], "code": "f104c7c", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s0_do03_24k/best.pt --out results/v2_s0_24k_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_s0_results.json": {
+      "what": "v2-M (4.57M), seed 0, 2025 test",
+      "models": ["aqfm_v2m_s0"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s0_do03/best.pt --out results/v2m256_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_s1_results.json": {
+      "what": "v2-M (4.57M), seed 1, 2025 test",
+      "models": ["aqfm_v2m_s1"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s1_do03/best.pt --out results/v2m256_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_s2_results.json": {
+      "what": "v2-M (4.57M), seed 2, 2025 test",
+      "models": ["aqfm_v2m_s2"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s2_do03/best.pt --out results/v2m256_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_seeds_stats.json": {
+      "what": "v2-M (4.57M): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "f104c7c", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256_seeds_stats.json results/v2m256_s0_results.json results/v2m256_s1_results.json results/v2m256_s2_results.json"
+    },
+    "results/v2m256_ens3_results.json": {
+      "what": "v2-M (4.57M), pooled 3-seed ensemble, 2025 test",
+      "models": ["aqfm_v2m_s0", "aqfm_v2m_s1", "aqfm_v2m_s2"], "code": "f104c7c", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s0_do03/best.pt runs/v2m256_s1_do03/best.pt runs/v2m256_s2_do03/best.pt --out results/v2m256_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_nofm_s0_results.json": {
+      "what": "v2-M (4.57M) without future weather, seed 0, 2025 test",
+      "models": ["aqfm_v2m_nofm_s0"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s0_do03/best.pt --out results/v2m256_nofm_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_nofm_s1_results.json": {
+      "what": "v2-M (4.57M) without future weather, seed 1, 2025 test",
+      "models": ["aqfm_v2m_nofm_s1"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s1_do03/best.pt --out results/v2m256_nofm_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_nofm_s2_results.json": {
+      "what": "v2-M (4.57M) without future weather, seed 2, 2025 test",
+      "models": ["aqfm_v2m_nofm_s2"], "code": "f104c7c", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s2_do03/best.pt --out results/v2m256_nofm_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_nofm_seeds_stats.json": {
+      "what": "v2-M (4.57M) without future weather: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "f104c7c", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256_nofm_seeds_stats.json results/v2m256_nofm_s0_results.json results/v2m256_nofm_s1_results.json results/v2m256_nofm_s2_results.json"
+    },
+    "results/v2m256_nofm_ens3_results.json": {
+      "what": "v2-M (4.57M) without future weather, pooled 3-seed ensemble, 2025 test",
+      "models": ["aqfm_v2m_nofm_s0", "aqfm_v2m_nofm_s1", "aqfm_v2m_nofm_s2"], "code": "f104c7c", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s0_do03/best.pt runs/v2m256_nofm_s1_do03/best.pt runs/v2m256_nofm_s2_do03/best.pt --out results/v2m256_nofm_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_zeroshot_v2m256_nofm_ens3_results.json": {
+      "what": "Mumbai zero-shot: Delhi v2-M (4.57M) without future weather, pooled 3-seed ensemble, no Mumbai training; test 2024-07..12",
+      "models": ["aqfm_v2m_nofm_s0", "aqfm_v2m_nofm_s1", "aqfm_v2m_nofm_s2"], "code": "a00d49d", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/mumbai --test-start 2024-07-01 --ckpt runs/v2m256_nofm_s0_do03/best.pt runs/v2m256_nofm_s1_do03/best.pt runs/v2m256_nofm_s2_do03/best.pt --out results/mumbai_zeroshot_v2m256_nofm_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_zeroshot_v2_nofm_ens3_results.json": {
+      "what": "Mumbai zero-shot: Delhi v2 (1.17M) without future weather, pooled 3-seed ensemble, no Mumbai training; test 2024-07..12",
+      "models": ["aqfm_v2_nofm_s0", "aqfm_v2_nofm_s1", "aqfm_v2_nofm_s2"], "code": "a00d49d", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/mumbai --test-start 2024-07-01 --ckpt runs/v2_nofm_s0_do03/best.pt runs/v2_nofm_s1_do03/best.pt runs/v2_nofm_s2_do03/best.pt --out results/mumbai_zeroshot_v2_nofm_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_zeroshot_v2m256_ens3_results.json": {
+      "what": "Mumbai zero-shot: Delhi v2-M (4.57M) with future weather (Mumbai lacks 3 of its 8 future-weather inputs), pooled 3-seed ensemble, no Mumbai training; test 2024-07..12",
+      "models": ["aqfm_v2m_s0", "aqfm_v2m_s1", "aqfm_v2m_s2"], "code": "a00d49d", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/mumbai --test-start 2024-07-01 --ckpt runs/v2m256_s0_do03/best.pt runs/v2m256_s1_do03/best.pt runs/v2m256_s2_do03/best.pt --out results/mumbai_zeroshot_v2m256_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_zeroshot_v2_ens3_results.json": {
+      "what": "Mumbai zero-shot: Delhi v2 (1.17M) with future weather (Mumbai lacks 3 of its 8 future-weather inputs), pooled 3-seed ensemble, no Mumbai training; test 2024-07..12",
+      "models": ["aqfm_v2_s0", "aqfm_v2_s1", "aqfm_v2_s2"], "code": "a00d49d", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/mumbai --test-start 2024-07-01 --ckpt runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt --out results/mumbai_zeroshot_v2_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m1_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s) of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m1_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m1_s0/best.pt --out results/mumbai_ft_v2_backbone_m1_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m1_s1_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s) of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m1_s1"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m1_s1/best.pt --out results/mumbai_ft_v2_backbone_m1_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m1_s2_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s) of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m1_s2"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m1_s2/best.pt --out results/mumbai_ft_v2_backbone_m1_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m1_seeds_stats.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a00d49d", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_ft_v2_backbone_m1_seeds_stats.json results/mumbai_ft_v2_backbone_m1_s0_results.json results/mumbai_ft_v2_backbone_m1_s1_results.json results/mumbai_ft_v2_backbone_m1_s2_results.json"
+    },
+    "results/mumbai_ft_v2_backbone_m1_ens3_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s), pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m1_s0", "aqfm_v2_mumbai_ft_m1_s1", "aqfm_v2_mumbai_ft_m1_s2"], "code": "a00d49d", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m1_s0/best.pt runs/mumbai_ft_v2_backbone_m1_s1/best.pt runs/mumbai_ft_v2_backbone_m1_s2/best.pt --out results/mumbai_ft_v2_backbone_m1_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m3_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s) of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m3_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m3_s0/best.pt --out results/mumbai_ft_v2_backbone_m3_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m3_s1_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s) of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m3_s1"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m3_s1/best.pt --out results/mumbai_ft_v2_backbone_m3_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m3_s2_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s) of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m3_s2"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m3_s2/best.pt --out results/mumbai_ft_v2_backbone_m3_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m3_seeds_stats.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a00d49d", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_ft_v2_backbone_m3_seeds_stats.json results/mumbai_ft_v2_backbone_m3_s0_results.json results/mumbai_ft_v2_backbone_m3_s1_results.json results/mumbai_ft_v2_backbone_m3_s2_results.json"
+    },
+    "results/mumbai_ft_v2_backbone_m3_ens3_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s), pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m3_s0", "aqfm_v2_mumbai_ft_m3_s1", "aqfm_v2_mumbai_ft_m3_s2"], "code": "a00d49d", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m3_s0/best.pt runs/mumbai_ft_v2_backbone_m3_s1/best.pt runs/mumbai_ft_v2_backbone_m3_s2/best.pt --out results/mumbai_ft_v2_backbone_m3_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m6_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s) of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m6_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m6_s0/best.pt --out results/mumbai_ft_v2_backbone_m6_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m6_s1_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s) of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m6_s1"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m6_s1/best.pt --out results/mumbai_ft_v2_backbone_m6_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m6_s2_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s) of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m6_s2"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m6_s2/best.pt --out results/mumbai_ft_v2_backbone_m6_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m6_seeds_stats.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a00d49d", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_ft_v2_backbone_m6_seeds_stats.json results/mumbai_ft_v2_backbone_m6_s0_results.json results/mumbai_ft_v2_backbone_m6_s1_results.json results/mumbai_ft_v2_backbone_m6_s2_results.json"
+    },
+    "results/mumbai_ft_v2_backbone_m6_ens3_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s), pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m6_s0", "aqfm_v2_mumbai_ft_m6_s1", "aqfm_v2_mumbai_ft_m6_s2"], "code": "a00d49d", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m6_s0/best.pt runs/mumbai_ft_v2_backbone_m6_s1/best.pt runs/mumbai_ft_v2_backbone_m6_s2/best.pt --out results/mumbai_ft_v2_backbone_m6_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m12_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s) of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m12_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m12_s0/best.pt --out results/mumbai_ft_v2_backbone_m12_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m12_s1_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s) of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m12_s1"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m12_s1/best.pt --out results/mumbai_ft_v2_backbone_m12_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m12_s2_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s) of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m12_s2"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m12_s2/best.pt --out results/mumbai_ft_v2_backbone_m12_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_backbone_m12_seeds_stats.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a00d49d", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_ft_v2_backbone_m12_seeds_stats.json results/mumbai_ft_v2_backbone_m12_s0_results.json results/mumbai_ft_v2_backbone_m12_s1_results.json results/mumbai_ft_v2_backbone_m12_s2_results.json"
+    },
+    "results/mumbai_ft_v2_backbone_m12_ens3_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s), pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ft_m12_s0", "aqfm_v2_mumbai_ft_m12_s1", "aqfm_v2_mumbai_ft_m12_s2"], "code": "a00d49d", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m12_s0/best.pt runs/mumbai_ft_v2_backbone_m12_s1/best.pt runs/mumbai_ft_v2_backbone_m12_s2/best.pt --out results/mumbai_ft_v2_backbone_m12_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m1_s0_results.json": {
+      "what": "Mumbai, v2 from scratch, 1 month(s) of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m1_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m1_s0/best.pt --out results/mumbai_scratch_v2_m1_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m1_s1_results.json": {
+      "what": "Mumbai, v2 from scratch, 1 month(s) of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m1_s1"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m1_s1/best.pt --out results/mumbai_scratch_v2_m1_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m1_s2_results.json": {
+      "what": "Mumbai, v2 from scratch, 1 month(s) of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m1_s2"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m1_s2/best.pt --out results/mumbai_scratch_v2_m1_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m1_seeds_stats.json": {
+      "what": "Mumbai, v2 from scratch, 1 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a00d49d", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_scratch_v2_m1_seeds_stats.json results/mumbai_scratch_v2_m1_s0_results.json results/mumbai_scratch_v2_m1_s1_results.json results/mumbai_scratch_v2_m1_s2_results.json"
+    },
+    "results/mumbai_scratch_v2_m1_ens3_results.json": {
+      "what": "Mumbai, v2 from scratch, 1 month(s), pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m1_s0", "aqfm_v2_mumbai_scratch_m1_s1", "aqfm_v2_mumbai_scratch_m1_s2"], "code": "a00d49d", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m1_s0/best.pt runs/mumbai_scratch_v2_m1_s1/best.pt runs/mumbai_scratch_v2_m1_s2/best.pt --out results/mumbai_scratch_v2_m1_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m3_s0_results.json": {
+      "what": "Mumbai, v2 from scratch, 3 month(s) of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m3_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m3_s0/best.pt --out results/mumbai_scratch_v2_m3_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m3_s1_results.json": {
+      "what": "Mumbai, v2 from scratch, 3 month(s) of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m3_s1"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m3_s1/best.pt --out results/mumbai_scratch_v2_m3_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m3_s2_results.json": {
+      "what": "Mumbai, v2 from scratch, 3 month(s) of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m3_s2"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m3_s2/best.pt --out results/mumbai_scratch_v2_m3_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m3_seeds_stats.json": {
+      "what": "Mumbai, v2 from scratch, 3 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a00d49d", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_scratch_v2_m3_seeds_stats.json results/mumbai_scratch_v2_m3_s0_results.json results/mumbai_scratch_v2_m3_s1_results.json results/mumbai_scratch_v2_m3_s2_results.json"
+    },
+    "results/mumbai_scratch_v2_m3_ens3_results.json": {
+      "what": "Mumbai, v2 from scratch, 3 month(s), pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m3_s0", "aqfm_v2_mumbai_scratch_m3_s1", "aqfm_v2_mumbai_scratch_m3_s2"], "code": "a00d49d", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m3_s0/best.pt runs/mumbai_scratch_v2_m3_s1/best.pt runs/mumbai_scratch_v2_m3_s2/best.pt --out results/mumbai_scratch_v2_m3_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m6_s0_results.json": {
+      "what": "Mumbai, v2 from scratch, 6 month(s) of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m6_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m6_s0/best.pt --out results/mumbai_scratch_v2_m6_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m6_s1_results.json": {
+      "what": "Mumbai, v2 from scratch, 6 month(s) of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m6_s1"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m6_s1/best.pt --out results/mumbai_scratch_v2_m6_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m6_s2_results.json": {
+      "what": "Mumbai, v2 from scratch, 6 month(s) of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m6_s2"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m6_s2/best.pt --out results/mumbai_scratch_v2_m6_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m6_seeds_stats.json": {
+      "what": "Mumbai, v2 from scratch, 6 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a00d49d", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_scratch_v2_m6_seeds_stats.json results/mumbai_scratch_v2_m6_s0_results.json results/mumbai_scratch_v2_m6_s1_results.json results/mumbai_scratch_v2_m6_s2_results.json"
+    },
+    "results/mumbai_scratch_v2_m6_ens3_results.json": {
+      "what": "Mumbai, v2 from scratch, 6 month(s), pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m6_s0", "aqfm_v2_mumbai_scratch_m6_s1", "aqfm_v2_mumbai_scratch_m6_s2"], "code": "a00d49d", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m6_s0/best.pt runs/mumbai_scratch_v2_m6_s1/best.pt runs/mumbai_scratch_v2_m6_s2/best.pt --out results/mumbai_scratch_v2_m6_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m12_s0_results.json": {
+      "what": "Mumbai, v2 from scratch, 12 month(s) of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m12_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m12_s0/best.pt --out results/mumbai_scratch_v2_m12_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m12_s1_results.json": {
+      "what": "Mumbai, v2 from scratch, 12 month(s) of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m12_s1"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m12_s1/best.pt --out results/mumbai_scratch_v2_m12_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m12_s2_results.json": {
+      "what": "Mumbai, v2 from scratch, 12 month(s) of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m12_s2"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m12_s2/best.pt --out results/mumbai_scratch_v2_m12_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_scratch_v2_m12_seeds_stats.json": {
+      "what": "Mumbai, v2 from scratch, 12 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "a00d49d", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_scratch_v2_m12_seeds_stats.json results/mumbai_scratch_v2_m12_s0_results.json results/mumbai_scratch_v2_m12_s1_results.json results/mumbai_scratch_v2_m12_s2_results.json"
+    },
+    "results/mumbai_scratch_v2_m12_ens3_results.json": {
+      "what": "Mumbai, v2 from scratch, 12 month(s), pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_scratch_m12_s0", "aqfm_v2_mumbai_scratch_m12_s1", "aqfm_v2_mumbai_scratch_m12_s2"], "code": "a00d49d", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m12_s0/best.pt runs/mumbai_scratch_v2_m12_s1/best.pt runs/mumbai_scratch_v2_m12_s2/best.pt --out results/mumbai_scratch_v2_m12_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft1500_v2_backbone_m1_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2, 1 month(s), seed 0, 1,500-step cap (superseded; test result made after the folder rename as results/mumbai_ft_v2_backbone_m1_s0_results.json, renamed)",
+      "models": ["aqfm_v2_mumbai_ft1500_m1_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft1500_v2_backbone_m1_s0/best.pt --out results/mumbai_ft1500_v2_backbone_m1_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft1500_v2_backbone_m3_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2, 3 month(s), seed 0, 1,500-step cap (superseded; test result made after the folder rename as results/mumbai_ft_v2_backbone_m3_s0_results.json, renamed)",
+      "models": ["aqfm_v2_mumbai_ft1500_m3_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft1500_v2_backbone_m3_s0/best.pt --out results/mumbai_ft1500_v2_backbone_m3_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft1500_v2_backbone_m6_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2, 6 month(s), seed 0, 1,500-step cap (superseded; test result made after the folder rename as results/mumbai_ft_v2_backbone_m6_s0_results.json, renamed)",
+      "models": ["aqfm_v2_mumbai_ft1500_m6_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft1500_v2_backbone_m6_s0/best.pt --out results/mumbai_ft1500_v2_backbone_m6_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft1500_v2_backbone_m12_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2, 12 month(s), seed 0, 1,500-step cap (superseded; test result made after the folder rename as results/mumbai_ft_v2_backbone_m12_s0_results.json, renamed)",
+      "models": ["aqfm_v2_mumbai_ft1500_m12_s0"], "code": "a00d49d", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft1500_v2_backbone_m12_s0/best.pt --out results/mumbai_ft1500_v2_backbone_m12_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_joint_v2_ens3_results.json": {
+      "what": "one model for Delhi + Mumbai (v2, no future weather), pooled 3-seed ensemble, scored on Mumbai 2024-07..12",
+      "models": ["aqfm_v2_joint_delhi_mumbai_s0", "aqfm_v2_joint_delhi_mumbai_s1", "aqfm_v2_joint_delhi_mumbai_s2"], "code": "a00d49d", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/joint_delhi_mumbai_v2_s0/best.pt runs/joint_delhi_mumbai_v2_s1/best.pt runs/joint_delhi_mumbai_v2_s2/best.pt --out results/mumbai_joint_v2_ens3_results.json --device cuda --seed 0"
+    },
+    "results/delhi_joint_v2_ens3_results.json": {
+      "what": "the same joint Delhi + Mumbai ensemble scored on Delhi's usual 2025 test (data/delhi alone)",
+      "models": ["aqfm_v2_joint_delhi_mumbai_s0", "aqfm_v2_joint_delhi_mumbai_s1", "aqfm_v2_joint_delhi_mumbai_s2"], "code": "a00d49d", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/joint_delhi_mumbai_v2_s0/best.pt runs/joint_delhi_mumbai_v2_s1/best.pt runs/joint_delhi_mumbai_v2_s2/best.pt --out results/delhi_joint_v2_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_classical_results.json": {
+      "what": "Mumbai classical baselines (persistence, seasonal naive, climatology; Delhi's rules), test 2024-07..12 (rerun after the seasonal-naive fix, docs/V2_PROGRESS.md step 13)",
+      "models": [], "code": "08ee3a1", "minutes": 1,
+      "run": "python scripts/city_baselines.py --data data/mumbai --test-start 2024-07-01 --out results/mumbai_classical_results.json"
+    },
+    "results/mumbai_xgboost_results.json": {
+      "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on everything before the test (2023 + 2024 H1); test 2024-07..12. Made before the script was committed; not yet re-run with a239e03",
+      "models": [], "code": "a239e03", "minutes": 17,
+      "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --out results/mumbai_xgboost_results.json"
+    },
+    "results/mumbai_xgboost_m1_results.json": {
+      "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on the last 1 month(s) of 2023; test 2024-07..12. Made before the script was committed; PM2.5 and PM10 numbers reproduced exactly by a239e03 (results/paper/mumbai_xgboost_m1.json, stage MUMBAI)",
+      "models": [], "code": "a239e03", "minutes": 3,
+      "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --train-from 2023-12-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m1_results.json"
+    },
+    "results/mumbai_xgboost_m3_results.json": {
+      "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on the last 3 month(s) of 2023; test 2024-07..12. Made before the script was committed; PM2.5 and PM10 numbers reproduced exactly by a239e03 (results/paper/mumbai_xgboost_m3.json, stage MUMBAI)",
+      "models": [], "code": "a239e03", "minutes": 3,
+      "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --train-from 2023-10-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m3_results.json"
+    },
+    "results/mumbai_xgboost_m6_results.json": {
+      "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on the last 6 month(s) of 2023; test 2024-07..12. Made before the script was committed; PM2.5 and PM10 numbers reproduced exactly by a239e03 (results/paper/mumbai_xgboost_m6.json, stage MUMBAI)",
+      "models": [], "code": "a239e03", "minutes": 3,
+      "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --train-from 2023-07-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m6_results.json"
+    },
+    "results/mumbai_xgboost_m12_results.json": {
+      "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on the last 12 month(s) of 2023; test 2024-07..12. Made before the script was committed; PM2.5 and PM10 numbers reproduced exactly by a239e03 (results/paper/mumbai_xgboost_m12.json, stage MUMBAI)",
+      "models": [], "code": "a239e03", "minutes": 17,
+      "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --train-from 2023-01-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m12_results.json"
+    },
+    "results/mumbai_ft_v2_none_m6_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ftnone_m6_s0"], "code": "c07d55a", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m6_s0/best.pt --out results/mumbai_ft_v2_none_m6_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_none_m6_s1_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ftnone_m6_s1"], "code": "c07d55a", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m6_s1/best.pt --out results/mumbai_ft_v2_none_m6_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_none_m6_s2_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ftnone_m6_s2"], "code": "c07d55a", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m6_s2/best.pt --out results/mumbai_ft_v2_none_m6_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_none_m6_seeds_stats.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "c07d55a", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_ft_v2_none_m6_seeds_stats.json results/mumbai_ft_v2_none_m6_s0_results.json results/mumbai_ft_v2_none_m6_s1_results.json results/mumbai_ft_v2_none_m6_s2_results.json"
+    },
+    "results/mumbai_ft_v2_none_m6_ens3_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months, pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ftnone_m6_s0", "aqfm_v2_mumbai_ftnone_m6_s1", "aqfm_v2_mumbai_ftnone_m6_s2"], "code": "c07d55a", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m6_s0/best.pt runs/mumbai_ft_v2_none_m6_s1/best.pt runs/mumbai_ft_v2_none_m6_s2/best.pt --out results/mumbai_ft_v2_none_m6_ens3_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_none_m12_s0_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months of 2023, seed 0; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ftnone_m12_s0"], "code": "c07d55a", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s0/best.pt --out results/mumbai_ft_v2_none_m12_s0_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_none_m12_s1_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months of 2023, seed 1; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ftnone_m12_s1"], "code": "c07d55a", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s1/best.pt --out results/mumbai_ft_v2_none_m12_s1_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_none_m12_s2_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months of 2023, seed 2; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ftnone_m12_s2"], "code": "c07d55a", "minutes": 2,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s2/best.pt --out results/mumbai_ft_v2_none_m12_s2_results.json --device cuda --seed 0"
+    },
+    "results/mumbai_ft_v2_none_m12_seeds_stats.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "c07d55a", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/mumbai_ft_v2_none_m12_seeds_stats.json results/mumbai_ft_v2_none_m12_s0_results.json results/mumbai_ft_v2_none_m12_s1_results.json results/mumbai_ft_v2_none_m12_s2_results.json"
+    },
+    "results/mumbai_ft_v2_none_m12_ens3_results.json": {
+      "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months, pooled 3-seed ensemble; test 2024-07..12",
+      "models": ["aqfm_v2_mumbai_ftnone_m12_s0", "aqfm_v2_mumbai_ftnone_m12_s1", "aqfm_v2_mumbai_ftnone_m12_s2"], "code": "c07d55a", "minutes": 3,
+      "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s0/best.pt runs/mumbai_ft_v2_none_m12_s1/best.pt runs/mumbai_ft_v2_none_m12_s2/best.pt --out results/mumbai_ft_v2_none_m12_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_s0_results.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly, seed 0, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_s0"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s0_do03/best.pt --out results/v2m256_no2d_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_s1_results.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly, seed 1, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_s1"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s1_do03/best.pt --out results/v2m256_no2d_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_s2_results.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly, seed 2, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_s2"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s2_do03/best.pt --out results/v2m256_no2d_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_seeds_stats.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "d34609e", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256_no2d_seeds_stats.json results/v2m256_no2d_s0_results.json results/v2m256_no2d_s1_results.json results/v2m256_no2d_s2_results.json"
+    },
+    "results/v2m256_no2d_ens3_results.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly, pooled 3-seed ensemble, 2025 test; PM2.5, PM10, ozone, NOx, NO2 (the pipeline also passed --save-forecasts results/forecasts/delhi_v2m256_no2d_ens3.npz, which only writes that file)",
+      "models": ["aqfm_v2m_no2d_s0", "aqfm_v2m_no2d_s1", "aqfm_v2m_no2d_s2"], "code": "d34609e", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s0_do03/best.pt runs/v2m256_no2d_s1_do03/best.pt runs/v2m256_no2d_s2_do03/best.pt --out results/v2m256_no2d_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_nofm_s0_results.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 0, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_nofm_s0"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s0_do03/best.pt --out results/v2m256_no2d_nofm_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_nofm_s1_results.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 1, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_nofm_s1"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s1_do03/best.pt --out results/v2m256_no2d_nofm_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_nofm_s2_results.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 2, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_nofm_s2"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s2_do03/best.pt --out results/v2m256_no2d_nofm_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_nofm_seeds_stats.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "d34609e", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256_no2d_nofm_seeds_stats.json results/v2m256_no2d_nofm_s0_results.json results/v2m256_no2d_nofm_s1_results.json results/v2m256_no2d_nofm_s2_results.json"
+    },
+    "results/v2m256_no2d_nofm_ens3_results.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly, pooled 3-seed ensemble, 2025 test; PM2.5, PM10, ozone, NOx, NO2 (the pipeline also passed --save-forecasts results/forecasts/delhi_v2m256_no2d_nofm_ens3.npz, which only writes that file)",
+      "models": ["aqfm_v2m_no2d_nofm_s0", "aqfm_v2m_no2d_nofm_s1", "aqfm_v2m_no2d_nofm_s2"], "code": "d34609e", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s0_do03/best.pt runs/v2m256_no2d_nofm_s1_do03/best.pt runs/v2m256_no2d_nofm_s2_do03/best.pt --out results/v2m256_no2d_nofm_ens3_results.json --device cuda --seed 0"
     }
   }
 }

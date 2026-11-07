@@ -1,0 +1,12 @@
+  transfer evaluation: trained on ['delhi', 'mumbai'], evaluating on ['mumbai']
+  test: forecast; forecasting 28 anchor stations
+  forecast batch 1/317
+  forecast batch 51/317
+  forecast batch 101/317
+  forecast batch 151/317
+  forecast batch 201/317
+  forecast batch 251/317
+  forecast batch 301/317
+PM2.5 {'1h': 5.6739, '6h': 8.7891, '24h': 11.9349, '72h': 14.7102}
+PM10 {'1h': 10.034, '6h': 19.4149, '24h': 24.7838, '72h': 30.304}
+saved results/mumbai_joint_v2_ens3_results.json

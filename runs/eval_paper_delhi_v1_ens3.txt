@@ -1,0 +1,25 @@
+  WARNING: checkpoint has no met_stats (pre-v2); met scaled with this data's stats
+  test: forecast; forecasting 37 anchor stations
+  forecast batch 1/838
+  forecast batch 51/838
+  forecast batch 101/838
+  forecast batch 151/838
+  forecast batch 201/838
+  forecast batch 251/838
+  forecast batch 301/838
+  forecast batch 351/838
+  forecast batch 401/838
+  forecast batch 451/838
+  forecast batch 501/838
+  forecast batch 551/838
+  forecast batch 601/838
+  forecast batch 651/838
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 15.7079, '6h': 27.5372, '24h': 32.0408, '72h': 36.5099}
+PM10 {'1h': 28.8785, '6h': 45.5037, '24h': 58.7756, '72h': 64.9315}
+Ozone {'1h': 5.0794, '6h': 6.4152, '24h': 8.7708, '72h': 9.5161}
+NOx {'1h': 11.9008, '6h': 15.8762, '24h': 25.4927, '72h': 27.7667}
+NO2 {'1h': 9.895, '6h': 10.874, '24h': 15.3687, '72h': 17.1131}
+saved results/paper/delhi_v1_ens3.json

@@ -7,7 +7,7 @@ Every result's command, models and checksums: `scripts/manifest.json`. Every num
 Where: **GitHub** = github.com/phalakmehta/AQFM-Honors · **Drive** = Google Drive (`drive_upload_2026-10-14/` and
 `Foundation Model(Mainak Sir)/`) · **machine** = the GPU machine only (`/home/phalak/aqfm/`).
 
-Last updated: 2026-11-05 (v2 section).
+Last updated: 2026-11-07 (v2 section).
 
 ## Code
 
@@ -56,11 +56,15 @@ Last updated: 2026-11-05 (v2 section).
 
 | Item | Where | Status |
 |---|---|---|
-| v2 code: spatial-scale changes A1–A9, fixes B1, B3–B7, any-city data steps; 66 tests pass (46 v1 + 20 v2) | GitHub branch `aqfm-v2` | ✅ committed (`8be6172`), ⬜ push |
+| v2 code: spatial-scale changes A1–A9, fixes B1, B3–B7, any-city data steps, width flags, date splits, hourly-array converter; 86 tests pass (`tests/` 68 + `deep_baselines/` 18) | GitHub branch `aqfm-v2` | ✅ committed and pushed (`a00d49d`); `main` has it up to `f104c7c` (PR #1) |
 | `data/delhi/` (built from the raw inputs, `docs/V2_PROGRESS.md` step 2; sha256 in the manifest) | machine | ✅ (rebuildable, not on Drive) |
-| v2 models: 3 seeds, dropout 0.15 run, 4-station hold-out run, 3 seeds without future weather (`aqfm_v2_*`) | machine + `drive_upload_2026-11-05_v2/models` | ✅ in the manifest; ⬜ upload to Drive |
-| v2 results: 3 seeds, mean ± std, ensemble, unseen stations, distance bands, without future weather (`results/v2_*`), `results/v2_delhi_summary.md` | GitHub branch `aqfm-v2` | ✅ committed, in the manifest; ⬜ push |
-| Step 10: transfer to a second city | — | ⬜ waits for the city's data |
+| v2 models: 3 seeds, dropout 0.15 run, 4-station hold-out run, 3 seeds without future weather (`aqfm_v2_*`); v2-M (width 256, 4.57M) 3 seeds with and 3 without future weather (`aqfm_v2m_*`); 24k-step test (`aqfm_v2_24k_s0`) | machine + `drive_upload_2026-11-05_v2/models` (68 files with steps 10–12, `SHA256SUMS.txt` checked) | ✅ in the manifest; ⬜ upload to Drive |
+| v2 results: 3 seeds, mean ± std, ensemble, unseen stations, distance bands, without future weather (`results/v2_*`), `results/v2_delhi_summary.md`; v2-M and 24k (`results/v2m256_*`, `results/v2_s0_24k_results.json`) | GitHub branch `aqfm-v2` | ✅ committed, pushed, in the manifest and `results/TABLES.md` |
+| Step 10: transfer to Mumbai (`data/mumbai` from the only Mumbai data, an hourly 2023–2024 array; `docs/V2_PROGRESS.md` step 10) | machine + GitHub | ✅ all stages, same-point comparisons, in the manifest and `results/TABLES.md` |
+| Step 11: Delhi same-point comparisons with significance (ozone, NOx, NO2 too), v2-M ablations, second test year (2024), noisy future weather, Mumbai fine-tune with nothing frozen (`docs/V2_PROGRESS.md` step 11; `results/paper/`) | machine + GitHub | ✅ committed and pushed 2026-11-07; models in the manifest and the Drive folder |
+| Step 12: NO2 forecast directly (`--no2-direct`): the 6 v2-M models retrained, per-seed and ensemble results, same-point comparisons (`docs/V2_PROGRESS.md` step 12; `results/v2m256_no2d_*`, `results/paper/delhi_*_no2d.json`) | machine + GitHub + Drive folder | ✅ committed and pushed 2026-11-07; in the manifest, `results/TABLES.md` and the Drive folder (68 files). These are the paper's main v2-M models (decision in step 12) |
+| Step 13: seasonal-naive baseline used future data at 72 h; fixed in `baselines/run_baselines_classical.py` and `scripts/city_baselines.py`, all classical outputs rerun, `tests/test_baselines.py` (`docs/V2_PROGRESS.md` step 13) | GitHub | ✅ committed 2026-11-07 (not pushed); manifest `code` of the two classical entries updated |
+| Step 14: XGBoost with the latest readings (`scripts/city_xgboost.py --lags-from-last`, off by default): Delhi 2025, Delhi 2024 (PM2.5), Mumbai 1/3/6/12 months; same-point files `results/paper/*_xgblast.json` (`docs/V2_PROGRESS.md` step 14). The paper's main XGBoost baseline | GitHub | ✅ committed 2026-11-07 (not pushed); `results/paper/` is not in the manifest (as steps 10–12); forecasts `results/forecasts/*_last.npz` are on the machine only |
 
 ## Experiments the paper needs (roadmap: `PROJECT_CONTEXT.md` §6)
 
@@ -75,7 +79,7 @@ Last updated: 2026-11-05 (v2 section).
 | F4 E-STGCN, our re-implementation on our protocol (same treatment; `results/estgcn_summary.md`) | ✅ |
 | F5 O3 and NO2 for every model (plan: `docs/plan_o3_no2.md`, ~6 h) | ⬜ |
 | G write-up: literature review, methods deviations (§7.6), figures, slides with real numbers | ⬜ |
-| H open risks: COVID year, single test year, station types (discuss or test) | ⬜ |
+| H open risks: COVID year, station types (discuss or test); second test year done (v2-M, step 11) | ⬜ |
 
 ## Final checks (in this order, just before submission)
 

@@ -1,0 +1,24 @@
+  test: forecast; forecasting 37 anchor stations
+  forecast batch 1/838
+  forecast batch 51/838
+  forecast batch 101/838
+  forecast batch 151/838
+  forecast batch 201/838
+  forecast batch 251/838
+  forecast batch 301/838
+  forecast batch 351/838
+  forecast batch 401/838
+  forecast batch 451/838
+  forecast batch 501/838
+  forecast batch 551/838
+  forecast batch 601/838
+  forecast batch 651/838
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 15.9236, '6h': 27.7579, '24h': 37.5368, '72h': 42.5998}
+PM10 {'1h': 28.9605, '6h': 46.3558, '24h': 72.099, '72h': 81.1865}
+Ozone {'1h': 5.14, '6h': 7.1155, '24h': 9.7238, '72h': 10.6177}
+NOx {'1h': 12.0743, '6h': 17.5794, '24h': 30.0747, '72h': 33.1673}
+NO2 {'1h': 7.701, '6h': 9.5969, '24h': 14.2808, '72h': 16.5996}
+saved results/v2m256_no2d_nofm_s0_results.json

@@ -1,0 +1,11 @@
+[2026-11-06 23:45:56] train runs/v2m256_abl_nospatial_s0: --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no-spatial
+done. best val total=1.7290  (24.0 min)
+[2026-11-07 00:10:00] evaluate delhi_v2m256_abl_nospatial_s0
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 16.0995, '6h': 28.7215, '24h': 32.7131, '72h': 37.7222}
+PM10 {'1h': 29.2111, '6h': 46.5905, '24h': 60.0347, '72h': 68.1466}
+saved results/paper/delhi_v2m256_abl_nospatial_s0.json
+[2026-11-07 00:13:40] train runs/v2m256_abl_distbias_s0: --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --spatial-bias distance
+[2026-11-07 00:22:38] stopped by hand during runs/v2m256_abl_distbias_s0 (user dropped the spatial ablations); the rest of ABL continues in runs/paper_ABL_resumed.log

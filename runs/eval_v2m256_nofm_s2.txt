@@ -1,0 +1,21 @@
+  test: forecast; forecasting 37 anchor stations
+  forecast batch 1/838
+  forecast batch 51/838
+  forecast batch 101/838
+  forecast batch 151/838
+  forecast batch 201/838
+  forecast batch 251/838
+  forecast batch 301/838
+  forecast batch 351/838
+  forecast batch 401/838
+  forecast batch 451/838
+  forecast batch 501/838
+  forecast batch 551/838
+  forecast batch 601/838
+  forecast batch 651/838
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 15.9341, '6h': 27.4379, '24h': 37.9927, '72h': 42.5509}
+PM10 {'1h': 28.5772, '6h': 45.6075, '24h': 72.0708, '72h': 80.759}
+saved results/v2m256_nofm_s2_results.json

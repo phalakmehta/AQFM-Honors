@@ -1,0 +1,28 @@
+[2026-11-07 00:23:41] train runs/v2m256_abl_noblh_s0: --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no-blh
+done. best val total=1.7368  (29.0 min)
+[2026-11-07 00:52:45] evaluate delhi_v2m256_abl_noblh_s0
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 16.0128, '6h': 29.0805, '24h': 33.2043, '72h': 37.2905}
+PM10 {'1h': 29.203, '6h': 47.5158, '24h': 60.6013, '72h': 67.7268}
+saved results/paper/delhi_v2m256_abl_noblh_s0.json
+[2026-11-07 00:57:53] train runs/v2m256_abl_nolast_s0: --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no-last-obs
+done. best val total=1.8129  (19.7 min)
+[2026-11-07 01:17:39] evaluate delhi_v2m256_abl_nolast_s0
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 33.0461, '6h': 33.7504, '24h': 35.1464, '72h': 39.4207}
+PM10 {'1h': 60.9305, '6h': 54.7802, '24h': 64.2847, '72h': 70.0201}
+saved results/paper/delhi_v2m256_abl_nolast_s0.json
+[2026-11-07 01:22:47] train runs/v2m256_abl_gapfillonly_s0: --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --random-masking
+done. best val total=1.9040  (17.1 min)
+[2026-11-07 01:39:58] evaluate delhi_v2m256_abl_gapfillonly_s0
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 32.3281, '6h': 34.2266, '24h': 36.2482, '72h': 38.2277}
+PM10 {'1h': 56.7787, '6h': 55.6436, '24h': 68.458, '72h': 72.2076}
+saved results/paper/delhi_v2m256_abl_gapfillonly_s0.json
+[2026-11-07 01:45:07] pipeline finished (stage ABL)

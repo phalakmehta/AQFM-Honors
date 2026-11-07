@@ -1,0 +1,54 @@
+  4 h, fw: AQFM pass 547s
+  XGBoost gap filler PM2.5: 296244 training rows
+  XGBoost gap filler PM10: 286070 training rows
+  XGBoost gap filler Ozone: 286324 training rows
+  XGBoost gap filler NOx: 293617 training rows
+  XGBoost gap filler NO2: 294603 training rows
+    PM2.5: n=199330 med 29.31 line 15.73 cycle 15.28 neighbours 16.77 xgboost 12.54 cov90 0.977
+    PM10: n=200771 med 57.37 line 34.35 cycle 31.99 neighbours 35.10 xgboost 27.27 cov90 0.972
+    Ozone: n=196956 med 26.18 line 12.55 cycle 13.09 neighbours 17.62 xgboost 11.59 cov90 0.922
+    NOx: n=199394 med 13.80 line 9.21 cycle 10.31 neighbours 14.91 xgboost 9.09 cov90 0.955
+    NO2: n=203036 med 14.38 line 9.62 cycle 10.10 neighbours 16.26 xgboost 10.29 cov90 0.953
+  4 h, nofm: AQFM pass 385s
+    PM2.5: n=199330 med 27.24 line 15.73 cycle 15.28 neighbours 16.77 xgboost 12.54 cov90 0.996
+    PM10: n=200771 med 55.04 line 34.35 cycle 31.99 neighbours 35.10 xgboost 27.27 cov90 0.996
+    Ozone: n=196956 med 26.32 line 12.55 cycle 13.09 neighbours 17.62 xgboost 11.59 cov90 0.994
+    NOx: n=199394 med 13.45 line 9.21 cycle 10.31 neighbours 14.91 xgboost 9.09 cov90 0.993
+    NO2: n=203036 med 15.32 line 9.62 cycle 10.10 neighbours 16.26 xgboost 10.29 cov90 0.990
+  12 h, fw: AQFM pass 392s
+    PM2.5: n=594280 med 34.30 line 27.18 cycle 28.48 neighbours 20.07 xgboost 18.42 cov90 0.980
+    PM10: n=598309 med 59.99 line 48.14 cycle 47.06 neighbours 35.13 xgboost 31.65 cov90 0.975
+    Ozone: n=568215 med 11.96 line 20.48 cycle 16.93 neighbours 12.53 xgboost 8.71 cov90 0.962
+    NOx: n=582004 med 17.74 line 13.85 cycle 15.32 neighbours 17.09 xgboost 12.60 cov90 0.970
+    NO2: n=592056 med 11.63 line 10.42 cycle 10.54 neighbours 13.46 xgboost 9.54 cov90 0.974
+  12 h, nofm: AQFM pass 381s
+    PM2.5: n=594280 med 38.93 line 27.18 cycle 28.48 neighbours 20.07 xgboost 18.42 cov90 0.991
+    PM10: n=598309 med 64.33 line 48.14 cycle 47.06 neighbours 35.13 xgboost 31.65 cov90 0.994
+    Ozone: n=568215 med 11.00 line 20.48 cycle 16.93 neighbours 12.53 xgboost 8.71 cov90 0.989
+    NOx: n=582004 med 20.49 line 13.85 cycle 15.32 neighbours 17.09 xgboost 12.60 cov90 0.986
+    NO2: n=592056 med 12.81 line 10.42 cycle 10.54 neighbours 13.46 xgboost 9.54 cov90 0.987
+  24 h, fw: AQFM pass 396s
+    PM2.5: n=1188955 med 30.07 line 36.29 cycle 35.04 neighbours 18.92 xgboost 17.35 cov90 0.984
+    PM10: n=1197734 med 54.82 line 66.66 cycle 60.41 neighbours 35.58 xgboost 32.18 cov90 0.980
+    Ozone: n=1153374 med 12.97 line 23.24 cycle 19.01 neighbours 14.69 xgboost 12.21 cov90 0.962
+    NOx: n=1176613 med 15.50 line 26.88 cycle 27.07 neighbours 16.54 xgboost 13.38 cov90 0.966
+    NO2: n=1196899 med 11.91 line 17.32 cycle 15.35 neighbours 14.24 xgboost 11.33 cov90 0.969
+  24 h, nofm: AQFM pass 382s
+    PM2.5: n=1188955 med 32.56 line 36.29 cycle 35.04 neighbours 18.92 xgboost 17.35 cov90 0.994
+    PM10: n=1197734 med 59.58 line 66.66 cycle 60.41 neighbours 35.58 xgboost 32.18 cov90 0.992
+    Ozone: n=1153374 med 14.48 line 23.24 cycle 19.01 neighbours 14.69 xgboost 12.21 cov90 0.989
+    NOx: n=1176613 med 17.54 line 26.88 cycle 27.07 neighbours 16.54 xgboost 13.38 cov90 0.990
+    NO2: n=1196899 med 12.89 line 17.32 cycle 15.35 neighbours 14.24 xgboost 11.33 cov90 0.987
+  48 h, fw: AQFM pass 407s
+    PM2.5: n=2377422 med 30.89 line 39.67 cycle 38.42 neighbours 19.05 xgboost 17.97 cov90 0.981
+    PM10: n=2394878 med 56.63 line 72.55 cycle 66.60 neighbours 35.83 xgboost 33.35 cov90 0.975
+    Ozone: n=2306206 med 13.58 line 24.07 cycle 19.91 neighbours 14.74 xgboost 12.61 cov90 0.956
+    NOx: n=2352963 med 16.11 line 29.64 cycle 29.79 neighbours 16.77 xgboost 14.31 cov90 0.963
+    NO2: n=2393643 med 12.29 line 18.37 cycle 16.50 neighbours 14.25 xgboost 11.89 cov90 0.966
+  48 h, nofm: AQFM pass 389s
+    PM2.5: n=2377422 med 33.23 line 39.67 cycle 38.42 neighbours 19.05 xgboost 17.97 cov90 0.992
+    PM10: n=2394878 med 61.39 line 72.55 cycle 66.60 neighbours 35.83 xgboost 33.35 cov90 0.990
+    Ozone: n=2306206 med 15.19 line 24.07 cycle 19.91 neighbours 14.74 xgboost 12.61 cov90 0.986
+    NOx: n=2352963 med 18.10 line 29.64 cycle 29.79 neighbours 16.77 xgboost 14.31 cov90 0.989
+    NO2: n=2393643 med 13.30 line 18.37 cycle 16.50 neighbours 14.25 xgboost 11.89 cov90 0.986
+saved results/paper/delhi_gapfill.json (3599 s)

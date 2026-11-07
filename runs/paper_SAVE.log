@@ -1,0 +1,87 @@
+[2026-11-06 21:58:17] evaluate delhi_v2m256_ens3
+PM2.5 {'1h': 15.991, '6h': 27.9536, '24h': 32.26, '72h': 36.945}
+PM10 {'1h': 28.9358, '6h': 45.7914, '24h': 58.7429, '72h': 65.8325}
+Ozone {'1h': 5.0701, '6h': 6.4969, '24h': 8.8685, '72h': 9.603}
+NOx {'1h': 11.9362, '6h': 15.8643, '24h': 24.9238, '72h': 27.7021}
+NO2 {'1h': 9.9122, '6h': 10.8371, '24h': 15.2085, '72h': 16.9397}
+saved results/paper/delhi_v2m256_ens3.json
+[2026-11-06 22:15:50] evaluate delhi_v2m256_nofm_ens3
+PM2.5 {'1h': 15.9227, '6h': 27.6715, '24h': 38.0927, '72h': 41.5417}
+PM10 {'1h': 28.6567, '6h': 45.8667, '24h': 72.274, '72h': 79.3257}
+Ozone {'1h': 5.2134, '6h': 7.0364, '24h': 9.6897, '72h': 10.576}
+NOx {'1h': 11.9542, '6h': 17.2548, '24h': 29.9406, '72h': 32.7707}
+NO2 {'1h': 9.7911, '6h': 11.1293, '24h': 15.9182, '72h': 17.9268}
+saved results/paper/delhi_v2m256_nofm_ens3.json
+[2026-11-06 22:30:07] evaluate delhi_v2_ens3
+PM2.5 {'1h': 16.3712, '6h': 28.286, '24h': 33.9046, '72h': 37.4419}
+PM10 {'1h': 29.4244, '6h': 46.3303, '24h': 61.2485, '72h': 67.1801}
+Ozone {'1h': 5.1525, '6h': 6.6068, '24h': 8.8803, '72h': 9.709}
+NOx {'1h': 12.1015, '6h': 16.1972, '24h': 24.9533, '72h': 26.7503}
+NO2 {'1h': 9.6288, '6h': 10.7853, '24h': 14.8704, '72h': 16.5424}
+saved results/paper/delhi_v2_ens3.json
+[2026-11-06 22:36:45] evaluate delhi_v2_nofm_ens3
+PM2.5 {'1h': 16.3495, '6h': 29.0793, '24h': 38.4255, '72h': 42.3967}
+PM10 {'1h': 29.1977, '6h': 48.3049, '24h': 72.8277, '72h': 81.2249}
+Ozone {'1h': 5.6209, '6h': 7.2357, '24h': 9.7169, '72h': 10.6255}
+NOx {'1h': 11.9861, '6h': 17.5917, '24h': 30.2695, '72h': 33.564}
+NO2 {'1h': 9.6053, '6h': 11.2745, '24h': 15.9609, '72h': 18.2435}
+saved results/paper/delhi_v2_nofm_ens3.json
+[2026-11-06 22:43:18] evaluate delhi_v1_ens3
+PM2.5 {'1h': 15.7079, '6h': 27.5372, '24h': 32.0408, '72h': 36.5099}
+PM10 {'1h': 28.8785, '6h': 45.5037, '24h': 58.7756, '72h': 64.9315}
+Ozone {'1h': 5.0794, '6h': 6.4152, '24h': 8.7708, '72h': 9.5161}
+NOx {'1h': 11.9008, '6h': 15.8762, '24h': 25.4927, '72h': 27.7667}
+NO2 {'1h': 9.895, '6h': 10.874, '24h': 15.3687, '72h': 17.1131}
+saved results/paper/delhi_v1_ens3.json
+[2026-11-06 23:24:34] baselines delhi
+PM2.5 1h: n=12210 AQFM v2-M 15.99  AQFM v2 16.37  XGBoost + future ERA5 17.97  Persistence 15.90 | AQFM v2-AQFM v2-M +0.38 (p=0.001) | XGBoost + future ERA5-AQFM v2-M +1.98 (p=0.000) | Persistence-AQFM v2-M -0.09 (p=0.658)
+PM2.5 6h: n=11998 AQFM v2-M 27.95  AQFM v2 28.29  XGBoost + future ERA5 28.62  Persistence 35.58 | AQFM v2-AQFM v2-M +0.33 (p=0.216) | XGBoost + future ERA5-AQFM v2-M +0.66 (p=0.250) | Persistence-AQFM v2-M +7.63 (p=0.000)
+PM2.5 24h: n=10306 AQFM v2-M 32.25  AQFM v2 33.90  XGBoost + future ERA5 33.43  Persistence 43.84 | AQFM v2-AQFM v2-M +1.65 (p=0.016) | XGBoost + future ERA5-AQFM v2-M +1.17 (p=0.146) | Persistence-AQFM v2-M +11.59 (p=0.000)
+PM2.5 72h: n=10297 AQFM v2-M 36.94  AQFM v2 37.44  XGBoost + future ERA5 36.53  Persistence 54.62 | AQFM v2-AQFM v2-M +0.49 (p=0.611) | XGBoost + future ERA5-AQFM v2-M -0.41 (p=0.820) | Persistence-AQFM v2-M +17.68 (p=0.000)
+saved results/paper/delhi_PM2.5_with_weather.json
+PM2.5 1h: n=12210 AQFM v2-M 15.92  AQFM v2 16.35  XGBoost 18.23  Persistence 15.90 | AQFM v2-AQFM v2-M +0.43 (p=0.003) | XGBoost-AQFM v2-M +2.31 (p=0.000) | Persistence-AQFM v2-M -0.02 (p=0.723)
+PM2.5 6h: n=11998 AQFM v2-M 27.67  AQFM v2 29.08  XGBoost 30.01  Persistence 35.58 | AQFM v2-AQFM v2-M +1.41 (p=0.000) | XGBoost-AQFM v2-M +2.34 (p=0.000) | Persistence-AQFM v2-M +7.91 (p=0.000)
+PM2.5 24h: n=10306 AQFM v2-M 38.09  AQFM v2 38.42  XGBoost 38.39  Persistence 43.84 | AQFM v2-AQFM v2-M +0.33 (p=0.279) | XGBoost-AQFM v2-M +0.31 (p=0.767) | Persistence-AQFM v2-M +5.76 (p=0.000)
+PM2.5 72h: n=10297 AQFM v2-M 41.54  AQFM v2 42.39  XGBoost 43.79  Persistence 54.62 | AQFM v2-AQFM v2-M +0.85 (p=0.162) | XGBoost-AQFM v2-M +2.25 (p=0.191) | Persistence-AQFM v2-M +13.08 (p=0.000)
+saved results/paper/delhi_PM2.5_no_weather.json
+PM10 1h: n=12528 AQFM v2-M 28.94  AQFM v2 29.42  XGBoost + future ERA5 34.32  Persistence 31.28 | AQFM v2-AQFM v2-M +0.49 (p=0.628) | XGBoost + future ERA5-AQFM v2-M +5.38 (p=0.000) | Persistence-AQFM v2-M +2.34 (p=0.270)
+PM10 6h: n=12340 AQFM v2-M 45.79  AQFM v2 46.33  XGBoost + future ERA5 47.18  Persistence 71.50 | AQFM v2-AQFM v2-M +0.54 (p=0.381) | XGBoost + future ERA5-AQFM v2-M +1.39 (p=0.225) | Persistence-AQFM v2-M +25.72 (p=0.000)
+PM10 24h: n=10630 AQFM v2-M 58.73  AQFM v2 61.24  XGBoost + future ERA5 61.90  Persistence 84.63 | AQFM v2-AQFM v2-M +2.51 (p=0.012) | XGBoost + future ERA5-AQFM v2-M +3.17 (p=0.008) | Persistence-AQFM v2-M +25.89 (p=0.000)
+PM10 72h: n=10624 AQFM v2-M 65.84  AQFM v2 67.20  XGBoost + future ERA5 67.18  Persistence 106.48 | AQFM v2-AQFM v2-M +1.35 (p=0.323) | XGBoost + future ERA5-AQFM v2-M +1.34 (p=0.602) | Persistence-AQFM v2-M +40.64 (p=0.000)
+saved results/paper/delhi_PM10_with_weather.json
+PM10 1h: n=12528 AQFM v2-M 28.66  AQFM v2 29.20  XGBoost 34.63  Persistence 31.28 | AQFM v2-AQFM v2-M +0.54 (p=0.018) | XGBoost-AQFM v2-M +5.97 (p=0.000) | Persistence-AQFM v2-M +2.62 (p=0.266)
+PM10 6h: n=12340 AQFM v2-M 45.86  AQFM v2 48.30  XGBoost 49.63  Persistence 71.50 | AQFM v2-AQFM v2-M +2.44 (p=0.000) | XGBoost-AQFM v2-M +3.77 (p=0.000) | Persistence-AQFM v2-M +25.64 (p=0.000)
+PM10 24h: n=10630 AQFM v2-M 72.28  AQFM v2 72.83  XGBoost 73.54  Persistence 84.63 | AQFM v2-AQFM v2-M +0.55 (p=0.306) | XGBoost-AQFM v2-M +1.26 (p=0.405) | Persistence-AQFM v2-M +12.35 (p=0.000)
+PM10 72h: n=10624 AQFM v2-M 79.36  AQFM v2 81.23  XGBoost 83.16  Persistence 106.48 | AQFM v2-AQFM v2-M +1.87 (p=0.051) | XGBoost-AQFM v2-M +3.80 (p=0.076) | Persistence-AQFM v2-M +27.13 (p=0.000)
+saved results/paper/delhi_PM10_no_weather.json
+Ozone 1h: n=12197 AQFM v2-M 5.07  AQFM v2 5.15  XGBoost + future ERA5 6.18  Persistence 4.98 | AQFM v2-AQFM v2-M +0.08 (p=0.105) | XGBoost + future ERA5-AQFM v2-M +1.11 (p=0.000) | Persistence-AQFM v2-M -0.09 (p=0.235)
+Ozone 6h: n=12159 AQFM v2-M 6.50  AQFM v2 6.61  XGBoost + future ERA5 7.09  Persistence 7.88 | AQFM v2-AQFM v2-M +0.11 (p=0.001) | XGBoost + future ERA5-AQFM v2-M +0.59 (p=0.000) | Persistence-AQFM v2-M +1.39 (p=0.000)
+Ozone 24h: n=10642 AQFM v2-M 8.87  AQFM v2 8.88  XGBoost + future ERA5 9.20  Persistence 11.61 | AQFM v2-AQFM v2-M +0.01 (p=0.994) | XGBoost + future ERA5-AQFM v2-M +0.33 (p=0.038) | Persistence-AQFM v2-M +2.74 (p=0.000)
+Ozone 72h: n=10640 AQFM v2-M 9.61  AQFM v2 9.71  XGBoost + future ERA5 10.01  Persistence 13.81 | AQFM v2-AQFM v2-M +0.11 (p=0.465) | XGBoost + future ERA5-AQFM v2-M +0.41 (p=0.014) | Persistence-AQFM v2-M +4.20 (p=0.000)
+saved results/paper/delhi_Ozone_with_weather.json
+Ozone 1h: n=12197 AQFM v2-M 5.21  AQFM v2 5.62  XGBoost 6.29  Persistence 4.98 | AQFM v2-AQFM v2-M +0.41 (p=0.000) | XGBoost-AQFM v2-M +1.08 (p=0.000) | Persistence-AQFM v2-M -0.23 (p=0.085)
+Ozone 6h: n=12159 AQFM v2-M 7.04  AQFM v2 7.24  XGBoost 7.46  Persistence 7.88 | AQFM v2-AQFM v2-M +0.20 (p=0.000) | XGBoost-AQFM v2-M +0.43 (p=0.008) | Persistence-AQFM v2-M +0.85 (p=0.001)
+Ozone 24h: n=10642 AQFM v2-M 9.69  AQFM v2 9.72  XGBoost 10.10  Persistence 11.61 | AQFM v2-AQFM v2-M +0.03 (p=0.379) | XGBoost-AQFM v2-M +0.41 (p=0.006) | Persistence-AQFM v2-M +1.92 (p=0.000)
+Ozone 72h: n=10640 AQFM v2-M 10.58  AQFM v2 10.63  XGBoost 11.18  Persistence 13.81 | AQFM v2-AQFM v2-M +0.05 (p=0.006) | XGBoost-AQFM v2-M +0.60 (p=0.000) | Persistence-AQFM v2-M +3.23 (p=0.000)
+saved results/paper/delhi_Ozone_no_weather.json
+NOx 1h: n=12328 AQFM v2-M 11.94  AQFM v2 12.10  XGBoost + future ERA5 15.08  Persistence 12.55 | AQFM v2-AQFM v2-M +0.17 (p=0.007) | XGBoost + future ERA5-AQFM v2-M +3.15 (p=0.000) | Persistence-AQFM v2-M +0.62 (p=0.000)
+NOx 6h: n=12423 AQFM v2-M 15.86  AQFM v2 16.20  XGBoost + future ERA5 17.24  Persistence 25.45 | AQFM v2-AQFM v2-M +0.33 (p=0.016) | XGBoost + future ERA5-AQFM v2-M +1.37 (p=0.000) | Persistence-AQFM v2-M +9.59 (p=0.000)
+NOx 24h: n=10862 AQFM v2-M 24.92  AQFM v2 24.95  XGBoost + future ERA5 26.55  Persistence 36.63 | AQFM v2-AQFM v2-M +0.03 (p=0.949) | XGBoost + future ERA5-AQFM v2-M +1.63 (p=0.001) | Persistence-AQFM v2-M +11.72 (p=0.000)
+NOx 72h: n=10854 AQFM v2-M 27.69  AQFM v2 26.74  XGBoost + future ERA5 29.33  Persistence 44.74 | AQFM v2-AQFM v2-M -0.95 (p=0.048) | XGBoost + future ERA5-AQFM v2-M +1.64 (p=0.024) | Persistence-AQFM v2-M +17.05 (p=0.000)
+saved results/paper/delhi_NOx_with_weather.json
+NOx 1h: n=12328 AQFM v2-M 11.95  AQFM v2 11.99  XGBoost 15.54  Persistence 12.55 | AQFM v2-AQFM v2-M +0.03 (p=0.484) | XGBoost-AQFM v2-M +3.58 (p=0.000) | Persistence-AQFM v2-M +0.60 (p=0.000)
+NOx 6h: n=12423 AQFM v2-M 17.25  AQFM v2 17.59  XGBoost 19.26  Persistence 25.45 | AQFM v2-AQFM v2-M +0.34 (p=0.002) | XGBoost-AQFM v2-M +2.00 (p=0.000) | Persistence-AQFM v2-M +8.20 (p=0.000)
+NOx 24h: n=10862 AQFM v2-M 29.94  AQFM v2 30.27  XGBoost 32.37  Persistence 36.63 | AQFM v2-AQFM v2-M +0.33 (p=0.167) | XGBoost-AQFM v2-M +2.43 (p=0.000) | Persistence-AQFM v2-M +6.70 (p=0.000)
+NOx 72h: n=10854 AQFM v2-M 32.77  AQFM v2 33.57  XGBoost 37.05  Persistence 44.74 | AQFM v2-AQFM v2-M +0.80 (p=0.040) | XGBoost-AQFM v2-M +4.28 (p=0.000) | Persistence-AQFM v2-M +11.97 (p=0.000)
+saved results/paper/delhi_NOx_no_weather.json
+NO2 1h: n=12577 AQFM v2-M 9.91  AQFM v2 9.63  XGBoost + future ERA5 9.03  Persistence 8.52 | AQFM v2-AQFM v2-M -0.28 (p=0.000) | XGBoost + future ERA5-AQFM v2-M -0.88 (p=0.000) | Persistence-AQFM v2-M -1.40 (p=0.000)
+NO2 6h: n=12607 AQFM v2-M 10.84  AQFM v2 10.79  XGBoost + future ERA5 9.90  Persistence 16.60 | AQFM v2-AQFM v2-M -0.05 (p=0.286) | XGBoost + future ERA5-AQFM v2-M -0.94 (p=0.000) | Persistence-AQFM v2-M +5.76 (p=0.000)
+NO2 24h: n=10819 AQFM v2-M 15.21  AQFM v2 14.87  XGBoost + future ERA5 13.14  Persistence 15.86 | AQFM v2-AQFM v2-M -0.34 (p=0.002) | XGBoost + future ERA5-AQFM v2-M -2.07 (p=0.000) | Persistence-AQFM v2-M +0.65 (p=0.166)
+NO2 72h: n=10813 AQFM v2-M 16.93  AQFM v2 16.53  XGBoost + future ERA5 15.06  Persistence 19.62 | AQFM v2-AQFM v2-M -0.40 (p=0.041) | XGBoost + future ERA5-AQFM v2-M -1.87 (p=0.000) | Persistence-AQFM v2-M +2.69 (p=0.000)
+saved results/paper/delhi_NO2_with_weather.json
+NO2 1h: n=12577 AQFM v2-M 9.79  AQFM v2 9.61  XGBoost 9.11  Persistence 8.52 | AQFM v2-AQFM v2-M -0.19 (p=0.000) | XGBoost-AQFM v2-M -0.68 (p=0.004) | Persistence-AQFM v2-M -1.28 (p=0.000)
+NO2 6h: n=12607 AQFM v2-M 11.13  AQFM v2 11.27  XGBoost 10.21  Persistence 16.60 | AQFM v2-AQFM v2-M +0.15 (p=0.033) | XGBoost-AQFM v2-M -0.92 (p=0.000) | Persistence-AQFM v2-M +5.47 (p=0.000)
+NO2 24h: n=10819 AQFM v2-M 15.92  AQFM v2 15.96  XGBoost 14.30  Persistence 15.86 | AQFM v2-AQFM v2-M +0.04 (p=0.748) | XGBoost-AQFM v2-M -1.62 (p=0.000) | Persistence-AQFM v2-M -0.06 (p=0.900)
+NO2 72h: n=10813 AQFM v2-M 17.93  AQFM v2 18.24  XGBoost 16.75  Persistence 19.62 | AQFM v2-AQFM v2-M +0.32 (p=0.059) | XGBoost-AQFM v2-M -1.17 (p=0.001) | Persistence-AQFM v2-M +1.69 (p=0.005)
+saved results/paper/delhi_NO2_no_weather.json
+[2026-11-06 23:45:56] pipeline finished (stage SAVE)

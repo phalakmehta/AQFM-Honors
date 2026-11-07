@@ -1,0 +1,21 @@
+  test: forecast; forecasting 37 anchor stations
+  forecast batch 1/838
+  forecast batch 51/838
+  forecast batch 101/838
+  forecast batch 151/838
+  forecast batch 201/838
+  forecast batch 251/838
+  forecast batch 301/838
+  forecast batch 351/838
+  forecast batch 401/838
+  forecast batch 451/838
+  forecast batch 501/838
+  forecast batch 551/838
+  forecast batch 601/838
+  forecast batch 651/838
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 33.0461, '6h': 33.7504, '24h': 35.1464, '72h': 39.4207}
+PM10 {'1h': 60.9305, '6h': 54.7802, '24h': 64.2847, '72h': 70.0201}
+saved results/paper/delhi_v2m256_abl_nolast_s0.json

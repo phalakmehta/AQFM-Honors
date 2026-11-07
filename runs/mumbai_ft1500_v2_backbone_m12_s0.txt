@@ -1,0 +1,96 @@
+building data store (train_end=35040, test_start=52512, cities=['mumbai']) ...
+  freeze=backbone: 0.076M trainable parameters
+parameters: 1.17M   device=cuda  amp=torch.bfloat16
+  mumbai: training data limited to steps [0, 35040), the last 12 months before validation
+code: a00d49d
+step=1 lr=3e-07 gnorm=0.7577 s_per_step=1.674 nll_forecast=1.524 crps_forecast=0.6267 nll_impute=1.599 crps_impute=0.6511 physical=0.3482 total=1.929
+step=50 lr=1.5e-05 gnorm=0.7373 s_per_step=0.1182 nll_forecast=1.586 crps_forecast=0.6648 nll_impute=1.529 crps_impute=0.624 physical=0.3796 total=2.008
+  [val] step 50: nll_forecast=1.6098 crps_forecast=0.6901 physical=0.3681 total=2.0469
+  [val] new best 1.9549 -> best.pt
+step=100 lr=3e-05 gnorm=0.7576 s_per_step=0.1313 nll_forecast=1.63 crps_forecast=0.7267 nll_impute=2.018 crps_impute=1.056 physical=0.3823 total=2.117
+  [val] step 100: nll_forecast=1.5947 crps_forecast=0.6856 physical=0.3668 total=2.0292
+  [val] new best 1.9375 -> best.pt
+step=150 lr=2.991e-05 gnorm=0.5011 s_per_step=0.1271 nll_forecast=1.577 crps_forecast=0.6835 nll_impute=1.742 crps_impute=0.7902 physical=0.4026 total=2.03
+  [val] step 150: nll_forecast=1.5855 crps_forecast=0.6825 physical=0.3659 total=2.0182
+  [val] new best 1.9267 -> best.pt
+step=200 lr=2.964e-05 gnorm=0.8706 s_per_step=0.1235 nll_forecast=1.682 crps_forecast=0.757 nll_impute=1.368 crps_impute=0.5286 physical=0.3997 total=2.149
+  [val] step 200: nll_forecast=1.5806 crps_forecast=0.6806 physical=0.3650 total=2.0122
+  [val] new best 1.9209 -> best.pt
+step=250 lr=2.918e-05 gnorm=0.7099 s_per_step=0.1247 nll_forecast=1.57 crps_forecast=0.711 nll_impute=1.778 crps_impute=0.8065 physical=0.3867 total=2.028
+  [val] step 250: nll_forecast=1.5773 crps_forecast=0.6793 physical=0.3643 total=2.0080
+  [val] new best 1.9169 -> best.pt
+step=300 lr=2.854e-05 gnorm=0.6479 s_per_step=0.1235 nll_forecast=1.595 crps_forecast=0.6968 nll_impute=1.687 crps_impute=0.7122 physical=0.4094 total=2.051
+  [val] step 300: nll_forecast=1.5742 crps_forecast=0.6780 physical=0.3637 total=2.0041
+  [val] new best 1.9132 -> best.pt
+step=350 lr=2.774e-05 gnorm=0.6549 s_per_step=0.1214 nll_forecast=1.613 crps_forecast=0.699 nll_impute=1.373 crps_impute=0.5204 physical=0.4279 total=2.056
+  [val] step 350: nll_forecast=1.5722 crps_forecast=0.6772 physical=0.3635 total=2.0017
+  [val] new best 1.9108 -> best.pt
+step=400 lr=2.678e-05 gnorm=0.6757 s_per_step=0.1222 nll_forecast=1.54 crps_forecast=0.6649 nll_impute=1.57 crps_impute=0.6428 physical=0.4247 total=1.98
+  [val] step 400: nll_forecast=1.5703 crps_forecast=0.6764 physical=0.3632 total=1.9993
+  [val] new best 1.9085 -> best.pt
+step=450 lr=2.567e-05 gnorm=0.8264 s_per_step=0.1221 nll_forecast=1.474 crps_forecast=0.6092 nll_impute=1.511 crps_impute=0.6043 physical=0.3821 total=1.875
+  [val] step 450: nll_forecast=1.5692 crps_forecast=0.6759 physical=0.3628 total=1.9978
+  [val] new best 1.9071 -> best.pt
+step=500 lr=2.443e-05 gnorm=0.4939 s_per_step=0.1228 nll_forecast=1.502 crps_forecast=0.6239 nll_impute=1.499 crps_impute=0.6064 physical=0.3648 total=1.905
+  [val] step 500: nll_forecast=1.5680 crps_forecast=0.6754 physical=0.3625 total=1.9964
+  [val] new best 1.9058 -> best.pt
+step=550 lr=2.308e-05 gnorm=0.6657 s_per_step=0.1235 nll_forecast=1.478 crps_forecast=0.6234 nll_impute=1.458 crps_impute=0.5731 physical=0.3471 total=1.875
+  [val] step 550: nll_forecast=1.5671 crps_forecast=0.6751 physical=0.3624 total=1.9953
+  [val] new best 1.9047 -> best.pt
+step=600 lr=2.162e-05 gnorm=0.8704 s_per_step=0.1236 nll_forecast=1.733 crps_forecast=0.877 nll_impute=1.583 crps_impute=0.6478 physical=0.4251 total=2.268
+  [val] step 600: nll_forecast=1.5663 crps_forecast=0.6747 physical=0.3623 total=1.9942
+  [val] new best 1.9036 -> best.pt
+step=650 lr=2.009e-05 gnorm=0.4481 s_per_step=0.1234 nll_forecast=1.511 crps_forecast=0.6297 nll_impute=1.421 crps_impute=0.5551 physical=0.3904 total=1.92
+  [val] step 650: nll_forecast=1.5653 crps_forecast=0.6744 physical=0.3619 total=1.9929
+  [val] new best 1.9025 -> best.pt
+step=700 lr=1.849e-05 gnorm=0.555 s_per_step=0.1233 nll_forecast=1.503 crps_forecast=0.6496 nll_impute=1.572 crps_impute=0.6626 physical=0.3628 total=1.921
+  [val] step 700: nll_forecast=1.5648 crps_forecast=0.6742 physical=0.3619 total=1.9923
+  [val] new best 1.9018 -> best.pt
+step=750 lr=1.685e-05 gnorm=0.539 s_per_step=0.1231 nll_forecast=1.543 crps_forecast=0.6916 nll_impute=1.401 crps_impute=0.5489 physical=0.3837 total=1.968
+  [val] step 750: nll_forecast=1.5643 crps_forecast=0.6739 physical=0.3616 total=1.9917
+  [val] new best 1.9013 -> best.pt
+step=800 lr=1.518e-05 gnorm=0.6413 s_per_step=0.1228 nll_forecast=1.658 crps_forecast=0.7651 nll_impute=1.598 crps_impute=0.717 physical=0.3766 total=2.131
+  [val] step 800: nll_forecast=1.5635 crps_forecast=0.6736 physical=0.3617 total=1.9907
+  [val] new best 1.9003 -> best.pt
+step=850 lr=1.352e-05 gnorm=0.6367 s_per_step=0.1227 nll_forecast=1.534 crps_forecast=0.6462 nll_impute=1.441 crps_impute=0.5662 physical=0.4409 total=1.961
+  [val] step 850: nll_forecast=1.5632 crps_forecast=0.6735 physical=0.3615 total=1.9904
+  [val] new best 1.9000 -> best.pt
+step=900 lr=1.188e-05 gnorm=0.6027 s_per_step=0.1227 nll_forecast=1.546 crps_forecast=0.6779 nll_impute=1.386 crps_impute=0.5327 physical=0.3771 total=1.972
+  [val] step 900: nll_forecast=1.5629 crps_forecast=0.6734 physical=0.3612 total=1.9899
+  [val] new best 1.8996 -> best.pt
+step=950 lr=1.028e-05 gnorm=0.573 s_per_step=0.1221 nll_forecast=1.586 crps_forecast=0.687 nll_impute=1.447 crps_impute=0.5822 physical=0.4035 total=2.023
+  [val] step 950: nll_forecast=1.5627 crps_forecast=0.6733 physical=0.3614 total=1.9898
+  [val] new best 1.8994 -> best.pt
+step=1000 lr=8.737e-06 gnorm=0.708 s_per_step=0.1219 nll_forecast=1.605 crps_forecast=0.7182 nll_impute=1.335 crps_impute=0.5104 physical=0.4882 total=2.074
+  [val] step 1000: nll_forecast=1.5628 crps_forecast=0.6733 physical=0.3611 total=1.9897
+step=1050 lr=7.278e-06 gnorm=0.7174 s_per_step=0.122 nll_forecast=1.56 crps_forecast=0.675 nll_impute=1.652 crps_impute=0.6926 physical=0.3457 total=1.986
+  [val] step 1050: nll_forecast=1.5625 crps_forecast=0.6732 physical=0.3611 total=1.9894
+  [val] new best 1.8991 -> best.pt
+step=1100 lr=5.917e-06 gnorm=0.6865 s_per_step=0.1218 nll_forecast=1.56 crps_forecast=0.6739 nll_impute=1.294 crps_impute=0.4844 physical=0.3931 total=1.988
+  [val] step 1100: nll_forecast=1.5622 crps_forecast=0.6731 physical=0.3613 total=1.9891
+  [val] new best 1.8988 -> best.pt
+step=1150 lr=4.673e-06 gnorm=0.6777 s_per_step=0.122 nll_forecast=1.596 crps_forecast=0.704 nll_impute=1.373 crps_impute=0.5323 physical=0.3577 total=2.023
+  [val] step 1150: nll_forecast=1.5622 crps_forecast=0.6731 physical=0.3614 total=1.9891
+  [val] new best 1.8987 -> best.pt
+step=1200 lr=3.561e-06 gnorm=0.9177 s_per_step=0.1223 nll_forecast=1.684 crps_forecast=0.7929 nll_impute=1.578 crps_impute=0.6566 physical=0.4042 total=2.172
+  [val] step 1200: nll_forecast=1.5620 crps_forecast=0.6731 physical=0.3615 total=1.9889
+  [val] new best 1.8986 -> best.pt
+step=1250 lr=2.594e-06 gnorm=0.5836 s_per_step=0.122 nll_forecast=1.654 crps_forecast=0.7366 nll_impute=1.459 crps_impute=0.59 physical=0.4132 total=2.116
+  [val] step 1250: nll_forecast=1.5620 crps_forecast=0.6731 physical=0.3611 total=1.9888
+  [val] new best 1.8985 -> best.pt
+step=1300 lr=1.785e-06 gnorm=0.7821 s_per_step=0.1221 nll_forecast=1.701 crps_forecast=0.7551 nll_impute=1.557 crps_impute=0.6308 physical=0.449 total=2.181
+  [val] step 1300: nll_forecast=1.5620 crps_forecast=0.6730 physical=0.3613 total=1.9888
+  [val] new best 1.8985 -> best.pt
+step=1350 lr=1.144e-06 gnorm=0.6452 s_per_step=0.1219 nll_forecast=1.596 crps_forecast=0.7428 nll_impute=1.465 crps_impute=0.5726 physical=0.3985 total=2.055
+  [val] step 1350: nll_forecast=1.5619 crps_forecast=0.6730 physical=0.3613 total=1.9887
+  [val] new best 1.8984 -> best.pt
+step=1400 lr=6.798e-07 gnorm=0.5374 s_per_step=0.1215 nll_forecast=1.629 crps_forecast=0.7155 nll_impute=1.408 crps_impute=0.5562 physical=0.3782 total=2.058
+  [val] step 1400: nll_forecast=1.5619 crps_forecast=0.6730 physical=0.3612 total=1.9887
+  [val] new best 1.8984 -> best.pt
+step=1450 lr=3.971e-07 gnorm=0.6145 s_per_step=0.1215 nll_forecast=1.697 crps_forecast=0.8019 nll_impute=1.539 crps_impute=0.6218 physical=0.4127 total=2.195
+  [val] step 1450: nll_forecast=1.5619 crps_forecast=0.6730 physical=0.3612 total=1.9887
+  [val] new best 1.8984 -> best.pt
+step=1500 lr=3e-07 gnorm=0.605 s_per_step=0.1213 nll_forecast=1.604 crps_forecast=0.7094 nll_impute=1.6 crps_impute=0.6865 physical=0.3544 total=2.046
+  [val] step 1500: nll_forecast=1.5619 crps_forecast=0.6730 physical=0.3613 total=1.9887
+  [val] new best 1.8983 -> best.pt
+done. best val total=1.8983  (3.1 min)

@@ -117,11 +117,12 @@ def main():
                             break
                     
                     # --- Seasonal Naive ---
-                    # forecast = value 24h before target_t
-                    # Target is target_t, so we look at target_t - 96
+                    # forecast = the latest value at target_t's time of day that is before the origin t
+                    # (fixed 2026-11-07: it was the value 24h before target_t, which at 72h is after the origin)
                     snaive_pred = np.nan
+                    back = (target_t - t) // STEPS_PER_DAY  # whole days to skip so the value is before t
                     for walk in range(0, 8): # Walk back in 24h increments up to 7 times
-                        idx = target_t - STEPS_PER_DAY * (walk + 1)
+                        idx = target_t - STEPS_PER_DAY * (walk + 1 + back)
                         if idx >= 0 and observed[s, ch_idx, idx] > 0.5:
                             snaive_pred = values[s, ch_idx, idx]
                             break

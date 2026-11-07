@@ -1,0 +1,370 @@
+{
+  "target": "PM2.5",
+  "models": {
+    "AQFM v2-M": "results/forecasts/delhi_fold24_v2m256_ens3.npz",
+    "XGBoost + future ERA5, last reading": "results/forecasts/delhi_fold24_xgboost_fm_last.npz:xgboost",
+    "XGBoost + future ERA5, published lags": "results/forecasts/delhi_fold24_xgboost_fm.npz:xgboost",
+    "Persistence": "results/forecasts/delhi_fold24_classical.npz:persistence"
+  },
+  "pairs_in_common": 13431,
+  "leads": {
+    "1h": {
+      "n": 12188,
+      "days": 363,
+      "MAE": {
+        "AQFM v2-M": 16.664995955731225,
+        "XGBoost + future ERA5, last reading": 16.44484846042252,
+        "XGBoost + future ERA5, published lags": 20.15681111657259,
+        "Persistence": 16.938237613369015
+      },
+      "vs_first": {
+        "XGBoost + future ERA5, last reading": {
+          "MAE_diff": -0.22014749530870503,
+          "dm_z": -0.8158486710001023,
+          "dm_p": 0.4145866923237205,
+          "ci95": [
+            -0.8344439534369622,
+            0.21030806298548957
+          ]
+        },
+        "XGBoost + future ERA5, published lags": {
+          "MAE_diff": 3.491815160841366,
+          "dm_z": 7.962213979684547,
+          "dm_p": 1.7763568394002505e-15,
+          "ci95": [
+            2.656679932665905,
+            4.291160732728427
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 0.27324165763779007,
+          "dm_z": 0.623300375329882,
+          "dm_p": 0.5330871512046378,
+          "ci95": [
+            -0.4979998188592886,
+            0.7750139258173995
+          ]
+        }
+      }
+    },
+    "6h": {
+      "n": 12036,
+      "days": 363,
+      "MAE": {
+        "AQFM v2-M": 30.889506782196467,
+        "XGBoost + future ERA5, last reading": 30.513606666273446,
+        "XGBoost + future ERA5, published lags": 31.68571563282732,
+        "Persistence": 40.131764689806744
+      },
+      "vs_first": {
+        "XGBoost + future ERA5, last reading": {
+          "MAE_diff": -0.3759001159230202,
+          "dm_z": -0.885747997074488,
+          "dm_p": 0.3757533380364313,
+          "ci95": [
+            -1.2332753981553792,
+            0.4015016370189402
+          ]
+        },
+        "XGBoost + future ERA5, published lags": {
+          "MAE_diff": 0.7962088506308547,
+          "dm_z": 1.6626593345466563,
+          "dm_p": 0.09638064666301527,
+          "ci95": [
+            -0.17661096236125792,
+            1.6280702010426202
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 9.242257907610277,
+          "dm_z": 4.8895484585577424,
+          "dm_p": 1.010675414914175e-06,
+          "ci95": [
+            5.772815957131815,
+            13.01484591747448
+          ]
+        }
+      }
+    },
+    "24h": {
+      "n": 10258,
+      "days": 363,
+      "MAE": {
+        "AQFM v2-M": 37.25458165979222,
+        "XGBoost + future ERA5, last reading": 36.577749784796524,
+        "XGBoost + future ERA5, published lags": 36.99055438400365,
+        "Persistence": 47.149467701558656
+      },
+      "vs_first": {
+        "XGBoost + future ERA5, last reading": {
+          "MAE_diff": -0.676831874995699,
+          "dm_z": -0.6663822376126991,
+          "dm_p": 0.5051668129093612,
+          "ci95": [
+            -2.6906933016924923,
+            1.5582371794429506
+          ]
+        },
+        "XGBoost + future ERA5, published lags": {
+          "MAE_diff": -0.2640272757885711,
+          "dm_z": -0.3153701180108658,
+          "dm_p": 0.7524806524417609,
+          "ci95": [
+            -2.2157676297180333,
+            1.753923586756443
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 9.894886041766433,
+          "dm_z": 6.818101147936465,
+          "dm_p": 9.22506515621535e-12,
+          "ci95": [
+            6.883107510321105,
+            12.424897699914721
+          ]
+        }
+      },
+      "by_month": {
+        "1": {
+          "n": 849,
+          "AQFM v2-M": 84.40972049385134,
+          "XGBoost + future ERA5, last reading": 73.11780423185711,
+          "XGBoost + future ERA5, published lags": 74.5928917874717,
+          "Persistence": 94.46652540245101
+        },
+        "2": {
+          "n": 791,
+          "AQFM v2-M": 35.613485198557456,
+          "XGBoost + future ERA5, last reading": 35.05016557877947,
+          "XGBoost + future ERA5, published lags": 36.06267552399907,
+          "Persistence": 50.32541092066035
+        },
+        "3": {
+          "n": 864,
+          "AQFM v2-M": 24.72253445011598,
+          "XGBoost + future ERA5, last reading": 24.93424920572175,
+          "XGBoost + future ERA5, published lags": 25.245586422858416,
+          "Persistence": 34.231053264604675
+        },
+        "4": {
+          "n": 856,
+          "AQFM v2-M": 24.489250467237188,
+          "XGBoost + future ERA5, last reading": 27.281381782005045,
+          "XGBoost + future ERA5, published lags": 27.120783684444483,
+          "Persistence": 37.12184576237592
+        },
+        "5": {
+          "n": 892,
+          "AQFM v2-M": 28.500186074475003,
+          "XGBoost + future ERA5, last reading": 33.40581511061288,
+          "XGBoost + future ERA5, published lags": 32.01863571881179,
+          "Persistence": 37.7503474821157
+        },
+        "6": {
+          "n": 851,
+          "AQFM v2-M": 21.043417689943144,
+          "XGBoost + future ERA5, last reading": 20.692552945588645,
+          "XGBoost + future ERA5, published lags": 21.141781857655275,
+          "Persistence": 28.54730908028107
+        },
+        "7": {
+          "n": 870,
+          "AQFM v2-M": 17.97893432008809,
+          "XGBoost + future ERA5, last reading": 18.585441063464373,
+          "XGBoost + future ERA5, published lags": 18.370767801931535,
+          "Persistence": 22.648574708316517
+        },
+        "8": {
+          "n": 857,
+          "AQFM v2-M": 11.344859801206733,
+          "XGBoost + future ERA5, last reading": 12.343995700778315,
+          "XGBoost + future ERA5, published lags": 12.403428285792383,
+          "Persistence": 16.163418877339524
+        },
+        "9": {
+          "n": 834,
+          "AQFM v2-M": 15.632582426214103,
+          "XGBoost + future ERA5, last reading": 15.59546404433765,
+          "XGBoost + future ERA5, published lags": 15.703991187848061,
+          "Persistence": 22.27875297618427
+        },
+        "10": {
+          "n": 887,
+          "AQFM v2-M": 43.1358251444777,
+          "XGBoost + future ERA5, last reading": 42.96940425842614,
+          "XGBoost + future ERA5, published lags": 42.27859996937492,
+          "Persistence": 46.1633708790415
+        },
+        "11": {
+          "n": 890,
+          "AQFM v2-M": 77.74741860721888,
+          "XGBoost + future ERA5, last reading": 79.00697000910726,
+          "XGBoost + future ERA5, published lags": 80.03877250585663,
+          "Persistence": 93.11926938174815
+        },
+        "12": {
+          "n": 817,
+          "AQFM v2-M": 62.19305466613396,
+          "XGBoost + future ERA5, last reading": 54.987315585301005,
+          "XGBoost + future ERA5, published lags": 58.224293875723454,
+          "Persistence": 83.68532426850449
+        }
+      },
+      "by_band": {
+        "Good": {
+          "n": 1317,
+          "AQFM v2-M": {
+            "MAE": 14.509069178157239,
+            "share_of_error": 0.050001489371077734
+          },
+          "XGBoost + future ERA5, last reading": {
+            "MAE": 18.80254315314765,
+            "share_of_error": 0.06599677131768418
+          },
+          "XGBoost + future ERA5, published lags": {
+            "MAE": 18.63318171278887,
+            "share_of_error": 0.06467244189371252
+          },
+          "Persistence": {
+            "MAE": 19.851123776317955,
+            "share_of_error": 0.054054441367786615
+          }
+        },
+        "Satisfactory": {
+          "n": 2444,
+          "AQFM v2-M": {
+            "MAE": 16.431817973791674,
+            "share_of_error": 0.10508589591494559
+          },
+          "XGBoost + future ERA5, last reading": {
+            "MAE": 18.436903723328086,
+            "share_of_error": 0.12009073695052341
+          },
+          "XGBoost + future ERA5, published lags": {
+            "MAE": 18.113741789238738,
+            "share_of_error": 0.11666909772945393
+          },
+          "Persistence": {
+            "MAE": 24.700040903533832,
+            "share_of_error": 0.12481287446892092
+          }
+        },
+        "Moderate": {
+          "n": 1715,
+          "AQFM v2-M": {
+            "MAE": 20.591347954919666,
+            "share_of_error": 0.09240735002177085
+          },
+          "XGBoost + future ERA5, last reading": {
+            "MAE": 20.544812701255864,
+            "share_of_error": 0.09390454900498997
+          },
+          "XGBoost + future ERA5, published lags": {
+            "MAE": 20.657311612454517,
+            "share_of_error": 0.09336506206982158
+          },
+          "Persistence": {
+            "MAE": 31.172932908764388,
+            "share_of_error": 0.11053563242917923
+          }
+        },
+        "Poor": {
+          "n": 1130,
+          "AQFM v2-M": {
+            "MAE": 28.48709801530416,
+            "share_of_error": 0.08423338772534497
+          },
+          "XGBoost + future ERA5, last reading": {
+            "MAE": 28.429794838154212,
+            "share_of_error": 0.08561946103299896
+          },
+          "XGBoost + future ERA5, published lags": {
+            "MAE": 28.738314453057484,
+            "share_of_error": 0.0855827428340364
+          },
+          "Persistence": {
+            "MAE": 37.45083191538213,
+            "share_of_error": 0.08749846295121914
+          }
+        },
+        "Very Poor": {
+          "n": 2447,
+          "AQFM v2-M": {
+            "MAE": 53.26507499065017,
+            "share_of_error": 0.34106262197404946
+          },
+          "XGBoost + future ERA5, last reading": {
+            "MAE": 49.326277750387064,
+            "share_of_error": 0.3216863506740819
+          },
+          "XGBoost + future ERA5, published lags": {
+            "MAE": 49.909022369821265,
+            "share_of_error": 0.3218544345669962
+          },
+          "Persistence": {
+            "MAE": 58.427956659451866,
+            "share_of_error": 0.2956073165055377
+          }
+        },
+        "Severe": {
+          "n": 1205,
+          "AQFM v2-M": {
+            "MAE": 103.77217462943302,
+            "share_of_error": 0.32720925499281134
+          },
+          "XGBoost + future ERA5, last reading": {
+            "MAE": 97.36961963067905,
+            "share_of_error": 0.31270213101972155
+          },
+          "XGBoost + future ERA5, published lags": {
+            "MAE": 100.09150135784229,
+            "share_of_error": 0.31785622090597937
+          },
+          "Persistence": {
+            "MAE": 131.44745207663888,
+            "share_of_error": 0.3274912722773564
+          }
+        }
+      }
+    },
+    "72h": {
+      "n": 10254,
+      "days": 363,
+      "MAE": {
+        "AQFM v2-M": 42.11228275687187,
+        "XGBoost + future ERA5, last reading": 40.232179845914516,
+        "XGBoost + future ERA5, published lags": 40.477866048952414,
+        "Persistence": 55.77816071524353
+      },
+      "vs_first": {
+        "XGBoost + future ERA5, last reading": {
+          "MAE_diff": -1.8801029109573548,
+          "dm_z": -1.1315160017367334,
+          "dm_p": 0.25783797224522864,
+          "ci95": [
+            -5.768950249569077,
+            1.4981620864233554
+          ]
+        },
+        "XGBoost + future ERA5, published lags": {
+          "MAE_diff": -1.6344167079194563,
+          "dm_z": -0.99109547787708,
+          "dm_p": 0.3216389609312571,
+          "ci95": [
+            -5.466419146713352,
+            1.6363292996928742
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 13.66587795837166,
+          "dm_z": 6.055632249761705,
+          "dm_p": 1.3986720670544628e-09,
+          "ci95": [
+            9.060045330449261,
+            17.793278898725983
+          ]
+        }
+      }
+    }
+  }
+}

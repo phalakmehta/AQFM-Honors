@@ -1,0 +1,254 @@
+{
+  "target": "NO2",
+  "models": {
+    "AQFM v2-M, NO2 direct": "results/forecasts/delhi_v2m256_no2d_ens3.npz",
+    "XGBoost + future ERA5, last reading": "results/forecasts/delhi_xgboost_fm_last.npz:xgboost",
+    "XGBoost + future ERA5, published lags": "results/forecasts/delhi_xgboost_fm.npz:xgboost",
+    "Persistence": "results/forecasts/delhi_classical.npz:persistence"
+  },
+  "pairs_in_common": 13394,
+  "leads": {
+    "1h": {
+      "n": 12577,
+      "days": 362,
+      "MAE": {
+        "AQFM v2-M, NO2 direct": 7.732570900695592,
+        "XGBoost + future ERA5, last reading": 7.673932371167155,
+        "XGBoost + future ERA5, published lags": 9.02945213204202,
+        "Persistence": 8.51558555122262
+      },
+      "vs_first": {
+        "XGBoost + future ERA5, last reading": {
+          "MAE_diff": -0.0586385295284364,
+          "dm_z": -1.2370037453910763,
+          "dm_p": 0.2160856921491321,
+          "ci95": [
+            -0.15094562331323239,
+            0.03144055028947212
+          ]
+        },
+        "XGBoost + future ERA5, published lags": {
+          "MAE_diff": 1.2968812313464273,
+          "dm_z": 12.558217529179156,
+          "dm_p": 0.0,
+          "ci95": [
+            1.105296809163053,
+            1.4993902317188759
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 0.7830146505270275,
+          "dm_z": 10.27012638753404,
+          "dm_p": 0.0,
+          "ci95": [
+            0.6420431046928076,
+            0.9446892384025184
+          ]
+        }
+      }
+    },
+    "6h": {
+      "n": 12607,
+      "days": 362,
+      "MAE": {
+        "AQFM v2-M, NO2 direct": 9.31187893381351,
+        "XGBoost + future ERA5, last reading": 9.647158206804631,
+        "XGBoost + future ERA5, published lags": 9.90091211266093,
+        "Persistence": 16.60157927092139
+      },
+      "vs_first": {
+        "XGBoost + future ERA5, last reading": {
+          "MAE_diff": 0.33527927299112115,
+          "dm_z": 2.9269930884352986,
+          "dm_p": 0.0034225648660921593,
+          "ci95": [
+            0.11467633393254342,
+            0.5693265436628409
+          ]
+        },
+        "XGBoost + future ERA5, published lags": {
+          "MAE_diff": 0.5890331788474192,
+          "dm_z": 5.257341590486952,
+          "dm_p": 1.4615269128270825e-07,
+          "ci95": [
+            0.37256239157182713,
+            0.8118268978033206
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 7.289700337107881,
+          "dm_z": 15.29573311507164,
+          "dm_p": 0.0,
+          "ci95": [
+            6.4509800414976555,
+            8.236954551983308
+          ]
+        }
+      }
+    },
+    "24h": {
+      "n": 10819,
+      "days": 362,
+      "MAE": {
+        "AQFM v2-M, NO2 direct": 12.874164059239284,
+        "XGBoost + future ERA5, last reading": 12.940185066079785,
+        "XGBoost + future ERA5, published lags": 13.136788237928775,
+        "Persistence": 15.858458219216407
+      },
+      "vs_first": {
+        "XGBoost + future ERA5, last reading": {
+          "MAE_diff": 0.06602100684050072,
+          "dm_z": 0.3906737286697033,
+          "dm_p": 0.6960384201294996,
+          "ci95": [
+            -0.262162919899716,
+            0.38772465188228966
+          ]
+        },
+        "XGBoost + future ERA5, published lags": {
+          "MAE_diff": 0.2626241786894905,
+          "dm_z": 1.4608590537118555,
+          "dm_p": 0.14405412558084985,
+          "ci95": [
+            -0.09921021120504471,
+            0.6077806952067982
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 2.9842941599771233,
+          "dm_z": 8.593082651394978,
+          "dm_p": 0.0,
+          "ci95": [
+            2.365830465265769,
+            3.7161678132866496
+          ]
+        }
+      },
+      "by_month": {
+        "1": {
+          "n": 940,
+          "AQFM v2-M, NO2 direct": 12.487954436971787,
+          "XGBoost + future ERA5, last reading": 12.68202419027369,
+          "XGBoost + future ERA5, published lags": 12.865510254717888,
+          "Persistence": 15.219787157913471
+        },
+        "2": {
+          "n": 862,
+          "AQFM v2-M, NO2 direct": 12.173044997965377,
+          "XGBoost + future ERA5, last reading": 12.964514766657713,
+          "XGBoost + future ERA5, published lags": 13.100329702248983,
+          "Persistence": 17.914199553620236
+        },
+        "3": {
+          "n": 949,
+          "AQFM v2-M, NO2 direct": 13.323425675091679,
+          "XGBoost + future ERA5, last reading": 14.304721198669851,
+          "XGBoost + future ERA5, published lags": 14.530819539149519,
+          "Persistence": 17.449104210222483
+        },
+        "4": {
+          "n": 910,
+          "AQFM v2-M, NO2 direct": 18.455607983306216,
+          "XGBoost + future ERA5, last reading": 18.843201046723586,
+          "XGBoost + future ERA5, published lags": 19.126808421690384,
+          "Persistence": 24.74732956833892
+        },
+        "5": {
+          "n": 932,
+          "AQFM v2-M, NO2 direct": 16.95735954202296,
+          "XGBoost + future ERA5, last reading": 15.823289833866987,
+          "XGBoost + future ERA5, published lags": 15.440296194839886,
+          "Persistence": 21.00139481424006
+        },
+        "6": {
+          "n": 866,
+          "AQFM v2-M, NO2 direct": 11.770620285707588,
+          "XGBoost + future ERA5, last reading": 11.282477927469492,
+          "XGBoost + future ERA5, published lags": 11.483087438565203,
+          "Persistence": 14.378672060348077
+        },
+        "7": {
+          "n": 890,
+          "AQFM v2-M, NO2 direct": 8.903838093762987,
+          "XGBoost + future ERA5, last reading": 9.380785647269045,
+          "XGBoost + future ERA5, published lags": 9.30388134664364,
+          "Persistence": 11.608640444278716
+        },
+        "8": {
+          "n": 905,
+          "AQFM v2-M, NO2 direct": 7.723965984813416,
+          "XGBoost + future ERA5, last reading": 7.745932383168468,
+          "XGBoost + future ERA5, published lags": 7.995595193436133,
+          "Persistence": 9.48407734006808
+        },
+        "9": {
+          "n": 854,
+          "AQFM v2-M, NO2 direct": 8.962313682399254,
+          "XGBoost + future ERA5, last reading": 8.874468961351091,
+          "XGBoost + future ERA5, published lags": 9.084153230003228,
+          "Persistence": 9.87572600268508
+        },
+        "10": {
+          "n": 942,
+          "AQFM v2-M, NO2 direct": 13.380608602693886,
+          "XGBoost + future ERA5, last reading": 12.999891631415949,
+          "XGBoost + future ERA5, published lags": 12.859361534665345,
+          "Persistence": 15.935870406884234
+        },
+        "11": {
+          "n": 915,
+          "AQFM v2-M, NO2 direct": 15.260039837927115,
+          "XGBoost + future ERA5, last reading": 14.923038420944266,
+          "XGBoost + future ERA5, published lags": 15.783712209671572,
+          "Persistence": 16.703595502503582
+        },
+        "12": {
+          "n": 854,
+          "AQFM v2-M, NO2 direct": 14.615571132243831,
+          "XGBoost + future ERA5, last reading": 15.017189442627219,
+          "XGBoost + future ERA5, published lags": 15.668670699179208,
+          "Persistence": 15.310878165903778
+        }
+      }
+    },
+    "72h": {
+      "n": 10813,
+      "days": 362,
+      "MAE": {
+        "AQFM v2-M, NO2 direct": 14.727456130657556,
+        "XGBoost + future ERA5, last reading": 15.05785471615779,
+        "XGBoost + future ERA5, published lags": 15.059731353201096,
+        "Persistence": 19.618325140981458
+      },
+      "vs_first": {
+        "XGBoost + future ERA5, last reading": {
+          "MAE_diff": 0.3303985855002338,
+          "dm_z": 1.514279844752746,
+          "dm_p": 0.12995487825155294,
+          "ci95": [
+            -0.08050706121067959,
+            0.7647252125518419
+          ]
+        },
+        "XGBoost + future ERA5, published lags": {
+          "MAE_diff": 0.33227522254354014,
+          "dm_z": 1.517714785021398,
+          "dm_p": 0.12908631520831637,
+          "ci95": [
+            -0.09331687876096949,
+            0.7793590260913863
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 4.890869010323902,
+          "dm_z": 7.584368553317111,
+          "dm_p": 3.3306690738754696e-14,
+          "ci95": [
+            3.7664765592103646,
+            6.249316105686439
+          ]
+        }
+      }
+    }
+  }
+}

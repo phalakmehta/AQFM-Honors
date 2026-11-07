@@ -1,0 +1,19 @@
+[2026-11-06 15:46:30] train runs/mumbai_ft_v2m_none_m3_s0: --phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4 --init runs/v2m256_nofm_s0_do03/best.pt --freeze none --train-months 3 --seed 0
+done. best val total=1.9551  (5.7 min)
+[2026-11-06 15:52:12] train runs/mumbai_ft_v2m_encoder_m3_s0: --phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4 --init runs/v2m256_nofm_s0_do03/best.pt --freeze encoder --train-months 3 --seed 0
+done. best val total=1.9470  (4.9 min)
+[2026-11-06 15:57:08] train runs/mumbai_ft_v2m_backbone_m3_s0: --phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4 --init runs/v2m256_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0
+done. best val total=1.9228  (4.7 min)
+[2026-11-06 16:01:53] train runs/mumbai_ft_v2_none_m3_s0: --phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4 --init runs/v2_nofm_s0_do03/best.pt --freeze none --train-months 3 --seed 0
+done. best val total=1.9231  (4.0 min)
+[2026-11-06 16:05:52] train runs/mumbai_ft_v2_encoder_m3_s0: --phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4 --init runs/v2_nofm_s0_do03/best.pt --freeze encoder --train-months 3 --seed 0
+done. best val total=1.9252  (3.8 min)
+[2026-11-06 16:09:46] train runs/mumbai_ft_v2_backbone_m3_s0: --phase finetune --steps 3000 --warmup 300 --val-every 250 --patience 4 --init runs/v2_nofm_s0_do03/best.pt --freeze backbone --train-months 3 --seed 0
+done. best val total=1.9213  (4.0 min)
+runs/mumbai_ft_v2_backbone_m3_s0.txt: best validation 1.9213
+runs/mumbai_ft_v2_encoder_m3_s0.txt: best validation 1.9252
+runs/mumbai_ft_v2_none_m3_s0.txt: best validation 1.9231
+runs/mumbai_ft_v2m_backbone_m3_s0.txt: best validation 1.9228
+runs/mumbai_ft_v2m_encoder_m3_s0.txt: best validation 1.9470
+runs/mumbai_ft_v2m_none_m3_s0.txt: best validation 1.9551
+[2026-11-06 16:13:49] pipeline finished (stage A)

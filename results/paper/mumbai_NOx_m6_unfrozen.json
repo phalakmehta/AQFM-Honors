@@ -1,0 +1,259 @@
+{
+  "target": "NOx",
+  "models": {
+    "AQFM fine-tuned, nothing frozen": "results/forecasts/mumbai_ftnone_m6_ens3.npz",
+    "AQFM fine-tuned, backbone frozen": "results/forecasts/mumbai_ft_m6_ens3.npz",
+    "AQFM from scratch": "results/forecasts/mumbai_scratch_m6_ens3.npz",
+    "XGBoost (same months)": "results/forecasts/mumbai_xgboost_m6.npz:xgboost",
+    "Persistence": "results/forecasts/mumbai_classical.npz:persistence"
+  },
+  "pairs_in_common": 5068,
+  "leads": {
+    "1h": {
+      "n": 4201,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned, nothing frozen": 4.476718178621012,
+        "AQFM fine-tuned, backbone frozen": 4.481896695543246,
+        "AQFM from scratch": 4.579457261662782,
+        "XGBoost (same months)": 7.060587056578394,
+        "Persistence": 4.524988133213763
+      },
+      "vs_first": {
+        "AQFM fine-tuned, backbone frozen": {
+          "MAE_diff": 0.005178516922233811,
+          "dm_z": 0.2768864387421543,
+          "dm_p": 0.7818673059665766,
+          "ci95": [
+            -0.025434989291719633,
+            0.03837032982863153
+          ]
+        },
+        "AQFM from scratch": {
+          "MAE_diff": 0.1027390830417696,
+          "dm_z": 1.4743902879644313,
+          "dm_p": 0.14037653786732784,
+          "ci95": [
+            -0.06135038349675261,
+            0.25337459539899204
+          ]
+        },
+        "XGBoost (same months)": {
+          "MAE_diff": 2.583868877957382,
+          "dm_z": 7.615879818024988,
+          "dm_p": 2.6201263381153694e-14,
+          "ci95": [
+            1.872961985740321,
+            3.1262892913515947
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 0.04826995459275096,
+          "dm_z": 1.2342946146277085,
+          "dm_p": 0.2170931419542248,
+          "ci95": [
+            -0.013193454534182369,
+            0.1250727122562789
+          ]
+        }
+      }
+    },
+    "6h": {
+      "n": 4148,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned, nothing frozen": 7.056964270272557,
+        "AQFM fine-tuned, backbone frozen": 6.80532582963277,
+        "AQFM from scratch": 6.825497322852778,
+        "XGBoost (same months)": 8.630271306419036,
+        "Persistence": 8.917383630397634
+      },
+      "vs_first": {
+        "AQFM fine-tuned, backbone frozen": {
+          "MAE_diff": -0.2516384406397867,
+          "dm_z": -1.8128523385831825,
+          "dm_p": 0.06985459897345869,
+          "ci95": [
+            -0.5332167888263801,
+            -0.009676248045381336
+          ]
+        },
+        "AQFM from scratch": {
+          "MAE_diff": -0.23146694741977925,
+          "dm_z": -1.4661185865103228,
+          "dm_p": 0.1426159830075422,
+          "ci95": [
+            -0.5511232811638379,
+            0.046980977706107215
+          ]
+        },
+        "XGBoost (same months)": {
+          "MAE_diff": 1.5733070361464794,
+          "dm_z": 8.80021245491507,
+          "dm_p": 0.0,
+          "ci95": [
+            1.1758019003532207,
+            1.8369567603114323
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 1.8604193601250767,
+          "dm_z": 4.138639032279852,
+          "dm_p": 3.493721290626084e-05,
+          "ci95": [
+            1.2004754569422937,
+            2.8766985387793604
+          ]
+        }
+      }
+    },
+    "24h": {
+      "n": 4200,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned, nothing frozen": 8.57036888929483,
+        "AQFM fine-tuned, backbone frozen": 8.59936212320546,
+        "AQFM from scratch": 9.200861572447188,
+        "XGBoost (same months)": 10.0719192601186,
+        "Persistence": 9.259583312727155
+      },
+      "vs_first": {
+        "AQFM fine-tuned, backbone frozen": {
+          "MAE_diff": 0.028993233910629357,
+          "dm_z": 0.6048273414252462,
+          "dm_p": 0.5452937247389968,
+          "ci95": [
+            -0.06915825759473734,
+            0.1091797648243521
+          ]
+        },
+        "AQFM from scratch": {
+          "MAE_diff": 0.6304926831523581,
+          "dm_z": 2.7444907872670514,
+          "dm_p": 0.006060485552835004,
+          "ci95": [
+            0.2703724983921339,
+            1.1231709517367507
+          ]
+        },
+        "XGBoost (same months)": {
+          "MAE_diff": 1.5015503708237699,
+          "dm_z": 5.312465461205169,
+          "dm_p": 1.0815192963420373e-07,
+          "ci95": [
+            0.915283161408674,
+            2.071319524140777
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 0.6892144234323254,
+          "dm_z": 3.5196996633735305,
+          "dm_p": 0.0004320357174196765,
+          "ci95": [
+            0.3165123031938429,
+            1.0867552450326035
+          ]
+        }
+      },
+      "by_month": {
+        "7": {
+          "n": 764,
+          "AQFM fine-tuned, nothing frozen": 5.909201021679233,
+          "AQFM fine-tuned, backbone frozen": 6.0030519010582015,
+          "AQFM from scratch": 5.949298201906568,
+          "XGBoost (same months)": 8.794981145195136,
+          "Persistence": 6.36652807594906
+        },
+        "8": {
+          "n": 712,
+          "AQFM fine-tuned, nothing frozen": 4.721848606184293,
+          "AQFM fine-tuned, backbone frozen": 4.76350136934204,
+          "AQFM from scratch": 4.752834002079254,
+          "XGBoost (same months)": 6.323244961920414,
+          "Persistence": 4.999687510511179
+        },
+        "9": {
+          "n": 645,
+          "AQFM fine-tuned, nothing frozen": 5.335075247934622,
+          "AQFM fine-tuned, backbone frozen": 5.391524664930595,
+          "AQFM from scratch": 5.4610712539318,
+          "XGBoost (same months)": 7.274581846710324,
+          "Persistence": 5.780608499512192
+        },
+        "10": {
+          "n": 694,
+          "AQFM fine-tuned, nothing frozen": 7.864158225506115,
+          "AQFM fine-tuned, backbone frozen": 7.791339211573862,
+          "AQFM from scratch": 7.901772682364461,
+          "XGBoost (same months)": 9.644615847370467,
+          "Persistence": 9.085738540726368
+        },
+        "11": {
+          "n": 709,
+          "AQFM fine-tuned, nothing frozen": 13.075702597627519,
+          "AQFM fine-tuned, backbone frozen": 12.847107375794641,
+          "AQFM from scratch": 15.671091973865654,
+          "XGBoost (same months)": 12.703367198303825,
+          "Persistence": 13.001226966068337
+        },
+        "12": {
+          "n": 676,
+          "AQFM fine-tuned, nothing frozen": 14.718108079489872,
+          "AQFM fine-tuned, backbone frozen": 15.008956122680528,
+          "AQFM from scratch": 15.676496388644157,
+          "XGBoost (same months)": 15.81122611225004,
+          "Persistence": 16.58961539578861
+        }
+      }
+    },
+    "72h": {
+      "n": 4186,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned, nothing frozen": 10.156719036277062,
+        "AQFM fine-tuned, backbone frozen": 10.223495200491296,
+        "AQFM from scratch": 10.600032512133703,
+        "XGBoost (same months)": 12.88549144141869,
+        "Persistence": 11.880563210185157
+      },
+      "vs_first": {
+        "AQFM fine-tuned, backbone frozen": {
+          "MAE_diff": 0.06677616421423416,
+          "dm_z": 1.2918718645005574,
+          "dm_p": 0.19640152276265077,
+          "ci95": [
+            -0.030458648265053612,
+            0.1663522223122863
+          ]
+        },
+        "AQFM from scratch": {
+          "MAE_diff": 0.44331347585664105,
+          "dm_z": 1.9996803518769903,
+          "dm_p": 0.04553479115337833,
+          "ci95": [
+            0.07374887507586653,
+            0.9159650463112677
+          ]
+        },
+        "XGBoost (same months)": {
+          "MAE_diff": 2.728772405141628,
+          "dm_z": 5.193452056319452,
+          "dm_p": 2.0643012055288068e-07,
+          "ci95": [
+            1.7377397394982264,
+            3.9014645867735775
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 1.7238441739080947,
+          "dm_z": 3.384360844910267,
+          "dm_p": 0.000713441727957731,
+          "ci95": [
+            0.7972355332604365,
+            2.830862553857275
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+[2026-11-06 17:29:02] train runs/mumbai_ft_v2_backbone_m1_s1: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s1_do03/best.pt --freeze backbone --train-months 1 --seed 1
+done. best val total=1.9163  (13.1 min)
+[2026-11-06 17:42:13] train runs/mumbai_scratch_v2_m1_s1: --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 1 --seed 1
+done. best val total=2.0273  (14.8 min)
+[2026-11-06 17:57:05] train runs/mumbai_ft_v2_backbone_m3_s1: --phase finetune --steps 1500 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s1_do03/best.pt --freeze backbone --train-months 3 --seed 1
+done. best val total=1.9010  (10.0 min)
+[2026-11-06 18:07:09] train runs/mumbai_scratch_v2_m3_s1: --phase main --preset city --no-future-met --dropout 0.3 --steps 12000 --val-every 250 --patience 8 --train-months 3 --seed 1

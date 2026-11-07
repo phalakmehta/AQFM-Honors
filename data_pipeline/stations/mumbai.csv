@@ -1,0 +1,29 @@
+station_id,lat,lon,source,cpcb_name,cpcb_code
+site_5102,19.3832,72.8204,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Vasai West, Mumbai - MPCB",5102
+site_5104,19.0863,72.8888,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Kurla, Mumbai - MPCB",5104
+site_5106,19.1086,72.8362,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Vile Parle West, Mumbai - MPCB",5106
+site_5107,19.1008,72.8746,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Chhatrapati Shivaji Intl. Airport (T2), Mumbai - MPCB",5107
+site_5112,19.1375,72.9151,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Powai, Mumbai - MPCB",5112
+site_5113,19.2243,72.8658,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Borivali East, Mumbai - MPCB",5113
+site_5115,18.9936,72.8128,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Worli, Mumbai - MPCB",5115
+site_5119,19.047,72.8746,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Sion, Mumbai - MPCB",5119
+site_5120,18.91,72.82,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Colaba, Mumbai - MPCB",5120
+site_5392,19.0535,72.8464,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Bandra Kurla Complex, Mumbai - IITM",5392
+site_5394,18.967,72.8421,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Mazgaon, Mumbai - IITM",5394
+site_5396,19.0495,72.923,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Deonar, Mumbai - IITM",5396
+site_5397,19.1653,72.9221,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Khindipada-Bhandup West, Mumbai - IITM",5397
+site_5398,18.8978,72.8133,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Navy Nagar-Colaba, Mumbai - IITM",5398
+site_5399,19.1107,72.8608,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Chakala-Andheri East, Mumbai - IITM",5399
+site_5400,19.2324,72.8689,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Borivali East, Mumbai - IITM",5400
+site_5402,19.1971,72.822,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Malad West, Mumbai - IITM",5402
+site_5403,19.0001,72.814,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Siddharth Nagar-Worli, Mumbai - IITM",5403
+site_5413,19.175,72.9419,CPCB caaqms_list_All_India.pdf (2026-07-07) https://app.cpcbccr.com/ccr_docs/caaqms_list_All_India.pdf,"Mulund West, Mumbai - MPCB",5413
+site_5807,19.18787,72.8304069,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5807
+site_5810,19.06593,72.862131,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5810
+site_5811,19.03646,72.89544,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5811
+site_5814,19.06321,72.84563,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5814
+site_5960,18.9767,72.838,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5960
+site_5961,19.0605,72.92336,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5961
+site_5962,19.21586,72.83172,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5962
+site_5963,19.00008,72.85673,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5963
+site_5964,19.08369,72.920967,Mumbai_28_loc.csv (Drive folder 1nmzzrQp5JUzagS9pQFAPbLqjJIynlXQR); not in the CPCB list,,5964

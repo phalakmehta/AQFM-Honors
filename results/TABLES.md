@@ -8,19 +8,32 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 15.71 | 27.54 | 32.04 | 36.51 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 16.08 ± 0.17 | 28.13 ± 0.08 | 33.22 ± 0.76 | 37.70 ± 1.21 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 16.25 | 28.06 | 33.97 | 38.74 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 16.09 | 28.11 | 32.46 | 36.37 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 15.91 | 28.22 | 33.24 | 38.00 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 15.77 | 27.97 | 38.41 | 43.20 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 16.00 ± 0.42 | 28.33 ± 0.10 | 38.98 ± 0.24 | 43.77 ± 1.04 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 16.47 | 28.45 | 38.77 | 42.84 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 15.69 | 28.26 | 39.25 | 44.90 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 15.84 | 28.30 | 38.91 | 43.57 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 16.06 | 28.79 | 34.45 | 39.60 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 32.64 | 33.22 | 35.05 | 38.91 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 33.61 | 33.75 | 35.85 | 38.83 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 15.99 | 27.95 | 32.26 | 36.95 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 16.14 ± 0.09 | 28.27 ± 0.32 | 32.76 ± 0.81 | 37.36 ± 0.46 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 15.92 | 27.67 | 38.09 | 41.54 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 16.00 ± 0.17 | 28.01 ± 0.50 | 38.80 ± 1.13 | 42.62 ± 0.60 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 15.80 | 27.79 | 32.17 | 36.33 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 16.36 ± 0.71 | 28.07 ± 0.07 | 32.86 ± 1.37 | 37.22 ± 1.39 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 15.86 | 27.81 | 37.67 | 42.14 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 15.97 ± 0.06 | 28.04 ± 0.48 | 37.98 ± 0.45 | 42.55 ± 0.43 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 16.37 | 28.29 | 33.90 | 37.44 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 16.59 ± 0.25 | 28.77 ± 0.66 | 34.48 ± 0.24 | 38.27 ± 0.54 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 16.35 | 29.08 | 38.43 | 42.40 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 16.65 ± 0.67 | 30.02 ± 1.56 | 39.47 ± 1.30 | 43.66 ± 0.89 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 16.08 | 29.13 | 39.43 | 42.75 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 15.71 | 27.54 | 32.04 | 36.51 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 16.08 ± 0.17 | 28.13 ± 0.08 | 33.22 ± 0.76 | 37.70 ± 1.21 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 16.25 | 28.06 | 33.97 | 38.74 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 16.09 | 28.11 | 32.46 | 36.37 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 15.91 | 28.22 | 33.24 | 38.00 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 15.77 | 27.97 | 38.41 | 43.20 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 16.00 ± 0.42 | 28.33 ± 0.10 | 38.98 ± 0.24 | 43.77 ± 1.04 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 16.47 | 28.45 | 38.77 | 42.84 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 15.69 | 28.26 | 39.25 | 44.90 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 15.84 | 28.30 | 38.91 | 43.57 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 16.06 | 28.79 | 34.45 | 39.60 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 32.64 | 33.22 | 35.05 | 38.91 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 33.61 | 33.75 | 35.85 | 38.83 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 17.99 | 28.48 | 33.65 | 36.45 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 18.17 | 30.06 | 38.63 | 43.74 | `baselines/results/xgboost_results.json` |
 | PatchTST ensemble (3 seeds) | 16.26 | 28.04 | 37.75 | 43.31 | `baselines/results/patchtst_ens3_results.json` |
@@ -36,26 +49,39 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | IBM TTM (zero-shot) | 20.23 | 32.43 | 37.70 | 41.32 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 20.95 | 32.13 | 39.16 | 42.75 | `baselines/results/ttm_results.json` |
 | Persistence | 15.89 | 35.53 | 43.78 | 54.54 | `baselines/results/classical_results.json` |
-| Seasonal naive | 43.17 | 39.87 | 43.60 | 43.84 | `baselines/results/classical_results.json` |
-| Climatology | 44.83 | 43.30 | 43.79 | 44.04 | `baselines/results/classical_results.json` |
+| Seasonal naive | 43.17 | 39.87 | 43.60 | 53.79 | `baselines/results/classical_results.json` |
+| Climatology | 44.83 | 43.30 | 43.79 | 44.03 | `baselines/results/classical_results.json` |
 
 ## 2025 test: PM2.5 RMSE (µg/m³)
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 34.11 | 46.42 | 55.32 | 63.08 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 34.57 ± 0.88 | 47.13 ± 0.57 | 57.04 ± 1.12 | 64.64 ± 1.47 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 35.59 | 46.94 | 57.91 | 66.10 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 34.04 | 47.77 | 55.78 | 63.16 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 34.08 | 46.69 | 57.43 | 64.66 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 34.15 | 47.82 | 63.98 | 71.56 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 34.37 ± 0.41 | 48.16 ± 0.59 | 64.89 ± 0.84 | 72.61 ± 1.51 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 34.81 | 48.13 | 64.23 | 71.46 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 34.30 | 48.76 | 65.84 | 74.33 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 34.00 | 47.59 | 64.60 | 72.04 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 35.37 | 47.30 | 58.59 | 67.77 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 56.62 | 54.50 | 59.97 | 66.98 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 58.14 | 55.17 | 61.10 | 66.35 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 33.45 | 46.58 | 55.32 | 63.34 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 33.62 ± 0.24 | 46.94 ± 0.05 | 56.04 ± 1.43 | 63.83 ± 0.78 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 34.34 | 46.94 | 64.11 | 68.90 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 34.49 ± 0.40 | 47.36 ± 0.90 | 65.15 ± 0.90 | 70.58 ± 0.14 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 33.71 | 47.04 | 55.07 | 62.73 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 34.37 ± 1.25 | 47.37 ± 0.32 | 56.18 ± 1.75 | 63.89 ± 1.98 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 34.35 | 47.56 | 63.64 | 70.95 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 34.51 ± 0.21 | 47.86 ± 0.73 | 64.13 ± 0.65 | 71.57 ± 1.12 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 34.07 | 47.43 | 57.41 | 64.02 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 34.34 ± 0.49 | 48.08 ± 0.32 | 58.48 ± 0.66 | 65.41 ± 1.19 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 34.33 | 47.71 | 63.65 | 70.06 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 34.70 ± 0.42 | 48.91 ± 1.63 | 65.08 ± 1.17 | 71.60 ± 0.83 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 34.20 | 47.86 | 64.50 | 70.33 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 34.11 | 46.42 | 55.32 | 63.08 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 34.57 ± 0.88 | 47.13 ± 0.57 | 57.04 ± 1.12 | 64.64 ± 1.47 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 35.59 | 46.94 | 57.91 | 66.10 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 34.04 | 47.77 | 55.78 | 63.16 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 34.08 | 46.69 | 57.43 | 64.66 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 34.15 | 47.82 | 63.98 | 71.56 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 34.37 ± 0.41 | 48.16 ± 0.59 | 64.89 ± 0.84 | 72.61 ± 1.51 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 34.81 | 48.13 | 64.23 | 71.46 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 34.30 | 48.76 | 65.84 | 74.33 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 34.00 | 47.59 | 64.60 | 72.04 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 35.37 | 47.30 | 58.59 | 67.77 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 56.62 | 54.50 | 59.97 | 66.98 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 58.14 | 55.17 | 61.10 | 66.35 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 35.14 | 46.19 | 57.54 | 62.07 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 35.26 | 48.67 | 66.00 | 72.64 | `baselines/results/xgboost_results.json` |
 | PatchTST ensemble (3 seeds) | 33.82 | 47.31 | 64.39 | 72.36 | `baselines/results/patchtst_ens3_results.json` |
@@ -71,26 +97,39 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | IBM TTM (zero-shot) | 37.07 | 52.61 | 64.23 | 69.47 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 38.23 | 51.56 | 65.93 | 71.17 | `baselines/results/ttm_results.json` |
 | Persistence | 29.85 | 60.85 | 75.85 | 92.13 | `baselines/results/classical_results.json` |
-| Seasonal naive | 75.31 | 65.36 | 74.98 | 75.52 | `baselines/results/classical_results.json` |
-| Climatology | 69.19 | 63.32 | 68.52 | 68.92 | `baselines/results/classical_results.json` |
+| Seasonal naive | 75.31 | 65.36 | 74.98 | 89.79 | `baselines/results/classical_results.json` |
+| Climatology | 69.19 | 63.32 | 68.52 | 68.88 | `baselines/results/classical_results.json` |
 
 ## 2025 test: PM10 MAE (µg/m³)
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 28.88 | 45.50 | 58.78 | 64.93 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 29.41 ± 0.34 | 46.54 ± 0.41 | 61.05 ± 1.59 | 67.51 ± 1.99 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 29.80 | 47.01 | 62.87 | 69.67 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 29.27 | 46.29 | 59.97 | 65.75 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 29.17 | 46.31 | 60.29 | 67.10 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 28.46 | 46.02 | 72.49 | 81.98 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 28.63 ± 0.08 | 46.63 ± 0.81 | 73.54 ± 0.92 | 83.06 ± 1.69 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 28.72 | 47.56 | 73.32 | 81.80 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 28.56 | 46.19 | 74.56 | 84.98 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 28.61 | 46.14 | 72.75 | 82.40 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 29.37 | 48.25 | 63.56 | 70.99 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 61.19 | 54.39 | 64.49 | 69.45 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 62.83 | 55.96 | 65.72 | 69.53 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 28.94 | 45.79 | 58.74 | 65.83 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 29.03 ± 0.13 | 46.30 ± 0.92 | 59.65 ± 1.33 | 66.66 ± 1.08 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 28.66 | 45.87 | 72.27 | 79.33 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 28.68 ± 0.09 | 46.34 ± 0.64 | 73.20 ± 1.52 | 80.90 ± 0.76 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 29.00 | 45.74 | 59.03 | 65.49 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 29.41 ± 0.97 | 46.22 ± 0.61 | 60.40 ± 2.73 | 67.33 ± 3.04 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 28.72 | 46.38 | 72.26 | 80.59 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 28.80 ± 0.15 | 46.67 ± 0.45 | 72.73 ± 0.54 | 81.20 ± 0.39 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 29.42 | 46.33 | 61.25 | 67.18 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 29.71 ± 0.13 | 47.01 ± 0.93 | 62.66 ± 0.29 | 69.00 ± 1.50 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 29.20 | 48.30 | 72.83 | 81.22 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 29.41 ± 0.54 | 49.46 ± 2.08 | 74.44 ± 1.91 | 83.25 ± 1.46 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 29.18 | 48.78 | 73.89 | 82.41 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 28.88 | 45.50 | 58.78 | 64.93 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 29.41 ± 0.34 | 46.54 ± 0.41 | 61.05 ± 1.59 | 67.51 ± 1.99 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 29.80 | 47.01 | 62.87 | 69.67 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 29.27 | 46.29 | 59.97 | 65.75 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 29.17 | 46.31 | 60.29 | 67.10 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 28.46 | 46.02 | 72.49 | 81.98 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 28.63 ± 0.08 | 46.63 ± 0.81 | 73.54 ± 0.92 | 83.06 ± 1.69 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 28.72 | 47.56 | 73.32 | 81.80 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 28.56 | 46.19 | 74.56 | 84.98 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 28.61 | 46.14 | 72.75 | 82.40 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 29.37 | 48.25 | 63.56 | 70.99 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 61.19 | 54.39 | 64.49 | 69.45 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 62.83 | 55.96 | 65.72 | 69.53 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 34.24 | 47.22 | 62.07 | 67.16 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 34.71 | 49.44 | 73.65 | 83.46 | `baselines/results/xgboost_results.json` |
 | PatchTST ensemble (3 seeds) | 30.58 | 47.49 | 73.88 | 84.44 | `baselines/results/patchtst_ens3_results.json` |
@@ -105,27 +144,40 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | E-STGCN seed 2 | 31.92 | 52.10 | 72.61 | 84.54 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 37.55 | 52.80 | 71.74 | 79.25 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 38.96 | 53.10 | 75.09 | 82.51 | `baselines/results/ttm_results.json` |
-| Persistence | 31.28 | 71.47 | 84.64 | 106.47 | `baselines/results/classical_results.json` |
-| Seasonal naive | 81.21 | 66.60 | 84.18 | 84.55 | `baselines/results/classical_results.json` |
-| Climatology | 83.18 | 70.78 | 82.76 | 82.97 | `baselines/results/classical_results.json` |
+| Persistence | 31.28 | 71.47 | 84.64 | 106.53 | `baselines/results/classical_results.json` |
+| Seasonal naive | 81.21 | 66.60 | 84.18 | 104.17 | `baselines/results/classical_results.json` |
+| Climatology | 83.18 | 70.78 | 82.76 | 82.99 | `baselines/results/classical_results.json` |
 
 ## 2025 test: PM10 RMSE (µg/m³)
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 49.36 | 69.54 | 84.59 | 93.89 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 50.13 ± 1.12 | 70.83 ± 0.39 | 87.89 ± 1.69 | 97.15 ± 2.30 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 51.42 | 70.57 | 89.81 | 99.80 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 49.46 | 71.29 | 86.64 | 95.71 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 49.51 | 70.65 | 87.22 | 95.93 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 48.78 | 70.58 | 103.41 | 114.82 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 48.93 ± 0.11 | 71.32 ± 0.49 | 105.22 ± 1.50 | 116.42 ± 2.42 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 48.92 | 71.78 | 104.12 | 114.56 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 48.83 | 71.35 | 106.92 | 119.16 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 49.05 | 70.81 | 104.61 | 115.53 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 50.92 | 71.72 | 90.91 | 102.34 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 90.52 | 81.55 | 93.15 | 101.38 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 92.27 | 81.97 | 93.95 | 100.54 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 49.32 | 69.74 | 84.54 | 94.46 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 49.39 ± 0.35 | 70.39 ± 0.59 | 85.89 ± 1.84 | 95.56 ± 1.54 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 49.18 | 70.09 | 102.84 | 110.26 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 49.22 ± 0.26 | 70.75 ± 1.13 | 104.48 ± 1.35 | 112.69 ± 0.16 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 49.50 | 69.87 | 84.82 | 94.22 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 50.01 ± 1.33 | 70.45 ± 0.39 | 87.23 ± 3.46 | 96.79 ± 4.24 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 49.45 | 70.99 | 103.30 | 113.44 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 49.49 ± 0.43 | 71.43 ± 0.68 | 104.14 ± 0.72 | 114.31 ± 1.24 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 49.72 | 70.19 | 87.50 | 95.56 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 50.04 ± 0.12 | 71.14 ± 0.73 | 89.84 ± 0.80 | 98.61 ± 2.10 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 49.67 | 72.09 | 102.98 | 113.03 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 49.96 ± 0.53 | 73.72 ± 2.08 | 105.40 ± 2.46 | 115.49 ± 1.40 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 49.75 | 72.51 | 104.25 | 114.43 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 49.36 | 69.54 | 84.59 | 93.89 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 50.13 ± 1.12 | 70.83 ± 0.39 | 87.89 ± 1.69 | 97.15 ± 2.30 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 51.42 | 70.57 | 89.81 | 99.80 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 49.46 | 71.29 | 86.64 | 95.71 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 49.51 | 70.65 | 87.22 | 95.93 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 48.78 | 70.58 | 103.41 | 114.82 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 48.93 ± 0.11 | 71.32 ± 0.49 | 105.22 ± 1.50 | 116.42 ± 2.42 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 48.92 | 71.78 | 104.12 | 114.56 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 48.83 | 71.35 | 106.92 | 119.16 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 49.05 | 70.81 | 104.61 | 115.53 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 50.92 | 71.72 | 90.91 | 102.34 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 90.52 | 81.55 | 93.15 | 101.38 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 92.27 | 81.97 | 93.95 | 100.54 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 57.59 | 72.89 | 88.86 | 96.27 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 58.46 | 75.39 | 105.49 | 116.23 | `baselines/results/xgboost_results.json` |
 | PatchTST ensemble (3 seeds) | 52.03 | 71.79 | 105.83 | 117.81 | `baselines/results/patchtst_ens3_results.json` |
@@ -140,27 +192,40 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | E-STGCN seed 2 | 51.49 | 74.31 | 103.50 | 116.37 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 58.63 | 76.76 | 102.88 | 111.73 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 60.12 | 77.76 | 106.09 | 114.59 | `baselines/results/ttm_results.json` |
-| Persistence | 52.39 | 106.03 | 124.50 | 150.84 | `baselines/results/classical_results.json` |
-| Seasonal naive | 120.76 | 100.64 | 122.72 | 123.57 | `baselines/results/classical_results.json` |
-| Climatology | 111.93 | 96.10 | 110.71 | 110.97 | `baselines/results/classical_results.json` |
+| Persistence | 52.39 | 106.03 | 124.50 | 150.90 | `baselines/results/classical_results.json` |
+| Seasonal naive | 120.76 | 100.64 | 122.72 | 146.07 | `baselines/results/classical_results.json` |
+| Climatology | 111.93 | 96.10 | 110.71 | 111.00 | `baselines/results/classical_results.json` |
 
 ## 2025 test: PM2.5 at 24 h, MAE by AQI band (µg/m³)
 
 | model | Good | Satisfactory | Moderate | Poor | Very Poor | Severe | source |
 |---|---|---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 12.7 | 13.4 | 22.1 | 31.0 | 43.1 | 89.0 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 13.1 ± 1.4 | 14.0 ± 0.7 | 22.6 ± 0.9 | 31.6 ± 0.7 | 45.6 ± 2.3 | 91.5 ± 0.6 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 14.5 | 14.5 | 21.8 | 32.4 | 48.0 | 91.0 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 13.1 | 13.1 | 22.5 | 31.2 | 43.4 | 91.4 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 11.7 | 14.3 | 23.5 | 31.2 | 45.4 | 92.2 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 17.1 | 17.1 | 24.1 | 37.2 | 51.9 | 104.9 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 17.3 ± 1.3 | 17.4 ± 0.4 | 24.7 ± 1.4 | 37.4 ± 1.6 | 53.1 ± 1.3 | 105.7 ± 1.2 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 16.9 | 17.8 | 24.8 | 36.2 | 51.7 | 107.1 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 16.2 | 17.0 | 25.9 | 39.2 | 54.3 | 104.8 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 18.8 | 17.4 | 23.2 | 36.8 | 53.3 | 105.2 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 15.2 | 14.8 | 21.9 | 32.2 | 49.3 | 91.1 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 14.7 | 14.8 | 23.8 | 32.2 | 46.8 | 98.6 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 16.1 | 14.7 | 22.7 | 33.8 | 48.5 | 100.8 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 13.0 | 13.9 | 22.7 | 31.1 | 43.6 | 87.9 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 13.1 ± 0.7 | 14.1 ± 0.4 | 23.1 ± 0.4 | 31.4 ± 0.9 | 44.8 ± 1.7 | 88.4 ± 2.8 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 17.5 | 17.5 | 24.5 | 36.1 | 50.0 | 105.1 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 17.7 ± 1.4 | 17.7 ± 1.2 | 25.0 ± 1.3 | 36.5 ± 2.0 | 51.6 ± 4.4 | 106.1 ± 3.8 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 13.3 | 13.3 | 22.1 | 31.3 | 43.9 | 88.0 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 13.4 ± 0.1 | 13.6 ± 0.1 | 22.5 ± 0.4 | 31.7 ± 2.0 | 45.5 ± 4.6 | 89.2 ± 1.0 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 16.4 | 16.4 | 23.8 | 37.0 | 49.4 | 106.2 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 16.6 ± 0.7 | 16.5 ± 0.6 | 24.1 ± 0.7 | 37.0 ± 2.2 | 50.2 ± 2.7 | 106.4 ± 3.0 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 13.8 | 14.5 | 23.2 | 34.3 | 47.8 | 88.3 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 14.0 ± 0.3 | 14.7 ± 0.5 | 23.8 ± 0.8 | 34.6 ± 0.5 | 49.1 ± 0.6 | 89.2 ± 0.2 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 19.2 | 18.4 | 24.3 | 35.2 | 51.0 | 102.7 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 19.5 ± 3.0 | 19.1 ± 2.3 | 25.2 ± 1.2 | 36.0 ± 1.1 | 53.0 ± 3.1 | 104.2 ± 3.8 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 19.1 | 18.7 | 24.2 | 36.7 | 55.7 | 101.1 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 12.7 | 13.4 | 22.1 | 31.0 | 43.1 | 89.0 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 13.1 ± 1.4 | 14.0 ± 0.7 | 22.6 ± 0.9 | 31.6 ± 0.7 | 45.6 ± 2.3 | 91.5 ± 0.6 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 14.5 | 14.5 | 21.8 | 32.4 | 48.0 | 91.0 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 13.1 | 13.1 | 22.5 | 31.2 | 43.4 | 91.4 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 11.7 | 14.3 | 23.5 | 31.2 | 45.4 | 92.2 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 17.1 | 17.1 | 24.1 | 37.2 | 51.9 | 104.9 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 17.3 ± 1.3 | 17.4 ± 0.4 | 24.7 ± 1.4 | 37.4 ± 1.6 | 53.1 ± 1.3 | 105.7 ± 1.2 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 16.9 | 17.8 | 24.8 | 36.2 | 51.7 | 107.1 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 16.2 | 17.0 | 25.9 | 39.2 | 54.3 | 104.8 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 18.8 | 17.4 | 23.2 | 36.8 | 53.3 | 105.2 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 15.2 | 14.8 | 21.9 | 32.2 | 49.3 | 91.1 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 14.7 | 14.8 | 23.8 | 32.2 | 46.8 | 98.6 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 16.1 | 14.7 | 22.7 | 33.8 | 48.5 | 100.8 | `results/aqfm_results.json` |
 | XGBoost + future ERA5 | 17.8 | 15.2 | 22.1 | 32.6 | 41.7 | 93.4 | `baselines/results/xgboost_future_met_results.json` |
 | XGBoost (no future met) | 21.8 | 17.5 | 23.2 | 35.1 | 47.6 | 110.5 | `baselines/results/xgboost_results.json` |
 | PatchTST ensemble (3 seeds) | 16.4 | 16.5 | 23.0 | 34.8 | 48.8 | 110.6 | `baselines/results/patchtst_ens3_results.json` |
@@ -183,145 +248,249 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 12.00 | 19.93 | 23.66 | 26.64 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 12.21 ± 0.11 | 20.37 ± 0.08 | 24.40 ± 0.62 | 27.47 ± 0.96 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 12.32 | 20.46 | 25.00 | 28.40 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 12.19 | 20.32 | 23.76 | 26.49 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 12.10 | 20.34 | 24.42 | 27.52 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 11.98 | 20.52 | 27.96 | 31.60 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 12.12 ± 0.34 | 20.76 ± 0.09 | 28.31 ± 0.22 | 32.05 ± 0.67 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 12.50 | 20.81 | 28.05 | 31.45 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 11.84 | 20.66 | 28.46 | 32.77 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 12.02 | 20.81 | 28.41 | 31.93 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 12.18 | 20.90 | 25.36 | 28.98 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 23.74 | 24.07 | 25.69 | 28.60 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 24.43 | 24.45 | 26.20 | 28.55 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 12.07 | 20.19 | 23.63 | 26.92 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 12.15 ± 0.08 | 20.41 ± 0.22 | 23.99 ± 0.62 | 27.21 ± 0.30 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 12.12 | 20.30 | 27.84 | 30.70 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 12.18 ± 0.09 | 20.53 ± 0.32 | 28.32 ± 0.68 | 31.39 ± 0.45 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 12.02 | 20.11 | 23.54 | 26.57 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 12.31 ± 0.41 | 20.33 ± 0.07 | 24.02 ± 0.97 | 27.15 ± 1.04 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 12.04 | 20.31 | 27.50 | 31.10 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 12.11 ± 0.03 | 20.48 ± 0.30 | 27.70 ± 0.24 | 31.37 ± 0.43 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 12.43 | 20.50 | 24.80 | 27.52 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 12.55 ± 0.18 | 20.87 ± 0.38 | 25.23 ± 0.24 | 28.08 ± 0.45 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 12.42 | 21.38 | 28.11 | 31.35 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 12.56 ± 0.38 | 21.92 ± 1.05 | 28.76 ± 0.91 | 32.13 ± 0.78 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 12.26 | 21.36 | 28.62 | 31.60 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 12.00 | 19.93 | 23.66 | 26.64 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 12.21 ± 0.11 | 20.37 ± 0.08 | 24.40 ± 0.62 | 27.47 ± 0.96 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 12.32 | 20.46 | 25.00 | 28.40 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 12.19 | 20.32 | 23.76 | 26.49 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 12.10 | 20.34 | 24.42 | 27.52 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 11.98 | 20.52 | 27.96 | 31.60 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 12.12 ± 0.34 | 20.76 ± 0.09 | 28.31 ± 0.22 | 32.05 ± 0.67 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 12.50 | 20.81 | 28.05 | 31.45 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 11.84 | 20.66 | 28.46 | 32.77 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 12.02 | 20.81 | 28.41 | 31.93 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 12.18 | 20.90 | 25.36 | 28.98 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 23.74 | 24.07 | 25.69 | 28.60 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 24.43 | 24.45 | 26.20 | 28.55 | `results/aqfm_results.json` |
 
 ## 2025 test: PM2.5 90% interval coverage
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 0.938 | 0.928 | 0.914 | 0.906 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 0.932 ± 0.008 | 0.915 ± 0.006 | 0.896 ± 0.019 | 0.889 ± 0.018 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 0.928 | 0.921 | 0.906 | 0.901 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 0.928 | 0.913 | 0.907 | 0.899 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 0.941 | 0.910 | 0.874 | 0.869 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 0.936 | 0.917 | 0.912 | 0.925 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 0.932 ± 0.009 | 0.911 ± 0.011 | 0.905 ± 0.007 | 0.912 ± 0.007 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 0.939 | 0.911 | 0.912 | 0.920 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 0.921 | 0.901 | 0.899 | 0.905 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 0.935 | 0.922 | 0.904 | 0.912 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 0.928 | 0.914 | 0.907 | 0.898 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 0.876 | 0.856 | 0.870 | 0.859 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 0.891 | 0.878 | 0.887 | 0.882 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 0.934 | 0.910 | 0.894 | 0.892 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 0.929 ± 0.003 | 0.903 ± 0.003 | 0.887 ± 0.011 | 0.883 ± 0.009 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 0.939 | 0.921 | 0.910 | 0.929 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 0.935 ± 0.006 | 0.912 ± 0.007 | 0.901 ± 0.008 | 0.919 ± 0.007 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.938 | 0.919 | 0.913 | 0.914 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.931 ± 0.001 | 0.910 ± 0.017 | 0.902 ± 0.014 | 0.903 ± 0.011 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.935 | 0.916 | 0.911 | 0.920 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.933 ± 0.005 | 0.912 ± 0.005 | 0.908 ± 0.006 | 0.916 ± 0.006 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 0.935 | 0.918 | 0.899 | 0.904 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 0.931 ± 0.005 | 0.906 ± 0.010 | 0.889 ± 0.010 | 0.893 ± 0.012 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 0.934 | 0.917 | 0.905 | 0.919 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 0.931 ± 0.006 | 0.903 ± 0.014 | 0.894 ± 0.018 | 0.907 ± 0.017 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 0.933 | 0.918 | 0.908 | 0.922 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 0.938 | 0.928 | 0.914 | 0.906 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 0.932 ± 0.008 | 0.915 ± 0.006 | 0.896 ± 0.019 | 0.889 ± 0.018 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 0.928 | 0.921 | 0.906 | 0.901 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 0.928 | 0.913 | 0.907 | 0.899 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 0.941 | 0.910 | 0.874 | 0.869 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 0.936 | 0.917 | 0.912 | 0.925 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 0.932 ± 0.009 | 0.911 ± 0.011 | 0.905 ± 0.007 | 0.912 ± 0.007 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 0.939 | 0.911 | 0.912 | 0.920 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 0.921 | 0.901 | 0.899 | 0.905 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 0.935 | 0.922 | 0.904 | 0.912 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 0.928 | 0.914 | 0.907 | 0.898 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 0.876 | 0.856 | 0.870 | 0.859 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 0.891 | 0.878 | 0.887 | 0.882 | `results/aqfm_results.json` |
 
 ## 2025 test: PM2.5 95% interval coverage
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 0.968 | 0.961 | 0.951 | 0.949 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 0.963 ± 0.004 | 0.955 ± 0.002 | 0.939 ± 0.013 | 0.937 ± 0.013 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 0.961 | 0.957 | 0.949 | 0.948 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 0.961 | 0.953 | 0.944 | 0.941 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 0.969 | 0.954 | 0.925 | 0.922 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 0.966 | 0.954 | 0.953 | 0.961 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 0.964 ± 0.005 | 0.950 ± 0.009 | 0.950 ± 0.006 | 0.955 ± 0.003 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 0.968 | 0.952 | 0.956 | 0.958 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 0.958 | 0.941 | 0.945 | 0.951 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 0.966 | 0.957 | 0.948 | 0.955 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 0.963 | 0.954 | 0.949 | 0.944 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 0.932 | 0.917 | 0.919 | 0.916 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 0.939 | 0.931 | 0.932 | 0.934 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 0.966 | 0.949 | 0.939 | 0.938 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 0.964 ± 0.003 | 0.946 ± 0.004 | 0.935 ± 0.005 | 0.932 ± 0.007 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 0.966 | 0.955 | 0.951 | 0.963 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 0.966 ± 0.003 | 0.950 ± 0.003 | 0.946 ± 0.007 | 0.958 ± 0.003 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.967 | 0.956 | 0.955 | 0.952 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.964 ± 0.002 | 0.950 ± 0.011 | 0.945 ± 0.008 | 0.946 ± 0.008 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.965 | 0.954 | 0.952 | 0.959 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.965 ± 0.002 | 0.952 ± 0.002 | 0.950 ± 0.006 | 0.955 ± 0.003 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 0.965 | 0.955 | 0.942 | 0.946 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 0.964 ± 0.003 | 0.948 ± 0.007 | 0.936 ± 0.009 | 0.937 ± 0.010 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 0.965 | 0.954 | 0.949 | 0.958 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 0.963 ± 0.005 | 0.945 ± 0.011 | 0.940 ± 0.013 | 0.951 ± 0.013 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 0.964 | 0.955 | 0.953 | 0.961 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 0.968 | 0.961 | 0.951 | 0.949 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 0.963 ± 0.004 | 0.955 ± 0.002 | 0.939 ± 0.013 | 0.937 ± 0.013 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 0.961 | 0.957 | 0.949 | 0.948 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 0.961 | 0.953 | 0.944 | 0.941 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 0.969 | 0.954 | 0.925 | 0.922 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 0.966 | 0.954 | 0.953 | 0.961 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 0.964 ± 0.005 | 0.950 ± 0.009 | 0.950 ± 0.006 | 0.955 ± 0.003 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 0.968 | 0.952 | 0.956 | 0.958 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 0.958 | 0.941 | 0.945 | 0.951 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 0.966 | 0.957 | 0.948 | 0.955 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 0.963 | 0.954 | 0.949 | 0.944 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 0.932 | 0.917 | 0.919 | 0.916 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 0.939 | 0.931 | 0.932 | 0.934 | `results/aqfm_results.json` |
 
 ## 2025 test: PM10 CRPS (µg/m³)
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 21.39 | 32.69 | 42.64 | 46.88 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 21.76 ± 0.24 | 33.50 ± 0.35 | 44.24 ± 1.16 | 48.74 ± 1.61 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 22.04 | 33.90 | 45.56 | 50.51 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 21.64 | 33.28 | 43.37 | 47.37 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 21.62 | 33.31 | 43.78 | 48.34 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 21.04 | 33.43 | 52.14 | 59.08 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 21.21 ± 0.08 | 33.87 ± 0.53 | 52.79 ± 0.61 | 59.83 ± 1.30 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 21.30 | 34.48 | 52.49 | 58.94 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 21.13 | 33.49 | 53.50 | 61.32 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 21.20 | 33.63 | 52.39 | 59.24 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 21.75 | 34.80 | 46.13 | 51.40 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 44.15 | 39.23 | 46.77 | 50.56 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 45.21 | 39.96 | 47.52 | 50.39 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 21.34 | 32.90 | 42.42 | 47.39 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 21.44 ± 0.11 | 33.31 ± 0.64 | 43.13 ± 0.92 | 48.04 ± 0.67 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 21.20 | 33.22 | 51.94 | 57.34 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 21.25 ± 0.07 | 33.63 ± 0.44 | 52.72 ± 0.83 | 58.43 ± 0.45 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 21.43 | 32.80 | 42.64 | 47.20 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 21.67 ± 0.63 | 33.24 ± 0.45 | 43.66 ± 1.97 | 48.45 ± 2.19 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 21.25 | 33.45 | 51.92 | 58.38 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 21.31 ± 0.12 | 33.72 ± 0.32 | 52.30 ± 0.31 | 58.79 ± 0.47 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 21.80 | 33.37 | 44.35 | 48.52 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 21.99 ± 0.12 | 33.89 ± 0.58 | 45.33 ± 0.24 | 49.82 ± 1.04 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 21.62 | 35.08 | 52.52 | 58.94 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 21.77 ± 0.30 | 35.88 ± 1.46 | 53.64 ± 1.37 | 60.21 ± 1.13 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 21.66 | 35.28 | 53.17 | 59.56 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 21.39 | 32.69 | 42.64 | 46.88 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 21.76 ± 0.24 | 33.50 ± 0.35 | 44.24 ± 1.16 | 48.74 ± 1.61 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 22.04 | 33.90 | 45.56 | 50.51 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 21.64 | 33.28 | 43.37 | 47.37 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 21.62 | 33.31 | 43.78 | 48.34 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 21.04 | 33.43 | 52.14 | 59.08 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 21.21 ± 0.08 | 33.87 ± 0.53 | 52.79 ± 0.61 | 59.83 ± 1.30 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 21.30 | 34.48 | 52.49 | 58.94 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 21.13 | 33.49 | 53.50 | 61.32 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 21.20 | 33.63 | 52.39 | 59.24 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 21.75 | 34.80 | 46.13 | 51.40 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 44.15 | 39.23 | 46.77 | 50.56 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 45.21 | 39.96 | 47.52 | 50.39 | `results/aqfm_results.json` |
 
 ## 2025 test: PM10 90% interval coverage
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 0.899 | 0.903 | 0.897 | 0.889 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 0.888 ± 0.013 | 0.885 ± 0.003 | 0.871 ± 0.024 | 0.863 ± 0.029 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 0.884 | 0.889 | 0.886 | 0.885 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 0.877 | 0.883 | 0.884 | 0.873 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 0.903 | 0.884 | 0.844 | 0.831 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 0.897 | 0.901 | 0.895 | 0.901 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 0.890 ± 0.019 | 0.894 ± 0.025 | 0.885 ± 0.016 | 0.893 ± 0.015 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 0.906 | 0.890 | 0.901 | 0.907 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 0.869 | 0.871 | 0.869 | 0.877 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 0.896 | 0.920 | 0.885 | 0.894 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 0.880 | 0.877 | 0.883 | 0.884 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 0.830 | 0.826 | 0.833 | 0.818 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 0.846 | 0.852 | 0.852 | 0.851 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 0.895 | 0.884 | 0.868 | 0.862 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 0.891 ± 0.003 | 0.874 ± 0.004 | 0.854 ± 0.013 | 0.852 ± 0.011 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 0.902 | 0.903 | 0.895 | 0.916 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 0.898 ± 0.009 | 0.897 ± 0.007 | 0.884 ± 0.010 | 0.905 ± 0.008 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.898 | 0.898 | 0.891 | 0.890 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.893 ± 0.005 | 0.882 ± 0.022 | 0.875 ± 0.013 | 0.876 ± 0.017 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.895 | 0.900 | 0.890 | 0.901 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.894 ± 0.003 | 0.894 ± 0.003 | 0.887 ± 0.009 | 0.899 ± 0.004 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 0.907 | 0.893 | 0.870 | 0.875 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 0.899 ± 0.011 | 0.879 ± 0.010 | 0.854 ± 0.011 | 0.857 ± 0.009 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 0.905 | 0.899 | 0.886 | 0.902 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 0.901 ± 0.007 | 0.886 ± 0.019 | 0.872 ± 0.017 | 0.889 ± 0.019 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 0.906 | 0.899 | 0.888 | 0.901 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 0.899 | 0.903 | 0.897 | 0.889 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 0.888 ± 0.013 | 0.885 ± 0.003 | 0.871 ± 0.024 | 0.863 ± 0.029 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 0.884 | 0.889 | 0.886 | 0.885 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 0.877 | 0.883 | 0.884 | 0.873 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 0.903 | 0.884 | 0.844 | 0.831 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 0.897 | 0.901 | 0.895 | 0.901 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 0.890 ± 0.019 | 0.894 ± 0.025 | 0.885 ± 0.016 | 0.893 ± 0.015 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 0.906 | 0.890 | 0.901 | 0.907 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 0.869 | 0.871 | 0.869 | 0.877 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 0.896 | 0.920 | 0.885 | 0.894 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 0.880 | 0.877 | 0.883 | 0.884 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 0.830 | 0.826 | 0.833 | 0.818 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 0.846 | 0.852 | 0.852 | 0.851 | `results/aqfm_results.json` |
 
 ## 2025 test: PM10 95% interval coverage
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 0.945 | 0.951 | 0.945 | 0.939 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 0.938 ± 0.007 | 0.939 ± 0.004 | 0.928 ± 0.017 | 0.921 ± 0.022 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 0.935 | 0.944 | 0.940 | 0.940 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 0.933 | 0.938 | 0.936 | 0.928 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 0.946 | 0.936 | 0.908 | 0.896 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 0.945 | 0.947 | 0.941 | 0.951 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 0.942 ± 0.012 | 0.942 ± 0.015 | 0.938 ± 0.009 | 0.947 ± 0.008 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 0.952 | 0.940 | 0.947 | 0.953 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 0.929 | 0.928 | 0.929 | 0.938 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 0.945 | 0.958 | 0.937 | 0.949 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 0.934 | 0.935 | 0.939 | 0.934 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 0.900 | 0.895 | 0.901 | 0.888 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 0.913 | 0.916 | 0.914 | 0.915 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 0.944 | 0.936 | 0.928 | 0.922 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 0.941 ± 0.000 | 0.929 ± 0.003 | 0.917 ± 0.007 | 0.915 ± 0.009 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 0.949 | 0.948 | 0.942 | 0.960 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 0.945 ± 0.003 | 0.942 ± 0.004 | 0.936 ± 0.005 | 0.954 ± 0.005 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.946 | 0.946 | 0.939 | 0.942 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.943 ± 0.002 | 0.936 ± 0.016 | 0.929 ± 0.011 | 0.933 ± 0.012 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.945 | 0.946 | 0.941 | 0.953 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.943 ± 0.002 | 0.944 ± 0.001 | 0.938 ± 0.006 | 0.948 ± 0.003 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 0.949 | 0.942 | 0.928 | 0.931 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 0.947 ± 0.007 | 0.932 ± 0.009 | 0.916 ± 0.009 | 0.920 ± 0.008 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 0.953 | 0.947 | 0.939 | 0.952 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 0.948 ± 0.007 | 0.934 ± 0.017 | 0.928 ± 0.013 | 0.942 ± 0.014 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 0.950 | 0.947 | 0.939 | 0.951 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 0.945 | 0.951 | 0.945 | 0.939 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 0.938 ± 0.007 | 0.939 ± 0.004 | 0.928 ± 0.017 | 0.921 ± 0.022 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 0.935 | 0.944 | 0.940 | 0.940 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 0.933 | 0.938 | 0.936 | 0.928 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 0.946 | 0.936 | 0.908 | 0.896 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 0.945 | 0.947 | 0.941 | 0.951 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 0.942 ± 0.012 | 0.942 ± 0.015 | 0.938 ± 0.009 | 0.947 ± 0.008 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 0.952 | 0.940 | 0.947 | 0.953 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 0.929 | 0.928 | 0.929 | 0.938 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 0.945 | 0.958 | 0.937 | 0.949 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 0.934 | 0.935 | 0.939 | 0.934 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 0.900 | 0.895 | 0.901 | 0.888 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 0.913 | 0.916 | 0.914 | 0.915 | `results/aqfm_results.json` |
 
 ## 2025 test: PM2.5 > 250 episodes
 
 | model | 24h precision | 24h recall | 24h f1 | 48h precision | 48h recall | 48h f1 | source |
 |---|---|---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 0.736 | 0.734 | 0.735 | 0.692 | 0.707 | 0.699 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 0.714 ± 0.029 | 0.729 ± 0.014 | 0.721 ± 0.011 | 0.675 ± 0.019 | 0.696 ± 0.031 | 0.684 ± 0.010 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 0.681 | 0.741 | 0.710 | 0.653 | 0.719 | 0.685 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 0.731 | 0.713 | 0.722 | 0.689 | 0.660 | 0.674 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 0.729 | 0.732 | 0.731 | 0.681 | 0.709 | 0.695 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 0.640 | 0.642 | 0.641 | 0.594 | 0.578 | 0.586 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 0.636 ± 0.008 | 0.637 ± 0.021 | 0.636 ± 0.011 | 0.594 ± 0.005 | 0.570 ± 0.038 | 0.581 ± 0.021 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 0.640 | 0.613 | 0.626 | 0.595 | 0.529 | 0.560 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 0.641 | 0.653 | 0.647 | 0.598 | 0.605 | 0.602 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 0.626 | 0.643 | 0.635 | 0.588 | 0.576 | 0.582 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 0.657 | 0.751 | 0.701 | 0.648 | 0.732 | 0.687 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 0.705 | 0.662 | 0.683 | 0.667 | 0.611 | 0.638 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 0.685 | 0.632 | 0.657 | 0.645 | 0.599 | 0.621 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 0.719 | 0.756 | 0.737 | 0.680 | 0.751 | 0.714 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 0.713 ± 0.018 | 0.761 ± 0.007 | 0.736 ± 0.007 | 0.680 ± 0.001 | 0.746 ± 0.011 | 0.712 ± 0.004 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 0.652 | 0.645 | 0.649 | 0.622 | 0.582 | 0.602 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 0.645 ± 0.038 | 0.632 ± 0.047 | 0.636 ± 0.004 | 0.625 ± 0.042 | 0.580 ± 0.069 | 0.598 ± 0.019 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.714 | 0.744 | 0.729 | 0.682 | 0.741 | 0.710 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.706 ± 0.035 | 0.741 ± 0.028 | 0.722 ± 0.006 | 0.667 ± 0.032 | 0.736 ± 0.028 | 0.699 ± 0.009 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.655 | 0.600 | 0.626 | 0.623 | 0.541 | 0.579 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.652 ± 0.029 | 0.598 ± 0.037 | 0.623 ± 0.006 | 0.616 ± 0.027 | 0.535 ± 0.061 | 0.570 ± 0.025 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 0.674 | 0.780 | 0.723 | 0.665 | 0.762 | 0.711 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 0.674 ± 0.003 | 0.778 ± 0.004 | 0.722 ± 0.003 | 0.662 ± 0.007 | 0.759 ± 0.016 | 0.707 ± 0.006 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 0.640 | 0.656 | 0.648 | 0.615 | 0.565 | 0.589 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 0.630 ± 0.026 | 0.648 ± 0.029 | 0.638 ± 0.006 | 0.614 ± 0.039 | 0.566 ± 0.025 | 0.588 ± 0.006 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 0.599 | 0.690 | 0.641 | 0.593 | 0.611 | 0.602 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 0.736 | 0.734 | 0.735 | 0.692 | 0.707 | 0.699 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 0.714 ± 0.029 | 0.729 ± 0.014 | 0.721 ± 0.011 | 0.675 ± 0.019 | 0.696 ± 0.031 | 0.684 ± 0.010 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 0.681 | 0.741 | 0.710 | 0.653 | 0.719 | 0.685 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 0.731 | 0.713 | 0.722 | 0.689 | 0.660 | 0.674 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 0.729 | 0.732 | 0.731 | 0.681 | 0.709 | 0.695 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 0.640 | 0.642 | 0.641 | 0.594 | 0.578 | 0.586 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 0.636 ± 0.008 | 0.637 ± 0.021 | 0.636 ± 0.011 | 0.594 ± 0.005 | 0.570 ± 0.038 | 0.581 ± 0.021 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 0.640 | 0.613 | 0.626 | 0.595 | 0.529 | 0.560 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 0.641 | 0.653 | 0.647 | 0.598 | 0.605 | 0.602 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 0.626 | 0.643 | 0.635 | 0.588 | 0.576 | 0.582 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 0.657 | 0.751 | 0.701 | 0.648 | 0.732 | 0.687 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 0.705 | 0.662 | 0.683 | 0.667 | 0.611 | 0.638 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 0.685 | 0.632 | 0.657 | 0.645 | 0.599 | 0.621 | `results/aqfm_results.json` |
 
 ## 2025 test: 24 h station-outage imputation, MAE (µg/m³)
 
 | model | PM2.5 aqfm | PM2.5 linear | PM10 aqfm | PM10 linear | source |
 |---|---|---|---|---|---|
-| **AQFM ensemble (3 seeds)** | 29.49 | 36.29 | 53.56 | 66.66 | `results/aqfm_do3_ens3_results.json` |
-| AQFM single model, mean ± std (3 seeds) | 30.69 ± 1.52 | 36.29 ± 0.00 | 55.75 ± 2.90 | 66.66 ± 0.00 | `results/aqfm_do3_seeds_stats.json` |
-| AQFM seed 0 | 31.96 | 36.29 | 58.49 | 66.66 | `results/aqfm_do3_s0_results.json` |
-| AQFM seed 1 | 28.99 | 36.29 | 52.71 | 66.66 | `results/aqfm_do3_s1_results.json` |
-| AQFM seed 2 | 31.10 | 36.29 | 56.06 | 66.66 | `results/aqfm_do3_s2_results.json` |
-| AQFM no future met, ensemble (3 seeds) | 32.42 | 36.29 | 60.04 | 66.66 | `results/aqfm_do3_nofm_ens3_results.json` |
-| AQFM no future met, mean ± std (3 seeds) | 33.05 ± 0.37 | 36.29 ± 0.00 | 60.86 ± 1.66 | 66.66 ± 0.00 | `results/aqfm_do3_nofm_seeds_stats.json` |
-| AQFM no future met, seed 0 | 32.93 | 36.29 | 59.86 | 66.66 | `results/aqfm_do3_nofm_s0_results.json` |
-| AQFM no future met, seed 1 | 33.46 | 36.29 | 62.78 | 66.66 | `results/aqfm_do3_nofm_s1_results.json` |
-| AQFM no future met, seed 2 | 32.75 | 36.29 | 59.95 | 66.66 | `results/aqfm_do3_nofm_s2_results.json` |
-| AQFM dropout 0.1, seed 0 (2026-10-13) | 31.13 | 36.29 | 57.15 | 66.66 | `results/aqfm_anchor_s0_results.json` |
-| AQFM run 2: no anchor, wd 0.1, anneal | 30.25 | 36.29 | 55.96 | 66.66 | `results/aqfm_s0_wd_results.json` |
-| AQFM run 1: no anchor | 30.67 | 36.29 | 57.14 | 66.66 | `results/aqfm_results.json` |
+| **AQFM v2-M ensemble (3 seeds; 4.57M)** | 29.99 | 36.29 | 54.54 | 66.66 | `results/v2m256_ens3_results.json` |
+| AQFM v2-M single model, mean ± std (3 seeds) | 31.23 ± 0.43 | 36.29 ± 0.00 | 56.04 ± 0.85 | 66.66 ± 0.00 | `results/v2m256_seeds_stats.json` |
+| AQFM v2-M no future met, ensemble (3 seeds) | 32.67 | 36.29 | 60.07 | 66.66 | `results/v2m256_nofm_ens3_results.json` |
+| AQFM v2-M no future met, mean ± std (3 seeds) | 33.20 ± 0.49 | 36.29 ± 0.00 | 60.84 ± 0.86 | 66.66 ± 0.00 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 30.08 | 36.29 | 54.82 | 66.66 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 30.84 ± 0.70 | 36.29 ± 0.00 | 56.31 ± 1.19 | 66.66 ± 0.00 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 32.57 | 36.29 | 59.56 | 66.66 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 33.51 ± 0.99 | 36.29 ± 0.00 | 60.89 ± 1.72 | 66.66 ± 0.00 | `results/v2m256_no2d_nofm_seeds_stats.json` |
+| AQFM v2 ensemble (3 seeds; 1.17M) | 29.77 | 36.29 | 54.65 | 66.66 | `results/v2_ens3_results.json` |
+| AQFM v2 single model, mean ± std (3 seeds) | 30.38 ± 0.35 | 36.29 ± 0.00 | 55.62 ± 0.72 | 66.66 ± 0.00 | `results/v2_seeds_stats.json` |
+| AQFM v2 no future met, ensemble (3 seeds) | 32.47 | 36.29 | 59.68 | 66.66 | `results/v2_nofm_ens3_results.json` |
+| AQFM v2 no future met, mean ± std (3 seeds) | 33.31 ± 0.52 | 36.29 ± 0.00 | 60.74 ± 0.87 | 66.66 ± 0.00 | `results/v2_nofm_seeds_stats.json` |
+| AQFM v2 trained on Delhi + Mumbai, no future met, ensemble (3 seeds) | 33.02 | 36.29 | 60.37 | 66.66 | `results/delhi_joint_v2_ens3_results.json` |
+| AQFM v1 ensemble (3 seeds; 23.8M) | 29.49 | 36.29 | 53.56 | 66.66 | `results/aqfm_do3_ens3_results.json` |
+| AQFM v1 single model, mean ± std (3 seeds) | 30.69 ± 1.52 | 36.29 ± 0.00 | 55.75 ± 2.90 | 66.66 ± 0.00 | `results/aqfm_do3_seeds_stats.json` |
+| AQFM v1 seed 0 | 31.96 | 36.29 | 58.49 | 66.66 | `results/aqfm_do3_s0_results.json` |
+| AQFM v1 seed 1 | 28.99 | 36.29 | 52.71 | 66.66 | `results/aqfm_do3_s1_results.json` |
+| AQFM v1 seed 2 | 31.10 | 36.29 | 56.06 | 66.66 | `results/aqfm_do3_s2_results.json` |
+| AQFM v1 no future met, ensemble (3 seeds) | 32.42 | 36.29 | 60.04 | 66.66 | `results/aqfm_do3_nofm_ens3_results.json` |
+| AQFM v1 no future met, mean ± std (3 seeds) | 33.05 ± 0.37 | 36.29 ± 0.00 | 60.86 ± 1.66 | 66.66 ± 0.00 | `results/aqfm_do3_nofm_seeds_stats.json` |
+| AQFM v1 no future met, seed 0 | 32.93 | 36.29 | 59.86 | 66.66 | `results/aqfm_do3_nofm_s0_results.json` |
+| AQFM v1 no future met, seed 1 | 33.46 | 36.29 | 62.78 | 66.66 | `results/aqfm_do3_nofm_s1_results.json` |
+| AQFM v1 no future met, seed 2 | 32.75 | 36.29 | 59.95 | 66.66 | `results/aqfm_do3_nofm_s2_results.json` |
+| AQFM v1 dropout 0.1, seed 0 (2026-10-13) | 31.13 | 36.29 | 57.15 | 66.66 | `results/aqfm_anchor_s0_results.json` |
+| AQFM v1 run 2: no anchor, wd 0.1, anneal | 30.25 | 36.29 | 55.96 | 66.66 | `results/aqfm_s0_wd_results.json` |
+| AQFM v1 run 1: no anchor | 30.67 | 36.29 | 57.14 | 66.66 | `results/aqfm_results.json` |
 
 `linear` = linear interpolation across the same outages.
 
@@ -357,7 +526,7 @@ MAE and CRPS in µg/m³. Compare each row with the first; the second row's std i
 
 The seed-noise row gives the std over seeds 0/1/2 of the full model: a change smaller than about twice that std is not distinguishable from seed noise on a single seed.
 
-## 2024 validation: best selection score per run (lower is better)
+## 2024 validation (Delhi): best selection score per run (lower is better)
 
 | run | change | dropout | seed | best score | best step | validations | source |
 |---|---|---|---|---|---|---|---|
@@ -378,14 +547,178 @@ The seed-noise row gives the std over seeds 0/1/2 of the full model: a change sm
 | main_s1_do3_nofm | no future met | 0.3 | 1 | 1.8015 | 7000 | 10 | `runs/main_s1_do3_nofm/log.jsonl` |
 | main_s2_do3 | – | 0.3 | 2 | 1.7255 | 6000 | 9 | `runs/main_s2_do3/log.jsonl` |
 | main_s2_do3_nofm | no future met | 0.3 | 2 | 1.8035 | 5000 | 8 | `runs/main_s2_do3_nofm/log.jsonl` |
-| v2_holdout4_s0_do03 | – | 0.3 | 0 | 1.7266 | 9000 | 12 | `runs/v2_holdout4_s0_do03/log.jsonl` |
-| v2_nofm_s0_do03 | no future met | 0.3 | 0 | 1.8115 | 6000 | 9 | `runs/v2_nofm_s0_do03/log.jsonl` |
-| v2_nofm_s1_do03 | no future met | 0.3 | 1 | 1.8092 | 9000 | 12 | `runs/v2_nofm_s1_do03/log.jsonl` |
-| v2_nofm_s2_do03 | no future met | 0.3 | 2 | 1.7943 | 11000 | 12 | `runs/v2_nofm_s2_do03/log.jsonl` |
-| v2_s0_do015 | – | 0.15 | 0 | 1.7380 | 11000 | 12 | `runs/v2_s0_do015/log.jsonl` |
-| v2_s0_do03 | – | 0.3 | 0 | 1.7372 | 9000 | 12 | `runs/v2_s0_do03/log.jsonl` |
-| v2_s1_do03 | – | 0.3 | 1 | 1.7494 | 7000 | 10 | `runs/v2_s1_do03/log.jsonl` |
-| v2_s2_do03 | – | 0.3 | 2 | 1.7370 | 10000 | 12 | `runs/v2_s2_do03/log.jsonl` |
-| v2_short_delhi | 3k-step schedule, patience 10 | 0.15 | 0 | 1.7878 | 3000 | 6 | `runs/v2_short_delhi/log.jsonl` |
+| v2_holdout4_s0_do03 | v2 city preset, width 128 | 0.3 | 0 | 1.7266 | 9000 | 12 | `runs/v2_holdout4_s0_do03/log.jsonl` |
+| v2_nofm_s0_do03 | v2 city preset, width 128, no future met | 0.3 | 0 | 1.8115 | 6000 | 9 | `runs/v2_nofm_s0_do03/log.jsonl` |
+| v2_nofm_s1_do03 | v2 city preset, width 128, no future met | 0.3 | 1 | 1.8092 | 9000 | 12 | `runs/v2_nofm_s1_do03/log.jsonl` |
+| v2_nofm_s2_do03 | v2 city preset, width 128, no future met | 0.3 | 2 | 1.7943 | 11000 | 12 | `runs/v2_nofm_s2_do03/log.jsonl` |
+| v2_s0_do015 | v2 city preset, width 128 | 0.15 | 0 | 1.7380 | 11000 | 12 | `runs/v2_s0_do015/log.jsonl` |
+| v2_s0_do03 | v2 city preset, width 128 | 0.3 | 0 | 1.7372 | 9000 | 12 | `runs/v2_s0_do03/log.jsonl` |
+| v2_s0_do03_24k | v2 city preset, width 128, 24k-step schedule, patience 24 | 0.3 | 0 | 1.7291 | 16000 | 24 | `runs/v2_s0_do03_24k/log.jsonl` |
+| v2_s1_do03 | v2 city preset, width 128 | 0.3 | 1 | 1.7494 | 7000 | 10 | `runs/v2_s1_do03/log.jsonl` |
+| v2_s2_do03 | v2 city preset, width 128 | 0.3 | 2 | 1.7370 | 10000 | 12 | `runs/v2_s2_do03/log.jsonl` |
+| v2_short_delhi | v2 city preset, width 128, 3k-step schedule, patience 10 | 0.15 | 0 | 1.7878 | 3000 | 6 | `runs/v2_short_delhi/log.jsonl` |
+| v2m256_abl_gapfillonly_s0 | v2 city preset, width 256, gap-filling only | 0.3 | 0 | 1.9040 | 4000 | 7 | `runs/v2m256_abl_gapfillonly_s0/log.jsonl` |
+| v2m256_abl_noblh_s0 | v2 city preset, width 256, no BLH | 0.3 | 0 | 1.7368 | 9000 | 12 | `runs/v2m256_abl_noblh_s0/log.jsonl` |
+| v2m256_abl_nolast_s0 | v2 city preset, width 256, no anchor | 0.3 | 0 | 1.8129 | 5000 | 8 | `runs/v2m256_abl_nolast_s0/log.jsonl` |
+| v2m256_abl_nospatial_s0 | v2 city preset, width 256, no spatial attention | 0.3 | 0 | 1.7290 | 10000 | 12 | `runs/v2m256_abl_nospatial_s0/log.jsonl` |
+| v2m256_fold24_nofm_s0_do03 | v2 city preset, width 256, no future met, validation 2023, test 2024 | 0.3 | 0 | 1.7720 | 6000 | 9 | `runs/v2m256_fold24_nofm_s0_do03/log.jsonl` |
+| v2m256_fold24_nofm_s1_do03 | v2 city preset, width 256, no future met, validation 2023, test 2024 | 0.3 | 1 | 1.7685 | 8000 | 11 | `runs/v2m256_fold24_nofm_s1_do03/log.jsonl` |
+| v2m256_fold24_nofm_s2_do03 | v2 city preset, width 256, no future met, validation 2023, test 2024 | 0.3 | 2 | 1.7657 | 8000 | 11 | `runs/v2m256_fold24_nofm_s2_do03/log.jsonl` |
+| v2m256_fold24_s0_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 0 | 1.7062 | 7000 | 10 | `runs/v2m256_fold24_s0_do03/log.jsonl` |
+| v2m256_fold24_s1_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 1 | 1.6996 | 11000 | 12 | `runs/v2m256_fold24_s1_do03/log.jsonl` |
+| v2m256_fold24_s2_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 2 | 1.7013 | 12000 | 12 | `runs/v2m256_fold24_s2_do03/log.jsonl` |
+| v2m256_no2d_nofm_s0_do03 | v2 city preset, width 256, no future met, NO2 predicted directly | 0.3 | 0 | 1.8035 | 10000 | 12 | `runs/v2m256_no2d_nofm_s0_do03/log.jsonl` |
+| v2m256_no2d_nofm_s1_do03 | v2 city preset, width 256, no future met, NO2 predicted directly | 0.3 | 1 | 1.8016 | 11000 | 12 | `runs/v2m256_no2d_nofm_s1_do03/log.jsonl` |
+| v2m256_no2d_nofm_s2_do03 | v2 city preset, width 256, no future met, NO2 predicted directly | 0.3 | 2 | 1.8007 | 12000 | 12 | `runs/v2m256_no2d_nofm_s2_do03/log.jsonl` |
+| v2m256_no2d_s0_do03 | v2 city preset, width 256, NO2 predicted directly | 0.3 | 0 | 1.7495 | 5000 | 8 | `runs/v2m256_no2d_s0_do03/log.jsonl` |
+| v2m256_no2d_s1_do03 | v2 city preset, width 256, NO2 predicted directly | 0.3 | 1 | 1.7350 | 12000 | 12 | `runs/v2m256_no2d_s1_do03/log.jsonl` |
+| v2m256_no2d_s2_do03 | v2 city preset, width 256, NO2 predicted directly | 0.3 | 2 | 1.7358 | 11000 | 12 | `runs/v2m256_no2d_s2_do03/log.jsonl` |
+| v2m256_nofm_s0_do03 | v2 city preset, width 256, no future met | 0.3 | 0 | 1.7928 | 10000 | 12 | `runs/v2m256_nofm_s0_do03/log.jsonl` |
+| v2m256_nofm_s1_do03 | v2 city preset, width 256, no future met | 0.3 | 1 | 1.7898 | 11000 | 12 | `runs/v2m256_nofm_s1_do03/log.jsonl` |
+| v2m256_nofm_s2_do03 | v2 city preset, width 256, no future met | 0.3 | 2 | 1.7865 | 11000 | 12 | `runs/v2m256_nofm_s2_do03/log.jsonl` |
+| v2m256_s0_do03 | v2 city preset, width 256 | 0.3 | 0 | 1.7268 | 10000 | 12 | `runs/v2m256_s0_do03/log.jsonl` |
+| v2m256_s1_do03 | v2 city preset, width 256 | 0.3 | 1 | 1.7248 | 12000 | 12 | `runs/v2m256_s1_do03/log.jsonl` |
+| v2m256_s2_do03 | v2 city preset, width 256 | 0.3 | 2 | 1.7286 | 11000 | 12 | `runs/v2m256_s2_do03/log.jsonl` |
 
-Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column.
+Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column. Runs that predict PM2.5 or NO2 directly are scored on a different set of outputs, so their score is not comparable with the other runs'.
+
+## Mumbai test (2024-07-01 .. 12-31): PM2.5 MAE (µg/m³)
+
+| model | 1h | 6h | 24h | 72h | source |
+|---|---|---|---|---|---|
+| Persistence | 4.37 | 9.85 | 11.87 | 16.83 | `results/mumbai_classical_results.json` |
+| Seasonal naive | 12.04 | 10.84 | 11.89 | 16.91 | `results/mumbai_classical_results.json` |
+| Climatology | 19.90 | 17.74 | 19.48 | 19.67 | `results/mumbai_classical_results.json` |
+| XGBoost, all data before the test | 6.62 | 8.86 | 12.15 | 16.22 | `results/mumbai_xgboost_results.json` |
+| AQFM v2-M zero-shot (Delhi model, no future met) | 6.16 | 10.17 | 14.52 | 18.37 | `results/mumbai_zeroshot_v2m256_nofm_ens3_results.json` |
+| AQFM v2 zero-shot (Delhi model, no future met) | 6.24 | 11.19 | 15.22 | 18.77 | `results/mumbai_zeroshot_v2_nofm_ens3_results.json` |
+| AQFM v2-M zero-shot, with future weather (3 of 8 inputs missing) | 9.66 | 14.10 | 22.37 | 23.68 | `results/mumbai_zeroshot_v2m256_ens3_results.json` |
+| AQFM v2 zero-shot, with future weather (3 of 8 inputs missing) | 6.52 | 10.26 | 15.43 | 17.51 | `results/mumbai_zeroshot_v2_ens3_results.json` |
+| 1 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 5.86 | 10.38 | 12.28 | 15.11 | `results/mumbai_ft_v2_backbone_m1_ens3_results.json` |
+| 1 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 6.01 ± 0.27 | 10.65 ± 0.50 | 12.63 ± 0.58 | 15.29 ± 0.45 | `results/mumbai_ft_v2_backbone_m1_seeds_stats.json` |
+| 1 month(s): AQFM v2 from scratch, ensemble | 10.89 | 10.51 | 12.41 | 14.08 | `results/mumbai_scratch_v2_m1_ens3_results.json` |
+| 1 month(s): AQFM v2 from scratch, mean ± std | 10.91 ± 0.48 | 10.57 ± 0.14 | 12.54 ± 0.36 | 14.12 ± 0.32 | `results/mumbai_scratch_v2_m1_seeds_stats.json` |
+| 1 month(s): XGBoost | 13.51 | 29.27 | 27.16 | 30.02 | `results/mumbai_xgboost_m1_results.json` |
+| 3 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 5.99 | 10.03 | 12.05 | 14.80 | `results/mumbai_ft_v2_backbone_m3_ens3_results.json` |
+| 3 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 6.07 ± 0.19 | 10.15 ± 0.21 | 12.25 ± 0.24 | 14.94 ± 0.13 | `results/mumbai_ft_v2_backbone_m3_seeds_stats.json` |
+| 3 month(s): AQFM v2 from scratch, ensemble | 6.85 | 10.42 | 12.80 | 15.75 | `results/mumbai_scratch_v2_m3_ens3_results.json` |
+| 3 month(s): AQFM v2 from scratch, mean ± std | 7.20 ± 0.63 | 10.58 ± 0.11 | 13.00 ± 0.82 | 15.98 ± 0.82 | `results/mumbai_scratch_v2_m3_seeds_stats.json` |
+| 3 month(s): XGBoost | 7.50 | 12.16 | 16.09 | 22.58 | `results/mumbai_xgboost_m3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 6.17 | 10.15 | 12.26 | 15.01 | `results/mumbai_ft_v2_backbone_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 6.25 ± 0.16 | 10.29 ± 0.31 | 12.40 ± 0.24 | 15.08 ± 0.32 | `results/mumbai_ft_v2_backbone_m6_seeds_stats.json` |
+| 6 month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble | 6.02 | 9.52 | 11.96 | 14.67 | `results/mumbai_ft_v2_none_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std | 6.10 ± 0.19 | 9.71 ± 0.34 | 12.20 ± 0.44 | 14.87 ± 0.60 | `results/mumbai_ft_v2_none_m6_seeds_stats.json` |
+| 6 month(s): AQFM v2 from scratch, ensemble | 5.76 | 9.08 | 11.55 | 14.24 | `results/mumbai_scratch_v2_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 from scratch, mean ± std | 5.93 ± 0.48 | 9.18 ± 0.18 | 11.70 ± 0.25 | 14.40 ± 0.22 | `results/mumbai_scratch_v2_m6_seeds_stats.json` |
+| 6 month(s): XGBoost | 7.06 | 9.61 | 12.69 | 16.74 | `results/mumbai_xgboost_m6_results.json` |
+| 12 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 6.46 | 10.25 | 12.33 | 14.95 | `results/mumbai_ft_v2_backbone_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 6.51 ± 0.28 | 10.34 ± 0.36 | 12.47 ± 0.19 | 15.01 ± 0.25 | `results/mumbai_ft_v2_backbone_m12_seeds_stats.json` |
+| 12 month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble | 5.85 | 9.24 | 11.81 | 14.50 | `results/mumbai_ft_v2_none_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std | 5.93 ± 0.18 | 9.42 ± 0.51 | 11.98 ± 0.41 | 14.60 ± 0.46 | `results/mumbai_ft_v2_none_m12_seeds_stats.json` |
+| 12 month(s): AQFM v2 from scratch, ensemble | 5.39 | 8.79 | 11.28 | 14.21 | `results/mumbai_scratch_v2_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 from scratch, mean ± std | 5.50 ± 0.23 | 8.87 ± 0.15 | 11.45 ± 0.17 | 14.33 ± 0.36 | `results/mumbai_scratch_v2_m12_seeds_stats.json` |
+| 12 month(s): XGBoost | 6.88 | 9.04 | 12.30 | 16.72 | `results/mumbai_xgboost_m12_results.json` |
+| Joint Delhi + Mumbai (12 months), ensemble | 5.67 | 8.79 | 11.93 | 14.71 | `results/mumbai_joint_v2_ens3_results.json` |
+
+Fine-tuned / from scratch / XGBoost use only the last N months of 2023; the classical baselines and 'all data' XGBoost use everything before the test. The classical baselines count only points where all three have a forecast (about 5 % fewer points).
+
+## Mumbai test (2024-07-01 .. 12-31): PM10 MAE (µg/m³)
+
+| model | 1h | 6h | 24h | 72h | source |
+|---|---|---|---|---|---|
+| Persistence | 10.45 | 25.05 | 26.99 | 35.72 | `results/mumbai_classical_results.json` |
+| Seasonal naive | 25.57 | 25.05 | 27.09 | 36.05 | `results/mumbai_classical_results.json` |
+| Climatology | 42.04 | 36.75 | 42.39 | 42.51 | `results/mumbai_classical_results.json` |
+| XGBoost, all data before the test | 15.55 | 22.97 | 27.14 | 33.60 | `results/mumbai_xgboost_results.json` |
+| AQFM v2-M zero-shot (Delhi model, no future met) | 10.51 | 20.48 | 27.54 | 35.01 | `results/mumbai_zeroshot_v2m256_nofm_ens3_results.json` |
+| AQFM v2 zero-shot (Delhi model, no future met) | 9.88 | 21.69 | 28.24 | 34.93 | `results/mumbai_zeroshot_v2_nofm_ens3_results.json` |
+| AQFM v2-M zero-shot, with future weather (3 of 8 inputs missing) | 16.86 | 27.20 | 47.85 | 51.79 | `results/mumbai_zeroshot_v2m256_ens3_results.json` |
+| AQFM v2 zero-shot, with future weather (3 of 8 inputs missing) | 10.66 | 20.81 | 33.30 | 38.52 | `results/mumbai_zeroshot_v2_ens3_results.json` |
+| 1 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 9.90 | 21.03 | 24.59 | 30.28 | `results/mumbai_ft_v2_backbone_m1_ens3_results.json` |
+| 1 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 10.03 ± 0.13 | 21.17 ± 0.42 | 25.10 ± 0.52 | 30.61 ± 0.45 | `results/mumbai_ft_v2_backbone_m1_seeds_stats.json` |
+| 1 month(s): AQFM v2 from scratch, ensemble | 21.55 | 22.20 | 26.62 | 30.13 | `results/mumbai_scratch_v2_m1_ens3_results.json` |
+| 1 month(s): AQFM v2 from scratch, mean ± std | 21.45 ± 0.83 | 22.16 ± 0.09 | 26.68 ± 0.63 | 30.22 ± 0.47 | `results/mumbai_scratch_v2_m1_seeds_stats.json` |
+| 1 month(s): XGBoost | 26.19 | 53.83 | 48.03 | 60.49 | `results/mumbai_xgboost_m1_results.json` |
+| 3 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 9.87 | 20.58 | 24.25 | 29.79 | `results/mumbai_ft_v2_backbone_m3_ens3_results.json` |
+| 3 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 9.95 ± 0.12 | 20.63 ± 0.46 | 24.55 ± 0.39 | 30.09 ± 0.27 | `results/mumbai_ft_v2_backbone_m3_seeds_stats.json` |
+| 3 month(s): AQFM v2 from scratch, ensemble | 12.71 | 21.95 | 26.63 | 31.89 | `results/mumbai_scratch_v2_m3_ens3_results.json` |
+| 3 month(s): AQFM v2 from scratch, mean ± std | 13.29 ± 1.49 | 22.21 ± 0.26 | 26.88 ± 1.48 | 32.22 ± 1.44 | `results/mumbai_scratch_v2_m3_seeds_stats.json` |
+| 3 month(s): XGBoost | 18.60 | 27.18 | 36.82 | 50.78 | `results/mumbai_xgboost_m3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 9.89 | 20.35 | 24.32 | 29.96 | `results/mumbai_ft_v2_backbone_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 9.98 ± 0.13 | 20.41 ± 0.51 | 24.52 ± 0.45 | 30.16 ± 0.33 | `results/mumbai_ft_v2_backbone_m6_seeds_stats.json` |
+| 6 month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble | 9.92 | 20.17 | 24.32 | 29.62 | `results/mumbai_ft_v2_none_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std | 10.04 ± 0.07 | 20.42 ± 0.34 | 24.63 ± 0.48 | 30.16 ± 0.60 | `results/mumbai_ft_v2_none_m6_seeds_stats.json` |
+| 6 month(s): AQFM v2 from scratch, ensemble | 10.97 | 20.63 | 25.57 | 31.03 | `results/mumbai_scratch_v2_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 from scratch, mean ± std | 11.41 ± 0.75 | 20.81 ± 0.07 | 25.94 ± 0.73 | 31.58 ± 0.82 | `results/mumbai_scratch_v2_m6_seeds_stats.json` |
+| 6 month(s): XGBoost | 16.15 | 22.57 | 28.65 | 35.91 | `results/mumbai_xgboost_m6_results.json` |
+| 12 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 9.99 | 20.32 | 24.24 | 29.75 | `results/mumbai_ft_v2_backbone_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 10.08 ± 0.10 | 20.37 ± 0.27 | 24.42 ± 0.30 | 29.91 ± 0.28 | `results/mumbai_ft_v2_backbone_m12_seeds_stats.json` |
+| 12 month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble | 9.92 | 19.77 | 24.26 | 29.64 | `results/mumbai_ft_v2_none_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std | 10.03 ± 0.17 | 19.93 ± 0.14 | 24.38 ± 0.13 | 29.85 ± 0.25 | `results/mumbai_ft_v2_none_m12_seeds_stats.json` |
+| 12 month(s): AQFM v2 from scratch, ensemble | 10.33 | 20.10 | 24.86 | 30.56 | `results/mumbai_scratch_v2_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 from scratch, mean ± std | 10.54 ± 0.25 | 20.30 ± 0.26 | 25.03 ± 0.51 | 30.89 ± 1.00 | `results/mumbai_scratch_v2_m12_seeds_stats.json` |
+| 12 month(s): XGBoost | 15.94 | 22.67 | 27.37 | 34.46 | `results/mumbai_xgboost_m12_results.json` |
+| Joint Delhi + Mumbai (12 months), ensemble | 10.03 | 19.41 | 24.78 | 30.30 | `results/mumbai_joint_v2_ens3_results.json` |
+
+Fine-tuned / from scratch / XGBoost use only the last N months of 2023; the classical baselines and 'all data' XGBoost use everything before the test. The classical baselines count only points where all three have a forecast (about 5 % fewer points).
+
+## Mumbai validation (2024-01-01 .. 06-30): best selection score per run (lower is better)
+
+| run | change | dropout | seed | best score | best step | validations | source |
+|---|---|---|---|---|---|---|---|
+| mumbai_ft1500_v2_backbone_m12_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 12 months), no future met | 0.3 | 0 | 1.8983 | 1500 | 30 | `runs/mumbai_ft1500_v2_backbone_m12_s0/log.jsonl` |
+| mumbai_ft1500_v2_backbone_m1_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 1 months), no future met | 0.3 | 0 | 1.9322 | 200 | 12 | `runs/mumbai_ft1500_v2_backbone_m1_s0/log.jsonl` |
+| mumbai_ft1500_v2_backbone_m1_s1 | v2 city preset, width 128, fine-tune (freeze backbone, 1 months), no future met | 0.3 | 1 | 1.9163 | 950 | 27 | `runs/mumbai_ft1500_v2_backbone_m1_s1/log.jsonl` |
+| mumbai_ft1500_v2_backbone_m3_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 3 months), no future met | 0.3 | 0 | 1.9196 | 550 | 19 | `runs/mumbai_ft1500_v2_backbone_m3_s0/log.jsonl` |
+| mumbai_ft1500_v2_backbone_m6_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 6 months), no future met | 0.3 | 0 | 1.9120 | 650 | 21 | `runs/mumbai_ft1500_v2_backbone_m6_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m12_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 12 months), no future met | 0.3 | 0 | 1.8782 | 4450 | 97 | `runs/mumbai_ft_v2_backbone_m12_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m12_s1 | v2 city preset, width 128, fine-tune (freeze backbone, 12 months), no future met | 0.3 | 1 | 1.8795 | 4450 | 97 | `runs/mumbai_ft_v2_backbone_m12_s1/log.jsonl` |
+| mumbai_ft_v2_backbone_m12_s2 | v2 city preset, width 128, fine-tune (freeze backbone, 12 months), no future met | 0.3 | 2 | 1.8808 | 3400 | 76 | `runs/mumbai_ft_v2_backbone_m12_s2/log.jsonl` |
+| mumbai_ft_v2_backbone_m12_steps6000_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 12 months), no future met | 0.3 | 0 | 1.8782 | 4700 | 102 | `runs/mumbai_ft_v2_backbone_m12_steps6000_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m1_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 1 months), no future met | 0.3 | 0 | 1.9322 | 200 | 12 | `runs/mumbai_ft_v2_backbone_m1_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m1_s1 | v2 city preset, width 128, fine-tune (freeze backbone, 1 months), no future met | 0.3 | 1 | 1.9163 | 600 | 20 | `runs/mumbai_ft_v2_backbone_m1_s1/log.jsonl` |
+| mumbai_ft_v2_backbone_m1_s2 | v2 city preset, width 128, fine-tune (freeze backbone, 1 months), no future met | 0.3 | 2 | 1.8962 | 650 | 21 | `runs/mumbai_ft_v2_backbone_m1_s2/log.jsonl` |
+| mumbai_ft_v2_backbone_m3_lr1e-4_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 3 months), no future met | 0.3 | 0 | 1.9207 | 150 | 11 | `runs/mumbai_ft_v2_backbone_m3_lr1e-4_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m3_lr1e-5_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 3 months), no future met | 0.3 | 0 | 1.9209 | 1500 | 30 | `runs/mumbai_ft_v2_backbone_m3_lr1e-5_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m3_lr3e-5_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 3 months), no future met | 0.3 | 0 | 1.9196 | 550 | 19 | `runs/mumbai_ft_v2_backbone_m3_lr3e-5_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m3_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 3 months), no future met | 0.3 | 0 | 1.9197 | 400 | 16 | `runs/mumbai_ft_v2_backbone_m3_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m3_s1 | v2 city preset, width 128, fine-tune (freeze backbone, 3 months), no future met | 0.3 | 1 | 1.8965 | 1900 | 46 | `runs/mumbai_ft_v2_backbone_m3_s1/log.jsonl` |
+| mumbai_ft_v2_backbone_m3_s2 | v2 city preset, width 128, fine-tune (freeze backbone, 3 months), no future met | 0.3 | 2 | 1.9033 | 650 | 21 | `runs/mumbai_ft_v2_backbone_m3_s2/log.jsonl` |
+| mumbai_ft_v2_backbone_m6_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 6 months), no future met | 0.3 | 0 | 1.9117 | 650 | 21 | `runs/mumbai_ft_v2_backbone_m6_s0/log.jsonl` |
+| mumbai_ft_v2_backbone_m6_s1 | v2 city preset, width 128, fine-tune (freeze backbone, 6 months), no future met | 0.3 | 1 | 1.9007 | 1500 | 38 | `runs/mumbai_ft_v2_backbone_m6_s1/log.jsonl` |
+| mumbai_ft_v2_backbone_m6_s2 | v2 city preset, width 128, fine-tune (freeze backbone, 6 months), no future met | 0.3 | 2 | 1.8993 | 2350 | 55 | `runs/mumbai_ft_v2_backbone_m6_s2/log.jsonl` |
+| mumbai_ft_v2_none_m12_s0 | v2 city preset, width 128, fine-tune (freeze none, 12 months), no future met | 0.3 | 0 | 1.8568 | 1700 | 42 | `runs/mumbai_ft_v2_none_m12_s0/log.jsonl` |
+| mumbai_ft_v2_none_m12_s1 | v2 city preset, width 128, fine-tune (freeze none, 12 months), no future met | 0.3 | 1 | 1.8668 | 700 | 22 | `runs/mumbai_ft_v2_none_m12_s1/log.jsonl` |
+| mumbai_ft_v2_none_m12_s2 | v2 city preset, width 128, fine-tune (freeze none, 12 months), no future met | 0.3 | 2 | 1.8585 | 1100 | 30 | `runs/mumbai_ft_v2_none_m12_s2/log.jsonl` |
+| mumbai_ft_v2_none_m6_s0 | v2 city preset, width 128, fine-tune (freeze none, 6 months), no future met | 0.3 | 0 | 1.9034 | 600 | 20 | `runs/mumbai_ft_v2_none_m6_s0/log.jsonl` |
+| mumbai_ft_v2_none_m6_s1 | v2 city preset, width 128, fine-tune (freeze none, 6 months), no future met | 0.3 | 1 | 1.9045 | 700 | 22 | `runs/mumbai_ft_v2_none_m6_s1/log.jsonl` |
+| mumbai_ft_v2_none_m6_s2 | v2 city preset, width 128, fine-tune (freeze none, 6 months), no future met | 0.3 | 2 | 1.8869 | 250 | 13 | `runs/mumbai_ft_v2_none_m6_s2/log.jsonl` |
+| mumbai_scratch_v2_m12_s0 | v2 city preset, width 128, patience 8, no future met | 0.3 | 0 | 1.8907 | 2750 | 19 | `runs/mumbai_scratch_v2_m12_s0/log.jsonl` |
+| mumbai_scratch_v2_m12_s1 | v2 city preset, width 128, patience 8, no future met | 0.3 | 1 | 1.8766 | 3750 | 23 | `runs/mumbai_scratch_v2_m12_s1/log.jsonl` |
+| mumbai_scratch_v2_m12_s2 | v2 city preset, width 128, patience 8, no future met | 0.3 | 2 | 1.8792 | 2750 | 19 | `runs/mumbai_scratch_v2_m12_s2/log.jsonl` |
+| mumbai_scratch_v2_m1_s0 | v2 city preset, width 128, patience 8, no future met | 0.3 | 0 | 2.0431 | 500 | 10 | `runs/mumbai_scratch_v2_m1_s0/log.jsonl` |
+| mumbai_scratch_v2_m1_s1 | v2 city preset, width 128, patience 8, no future met | 0.3 | 1 | 2.0273 | 750 | 11 | `runs/mumbai_scratch_v2_m1_s1/log.jsonl` |
+| mumbai_scratch_v2_m1_s2 | v2 city preset, width 128, patience 8, no future met | 0.3 | 2 | 2.0403 | 500 | 10 | `runs/mumbai_scratch_v2_m1_s2/log.jsonl` |
+| mumbai_scratch_v2_m3_s0 | v2 city preset, width 128, patience 8, no future met | 0.3 | 0 | 1.9790 | 1250 | 13 | `runs/mumbai_scratch_v2_m3_s0/log.jsonl` |
+| mumbai_scratch_v2_m3_s1 | v2 city preset, width 128, patience 8, no future met | 0.3 | 1 | 1.9837 | 2000 | 16 | `runs/mumbai_scratch_v2_m3_s1/log.jsonl` |
+| mumbai_scratch_v2_m3_s2 | v2 city preset, width 128, patience 8, no future met | 0.3 | 2 | 1.9889 | 1750 | 15 | `runs/mumbai_scratch_v2_m3_s2/log.jsonl` |
+| mumbai_scratch_v2_m6_s0 | v2 city preset, width 128, patience 8, no future met | 0.3 | 0 | 1.9462 | 2500 | 18 | `runs/mumbai_scratch_v2_m6_s0/log.jsonl` |
+| mumbai_scratch_v2_m6_s1 | v2 city preset, width 128, patience 8, no future met | 0.3 | 1 | 1.9279 | 2250 | 17 | `runs/mumbai_scratch_v2_m6_s1/log.jsonl` |
+| mumbai_scratch_v2_m6_s2 | v2 city preset, width 128, patience 8, no future met | 0.3 | 2 | 1.9260 | 1750 | 15 | `runs/mumbai_scratch_v2_m6_s2/log.jsonl` |
+| mumbai_stageA_ft_v2_encoder_m3_s0 | v2 city preset, width 128, fine-tune (freeze encoder, 3 months), no future met | 0.3 | 0 | 1.9252 | 250 | 5 | `runs/mumbai_stageA_ft_v2_encoder_m3_s0/log.jsonl` |
+| mumbai_stageA_ft_v2_none_m3_s0 | v2 city preset, width 128, fine-tune (freeze none, 3 months), no future met | 0.3 | 0 | 1.9231 | 250 | 5 | `runs/mumbai_stageA_ft_v2_none_m3_s0/log.jsonl` |
+| mumbai_stageA_ft_v2m_backbone_m3_s0 | v2 city preset, width 256, fine-tune (freeze backbone, 3 months), no future met | 0.3 | 0 | 1.9228 | 250 | 5 | `runs/mumbai_stageA_ft_v2m_backbone_m3_s0/log.jsonl` |
+| mumbai_stageA_ft_v2m_encoder_m3_s0 | v2 city preset, width 256, fine-tune (freeze encoder, 3 months), no future met | 0.3 | 0 | 1.9470 | 250 | 5 | `runs/mumbai_stageA_ft_v2m_encoder_m3_s0/log.jsonl` |
+| mumbai_stageA_ft_v2m_none_m3_s0 | v2 city preset, width 256, fine-tune (freeze none, 3 months), no future met | 0.3 | 0 | 1.9551 | 500 | 6 | `runs/mumbai_stageA_ft_v2m_none_m3_s0/log.jsonl` |
+
+Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column. Runs that predict PM2.5 or NO2 directly are scored on a different set of outputs, so their score is not comparable with the other runs'.
+
+## Joint Delhi + Mumbai validation (2024-01-01 .. 06-30): best selection score per run (lower is better)
+
+| run | change | dropout | seed | best score | best step | validations | source |
+|---|---|---|---|---|---|---|---|
+| joint_delhi_mumbai_v2_s0 | v2 city preset, width 128, no future met | 0.3 | 0 | 1.7829 | 9000 | 12 | `runs/joint_delhi_mumbai_v2_s0/log.jsonl` |
+| joint_delhi_mumbai_v2_s1 | v2 city preset, width 128, no future met | 0.3 | 1 | 1.7888 | 12000 | 12 | `runs/joint_delhi_mumbai_v2_s1/log.jsonl` |
+| joint_delhi_mumbai_v2_s2 | v2 city preset, width 128, no future met | 0.3 | 2 | 1.7881 | 12000 | 12 | `runs/joint_delhi_mumbai_v2_s2/log.jsonl` |
+
+Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column. Runs that predict PM2.5 or NO2 directly are scored on a different set of outputs, so their score is not comparable with the other runs'.

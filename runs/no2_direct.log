@@ -1,0 +1,109 @@
+[2026-11-07 11:44:08] train runs/v2m256_no2d_s0_do03: --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct
+done. best val total=1.7495  (18.9 min)
+[2026-11-07 12:03:06] train runs/v2m256_no2d_s1_do03: --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct
+done. best val total=1.7350  (27.9 min)
+[2026-11-07 12:31:07] train runs/v2m256_no2d_s2_do03: --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct
+done. best val total=1.7358  (28.0 min)
+[2026-11-07 12:59:12] evaluate results/v2m256_no2d_s0_results.json
+Ozone {'1h': 5.3149, '6h': 6.6386, '24h': 9.069, '72h': 9.8243}
+NOx {'1h': 12.2653, '6h': 16.342, '24h': 28.1304, '72h': 29.5753}
+NO2 {'1h': 7.8612, '6h': 9.4205, '24h': 13.3318, '72h': 15.1312}
+saved results/v2m256_no2d_s0_results.json
+[2026-11-07 13:04:21] evaluate results/v2m256_no2d_s1_results.json
+Ozone {'1h': 4.9961, '6h': 6.5174, '24h': 8.8904, '72h': 9.6437}
+NOx {'1h': 11.8691, '6h': 15.9105, '24h': 24.5748, '72h': 26.9823}
+NO2 {'1h': 7.6786, '6h': 9.4344, '24h': 13.0014, '72h': 14.7745}
+saved results/v2m256_no2d_s1_results.json
+[2026-11-07 13:09:31] evaluate results/v2m256_no2d_s2_results.json
+Ozone {'1h': 5.1375, '6h': 6.491, '24h': 8.8949, '72h': 9.6893}
+NOx {'1h': 11.8629, '6h': 15.9115, '24h': 25.1517, '72h': 27.7921}
+NO2 {'1h': 7.7816, '6h': 9.3485, '24h': 12.9805, '72h': 14.9074}
+saved results/v2m256_no2d_s2_results.json
+PM2.5 1h 16.36±0.71 6h 28.07±0.07 24h 32.86±1.37 72h 37.22±1.39
+PM10 1h 29.41±0.97 6h 46.22±0.61 24h 60.40±2.73 72h 67.33±3.04
+saved results/v2m256_no2d_seeds_stats.json
+[2026-11-07 13:14:39] evaluate results/v2m256_no2d_ens3_results.json
+Ozone {'1h': 5.0945, '6h': 6.5074, '24h': 8.8829, '72h': 9.6329}
+NOx {'1h': 11.9199, '6h': 15.8748, '24h': 25.139, '72h': 27.5468}
+NO2 {'1h': 7.7326, '6h': 9.3119, '24h': 12.877, '72h': 14.7358}
+saved results/v2m256_no2d_ens3_results.json
+[2026-11-07 13:28:33] train runs/v2m256_no2d_nofm_s0_do03: --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met
+done. best val total=1.8035  (28.8 min)
+[2026-11-07 13:57:25] train runs/v2m256_no2d_nofm_s1_do03: --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met
+done. best val total=1.8016  (28.9 min)
+[2026-11-07 14:26:23] train runs/v2m256_no2d_nofm_s2_do03: --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met
+done. best val total=1.8007  (29.3 min)
+[2026-11-07 14:55:45] evaluate results/v2m256_no2d_nofm_s0_results.json
+Ozone {'1h': 5.14, '6h': 7.1155, '24h': 9.7238, '72h': 10.6177}
+NOx {'1h': 12.0743, '6h': 17.5794, '24h': 30.0747, '72h': 33.1673}
+NO2 {'1h': 7.701, '6h': 9.5969, '24h': 14.2808, '72h': 16.5996}
+saved results/v2m256_no2d_nofm_s0_results.json
+[2026-11-07 15:00:56] evaluate results/v2m256_no2d_nofm_s1_results.json
+Ozone {'1h': 5.056, '6h': 7.0573, '24h': 9.7447, '72h': 10.6182}
+NOx {'1h': 11.9952, '6h': 17.3887, '24h': 30.2495, '72h': 32.7298}
+NO2 {'1h': 7.6894, '6h': 9.6107, '24h': 14.3172, '72h': 16.5348}
+saved results/v2m256_no2d_nofm_s1_results.json
+[2026-11-07 15:06:08] evaluate results/v2m256_no2d_nofm_s2_results.json
+Ozone {'1h': 5.1916, '6h': 7.0733, '24h': 9.7538, '72h': 10.6305}
+NOx {'1h': 12.0959, '6h': 17.5282, '24h': 30.4806, '72h': 33.4198}
+NO2 {'1h': 7.7183, '6h': 9.5554, '24h': 14.3923, '72h': 16.5442}
+saved results/v2m256_no2d_nofm_s2_results.json
+PM2.5 1h 15.97±0.06 6h 28.04±0.48 24h 37.98±0.45 72h 42.55±0.43
+PM10 1h 28.80±0.15 6h 46.67±0.45 24h 72.73±0.54 72h 81.20±0.39
+saved results/v2m256_no2d_nofm_seeds_stats.json
+[2026-11-07 15:11:20] evaluate results/v2m256_no2d_nofm_ens3_results.json
+Ozone {'1h': 5.1085, '6h': 7.0682, '24h': 9.7236, '72h': 10.6118}
+NOx {'1h': 12.0151, '6h': 17.3776, '24h': 29.9898, '72h': 32.9646}
+NO2 {'1h': 7.6846, '6h': 9.5723, '24h': 14.2378, '72h': 16.5188}
+saved results/v2m256_no2d_nofm_ens3_results.json
+PM2.5 1h: n=12210 AQFM v2-M, NO2 direct 15.80  AQFM v2-M 15.99  XGBoost + future ERA5 17.97  Persistence 15.90 | AQFM v2-M-AQFM v2-M, NO2 direct +0.19 (p=0.142) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +2.16 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +0.10 (p=0.852)
+PM2.5 6h: n=11998 AQFM v2-M, NO2 direct 27.79  AQFM v2-M 27.95  XGBoost + future ERA5 28.62  Persistence 35.58 | AQFM v2-M-AQFM v2-M, NO2 direct +0.16 (p=0.496) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +0.83 (p=0.211) | Persistence-AQFM v2-M, NO2 direct +7.79 (p=0.000)
+PM2.5 24h: n=10306 AQFM v2-M, NO2 direct 32.17  AQFM v2-M 32.25  XGBoost + future ERA5 33.43  Persistence 43.84 | AQFM v2-M-AQFM v2-M, NO2 direct +0.08 (p=0.712) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +1.26 (p=0.091) | Persistence-AQFM v2-M, NO2 direct +11.67 (p=0.000)
+PM2.5 72h: n=10297 AQFM v2-M, NO2 direct 36.33  AQFM v2-M 36.94  XGBoost + future ERA5 36.53  Persistence 54.62 | AQFM v2-M-AQFM v2-M, NO2 direct +0.61 (p=0.089) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +0.20 (p=0.872) | Persistence-AQFM v2-M, NO2 direct +18.29 (p=0.000)
+saved results/paper/delhi_PM2.5_with_weather_no2d.json
+PM2.5 1h: n=12210 AQFM v2-M, NO2 direct 15.86  AQFM v2-M 15.92  XGBoost 18.23  Persistence 15.90 | AQFM v2-M-AQFM v2-M, NO2 direct +0.07 (p=0.224) | XGBoost-AQFM v2-M, NO2 direct +2.37 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +0.04 (p=0.783)
+PM2.5 6h: n=11998 AQFM v2-M, NO2 direct 27.81  AQFM v2-M 27.67  XGBoost 30.01  Persistence 35.58 | AQFM v2-M-AQFM v2-M, NO2 direct -0.14 (p=0.552) | XGBoost-AQFM v2-M, NO2 direct +2.20 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +7.77 (p=0.000)
+PM2.5 24h: n=10306 AQFM v2-M, NO2 direct 37.67  AQFM v2-M 38.09  XGBoost 38.39  Persistence 43.84 | AQFM v2-M-AQFM v2-M, NO2 direct +0.41 (p=0.385) | XGBoost-AQFM v2-M, NO2 direct +0.72 (p=0.413) | Persistence-AQFM v2-M, NO2 direct +6.17 (p=0.000)
+PM2.5 72h: n=10297 AQFM v2-M, NO2 direct 42.15  AQFM v2-M 41.54  XGBoost 43.79  Persistence 54.62 | AQFM v2-M-AQFM v2-M, NO2 direct -0.61 (p=0.474) | XGBoost-AQFM v2-M, NO2 direct +1.64 (p=0.208) | Persistence-AQFM v2-M, NO2 direct +12.47 (p=0.000)
+saved results/paper/delhi_PM2.5_no_weather_no2d.json
+PM10 1h: n=12528 AQFM v2-M, NO2 direct 29.00  AQFM v2-M 28.94  XGBoost + future ERA5 34.32  Persistence 31.28 | AQFM v2-M-AQFM v2-M, NO2 direct -0.06 (p=0.579) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +5.32 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +2.28 (p=0.314)
+PM10 6h: n=12340 AQFM v2-M, NO2 direct 45.73  AQFM v2-M 45.79  XGBoost + future ERA5 47.18  Persistence 71.50 | AQFM v2-M-AQFM v2-M, NO2 direct +0.05 (p=0.765) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +1.45 (p=0.197) | Persistence-AQFM v2-M, NO2 direct +25.77 (p=0.000)
+PM10 24h: n=10630 AQFM v2-M, NO2 direct 59.03  AQFM v2-M 58.73  XGBoost + future ERA5 61.90  Persistence 84.63 | AQFM v2-M-AQFM v2-M, NO2 direct -0.30 (p=0.306) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +2.87 (p=0.011) | Persistence-AQFM v2-M, NO2 direct +25.60 (p=0.000)
+PM10 72h: n=10624 AQFM v2-M, NO2 direct 65.51  AQFM v2-M 65.84  XGBoost + future ERA5 67.18  Persistence 106.48 | AQFM v2-M-AQFM v2-M, NO2 direct +0.33 (p=0.533) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +1.67 (p=0.498) | Persistence-AQFM v2-M, NO2 direct +40.97 (p=0.000)
+saved results/paper/delhi_PM10_with_weather_no2d.json
+PM10 1h: n=12528 AQFM v2-M, NO2 direct 28.72  AQFM v2-M 28.66  XGBoost 34.63  Persistence 31.28 | AQFM v2-M-AQFM v2-M, NO2 direct -0.07 (p=0.217) | XGBoost-AQFM v2-M, NO2 direct +5.91 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +2.55 (p=0.328)
+PM10 6h: n=12340 AQFM v2-M, NO2 direct 46.37  AQFM v2-M 45.86  XGBoost 49.63  Persistence 71.50 | AQFM v2-M-AQFM v2-M, NO2 direct -0.51 (p=0.064) | XGBoost-AQFM v2-M, NO2 direct +3.25 (p=0.003) | Persistence-AQFM v2-M, NO2 direct +25.13 (p=0.000)
+PM10 24h: n=10630 AQFM v2-M, NO2 direct 72.27  AQFM v2-M 72.28  XGBoost 73.54  Persistence 84.63 | AQFM v2-M-AQFM v2-M, NO2 direct +0.01 (p=0.960) | XGBoost-AQFM v2-M, NO2 direct +1.28 (p=0.329) | Persistence-AQFM v2-M, NO2 direct +12.36 (p=0.000)
+PM10 72h: n=10624 AQFM v2-M, NO2 direct 80.63  AQFM v2-M 79.36  XGBoost 83.16  Persistence 106.48 | AQFM v2-M-AQFM v2-M, NO2 direct -1.27 (p=0.221) | XGBoost-AQFM v2-M, NO2 direct +2.53 (p=0.200) | Persistence-AQFM v2-M, NO2 direct +25.86 (p=0.000)
+saved results/paper/delhi_PM10_no_weather_no2d.json
+Ozone 1h: n=12197 AQFM v2-M, NO2 direct 5.09  AQFM v2-M 5.07  XGBoost + future ERA5 6.18  Persistence 4.98 | AQFM v2-M-AQFM v2-M, NO2 direct -0.02 (p=0.292) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +1.08 (p=0.000) | Persistence-AQFM v2-M, NO2 direct -0.11 (p=0.124)
+Ozone 6h: n=12159 AQFM v2-M, NO2 direct 6.51  AQFM v2-M 6.50  XGBoost + future ERA5 7.09  Persistence 7.88 | AQFM v2-M-AQFM v2-M, NO2 direct -0.01 (p=0.515) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +0.58 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +1.38 (p=0.000)
+Ozone 24h: n=10642 AQFM v2-M, NO2 direct 8.88  AQFM v2-M 8.87  XGBoost + future ERA5 9.20  Persistence 11.61 | AQFM v2-M-AQFM v2-M, NO2 direct -0.01 (p=0.625) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +0.31 (p=0.040) | Persistence-AQFM v2-M, NO2 direct +2.73 (p=0.000)
+Ozone 72h: n=10640 AQFM v2-M, NO2 direct 9.64  AQFM v2-M 9.61  XGBoost + future ERA5 10.01  Persistence 13.81 | AQFM v2-M-AQFM v2-M, NO2 direct -0.03 (p=0.372) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +0.38 (p=0.016) | Persistence-AQFM v2-M, NO2 direct +4.17 (p=0.000)
+saved results/paper/delhi_Ozone_with_weather_no2d.json
+Ozone 1h: n=12197 AQFM v2-M, NO2 direct 5.11  AQFM v2-M 5.21  XGBoost 6.29  Persistence 4.98 | AQFM v2-M-AQFM v2-M, NO2 direct +0.10 (p=0.000) | XGBoost-AQFM v2-M, NO2 direct +1.19 (p=0.000) | Persistence-AQFM v2-M, NO2 direct -0.13 (p=0.284)
+Ozone 6h: n=12159 AQFM v2-M, NO2 direct 7.07  AQFM v2-M 7.04  XGBoost 7.46  Persistence 7.88 | AQFM v2-M-AQFM v2-M, NO2 direct -0.03 (p=0.147) | XGBoost-AQFM v2-M, NO2 direct +0.39 (p=0.021) | Persistence-AQFM v2-M, NO2 direct +0.81 (p=0.001)
+Ozone 24h: n=10642 AQFM v2-M, NO2 direct 9.73  AQFM v2-M 9.69  XGBoost 10.10  Persistence 11.61 | AQFM v2-M-AQFM v2-M, NO2 direct -0.03 (p=0.117) | XGBoost-AQFM v2-M, NO2 direct +0.38 (p=0.012) | Persistence-AQFM v2-M, NO2 direct +1.88 (p=0.000)
+Ozone 72h: n=10640 AQFM v2-M, NO2 direct 10.62  AQFM v2-M 10.58  XGBoost 11.18  Persistence 13.81 | AQFM v2-M-AQFM v2-M, NO2 direct -0.04 (p=0.010) | XGBoost-AQFM v2-M, NO2 direct +0.56 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +3.19 (p=0.000)
+saved results/paper/delhi_Ozone_no_weather_no2d.json
+NOx 1h: n=12328 AQFM v2-M, NO2 direct 11.92  AQFM v2-M 11.94  XGBoost + future ERA5 15.08  Persistence 12.55 | AQFM v2-M-AQFM v2-M, NO2 direct +0.02 (p=0.569) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +3.16 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +0.63 (p=0.000)
+NOx 6h: n=12423 AQFM v2-M, NO2 direct 15.87  AQFM v2-M 15.86  XGBoost + future ERA5 17.24  Persistence 25.45 | AQFM v2-M-AQFM v2-M, NO2 direct -0.01 (p=0.901) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +1.36 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +9.58 (p=0.000)
+NOx 24h: n=10862 AQFM v2-M, NO2 direct 25.14  AQFM v2-M 24.92  XGBoost + future ERA5 26.55  Persistence 36.63 | AQFM v2-M-AQFM v2-M, NO2 direct -0.22 (p=0.320) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +1.41 (p=0.003) | Persistence-AQFM v2-M, NO2 direct +11.50 (p=0.000)
+NOx 72h: n=10854 AQFM v2-M, NO2 direct 27.54  AQFM v2-M 27.69  XGBoost + future ERA5 29.33  Persistence 44.74 | AQFM v2-M-AQFM v2-M, NO2 direct +0.15 (p=0.602) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +1.79 (p=0.006) | Persistence-AQFM v2-M, NO2 direct +17.20 (p=0.000)
+saved results/paper/delhi_NOx_with_weather_no2d.json
+NOx 1h: n=12328 AQFM v2-M, NO2 direct 12.02  AQFM v2-M 11.95  XGBoost 15.54  Persistence 12.55 | AQFM v2-M-AQFM v2-M, NO2 direct -0.06 (p=0.092) | XGBoost-AQFM v2-M, NO2 direct +3.52 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +0.54 (p=0.000)
+NOx 6h: n=12423 AQFM v2-M, NO2 direct 17.38  AQFM v2-M 17.25  XGBoost 19.26  Persistence 25.45 | AQFM v2-M-AQFM v2-M, NO2 direct -0.12 (p=0.213) | XGBoost-AQFM v2-M, NO2 direct +1.88 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +8.07 (p=0.000)
+NOx 24h: n=10862 AQFM v2-M, NO2 direct 29.99  AQFM v2-M 29.94  XGBoost 32.37  Persistence 36.63 | AQFM v2-M-AQFM v2-M, NO2 direct -0.05 (p=0.791) | XGBoost-AQFM v2-M, NO2 direct +2.38 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +6.65 (p=0.000)
+NOx 72h: n=10854 AQFM v2-M, NO2 direct 32.97  AQFM v2-M 32.77  XGBoost 37.05  Persistence 44.74 | AQFM v2-M-AQFM v2-M, NO2 direct -0.20 (p=0.554) | XGBoost-AQFM v2-M, NO2 direct +4.08 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +11.77 (p=0.000)
+saved results/paper/delhi_NOx_no_weather_no2d.json
+NO2 1h: n=12577 AQFM v2-M, NO2 direct 7.73  AQFM v2-M 9.91  XGBoost + future ERA5 9.03  Persistence 8.52 | AQFM v2-M-AQFM v2-M, NO2 direct +2.18 (p=0.000) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +1.30 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +0.78 (p=0.000)
+NO2 6h: n=12607 AQFM v2-M, NO2 direct 9.31  AQFM v2-M 10.84  XGBoost + future ERA5 9.90  Persistence 16.60 | AQFM v2-M-AQFM v2-M, NO2 direct +1.53 (p=0.000) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +0.59 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +7.29 (p=0.000)
+NO2 24h: n=10819 AQFM v2-M, NO2 direct 12.87  AQFM v2-M 15.21  XGBoost + future ERA5 13.14  Persistence 15.86 | AQFM v2-M-AQFM v2-M, NO2 direct +2.33 (p=0.000) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +0.26 (p=0.144) | Persistence-AQFM v2-M, NO2 direct +2.98 (p=0.000)
+NO2 72h: n=10813 AQFM v2-M, NO2 direct 14.73  AQFM v2-M 16.93  XGBoost + future ERA5 15.06  Persistence 19.62 | AQFM v2-M-AQFM v2-M, NO2 direct +2.20 (p=0.000) | XGBoost + future ERA5-AQFM v2-M, NO2 direct +0.33 (p=0.129) | Persistence-AQFM v2-M, NO2 direct +4.89 (p=0.000)
+saved results/paper/delhi_NO2_with_weather_no2d.json
+NO2 1h: n=12577 AQFM v2-M, NO2 direct 7.68  AQFM v2-M 9.79  XGBoost 9.11  Persistence 8.52 | AQFM v2-M-AQFM v2-M, NO2 direct +2.11 (p=0.000) | XGBoost-AQFM v2-M, NO2 direct +1.43 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +0.83 (p=0.000)
+NO2 6h: n=12607 AQFM v2-M, NO2 direct 9.57  AQFM v2-M 11.13  XGBoost 10.21  Persistence 16.60 | AQFM v2-M-AQFM v2-M, NO2 direct +1.56 (p=0.000) | XGBoost-AQFM v2-M, NO2 direct +0.63 (p=0.000) | Persistence-AQFM v2-M, NO2 direct +7.03 (p=0.000)
+NO2 24h: n=10819 AQFM v2-M, NO2 direct 14.23  AQFM v2-M 15.92  XGBoost 14.30  Persistence 15.86 | AQFM v2-M-AQFM v2-M, NO2 direct +1.68 (p=0.000) | XGBoost-AQFM v2-M, NO2 direct +0.07 (p=0.725) | Persistence-AQFM v2-M, NO2 direct +1.62 (p=0.000)
+NO2 72h: n=10813 AQFM v2-M, NO2 direct 16.52  AQFM v2-M 17.93  XGBoost 16.75  Persistence 19.62 | AQFM v2-M-AQFM v2-M, NO2 direct +1.41 (p=0.000) | XGBoost-AQFM v2-M, NO2 direct +0.23 (p=0.315) | Persistence-AQFM v2-M, NO2 direct +3.10 (p=0.000)
+saved results/paper/delhi_NO2_no_weather_no2d.json
+[2026-11-07 15:25:31] pipeline finished

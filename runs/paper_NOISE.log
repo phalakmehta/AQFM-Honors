@@ -1,0 +1,22 @@
+[2026-11-07 05:07:18] evaluate delhi_v2m256_ens3_metnoise0.25
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 15.9971, '6h': 28.1059, '24h': 32.7578, '72h': 38.3068}
+PM10 {'1h': 28.9703, '6h': 45.9566, '24h': 60.2753, '72h': 70.1401}
+saved results/paper/delhi_v2m256_ens3_metnoise0.25.json
+[2026-11-07 05:14:47] evaluate delhi_v2m256_ens3_metnoise0.5
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 16.0363, '6h': 28.7745, '24h': 35.1097, '72h': 45.0292}
+PM10 {'1h': 29.113, '6h': 47.2255, '24h': 66.1787, '72h': 85.0953}
+saved results/paper/delhi_v2m256_ens3_metnoise0.5.json
+[2026-11-07 05:22:18] evaluate delhi_v2m256_ens3_metnoise1.0
+  forecast batch 701/838
+  forecast batch 751/838
+  forecast batch 801/838
+PM2.5 {'1h': 16.5486, '6h': 33.0537, '24h': 45.4567, '72h': 60.0118}
+PM10 {'1h': 30.3141, '6h': 55.0884, '24h': 86.4758, '72h': 109.2213}
+saved results/paper/delhi_v2m256_ens3_metnoise1.0.json
+[2026-11-07 05:29:48] pipeline finished (stage NOISE)

@@ -1,0 +1,68 @@
+Loading preprocessed arrays...
+  values: (37, 18, 280512), observed: (37, 18, 280512), ts: (280512,)
+  Train: 0..245472 (245472 steps = 2557 days)
+  Test:  245472..280512 (35040 steps = 365 days)
+Test origins: 362 (daily in 2025)
+
+============================================================
+Processing target: PM2.5
+============================================================
+  Building climatology lookup table for target channel...
+  Horizon: 1h (4 steps)
+    Persistence:    MAE= 15.89, RMSE= 29.85 (n=12189)
+    Seasonal Naive: MAE= 43.17, RMSE= 75.31 (n=12189)
+    Climatology:    MAE= 44.83, RMSE= 69.19 (n=12189)
+    Computed in 0.0s
+  Horizon: 6h (24 steps)
+    Persistence:    MAE= 35.53, RMSE= 60.85 (n=11977)
+    Seasonal Naive: MAE= 39.87, RMSE= 65.36 (n=11977)
+    Climatology:    MAE= 43.30, RMSE= 63.32 (n=11977)
+    Computed in 0.0s
+  Horizon: 24h (96 steps)
+    Persistence:    MAE= 43.78, RMSE= 75.85 (n=10286)
+    Seasonal Naive: MAE= 43.60, RMSE= 74.98 (n=10286)
+    Climatology:    MAE= 43.79, RMSE= 68.52 (n=10286)
+    Computed in 0.0s
+  Horizon: 72h (288 steps)
+    Persistence:    MAE= 54.54, RMSE= 92.13 (n=10259)
+    Seasonal Naive: MAE= 53.79, RMSE= 89.79 (n=10259)
+    Climatology:    MAE= 44.03, RMSE= 68.88 (n=10259)
+    Computed in 0.0s
+
+============================================================
+Processing target: PM10
+============================================================
+  Building climatology lookup table for target channel...
+  Horizon: 1h (4 steps)
+    Persistence:    MAE= 31.28, RMSE= 52.39 (n=12522)
+    Seasonal Naive: MAE= 81.21, RMSE=120.76 (n=12522)
+    Climatology:    MAE= 83.18, RMSE=111.93 (n=12522)
+    Computed in 0.0s
+  Horizon: 6h (24 steps)
+    Persistence:    MAE= 71.47, RMSE=106.03 (n=12334)
+    Seasonal Naive: MAE= 66.60, RMSE=100.64 (n=12334)
+    Climatology:    MAE= 70.78, RMSE= 96.10 (n=12334)
+    Computed in 0.0s
+  Horizon: 24h (96 steps)
+    Persistence:    MAE= 84.64, RMSE=124.50 (n=10625)
+    Seasonal Naive: MAE= 84.18, RMSE=122.72 (n=10625)
+    Climatology:    MAE= 82.76, RMSE=110.71 (n=10625)
+    Computed in 0.0s
+  Horizon: 72h (288 steps)
+    Persistence:    MAE=106.53, RMSE=150.90 (n=10614)
+    Seasonal Naive: MAE=104.17, RMSE=146.07 (n=10614)
+    Climatology:    MAE= 82.99, RMSE=111.00 (n=10614)
+    Computed in 0.0s
+Results saved to results/classical_results.json
+
+==========================================================================================
+SUMMARY: MAE (ug/m3)
+==========================================================================================
+Baseline               Target           1h         6h        24h        72h
+------------------------------------------------------------------------------------------
+Persistence            PM2.5         15.89      35.53      43.78      54.54
+Persistence            PM10          31.28      71.47      84.64     106.53
+Seasonal Naive         PM2.5         43.17      39.87      43.60      53.79
+Seasonal Naive         PM10          81.21      66.60      84.18     104.17
+Climatology            PM2.5         44.83      43.30      43.79      44.03
+Climatology            PM10          83.18      70.78      82.76      82.99

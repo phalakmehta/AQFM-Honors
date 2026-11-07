@@ -1,0 +1,78 @@
+{
+  "XGBoost": {
+    "PM2.5": {
+      "1h": {
+        "MAE": 16.6755,
+        "RMSE": 30.564,
+        "n": 12188
+      },
+      "6h": {
+        "MAE": 31.6971,
+        "RMSE": 51.3579,
+        "n": 12037
+      },
+      "24h": {
+        "MAE": 40.7639,
+        "RMSE": 68.7612,
+        "n": 10260
+      },
+      "24h_aqi": {
+        "Good": {
+          "MAE": 22.4686,
+          "RMSE": 28.3502,
+          "n": 1317
+        },
+        "Satisfactory": {
+          "MAE": 20.8753,
+          "RMSE": 32.6424,
+          "n": 2444
+        },
+        "Moderate": {
+          "MAE": 23.9486,
+          "RMSE": 32.7539,
+          "n": 1716
+        },
+        "Poor": {
+          "MAE": 32.8845,
+          "RMSE": 43.7241,
+          "n": 1131
+        },
+        "Very Poor": {
+          "MAE": 47.9984,
+          "RMSE": 60.5658,
+          "n": 2447
+        },
+        "Severe": {
+          "MAE": 117.7488,
+          "RMSE": 162.6247,
+          "n": 1205
+        }
+      },
+      "72h": {
+        "MAE": 45.9808,
+        "RMSE": 76.7096,
+        "n": 10262
+      }
+    }
+  },
+  "_meta": {
+    "data": "data/delhi",
+    "test_start": "2024-01-01",
+    "train_from": null,
+    "train_to": null,
+    "hourly": false,
+    "future_met": false,
+    "test_end": "2025-01-01",
+    "targets": [
+      "PM2.5"
+    ],
+    "lags_from_last": true,
+    "save_forecasts": "results/forecasts/delhi_fold24_xgboost_last.npz",
+    "out": "results/paper/delhi_fold24_xgboost_last.json",
+    "train_steps": [
+      288,
+      210336
+    ],
+    "n_origins": 363
+  }
+}

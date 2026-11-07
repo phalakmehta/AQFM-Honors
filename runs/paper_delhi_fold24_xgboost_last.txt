@@ -1,0 +1,5 @@
+PM2.5 1h: train 1639272 samples, MAE 16.68 (n=12188, 22s)
+PM2.5 6h: train 1638927 samples, MAE 31.70 (n=12037, 9s)
+PM2.5 24h: train 1637784 samples, MAE 40.76 (n=10260, 67s)
+PM2.5 72h: train 1634933 samples, MAE 45.98 (n=10262, 63s)
+saved results/paper/delhi_fold24_xgboost_last.json

@@ -1,0 +1,254 @@
+{
+  "target": "NOx",
+  "models": {
+    "AQFM v2-M, NO2 direct": "results/forecasts/delhi_v2m256_no2d_nofm_ens3.npz",
+    "XGBoost, last reading": "results/forecasts/delhi_xgboost_last.npz:xgboost",
+    "XGBoost, published lags": "results/forecasts/delhi_xgboost.npz:xgboost",
+    "Persistence": "results/forecasts/delhi_classical.npz:persistence"
+  },
+  "pairs_in_common": 13394,
+  "leads": {
+    "1h": {
+      "n": 12328,
+      "days": 362,
+      "MAE": {
+        "AQFM v2-M, NO2 direct": 12.015052310192303,
+        "XGBoost, last reading": 12.020909660966012,
+        "XGBoost, published lags": 15.536118890187842,
+        "Persistence": 12.554482447453045
+      },
+      "vs_first": {
+        "XGBoost, last reading": {
+          "MAE_diff": 0.005857350773709413,
+          "dm_z": 0.10982197312172305,
+          "dm_p": 0.9125505644173895,
+          "ci95": [
+            -0.15353523870606167,
+            0.16119140460515657
+          ]
+        },
+        "XGBoost, published lags": {
+          "MAE_diff": 3.521066579995539,
+          "dm_z": 11.129724676484743,
+          "dm_p": 0.0,
+          "ci95": [
+            2.894321998891017,
+            4.089254709569611
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 0.5394301372607426,
+          "dm_z": 5.16730113588747,
+          "dm_p": 2.374984455766338e-07,
+          "ci95": [
+            0.34260230762075966,
+            0.7432060714946798
+          ]
+        }
+      }
+    },
+    "6h": {
+      "n": 12423,
+      "days": 362,
+      "MAE": {
+        "AQFM v2-M, NO2 direct": 17.377583574766046,
+        "XGBoost, last reading": 18.416395576700904,
+        "XGBoost, published lags": 19.257487570434378,
+        "Persistence": 25.452497022632027
+      },
+      "vs_first": {
+        "XGBoost, last reading": {
+          "MAE_diff": 1.0388120019348577,
+          "dm_z": 3.582110334800664,
+          "dm_p": 0.0003408297769191826,
+          "ci95": [
+            0.44037640586113697,
+            1.5543790090449634
+          ]
+        },
+        "XGBoost, published lags": {
+          "MAE_diff": 1.8799039956683323,
+          "dm_z": 6.189268969560538,
+          "dm_p": 6.04438721296674e-10,
+          "ci95": [
+            1.2581620639352895,
+            2.427069235873913
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 8.074913447865981,
+          "dm_z": 8.276865404545955,
+          "dm_p": 0.0,
+          "ci95": [
+            5.988901638355068,
+            9.604848904167447
+          ]
+        }
+      }
+    },
+    "24h": {
+      "n": 10862,
+      "days": 362,
+      "MAE": {
+        "AQFM v2-M, NO2 direct": 29.988635542343452,
+        "XGBoost, last reading": 32.36713989008759,
+        "XGBoost, published lags": 32.36832661687494,
+        "Persistence": 36.63369457253782
+      },
+      "vs_first": {
+        "XGBoost, last reading": {
+          "MAE_diff": 2.3785043477441405,
+          "dm_z": 4.037945365468182,
+          "dm_p": 5.3921406886647816e-05,
+          "ci95": [
+            1.2279330043242416,
+            3.5991053360866685
+          ]
+        },
+        "XGBoost, published lags": {
+          "MAE_diff": 2.379691074531486,
+          "dm_z": 3.9619920911800235,
+          "dm_p": 7.432700306031492e-05,
+          "ci95": [
+            1.2245893249903137,
+            3.5937090679569104
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 6.645059030194368,
+          "dm_z": 7.880123388497,
+          "dm_p": 3.1086244689504383e-15,
+          "ci95": [
+            4.9442330043644045,
+            8.144078257130687
+          ]
+        }
+      },
+      "by_month": {
+        "1": {
+          "n": 940,
+          "AQFM v2-M, NO2 direct": 55.06552561749803,
+          "XGBoost, last reading": 55.27476909972252,
+          "XGBoost, published lags": 55.187571986685406,
+          "Persistence": 71.58258518056667
+        },
+        "2": {
+          "n": 861,
+          "AQFM v2-M, NO2 direct": 39.28479460972111,
+          "XGBoost, last reading": 46.067267260069634,
+          "XGBoost, published lags": 46.41314886948234,
+          "Persistence": 48.30482015930956
+        },
+        "3": {
+          "n": 945,
+          "AQFM v2-M, NO2 direct": 31.720722179942662,
+          "XGBoost, last reading": 34.310011628191305,
+          "XGBoost, published lags": 34.43568369459223,
+          "Persistence": 37.27280434171359
+        },
+        "4": {
+          "n": 909,
+          "AQFM v2-M, NO2 direct": 35.248702637826646,
+          "XGBoost, last reading": 40.927580627802314,
+          "XGBoost, published lags": 39.98373281208202,
+          "Persistence": 45.49905410405695
+        },
+        "5": {
+          "n": 933,
+          "AQFM v2-M, NO2 direct": 19.76469720317109,
+          "XGBoost, last reading": 22.225893899686593,
+          "XGBoost, published lags": 21.895631507023097,
+          "Persistence": 25.200943117100838
+        },
+        "6": {
+          "n": 887,
+          "AQFM v2-M, NO2 direct": 14.341340202959978,
+          "XGBoost, last reading": 15.152891642412984,
+          "XGBoost, published lags": 15.212420034099459,
+          "Persistence": 17.47408114707994
+        },
+        "7": {
+          "n": 915,
+          "AQFM v2-M, NO2 direct": 11.36746380863294,
+          "XGBoost, last reading": 12.122630311361428,
+          "XGBoost, published lags": 11.825624677783154,
+          "Persistence": 14.811213112919708
+        },
+        "8": {
+          "n": 909,
+          "AQFM v2-M, NO2 direct": 12.249743410462987,
+          "XGBoost, last reading": 13.560969178826108,
+          "XGBoost, published lags": 12.996842732917358,
+          "Persistence": 15.122134167500192
+        },
+        "9": {
+          "n": 854,
+          "AQFM v2-M, NO2 direct": 13.231075740111795,
+          "XGBoost, last reading": 13.796885713062466,
+          "XGBoost, published lags": 13.72578697503311,
+          "Persistence": 14.968466033936593
+        },
+        "10": {
+          "n": 941,
+          "AQFM v2-M, NO2 direct": 31.33035039499513,
+          "XGBoost, last reading": 32.25868836323969,
+          "XGBoost, published lags": 32.688066430888696,
+          "Persistence": 34.11645064882214
+        },
+        "11": {
+          "n": 915,
+          "AQFM v2-M, NO2 direct": 47.27564227463769,
+          "XGBoost, last reading": 51.65206543917213,
+          "XGBoost, published lags": 52.62177568185525,
+          "Persistence": 58.69972687933614
+        },
+        "12": {
+          "n": 853,
+          "AQFM v2-M, NO2 direct": 48.5319054900971,
+          "XGBoost, last reading": 50.79417819797923,
+          "XGBoost, published lags": 51.199244927409666,
+          "Persistence": 55.74267283246218
+        }
+      }
+    },
+    "72h": {
+      "n": 10854,
+      "days": 362,
+      "MAE": {
+        "AQFM v2-M, NO2 direct": 32.97071057852129,
+        "XGBoost, last reading": 36.972970716206326,
+        "XGBoost, published lags": 37.05060865024528,
+        "Persistence": 44.73785890126197
+      },
+      "vs_first": {
+        "XGBoost, last reading": {
+          "MAE_diff": 4.002260137685035,
+          "dm_z": 4.291424215156237,
+          "dm_p": 1.7753079264881677e-05,
+          "ci95": [
+            2.2295607480715542,
+            5.967506772874868
+          ]
+        },
+        "XGBoost, published lags": {
+          "MAE_diff": 4.0798980717239886,
+          "dm_z": 4.312100944675697,
+          "dm_p": 1.6171056951730378e-05,
+          "ci95": [
+            2.254624284072645,
+            6.036478728061524
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 11.767148322740681,
+          "dm_z": 6.299489878660358,
+          "dm_p": 2.986269009852549e-10,
+          "ci95": [
+            8.467745764648448,
+            15.690160701825874
+          ]
+        }
+      }
+    }
+  }
+}
