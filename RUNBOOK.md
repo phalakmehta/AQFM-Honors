@@ -51,60 +51,52 @@ check it.
   | Delhi 3-seed ensemble evaluation | ~14 min (single model ~5) |
   | Mumbai ensemble evaluation | ~5 min |
 
-## 3. State (updated 2026-11-06 21:30)
+## 3. State (updated 2026-11-07, after the step 11 commit)
 
-- **Done and pushed (commit `a239e03` on `aqfm-v2`):** Mumbai stages A–D (results `results/mumbai_*`,
-  `results/delhi_joint_v2_ens3_results.json`; tables and findings in `docs/V2_PROGRESS.md` step 10), the evaluation
-  patch (`--targets`, `--save-forecasts`, `--test-end`, `--met-noise`, `--v1-spatial`; 91 tests pass), the paper
-  scripts.
-- **Done (21:51):** stage `MUMBAI` (`results/paper/mumbai_*`, `results/forecasts/mumbai_*`); checks and findings in `docs/V2_PROGRESS.md` step 10; manifest registration done (70 models, 116 results); `results/TABLES.md` regenerated; `scripts/check_submission.py` passes everything except the git checks.
-- **Then, unattended (user: "yea start", 2026-11-06 21:37):** `/home/phalak/aqfm/chains/overnight_2026-11-06.sh`,
-  log `runs/paper_overnight_chain.log`. After MUMBAI it runs the Delhi XGBoost reproduction check alone (output
-  `/home/phalak/aqfm/checks/xgb_delhi_repro.*`; the log says IDENTICAL or DIFFERENT), then stages SAVE → ABL → FOLD →
-  NOISE (§4.2; logs `runs/paper_<STAGE>.log`). It stops at the first stage that does not finish. Expected end: about
-  noon on 2026-11-07. To resume after a stop: rerun the failed stage's command from §4.2, then the later ones (stages do
-  not skip finished work, so do not rerun a finished stage).
-- **Progress (checked 2026-11-07 00:15):** the XGBoost check line says DIFFERENT, as expected (the 0.1–0.7 % gap to the
-  published file, §5; the original script gives the same numbers as `city_xgboost.py`). Stage SAVE finished 23:45 and
-  passed §4.1 checks 1–2: the five ensembles have 82/82 PM numbers equal to the earlier files, commit `a1a9e23`, not
-  dirty. Stage ABL started 23:45; its first ablation (no spatial attention) finished 00:13.
+- **Committed on `aqfm-v2`:**
+  - `a239e03` (pushed): Mumbai stages A–D and the evaluation patch;
+  - `a1a9e23` (pushed): stage MUMBAI, manifest, tables;
+  - `c07d55a` (pushed): stage SAVE results, the dropped spatial ablations, the unfrozen Mumbai script, docs;
+  - the next commit (pushed 2026-11-07): step 11 results, manifest, tables and docs (`git log -1 -- RUNBOOK.md`).
+  - `main` is still at PR #1 (`6cdade1`); everything since `f104c7c` is only on `aqfm-v2`.
+- **All paper experiments are done (2026-11-07 06:01).**
+  - Chains: `/home/phalak/aqfm/chains/overnight_2026-11-06.sh` ran SAVE and the first ablation (log
+    `runs/paper_overnight_chain.log`). It was stopped by hand when the user dropped the spatial ablations.
+    `/home/phalak/aqfm/chains/resume_2026-11-07.sh` then ran the rest of ABL, FOLD, NOISE and the unfrozen Mumbai
+    fine-tune (log `runs/paper_resume_chain.log`).
+  - All checks passed: the logs end with `pipeline finished`, the AQFM results are not dirty, SAVE's PM numbers are
+    unchanged, and every training ended with `done`.
+  - Write-up, tables and findings: `docs/V2_PROGRESS.md` step 11.
 - **Spatial ablations dropped (user, 2026-11-07 00:20):** "the purpose of spatial scale is to scale the model to
-  different cities, not to improve the results". The chain was stopped at 00:22 during the distance-bias run (moved to
-  `/home/phalak/aqfm/cancelled_runs/2026-11-07/`, not used); `--v1-spatial` was not run. The no-spatial result that
-  was already made is kept (`results/paper/delhi_v2m256_abl_nospatial_s0.json`). `scripts/pipeline_paper_extras.sh`
-  stage ABL now has only noblh, nolast and gapfillonly.
-- **Running now:** `/home/phalak/aqfm/chains/resume_2026-11-07.sh`, log `runs/paper_resume_chain.log`: the rest of
-  ABL (log `runs/paper_ABL_resumed.log`; `runs/paper_ABL.log` has the no-spatial part), then FOLD and NOISE
-  (`runs/paper_<STAGE>.log`), stopping at the first stage that does not finish; then the unfrozen Mumbai fine-tune
-  either way (`runs/mumbai_unfrozen.log`). Expected end: about 08:00 on 2026-11-07.
-- **Second commit of 2026-11-06** (after `a239e03`): the manifest, tables, stage MUMBAI results and docs.
+  different cities, not to improve the results".
+  - The distance-bias run was stopped mid-training and moved to `/home/phalak/aqfm/cancelled_runs/2026-11-07/` (not
+    used). `--v1-spatial` was not run.
+  - The no-spatial run that had already finished is kept, for reference only.
+- **Registered after the runs:**
+  - Manifest: 86 models and 126 results. The step 11 models and the `results/mumbai_ft_v2_none_*` files were added
+    by `/home/phalak/aqfm/pending_patches/add_step11_manifest.py`, which checks each command with the scripts' own
+    parsers and was mutation-tested. `results/paper/` is not registered, as before.
+  - `results/TABLES.md` regenerated. `scripts/make_tables.py` now labels the FOLD runs "validation 2023, test 2024"
+    and has the nothing-frozen Mumbai rows.
+  - `scripts/check_submission.py` passes everything except the git checks.
+  - Tests: 91 pass (`check_submission.py` runs only `tests/`: 73).
 - **`results/forecasts/` is not in git** (about 1 GB per stage; `.gitignore`). It is regenerated by the stage that made
   it. `results/paper/` (the comparisons) is tracked.
-- **Drive:** the 31 Mumbai and joint models are copied to `/home/phalak/aqfm/drive_upload_2026-11-05_v2/models/`
-  (README and `SHA256SUMS.txt` updated; 46 files, all OK). The user uploads that folder.
+- **Drive:** `/home/phalak/aqfm/drive_upload_2026-11-05_v2/models/` has 62 models, including the 16 of step 11 (ABL,
+  FOLD, Mumbai nothing frozen). README and `SHA256SUMS.txt` updated; all OK. The user uploads that folder.
 
 ## 4. Queue, in order
 
-### 4.1 When the overnight chain has finished (`runs/paper_overnight_chain.log` ends with `overnight chain finished`)
+### 4.1 Next
 
-(The steps after stage MUMBAI were done on 2026-11-06; see `docs/V2_PROGRESS.md` step 10.)
-
-1. **Check each stage:** `tail -3 runs/paper_{SAVE,ABL_resumed,FOLD,NOISE}.log` ends with `pipeline finished (stage X)`.
-   Every `results/paper/delhi_*.json` from `aqfm.evaluate` has `"dirty": false` and, in `code`, commit `a1a9e23`
-   (HEAD when the stages started; its code is the same as `a239e03`) or the commit of 2026-11-07 ~00:40 (docs,
-   scripts and SAVE results only; same code).
-   The XGBoost check line in the chain log says `IDENTICAL`.
-2. **SAVE: the PM numbers must not move.** The PM2.5/PM10 numbers in `results/paper/delhi_{v2m256,v2m256_nofm,v2,v2_nofm}_ens3.json`
-   must equal `results/{v2m256,v2m256_nofm,v2,v2_nofm}_ens3_results.json`, and `delhi_v1_ens3.json` must equal
-   `results/aqfm_do3_ens3_results.json`. The Mumbai files passed this check.
-3. **Write up** in `docs/V2_PROGRESS.md` (a new step 11), with tables generated from the files:
-   - SAVE: same-point tables with p-values, Delhi PM2.5/PM10/NOx/ozone/NO2;
-   - ABL: each ablation (no BLH, no anchor, gap-filling only) against the full v2-M seed 0 (`results/v2m256_s0_results.json`);
-   - FOLD: the 2024 test year;
-   - NOISE: the error as the weather noise grows.
-4. **Register** the new trained models (ABL, FOLD) in the manifest and copy them to the Drive folder, following
-   `/home/phalak/aqfm/pending_patches/add_mumbai_manifest.py`. `results/paper/` is not checked by `check_submission.py`.
-5. **Commit and push, only if the user agrees.**
+1. **Paper decisions for the user** (findings in `docs/V2_PROGRESS.md` step 11):
+   - NO2: XGBoost beats AQFM in Delhi at every lead. Report it as a limitation, or fix the NO2 representation; the
+     fix needs a code change and retraining.
+   - Mumbai: validation picks "nothing frozen" for 6 and 12 months. Make it the headline fine-tune for those amounts,
+     with backbone frozen kept for 1–3 months (nothing frozen was not run there)?
+   - Mumbai PM2.5: validation and test disagree on fine-tuned vs from scratch. Report it as it is.
+2. **Optional:** FOLD with weather, seed 2, peaked at its last step (12,000). A longer run would tell whether that
+   budget mattered (~30 min GPU; ask first).
 
 ### 4.2 Paper experiments (`scripts/pipeline_paper_extras.sh`; each stage is separate; ask the user before starting)
 

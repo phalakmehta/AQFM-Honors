@@ -1,0 +1,21 @@
+  test: forecast; forecasting 37 anchor stations
+  forecast batch 1/840
+  forecast batch 51/840
+  forecast batch 101/840
+  forecast batch 151/840
+  forecast batch 201/840
+  forecast batch 251/840
+  forecast batch 301/840
+  forecast batch 351/840
+  forecast batch 401/840
+  forecast batch 451/840
+  forecast batch 501/840
+  forecast batch 551/840
+  forecast batch 601/840
+  forecast batch 651/840
+  forecast batch 701/840
+  forecast batch 751/840
+  forecast batch 801/840
+PM2.5 {'1h': 16.7217, '6h': 31.7167, '24h': 41.9062, '72h': 47.9446}
+PM10 {'1h': 32.7604, '6h': 52.7088, '24h': 80.8719, '72h': 87.6672}
+saved results/paper/delhi_fold24_v2m256_nofm_ens3.json

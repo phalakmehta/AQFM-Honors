@@ -1,0 +1,28 @@
+/home/phalak/aqfm/AQFM-Honors/scripts/city_baselines.py:75: RuntimeWarning: Mean of empty slice
+  c = np.nanmean(clim[s, :, feats["month"][tt]])
+  Building climatology lookup table for target channel...
+PM2.5 1h: Persistence 16.94  Seasonal Naive 47.30  Climatology 47.92  (n=12172)
+PM2.5 6h: Persistence 40.17  Seasonal Naive 44.97  Climatology 45.46  (n=12019)
+PM2.5 24h: Persistence 47.16  Seasonal Naive 47.22  Climatology 47.75  (n=10247)
+PM2.5 72h: Persistence 55.81  Seasonal Naive 47.18  Climatology 48.35  (n=10243)
+  Building climatology lookup table for target channel...
+PM10 1h: Persistence 36.34  Seasonal Naive 91.02  Climatology 87.51  (n=12548)
+PM10 6h: Persistence 80.12  Seasonal Naive 75.80  Climatology 72.64  (n=12414)
+PM10 24h: Persistence 94.16  Seasonal Naive 94.40  Climatology 90.03  (n=10444)
+PM10 72h: Persistence 106.66  Seasonal Naive 94.33  Climatology 91.01  (n=10445)
+  Building climatology lookup table for target channel...
+Ozone 1h: Persistence 5.08  Seasonal Naive 10.78  Climatology 12.65  (n=12295)
+Ozone 6h: Persistence 8.66  Seasonal Naive 9.21  Climatology 11.95  (n=12273)
+Ozone 24h: Persistence 11.35  Seasonal Naive 11.16  Climatology 12.85  (n=10350)
+Ozone 72h: Persistence 13.26  Seasonal Naive 11.21  Climatology 12.90  (n=10351)
+  Building climatology lookup table for target channel...
+NOx 1h: Persistence 12.98  Seasonal Naive 36.50  Climatology 41.22  (n=12420)
+NOx 6h: Persistence 27.40  Seasonal Naive 27.88  Climatology 32.90  (n=12542)
+NOx 24h: Persistence 39.82  Seasonal Naive 39.54  Climatology 43.85  (n=10689)
+NOx 72h: Persistence 46.69  Seasonal Naive 39.57  Climatology 44.12  (n=10690)
+  Building climatology lookup table for target channel...
+NO2 1h: Persistence 7.57  Seasonal Naive 16.73  Climatology 23.28  (n=12521)
+NO2 6h: Persistence 15.55  Seasonal Naive 12.86  Climatology 19.21  (n=12655)
+NO2 24h: Persistence 16.12  Seasonal Naive 16.03  Climatology 22.27  (n=10651)
+NO2 72h: Persistence 19.71  Seasonal Naive 16.06  Climatology 22.29  (n=10652)
+saved results/paper/delhi_fold24_classical.json

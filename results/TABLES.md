@@ -505,6 +505,16 @@ The seed-noise row gives the std over seeds 0/1/2 of the full model: a change sm
 | v2_s1_do03 | v2 city preset, width 128 | 0.3 | 1 | 1.7494 | 7000 | 10 | `runs/v2_s1_do03/log.jsonl` |
 | v2_s2_do03 | v2 city preset, width 128 | 0.3 | 2 | 1.7370 | 10000 | 12 | `runs/v2_s2_do03/log.jsonl` |
 | v2_short_delhi | v2 city preset, width 128, 3k-step schedule, patience 10 | 0.15 | 0 | 1.7878 | 3000 | 6 | `runs/v2_short_delhi/log.jsonl` |
+| v2m256_abl_gapfillonly_s0 | v2 city preset, width 256, gap-filling only | 0.3 | 0 | 1.9040 | 4000 | 7 | `runs/v2m256_abl_gapfillonly_s0/log.jsonl` |
+| v2m256_abl_noblh_s0 | v2 city preset, width 256, no BLH | 0.3 | 0 | 1.7368 | 9000 | 12 | `runs/v2m256_abl_noblh_s0/log.jsonl` |
+| v2m256_abl_nolast_s0 | v2 city preset, width 256, no anchor | 0.3 | 0 | 1.8129 | 5000 | 8 | `runs/v2m256_abl_nolast_s0/log.jsonl` |
+| v2m256_abl_nospatial_s0 | v2 city preset, width 256, no spatial attention | 0.3 | 0 | 1.7290 | 10000 | 12 | `runs/v2m256_abl_nospatial_s0/log.jsonl` |
+| v2m256_fold24_nofm_s0_do03 | v2 city preset, width 256, no future met, validation 2023, test 2024 | 0.3 | 0 | 1.7720 | 6000 | 9 | `runs/v2m256_fold24_nofm_s0_do03/log.jsonl` |
+| v2m256_fold24_nofm_s1_do03 | v2 city preset, width 256, no future met, validation 2023, test 2024 | 0.3 | 1 | 1.7685 | 8000 | 11 | `runs/v2m256_fold24_nofm_s1_do03/log.jsonl` |
+| v2m256_fold24_nofm_s2_do03 | v2 city preset, width 256, no future met, validation 2023, test 2024 | 0.3 | 2 | 1.7657 | 8000 | 11 | `runs/v2m256_fold24_nofm_s2_do03/log.jsonl` |
+| v2m256_fold24_s0_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 0 | 1.7062 | 7000 | 10 | `runs/v2m256_fold24_s0_do03/log.jsonl` |
+| v2m256_fold24_s1_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 1 | 1.6996 | 11000 | 12 | `runs/v2m256_fold24_s1_do03/log.jsonl` |
+| v2m256_fold24_s2_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 2 | 1.7013 | 12000 | 12 | `runs/v2m256_fold24_s2_do03/log.jsonl` |
 | v2m256_nofm_s0_do03 | v2 city preset, width 256, no future met | 0.3 | 0 | 1.7928 | 10000 | 12 | `runs/v2m256_nofm_s0_do03/log.jsonl` |
 | v2m256_nofm_s1_do03 | v2 city preset, width 256, no future met | 0.3 | 1 | 1.7898 | 11000 | 12 | `runs/v2m256_nofm_s1_do03/log.jsonl` |
 | v2m256_nofm_s2_do03 | v2 city preset, width 256, no future met | 0.3 | 2 | 1.7865 | 11000 | 12 | `runs/v2m256_nofm_s2_do03/log.jsonl` |
@@ -526,23 +536,27 @@ Runs with fewer than 2 validations (short test launches) are left out. `change`:
 | AQFM v2 zero-shot (Delhi model, no future met) | 6.24 | 11.19 | 15.22 | 18.77 | `results/mumbai_zeroshot_v2_nofm_ens3_results.json` |
 | AQFM v2-M zero-shot, with future weather (3 of 8 inputs missing) | 9.66 | 14.10 | 22.37 | 23.68 | `results/mumbai_zeroshot_v2m256_ens3_results.json` |
 | AQFM v2 zero-shot, with future weather (3 of 8 inputs missing) | 6.52 | 10.26 | 15.43 | 17.51 | `results/mumbai_zeroshot_v2_ens3_results.json` |
-| 1 month(s): AQFM v2 fine-tuned from Delhi, ensemble | 5.86 | 10.38 | 12.28 | 15.11 | `results/mumbai_ft_v2_backbone_m1_ens3_results.json` |
-| 1 month(s): AQFM v2 fine-tuned, mean ± std | 6.01 ± 0.27 | 10.65 ± 0.50 | 12.63 ± 0.58 | 15.29 ± 0.45 | `results/mumbai_ft_v2_backbone_m1_seeds_stats.json` |
+| 1 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 5.86 | 10.38 | 12.28 | 15.11 | `results/mumbai_ft_v2_backbone_m1_ens3_results.json` |
+| 1 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 6.01 ± 0.27 | 10.65 ± 0.50 | 12.63 ± 0.58 | 15.29 ± 0.45 | `results/mumbai_ft_v2_backbone_m1_seeds_stats.json` |
 | 1 month(s): AQFM v2 from scratch, ensemble | 10.89 | 10.51 | 12.41 | 14.08 | `results/mumbai_scratch_v2_m1_ens3_results.json` |
 | 1 month(s): AQFM v2 from scratch, mean ± std | 10.91 ± 0.48 | 10.57 ± 0.14 | 12.54 ± 0.36 | 14.12 ± 0.32 | `results/mumbai_scratch_v2_m1_seeds_stats.json` |
 | 1 month(s): XGBoost | 13.51 | 29.27 | 27.16 | 30.02 | `results/mumbai_xgboost_m1_results.json` |
-| 3 month(s): AQFM v2 fine-tuned from Delhi, ensemble | 5.99 | 10.03 | 12.05 | 14.80 | `results/mumbai_ft_v2_backbone_m3_ens3_results.json` |
-| 3 month(s): AQFM v2 fine-tuned, mean ± std | 6.07 ± 0.19 | 10.15 ± 0.21 | 12.25 ± 0.24 | 14.94 ± 0.13 | `results/mumbai_ft_v2_backbone_m3_seeds_stats.json` |
+| 3 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 5.99 | 10.03 | 12.05 | 14.80 | `results/mumbai_ft_v2_backbone_m3_ens3_results.json` |
+| 3 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 6.07 ± 0.19 | 10.15 ± 0.21 | 12.25 ± 0.24 | 14.94 ± 0.13 | `results/mumbai_ft_v2_backbone_m3_seeds_stats.json` |
 | 3 month(s): AQFM v2 from scratch, ensemble | 6.85 | 10.42 | 12.80 | 15.75 | `results/mumbai_scratch_v2_m3_ens3_results.json` |
 | 3 month(s): AQFM v2 from scratch, mean ± std | 7.20 ± 0.63 | 10.58 ± 0.11 | 13.00 ± 0.82 | 15.98 ± 0.82 | `results/mumbai_scratch_v2_m3_seeds_stats.json` |
 | 3 month(s): XGBoost | 7.50 | 12.16 | 16.09 | 22.58 | `results/mumbai_xgboost_m3_results.json` |
-| 6 month(s): AQFM v2 fine-tuned from Delhi, ensemble | 6.17 | 10.15 | 12.26 | 15.01 | `results/mumbai_ft_v2_backbone_m6_ens3_results.json` |
-| 6 month(s): AQFM v2 fine-tuned, mean ± std | 6.25 ± 0.16 | 10.29 ± 0.31 | 12.40 ± 0.24 | 15.08 ± 0.32 | `results/mumbai_ft_v2_backbone_m6_seeds_stats.json` |
+| 6 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 6.17 | 10.15 | 12.26 | 15.01 | `results/mumbai_ft_v2_backbone_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 6.25 ± 0.16 | 10.29 ± 0.31 | 12.40 ± 0.24 | 15.08 ± 0.32 | `results/mumbai_ft_v2_backbone_m6_seeds_stats.json` |
+| 6 month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble | 6.02 | 9.52 | 11.96 | 14.67 | `results/mumbai_ft_v2_none_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std | 6.10 ± 0.19 | 9.71 ± 0.34 | 12.20 ± 0.44 | 14.87 ± 0.60 | `results/mumbai_ft_v2_none_m6_seeds_stats.json` |
 | 6 month(s): AQFM v2 from scratch, ensemble | 5.76 | 9.08 | 11.55 | 14.24 | `results/mumbai_scratch_v2_m6_ens3_results.json` |
 | 6 month(s): AQFM v2 from scratch, mean ± std | 5.93 ± 0.48 | 9.18 ± 0.18 | 11.70 ± 0.25 | 14.40 ± 0.22 | `results/mumbai_scratch_v2_m6_seeds_stats.json` |
 | 6 month(s): XGBoost | 7.06 | 9.61 | 12.69 | 16.74 | `results/mumbai_xgboost_m6_results.json` |
-| 12 month(s): AQFM v2 fine-tuned from Delhi, ensemble | 6.46 | 10.25 | 12.33 | 14.95 | `results/mumbai_ft_v2_backbone_m12_ens3_results.json` |
-| 12 month(s): AQFM v2 fine-tuned, mean ± std | 6.51 ± 0.28 | 10.34 ± 0.36 | 12.47 ± 0.19 | 15.01 ± 0.25 | `results/mumbai_ft_v2_backbone_m12_seeds_stats.json` |
+| 12 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 6.46 | 10.25 | 12.33 | 14.95 | `results/mumbai_ft_v2_backbone_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 6.51 ± 0.28 | 10.34 ± 0.36 | 12.47 ± 0.19 | 15.01 ± 0.25 | `results/mumbai_ft_v2_backbone_m12_seeds_stats.json` |
+| 12 month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble | 5.85 | 9.24 | 11.81 | 14.50 | `results/mumbai_ft_v2_none_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std | 5.93 ± 0.18 | 9.42 ± 0.51 | 11.98 ± 0.41 | 14.60 ± 0.46 | `results/mumbai_ft_v2_none_m12_seeds_stats.json` |
 | 12 month(s): AQFM v2 from scratch, ensemble | 5.39 | 8.79 | 11.28 | 14.21 | `results/mumbai_scratch_v2_m12_ens3_results.json` |
 | 12 month(s): AQFM v2 from scratch, mean ± std | 5.50 ± 0.23 | 8.87 ± 0.15 | 11.45 ± 0.17 | 14.33 ± 0.36 | `results/mumbai_scratch_v2_m12_seeds_stats.json` |
 | 12 month(s): XGBoost | 6.88 | 9.04 | 12.30 | 16.72 | `results/mumbai_xgboost_m12_results.json` |
@@ -562,23 +576,27 @@ Fine-tuned / from scratch / XGBoost use only the last N months of 2023; the clas
 | AQFM v2 zero-shot (Delhi model, no future met) | 9.88 | 21.69 | 28.24 | 34.93 | `results/mumbai_zeroshot_v2_nofm_ens3_results.json` |
 | AQFM v2-M zero-shot, with future weather (3 of 8 inputs missing) | 16.86 | 27.20 | 47.85 | 51.79 | `results/mumbai_zeroshot_v2m256_ens3_results.json` |
 | AQFM v2 zero-shot, with future weather (3 of 8 inputs missing) | 10.66 | 20.81 | 33.30 | 38.52 | `results/mumbai_zeroshot_v2_ens3_results.json` |
-| 1 month(s): AQFM v2 fine-tuned from Delhi, ensemble | 9.90 | 21.03 | 24.59 | 30.28 | `results/mumbai_ft_v2_backbone_m1_ens3_results.json` |
-| 1 month(s): AQFM v2 fine-tuned, mean ± std | 10.03 ± 0.13 | 21.17 ± 0.42 | 25.10 ± 0.52 | 30.61 ± 0.45 | `results/mumbai_ft_v2_backbone_m1_seeds_stats.json` |
+| 1 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 9.90 | 21.03 | 24.59 | 30.28 | `results/mumbai_ft_v2_backbone_m1_ens3_results.json` |
+| 1 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 10.03 ± 0.13 | 21.17 ± 0.42 | 25.10 ± 0.52 | 30.61 ± 0.45 | `results/mumbai_ft_v2_backbone_m1_seeds_stats.json` |
 | 1 month(s): AQFM v2 from scratch, ensemble | 21.55 | 22.20 | 26.62 | 30.13 | `results/mumbai_scratch_v2_m1_ens3_results.json` |
 | 1 month(s): AQFM v2 from scratch, mean ± std | 21.45 ± 0.83 | 22.16 ± 0.09 | 26.68 ± 0.63 | 30.22 ± 0.47 | `results/mumbai_scratch_v2_m1_seeds_stats.json` |
 | 1 month(s): XGBoost | 26.19 | 53.83 | 48.03 | 60.49 | `results/mumbai_xgboost_m1_results.json` |
-| 3 month(s): AQFM v2 fine-tuned from Delhi, ensemble | 9.87 | 20.58 | 24.25 | 29.79 | `results/mumbai_ft_v2_backbone_m3_ens3_results.json` |
-| 3 month(s): AQFM v2 fine-tuned, mean ± std | 9.95 ± 0.12 | 20.63 ± 0.46 | 24.55 ± 0.39 | 30.09 ± 0.27 | `results/mumbai_ft_v2_backbone_m3_seeds_stats.json` |
+| 3 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 9.87 | 20.58 | 24.25 | 29.79 | `results/mumbai_ft_v2_backbone_m3_ens3_results.json` |
+| 3 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 9.95 ± 0.12 | 20.63 ± 0.46 | 24.55 ± 0.39 | 30.09 ± 0.27 | `results/mumbai_ft_v2_backbone_m3_seeds_stats.json` |
 | 3 month(s): AQFM v2 from scratch, ensemble | 12.71 | 21.95 | 26.63 | 31.89 | `results/mumbai_scratch_v2_m3_ens3_results.json` |
 | 3 month(s): AQFM v2 from scratch, mean ± std | 13.29 ± 1.49 | 22.21 ± 0.26 | 26.88 ± 1.48 | 32.22 ± 1.44 | `results/mumbai_scratch_v2_m3_seeds_stats.json` |
 | 3 month(s): XGBoost | 18.60 | 27.18 | 36.82 | 50.78 | `results/mumbai_xgboost_m3_results.json` |
-| 6 month(s): AQFM v2 fine-tuned from Delhi, ensemble | 9.89 | 20.35 | 24.32 | 29.96 | `results/mumbai_ft_v2_backbone_m6_ens3_results.json` |
-| 6 month(s): AQFM v2 fine-tuned, mean ± std | 9.98 ± 0.13 | 20.41 ± 0.51 | 24.52 ± 0.45 | 30.16 ± 0.33 | `results/mumbai_ft_v2_backbone_m6_seeds_stats.json` |
+| 6 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 9.89 | 20.35 | 24.32 | 29.96 | `results/mumbai_ft_v2_backbone_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 9.98 ± 0.13 | 20.41 ± 0.51 | 24.52 ± 0.45 | 30.16 ± 0.33 | `results/mumbai_ft_v2_backbone_m6_seeds_stats.json` |
+| 6 month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble | 9.92 | 20.17 | 24.32 | 29.62 | `results/mumbai_ft_v2_none_m6_ens3_results.json` |
+| 6 month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std | 10.04 ± 0.07 | 20.42 ± 0.34 | 24.63 ± 0.48 | 30.16 ± 0.60 | `results/mumbai_ft_v2_none_m6_seeds_stats.json` |
 | 6 month(s): AQFM v2 from scratch, ensemble | 10.97 | 20.63 | 25.57 | 31.03 | `results/mumbai_scratch_v2_m6_ens3_results.json` |
 | 6 month(s): AQFM v2 from scratch, mean ± std | 11.41 ± 0.75 | 20.81 ± 0.07 | 25.94 ± 0.73 | 31.58 ± 0.82 | `results/mumbai_scratch_v2_m6_seeds_stats.json` |
 | 6 month(s): XGBoost | 16.15 | 22.57 | 28.65 | 35.91 | `results/mumbai_xgboost_m6_results.json` |
-| 12 month(s): AQFM v2 fine-tuned from Delhi, ensemble | 9.99 | 20.32 | 24.24 | 29.75 | `results/mumbai_ft_v2_backbone_m12_ens3_results.json` |
-| 12 month(s): AQFM v2 fine-tuned, mean ± std | 10.08 ± 0.10 | 20.37 ± 0.27 | 24.42 ± 0.30 | 29.91 ± 0.28 | `results/mumbai_ft_v2_backbone_m12_seeds_stats.json` |
+| 12 month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble | 9.99 | 20.32 | 24.24 | 29.75 | `results/mumbai_ft_v2_backbone_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std | 10.08 ± 0.10 | 20.37 ± 0.27 | 24.42 ± 0.30 | 29.91 ± 0.28 | `results/mumbai_ft_v2_backbone_m12_seeds_stats.json` |
+| 12 month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble | 9.92 | 19.77 | 24.26 | 29.64 | `results/mumbai_ft_v2_none_m12_ens3_results.json` |
+| 12 month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std | 10.03 ± 0.17 | 19.93 ± 0.14 | 24.38 ± 0.13 | 29.85 ± 0.25 | `results/mumbai_ft_v2_none_m12_seeds_stats.json` |
 | 12 month(s): AQFM v2 from scratch, ensemble | 10.33 | 20.10 | 24.86 | 30.56 | `results/mumbai_scratch_v2_m12_ens3_results.json` |
 | 12 month(s): AQFM v2 from scratch, mean ± std | 10.54 ± 0.25 | 20.30 ± 0.26 | 25.03 ± 0.51 | 30.89 ± 1.00 | `results/mumbai_scratch_v2_m12_seeds_stats.json` |
 | 12 month(s): XGBoost | 15.94 | 22.67 | 27.37 | 34.46 | `results/mumbai_xgboost_m12_results.json` |
@@ -611,6 +629,12 @@ Fine-tuned / from scratch / XGBoost use only the last N months of 2023; the clas
 | mumbai_ft_v2_backbone_m6_s0 | v2 city preset, width 128, fine-tune (freeze backbone, 6 months), no future met | 0.3 | 0 | 1.9117 | 650 | 21 | `runs/mumbai_ft_v2_backbone_m6_s0/log.jsonl` |
 | mumbai_ft_v2_backbone_m6_s1 | v2 city preset, width 128, fine-tune (freeze backbone, 6 months), no future met | 0.3 | 1 | 1.9007 | 1500 | 38 | `runs/mumbai_ft_v2_backbone_m6_s1/log.jsonl` |
 | mumbai_ft_v2_backbone_m6_s2 | v2 city preset, width 128, fine-tune (freeze backbone, 6 months), no future met | 0.3 | 2 | 1.8993 | 2350 | 55 | `runs/mumbai_ft_v2_backbone_m6_s2/log.jsonl` |
+| mumbai_ft_v2_none_m12_s0 | v2 city preset, width 128, fine-tune (freeze none, 12 months), no future met | 0.3 | 0 | 1.8568 | 1700 | 42 | `runs/mumbai_ft_v2_none_m12_s0/log.jsonl` |
+| mumbai_ft_v2_none_m12_s1 | v2 city preset, width 128, fine-tune (freeze none, 12 months), no future met | 0.3 | 1 | 1.8668 | 700 | 22 | `runs/mumbai_ft_v2_none_m12_s1/log.jsonl` |
+| mumbai_ft_v2_none_m12_s2 | v2 city preset, width 128, fine-tune (freeze none, 12 months), no future met | 0.3 | 2 | 1.8585 | 1100 | 30 | `runs/mumbai_ft_v2_none_m12_s2/log.jsonl` |
+| mumbai_ft_v2_none_m6_s0 | v2 city preset, width 128, fine-tune (freeze none, 6 months), no future met | 0.3 | 0 | 1.9034 | 600 | 20 | `runs/mumbai_ft_v2_none_m6_s0/log.jsonl` |
+| mumbai_ft_v2_none_m6_s1 | v2 city preset, width 128, fine-tune (freeze none, 6 months), no future met | 0.3 | 1 | 1.9045 | 700 | 22 | `runs/mumbai_ft_v2_none_m6_s1/log.jsonl` |
+| mumbai_ft_v2_none_m6_s2 | v2 city preset, width 128, fine-tune (freeze none, 6 months), no future met | 0.3 | 2 | 1.8869 | 250 | 13 | `runs/mumbai_ft_v2_none_m6_s2/log.jsonl` |
 | mumbai_scratch_v2_m12_s0 | v2 city preset, width 128, patience 8, no future met | 0.3 | 0 | 1.8907 | 2750 | 19 | `runs/mumbai_scratch_v2_m12_s0/log.jsonl` |
 | mumbai_scratch_v2_m12_s1 | v2 city preset, width 128, patience 8, no future met | 0.3 | 1 | 1.8766 | 3750 | 23 | `runs/mumbai_scratch_v2_m12_s1/log.jsonl` |
 | mumbai_scratch_v2_m12_s2 | v2 city preset, width 128, patience 8, no future met | 0.3 | 2 | 1.8792 | 2750 | 19 | `runs/mumbai_scratch_v2_m12_s2/log.jsonl` |

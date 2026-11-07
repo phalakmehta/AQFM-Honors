@@ -7,7 +7,7 @@ Every result's command, models and checksums: `scripts/manifest.json`. Every num
 Where: **GitHub** = github.com/phalakmehta/AQFM-Honors · **Drive** = Google Drive (`drive_upload_2026-10-14/` and
 `Foundation Model(Mainak Sir)/`) · **machine** = the GPU machine only (`/home/phalak/aqfm/`).
 
-Last updated: 2026-11-05 (v2 section).
+Last updated: 2026-11-07 (v2 section).
 
 ## Code
 
@@ -58,9 +58,10 @@ Last updated: 2026-11-05 (v2 section).
 |---|---|---|
 | v2 code: spatial-scale changes A1–A9, fixes B1, B3–B7, any-city data steps, width flags, date splits, hourly-array converter; 86 tests pass (`tests/` 68 + `deep_baselines/` 18) | GitHub branch `aqfm-v2` | ✅ committed and pushed (`a00d49d`); `main` has it up to `f104c7c` (PR #1) |
 | `data/delhi/` (built from the raw inputs, `docs/V2_PROGRESS.md` step 2; sha256 in the manifest) | machine | ✅ (rebuildable, not on Drive) |
-| v2 models: 3 seeds, dropout 0.15 run, 4-station hold-out run, 3 seeds without future weather (`aqfm_v2_*`); v2-M (width 256, 4.57M) 3 seeds with and 3 without future weather (`aqfm_v2m_*`); 24k-step test (`aqfm_v2_24k_s0`) | machine + `drive_upload_2026-11-05_v2/models` (15 files, `SHA256SUMS.txt` checked) | ✅ in the manifest; ⬜ upload to Drive |
-| v2 results: 3 seeds, mean ± std, ensemble, unseen stations, distance bands, without future weather (`results/v2_*`), `results/v2_delhi_summary.md`; v2-M and 24k (`results/v2m256_*`, `results/v2_s0_24k_results.json`) | GitHub branch `aqfm-v2` | ✅ committed, pushed, in the manifest; ⬜ v2-M rows in `results/TABLES.md` (regenerate after the Mumbai chain) |
-| Step 10: transfer to Mumbai (`data/mumbai` from the only Mumbai data, an hourly 2023–2024 array; `docs/V2_PROGRESS.md` step 10) | machine + GitHub | ✅ data, baselines, zero-shot; 🔄 fine-tune vs scratch, joint (running 2026-11-06); ⬜ manifest |
+| v2 models: 3 seeds, dropout 0.15 run, 4-station hold-out run, 3 seeds without future weather (`aqfm_v2_*`); v2-M (width 256, 4.57M) 3 seeds with and 3 without future weather (`aqfm_v2m_*`); 24k-step test (`aqfm_v2_24k_s0`) | machine + `drive_upload_2026-11-05_v2/models` (62 files with steps 10–11, `SHA256SUMS.txt` checked) | ✅ in the manifest; ⬜ upload to Drive |
+| v2 results: 3 seeds, mean ± std, ensemble, unseen stations, distance bands, without future weather (`results/v2_*`), `results/v2_delhi_summary.md`; v2-M and 24k (`results/v2m256_*`, `results/v2_s0_24k_results.json`) | GitHub branch `aqfm-v2` | ✅ committed, pushed, in the manifest and `results/TABLES.md` |
+| Step 10: transfer to Mumbai (`data/mumbai` from the only Mumbai data, an hourly 2023–2024 array; `docs/V2_PROGRESS.md` step 10) | machine + GitHub | ✅ all stages, same-point comparisons, in the manifest and `results/TABLES.md` |
+| Step 11: Delhi same-point comparisons with significance (ozone, NOx, NO2 too), v2-M ablations, second test year (2024), noisy future weather, Mumbai fine-tune with nothing frozen (`docs/V2_PROGRESS.md` step 11; `results/paper/`) | machine + GitHub | ✅ committed and pushed 2026-11-07; models in the manifest and the Drive folder |
 
 ## Experiments the paper needs (roadmap: `PROJECT_CONTEXT.md` §6)
 
@@ -75,7 +76,7 @@ Last updated: 2026-11-05 (v2 section).
 | F4 E-STGCN, our re-implementation on our protocol (same treatment; `results/estgcn_summary.md`) | ✅ |
 | F5 O3 and NO2 for every model (plan: `docs/plan_o3_no2.md`, ~6 h) | ⬜ |
 | G write-up: literature review, methods deviations (§7.6), figures, slides with real numbers | ⬜ |
-| H open risks: COVID year, single test year, station types (discuss or test) | ⬜ |
+| H open risks: COVID year, station types (discuss or test); second test year done (v2-M, step 11) | ⬜ |
 
 ## Final checks (in this order, just before submission)
 

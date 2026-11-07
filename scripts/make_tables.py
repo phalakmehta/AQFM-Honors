@@ -168,8 +168,10 @@ MUMBAI_ROWS = (
      ("AQFM v2-M zero-shot, with future weather (3 of 8 inputs missing)", "results/mumbai_zeroshot_v2m256_ens3_results.json", None),
      ("AQFM v2 zero-shot, with future weather (3 of 8 inputs missing)", "results/mumbai_zeroshot_v2_ens3_results.json", None)]
     + [row for n in (1, 3, 6, 12) for row in (
-        (f"{n} month(s): AQFM v2 fine-tuned from Delhi, ensemble", f"results/mumbai_ft_v2_backbone_m{n}_ens3_results.json", None),
-        (f"{n} month(s): AQFM v2 fine-tuned, mean ± std", f"results/mumbai_ft_v2_backbone_m{n}_seeds_stats.json", None),
+        (f"{n} month(s): AQFM v2 fine-tuned from Delhi (backbone frozen), ensemble", f"results/mumbai_ft_v2_backbone_m{n}_ens3_results.json", None),
+        (f"{n} month(s): AQFM v2 fine-tuned (backbone frozen), mean ± std", f"results/mumbai_ft_v2_backbone_m{n}_seeds_stats.json", None),
+        (f"{n} month(s): AQFM v2 fine-tuned from Delhi (nothing frozen), ensemble", f"results/mumbai_ft_v2_none_m{n}_ens3_results.json", None),
+        (f"{n} month(s): AQFM v2 fine-tuned (nothing frozen), mean ± std", f"results/mumbai_ft_v2_none_m{n}_seeds_stats.json", None),
         (f"{n} month(s): AQFM v2 from scratch, ensemble", f"results/mumbai_scratch_v2_m{n}_ens3_results.json", None),
         (f"{n} month(s): AQFM v2 from scratch, mean ± std", f"results/mumbai_scratch_v2_m{n}_seeds_stats.json", None),
         (f"{n} month(s): XGBoost", f"results/mumbai_xgboost_m{n}_results.json", "XGBoost"))]
@@ -206,7 +208,8 @@ def change_label(cfg):
         ("no spatial attention", not c["use_spatial_attention"]),
         (f"{c['spatial_bias']}-only spatial bias", c["use_spatial_attention"] and c["spatial_bias"] != "wind"),
         ("PM2.5 predicted directly", "PM_FRAC" not in c["target_channels"]),
-        ("gap-filling only", not c["forecast_targets_always"])) if on]
+        ("gap-filling only", not c["forecast_targets_always"]),
+        ("validation 2023, test 2024", a.get("val_year", 2024) != 2024)) if on]
     return ", ".join(parts) or "–"
 
 

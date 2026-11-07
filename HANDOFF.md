@@ -9,6 +9,14 @@ Read this first, then `CLAUDE.md`. For detail, use:
 
 **Update 2026-11-06: Mumbai data arrived.** It is the only Mumbai data: an already-processed hourly array for 2023–2024, 28 stations. It is now `data/mumbai/`, built by `data_pipeline/convert_hourly_city.py`. Step 10: baselines, zero-shot and the data-amount study (stages A–C) are done; the one model for both cities (stage D) was running on the evening of 2026-11-06. The protocol, data decisions and status are in `docs/V2_PROGRESS.md`, step 10. That section replaces "blocked on a second city's data" below.
 
+**Update 2026-11-07: the paper experiments are done** (`docs/V2_PROGRESS.md` step 11; state and next steps in
+`RUNBOOK.md` §3–4).
+- Delhi: same-point tests with p-values for PM2.5, PM10, ozone, NOx and NO2; v2-M ablations; a second test year
+  (2024); future weather with noise.
+- Mumbai: fine-tuning with nothing frozen.
+- The spatial ablations were dropped by the user: the spatial part is for any city's station layout, not accuracy.
+- New weak point: **NO2**. XGBoost beats AQFM at every lead in Delhi too.
+
 ---
 
 ## 1. Ground rules (from `CLAUDE.md` and the user)
@@ -142,22 +150,14 @@ Severe = true PM2.5 of 250 or more, at 24 h. Full tables are in the results PDF 
 
 ## 5. What is left to do
 
-### Loose ends from 2026-11-05/06 (when the user asks to commit)
+### Loose ends from 2026-11-05/06
 
-- **Uncommitted on `aqfm-v2`:**
-  - 11 results files: `results/v2_s0_24k_results.json` and `results/v2m256_*`;
-  - `scripts/pipeline_v2m256_seeds.sh` and `scripts/pipeline_v2m256_nofm.sh`;
-  - 26 new entries under `runs/` (logs and run folders; `.pt` files are git-ignored);
-  - `docs/V2_PROGRESS.md` (modified) and this file.
-- **After committing:** the user pushes from VS Code, then opens a new PR to `main`, or merges it themselves.
-- **Not yet registered** in `scripts/manifest.json`, `results/TABLES.md` (`scripts/make_tables.py`) or the Drive folder:
-  - the 6 v2-M models (`runs/v2m256_s{0,1,2}_do03`, `runs/v2m256_nofm_s{0,1,2}_do03`);
-  - the 24k run;
-  - their results.
-  - Follow the existing v2 entries as the pattern.
-- **`SUBMISSION.md`'s v2 section says "⬜ push",** which is out of date: it was pushed and merged.
-- **`check_submission.py` compares HEAD with GitHub `main`.** It should pass on a clean checkout of merged `main`; this is not tested yet.
-- **The 8-page report** (`make_report.py --full`) needs its text rewritten before it can include v2-M.
+- Done by 2026-11-07: the v2-M and 24k files are committed and pushed, in the manifest, in `results/TABLES.md` and in
+  the Drive folder.
+- **Still open:**
+  - `main` has `aqfm-v2` only up to `f104c7c` (PR #1). Open a new PR or merge; `check_submission.py` compares HEAD
+    with GitHub `main`, so its git check fails until then.
+  - The 8-page report (`make_report.py --full`) needs its text rewritten before it can include v2-M.
 
 ### Decisions for the user
 
@@ -261,15 +261,16 @@ cd /home/phalak/aqfm/reports/aqfm_v2 && ../../.venv/bin/python make_report.py &&
 
 | What | Why | Cost |
 |---|---|---|
-| Mumbai stages B–C done; D (joint model) running | the transfer result | D ~1.5 h GPU |
-| Ablations on v2-M (no BLH, no anchor, gap-filling only; seed 0): stage ABL, running 2026-11-07 | the existing ablations are on v1 (23.8M) | ~1.5 h GPU |
+| ~~Mumbai stages A–D~~ done (step 10); fine-tune with nothing frozen, 6 and 12 months, done (step 11): validation picks it over backbone frozen | the transfer result | — |
+| ~~Ablations on v2-M (no BLH, no anchor, gap-filling only; seed 0)~~ done (step 11) | the existing ablations are on v1 (23.8M) | — |
 | ~~v2-M with the spatial-scale changes off~~ dropped (user, 2026-11-07): the spatial part is there so the model works for any city's station layout, not to improve accuracy. No spatial ablations; the one already made (no spatial attention, seed 0) is kept | — | — |
 | v2-M hold-out (new station, virtual sensing) and distance bands | tables 6–7 say "not run for v2-M" | ~1 h GPU |
-| Same points for baselines and AQFM (Mumbai classical: 3,888 vs 4,103; check Delhi) | fair comparison | small code change + reruns |
-| `city_xgboost.py` reproduces Delhi's published XGBoost without `--hourly` | trust in the Mumbai XGBoost numbers | ~20 min CPU |
-| Error by month or season; error share by AQI band (a figure) | the plateau argument | eval change + ~15 min |
-| Stage H risks: train without 2020 (COVID); a second test year (rolling origin); station type | reviewers will ask | ~1–2 h GPU each |
-| Forecast-weather caveat: ERA5 is the weather that happened (best case) | must be stated; optionally add noise to it | text, or ~1 h |
+| ~~Same points for baselines and AQFM~~ done: `scripts/forecast_stats.py`, Delhi (stage SAVE) and Mumbai (stage MUMBAI) | fair comparison | — |
+| ~~`city_xgboost.py` reproduces Delhi's published XGBoost~~ checked: it equals the original script re-run on this machine (42/42); the published file differs by 0.1–0.7 % (older software; step 10 note) | trust in the Mumbai XGBoost numbers | — |
+| Error by month or season; error share by AQI band (a figure) | the plateau argument | numbers exist (`by_month`, `by_band` at 24 h in `results/paper/delhi_*_weather.json`); figure not made |
+| Stage H risks: train without 2020 (COVID); station type. ~~A second test year~~ done (FOLD, step 11: same picture as 2025) | reviewers will ask | ~1–2 h GPU each |
+| Forecast-weather caveat: ERA5 is the weather that happened (best case) | must be stated; the noise test is done (NOISE, step 11): the 72 h gain needs a good weather forecast | text |
+| NO2: XGBoost beats AQFM at every lead (Delhi; step 11) | limitation, or fix the NO2 representation | text, or a code change + retraining |
 
 **Writing:**
 - Literature review (G1).
@@ -290,12 +291,12 @@ cd /home/phalak/aqfm/reports/aqfm_v2 && ../../.venv/bin/python make_report.py &&
 - Limitations:
   - the Mumbai data is a third party's gap-filled hourly array for 2023–2024;
   - ERA5 future weather;
-  - one test year;
+  - two test years only (2025; 2024 in FOLD);
   - virtual sensing.
 - Update the results PDF for the supervisor (add Mumbai) and the slides (G2).
 
 **Before submission:**
-- Manifest: add Mumbai (data, models, results).
+- ~~Manifest: add Mumbai (data, models, results).~~ Done (steps 10 and 11).
 - Upload the Drive folders.
 - Merge `aqfm-v2` into `main`.
 - `scripts/check_submission.py` must print ALL OK.

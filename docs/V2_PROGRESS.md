@@ -955,20 +955,340 @@ So the new script is a faithful copy; the published XGBoost file came from anoth
 AQFM with the XGBoost runs made on this machine (stage SAVE, `results/paper/delhi_xgboost*.json`), which also have
 their forecasts saved for the same-point tests.
 
-## Step 11: paper experiments (`scripts/pipeline_paper_extras.sh` SAVE, ABL, FOLD, NOISE) — started 2026-11-06
+## Step 11: paper experiments (SAVE, ABL, FOLD, NOISE) and the unfrozen Mumbai fine-tune — done 2026-11-07
 
-- **SAVE (Delhi, 21:58–23:45): done.** The main ensembles again with every forecast saved and ozone/NOx/NO2 scored;
-  classical, XGBoost and XGBoost + future ERA5 on `data/delhi` (made on this machine); same-point comparisons with
-  p-values (`results/paper/delhi_*`). Checks: the five ensembles (`v2m256`, `v2m256_nofm`, `v2`, `v2_nofm`, v1 `do3`)
-  have 82/82 PM2.5/PM10 numbers equal to the earlier `results/*_ens3_results.json`; every AQFM file records commit
-  `a1a9e23`, not dirty. Tables and findings will be written up with the other stages.
+`scripts/pipeline_paper_extras.sh` stages SAVE → ABL → FOLD → NOISE, then `scripts/pipeline_mumbai_unfrozen.sh`.
+Chains: `/home/phalak/aqfm/chains/overnight_2026-11-06.sh` (SAVE and the first ablation; log
+`runs/paper_overnight_chain.log`), then `/home/phalak/aqfm/chains/resume_2026-11-07.sh` (log
+`runs/paper_resume_chain.log`). Times: SAVE 21:58–23:45; ABL 23:45–00:22 and 00:23–01:45; FOLD 01:45–05:07;
+NOISE 05:07–05:29; unfrozen Mumbai 05:29–06:01.
+
+**Checks (RUNBOOK §4.1):**
+- Every stage log ends with `pipeline finished`.
+- **SAVE:** the five ensembles (`v2m256`, `v2m256_nofm`, `v2`, `v2_nofm`, v1 `do3`) have 82/82 PM2.5/PM10 numbers
+  equal to the earlier `results/*_ens3_results.json`.
+- **Code state:** every AQFM result records a clean code state. SAVE and the no-spatial run record `a1a9e23`; the
+  later 18 record `c07d55a` (docs, scripts and SAVE results only; the code is the same). The baseline and
+  comparison files don't record a code state, as before.
+- **Training:** all 15 new trainings ended with `done`. One budget is binding: FOLD with weather, seed 2, peaked at
+  its last step (12,000). The Mumbai runs stopped early, best at steps 250–1,700.
+- **XGBoost reproduction check:** the chain logged DIFFERENT, as expected (the 0.1–0.7 % gap to the published file;
+  see the step 10 note). The XGBoost rows below were all run on this machine.
 - **Spatial ablations dropped (user, 2026-11-07 00:20):** the spatial part is there so the model works for any
   city's station layout, not to improve accuracy. Stopped during the distance-bias run (moved out of the repo to
   `/home/phalak/aqfm/cancelled_runs/2026-11-07/`, not used); `--v1-spatial` not run. The no-spatial-attention run
-  that had finished (seed 0, `results/paper/delhi_v2m256_abl_nospatial_s0.json`) is kept. Stage ABL now has no BLH,
-  no anchor and gap-filling only.
-- **Running:** the rest of ABL, then FOLD and NOISE, then the unfrozen Mumbai fine-tune
-  (`/home/phalak/aqfm/chains/resume_2026-11-07.sh`; see `RUNBOOK.md` §3).
+  that had finished is kept, for reference only. A model without spatial attention also runs on any station
+  layout (each station on its own), so these results do not show that the spatial part is what makes the model
+  portable. Only the full model was tested on Mumbai.
+
+Tables generated from the files named (MAE; same points unless said; p = Diebold–Mariano on daily means,
+Newey–West lag 7; the first model of each table is the reference).
+
+### SAVE: Delhi 2025 test, same points (MAE; in brackets: difference to the first model, Diebold–Mariano p)
+
+**PM2.5, with future ERA5 weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **15.99** | **27.95** | **32.25** | **36.94** |
+| AQFM v2 | 16.37 (+0.38, p=0.001) | 28.29 (+0.33, p=0.216) | 33.90 (+1.65, p=0.016) | 37.44 (+0.49, p=0.611) |
+| XGBoost + future ERA5 | 17.97 (+1.98, p=0.000) | 28.62 (+0.66, p=0.250) | 33.43 (+1.17, p=0.146) | 36.53 (-0.41, p=0.820) |
+| Persistence | 15.90 (-0.09, p=0.658) | 35.58 (+7.63, p=0.000) | 43.84 (+11.59, p=0.000) | 54.62 (+17.68, p=0.000) |
+| points | 12210 | 11998 | 10306 | 10297 |
+
+**PM2.5, no future weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **15.92** | **27.67** | **38.09** | **41.54** |
+| AQFM v2 | 16.35 (+0.43, p=0.003) | 29.08 (+1.41, p=0.000) | 38.42 (+0.33, p=0.279) | 42.39 (+0.85, p=0.162) |
+| XGBoost | 18.23 (+2.31, p=0.000) | 30.01 (+2.34, p=0.000) | 38.39 (+0.31, p=0.767) | 43.79 (+2.25, p=0.191) |
+| Persistence | 15.90 (-0.02, p=0.723) | 35.58 (+7.91, p=0.000) | 43.84 (+5.76, p=0.000) | 54.62 (+13.08, p=0.000) |
+| points | 12210 | 11998 | 10306 | 10297 |
+
+**PM10, with future ERA5 weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **28.94** | **45.79** | **58.73** | **65.84** |
+| AQFM v2 | 29.42 (+0.49, p=0.628) | 46.33 (+0.54, p=0.381) | 61.24 (+2.51, p=0.012) | 67.20 (+1.35, p=0.323) |
+| XGBoost + future ERA5 | 34.32 (+5.38, p=0.000) | 47.18 (+1.39, p=0.225) | 61.90 (+3.17, p=0.008) | 67.18 (+1.34, p=0.602) |
+| Persistence | 31.28 (+2.34, p=0.270) | 71.50 (+25.72, p=0.000) | 84.63 (+25.89, p=0.000) | 106.48 (+40.64, p=0.000) |
+| points | 12528 | 12340 | 10630 | 10624 |
+
+**PM10, no future weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **28.66** | **45.86** | **72.28** | **79.36** |
+| AQFM v2 | 29.20 (+0.54, p=0.018) | 48.30 (+2.44, p=0.000) | 72.83 (+0.55, p=0.306) | 81.23 (+1.87, p=0.051) |
+| XGBoost | 34.63 (+5.97, p=0.000) | 49.63 (+3.77, p=0.000) | 73.54 (+1.26, p=0.405) | 83.16 (+3.80, p=0.076) |
+| Persistence | 31.28 (+2.62, p=0.266) | 71.50 (+25.64, p=0.000) | 84.63 (+12.35, p=0.000) | 106.48 (+27.13, p=0.000) |
+| points | 12528 | 12340 | 10630 | 10624 |
+
+**Ozone, with future ERA5 weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **5.07** | **6.50** | **8.87** | **9.61** |
+| AQFM v2 | 5.15 (+0.08, p=0.105) | 6.61 (+0.11, p=0.001) | 8.88 (+0.01, p=0.994) | 9.71 (+0.11, p=0.465) |
+| XGBoost + future ERA5 | 6.18 (+1.11, p=0.000) | 7.09 (+0.59, p=0.000) | 9.20 (+0.33, p=0.038) | 10.01 (+0.41, p=0.014) |
+| Persistence | 4.98 (-0.09, p=0.235) | 7.88 (+1.39, p=0.000) | 11.61 (+2.74, p=0.000) | 13.81 (+4.20, p=0.000) |
+| points | 12197 | 12159 | 10642 | 10640 |
+
+**Ozone, no future weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **5.21** | **7.04** | **9.69** | **10.58** |
+| AQFM v2 | 5.62 (+0.41, p=0.000) | 7.24 (+0.20, p=0.000) | 9.72 (+0.03, p=0.379) | 10.63 (+0.05, p=0.006) |
+| XGBoost | 6.29 (+1.08, p=0.000) | 7.46 (+0.43, p=0.008) | 10.10 (+0.41, p=0.006) | 11.18 (+0.60, p=0.000) |
+| Persistence | 4.98 (-0.23, p=0.085) | 7.88 (+0.85, p=0.001) | 11.61 (+1.92, p=0.000) | 13.81 (+3.23, p=0.000) |
+| points | 12197 | 12159 | 10642 | 10640 |
+
+**NOx, with future ERA5 weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **11.94** | **15.86** | **24.92** | **27.69** |
+| AQFM v2 | 12.10 (+0.17, p=0.007) | 16.20 (+0.33, p=0.016) | 24.95 (+0.03, p=0.949) | 26.74 (-0.95, p=0.048) |
+| XGBoost + future ERA5 | 15.08 (+3.15, p=0.000) | 17.24 (+1.37, p=0.000) | 26.55 (+1.63, p=0.001) | 29.33 (+1.64, p=0.024) |
+| Persistence | 12.55 (+0.62, p=0.000) | 25.45 (+9.59, p=0.000) | 36.63 (+11.72, p=0.000) | 44.74 (+17.05, p=0.000) |
+| points | 12328 | 12423 | 10862 | 10854 |
+
+**NOx, no future weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **11.95** | **17.25** | **29.94** | **32.77** |
+| AQFM v2 | 11.99 (+0.03, p=0.484) | 17.59 (+0.34, p=0.002) | 30.27 (+0.33, p=0.167) | 33.57 (+0.80, p=0.040) |
+| XGBoost | 15.54 (+3.58, p=0.000) | 19.26 (+2.00, p=0.000) | 32.37 (+2.43, p=0.000) | 37.05 (+4.28, p=0.000) |
+| Persistence | 12.55 (+0.60, p=0.000) | 25.45 (+8.20, p=0.000) | 36.63 (+6.70, p=0.000) | 44.74 (+11.97, p=0.000) |
+| points | 12328 | 12423 | 10862 | 10854 |
+
+**NO2, with future ERA5 weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **9.91** | **10.84** | **15.21** | **16.93** |
+| AQFM v2 | 9.63 (-0.28, p=0.000) | 10.79 (-0.05, p=0.286) | 14.87 (-0.34, p=0.002) | 16.53 (-0.40, p=0.041) |
+| XGBoost + future ERA5 | 9.03 (-0.88, p=0.000) | 9.90 (-0.94, p=0.000) | 13.14 (-2.07, p=0.000) | 15.06 (-1.87, p=0.000) |
+| Persistence | 8.52 (-1.40, p=0.000) | 16.60 (+5.76, p=0.000) | 15.86 (+0.65, p=0.166) | 19.62 (+2.69, p=0.000) |
+| points | 12577 | 12607 | 10819 | 10813 |
+
+**NO2, no future weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **9.79** | **11.13** | **15.92** | **17.93** |
+| AQFM v2 | 9.61 (-0.19, p=0.000) | 11.27 (+0.15, p=0.033) | 15.96 (+0.04, p=0.748) | 18.24 (+0.32, p=0.059) |
+| XGBoost | 9.11 (-0.68, p=0.004) | 10.21 (-0.92, p=0.000) | 14.30 (-1.62, p=0.000) | 16.75 (-1.17, p=0.001) |
+| Persistence | 8.52 (-1.28, p=0.000) | 16.60 (+5.47, p=0.000) | 15.86 (-0.06, p=0.900) | 19.62 (+1.69, p=0.005) |
+| points | 12577 | 12607 | 10819 | 10813 |
+
+### ABL: v2-M seed 0, one change each (Delhi 2025 test, MAE)
+
+| Run | val score | PM2.5 1h | PM2.5 6h | PM2.5 24h | PM2.5 72h | PM10 1h | PM10 6h | PM10 24h | PM10 72h |
+|---|---|---|---|---|---|---|---|---|---|
+| full v2-M (seed 0) | 1.7268 | 16.11 | 28.64 | 33.44 | 37.88 | 29.09 | 47.36 | 60.89 | 67.82 |
+| no spatial attention (kept; spatial ablations dropped) | 1.7290 | 16.10 | 28.72 | 32.71 | 37.72 | 29.21 | 46.59 | 60.03 | 68.15 |
+| no BLH | 1.7368 | 16.01 | 29.08 | 33.20 | 37.29 | 29.20 | 47.52 | 60.60 | 67.73 |
+| no anchor (last observation) | 1.8129 | 33.05 | 33.75 | 35.15 | 39.42 | 60.93 | 54.78 | 64.28 | 70.02 |
+| gap-filling training only | 1.9040 | 32.33 | 34.23 | 36.25 | 38.23 | 56.78 | 55.64 | 68.46 | 72.21 |
+| seed spread of full v2-M (std of 3 seeds) | 0.0019 | 0.09 | 0.32 | 0.81 | 0.46 | 0.13 | 0.92 | 1.33 | 1.08 |
+
+### FOLD: second test year (train 2018–22, pick on 2023, test 2024), same points
+
+**PM2.5 2024, with future ERA5 weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **16.66** | **30.89** | **37.25** | **42.11** |
+| XGBoost + future ERA5 | 20.16 (+3.49, p=0.000) | 31.69 (+0.80, p=0.096) | 36.99 (-0.26, p=0.752) | 40.48 (-1.63, p=0.322) |
+| Persistence | 16.94 (+0.27, p=0.533) | 40.13 (+9.24, p=0.000) | 47.15 (+9.89, p=0.000) | 55.78 (+13.67, p=0.000) |
+| points | 12188 | 12036 | 10258 | 10254 |
+
+**PM2.5 2024, no future weather**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M | **16.72** | **31.71** | **41.91** | **47.95** |
+| XGBoost | 20.35 (+3.63, p=0.000) | 33.05 (+1.34, p=0.031) | 40.87 (-1.04, p=0.226) | 45.70 (-2.25, p=0.193) |
+| Persistence | 16.94 (+0.22, p=0.682) | 40.13 (+8.42, p=0.000) | 47.15 (+5.24, p=0.000) | 55.78 (+7.83, p=0.000) |
+| points | 12188 | 12036 | 10258 | 10254 |
+
+**PM10 2024 (each model on its own points; MAE)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM v2-M, with weather (3-seed ensemble) | 32.74 | 51.67 | 69.29 | 76.85 |
+| AQFM v2-M, no future weather | 32.76 | 52.71 | 80.87 | 87.67 |
+| XGBoost + future ERA5 | 39.37 | 54.02 | 70.37 | 75.72 |
+| XGBoost | 39.73 | 55.41 | 79.45 | 88.44 |
+| Persistence | 36.34 | 80.12 | 94.16 | 106.66 |
+
+### NOISE: v2-M with future weather, the future weather perturbed (Delhi 2025 test, 3-seed ensemble, MAE)
+
+| Future weather | PM2.5 1h | PM2.5 6h | PM2.5 24h | PM2.5 72h | PM10 1h | PM10 6h | PM10 24h | PM10 72h |
+|---|---|---|---|---|---|---|---|---|
+| ERA5 as is | 15.99 | 27.95 | 32.26 | 36.95 | 28.94 | 45.79 | 58.74 | 65.83 |
+| noise sd 0.25 × √(lead days) | 16.00 | 28.11 | 32.76 | 38.31 | 28.97 | 45.96 | 60.28 | 70.14 |
+| noise sd 0.5 × √(lead days) | 16.04 | 28.77 | 35.11 | 45.03 | 29.11 | 47.23 | 66.18 | 85.10 |
+| noise sd 1.0 × √(lead days) | 16.55 | 33.05 | 45.46 | 60.01 | 30.31 | 55.09 | 86.48 | 109.22 |
+| none (v2-M trained without future weather) | 15.92 | 27.67 | 38.09 | 41.54 | 28.66 | 45.87 | 72.27 | 79.33 |
+
+### Mumbai: fine-tuning with nothing frozen vs backbone frozen
+
+**Validation (2024-01..06), best score per seed (nll + 0.5 × crps; lower is better)**
+
+| Months | backbone frozen s0 / s1 / s2 (mean) | nothing frozen s0 / s1 / s2 (mean) |
+|---|---|---|
+| 6 | 1.9117 / 1.9007 / 1.8993 (1.9039) | 1.9034 / 1.9045 / 1.8869 (1.8983) |
+| 12 | 1.8782 / 1.8795 / 1.8808 (1.8795) | 1.8568 / 1.8668 / 1.8585 (1.8607) |
+
+**Mumbai PM2.5, 6 months of training data (test 2024-07..12)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM fine-tuned, nothing frozen | **6.02** | **9.52** | **11.91** | **14.58** |
+| AQFM fine-tuned, backbone frozen | 6.17 (+0.16, p=0.067) | 10.15 (+0.63, p=0.000) | 12.21 (+0.30, p=0.042) | 14.94 (+0.36, p=0.095) |
+| AQFM from scratch | 5.76 (-0.26, p=0.475) | 9.08 (-0.44, p=0.016) | 11.49 (-0.43, p=0.223) | 14.09 (-0.49, p=0.111) |
+| XGBoost (same months) | 7.06 (+1.05, p=0.015) | 9.61 (+0.08, p=0.949) | 12.62 (+0.70, p=0.236) | 16.62 (+2.04, p=0.148) |
+| Persistence | 4.40 (-1.62, p=0.000) | 9.73 (+0.21, p=0.884) | 11.55 (-0.36, p=0.252) | 16.32 (+1.74, p=0.122) |
+| points | 4093 | 4046 | 4097 | 4094 |
+
+**Mumbai PM10, 6 months of training data (test 2024-07..12)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM fine-tuned, nothing frozen | **9.92** | **20.17** | **24.26** | **29.55** |
+| AQFM fine-tuned, backbone frozen | 9.89 (-0.04, p=0.650) | 20.35 (+0.19, p=0.554) | 24.24 (-0.02, p=0.906) | 29.81 (+0.26, p=0.412) |
+| AQFM from scratch | 10.97 (+1.04, p=0.020) | 20.63 (+0.46, p=0.131) | 25.48 (+1.22, p=0.022) | 30.84 (+1.30, p=0.023) |
+| XGBoost (same months) | 16.15 (+6.22, p=0.000) | 22.57 (+2.40, p=0.000) | 28.58 (+4.32, p=0.000) | 35.83 (+6.28, p=0.000) |
+| Persistence | 10.31 (+0.39, p=0.184) | 24.71 (+4.54, p=0.013) | 26.57 (+2.31, p=0.002) | 35.23 (+5.68, p=0.000) |
+| points | 4067 | 4034 | 4079 | 4074 |
+
+**Mumbai NOx, 6 months of training data (test 2024-07..12)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM fine-tuned, nothing frozen | **4.48** | **7.06** | **8.57** | **10.16** |
+| AQFM fine-tuned, backbone frozen | 4.48 (+0.01, p=0.782) | 6.81 (-0.25, p=0.070) | 8.60 (+0.03, p=0.545) | 10.22 (+0.07, p=0.196) |
+| AQFM from scratch | 4.58 (+0.10, p=0.140) | 6.83 (-0.23, p=0.143) | 9.20 (+0.63, p=0.006) | 10.60 (+0.44, p=0.046) |
+| XGBoost (same months) | 7.06 (+2.58, p=0.000) | 8.63 (+1.57, p=0.000) | 10.07 (+1.50, p=0.000) | 12.89 (+2.73, p=0.000) |
+| Persistence | 4.52 (+0.05, p=0.217) | 8.92 (+1.86, p=0.000) | 9.26 (+0.69, p=0.000) | 11.88 (+1.72, p=0.001) |
+| points | 4201 | 4148 | 4200 | 4186 |
+
+**Mumbai Ozone, 6 months of training data (test 2024-07..12)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM fine-tuned, nothing frozen | **3.57** | **5.94** | **5.90** | **6.62** |
+| AQFM fine-tuned, backbone frozen | 3.55 (-0.02, p=0.472) | 5.99 (+0.04, p=0.187) | 5.92 (+0.02, p=0.219) | 6.63 (+0.01, p=0.487) |
+| AQFM from scratch | 3.71 (+0.14, p=0.000) | 5.90 (-0.05, p=0.463) | 5.99 (+0.09, p=0.104) | 6.72 (+0.10, p=0.030) |
+| XGBoost (same months) | 4.89 (+1.32, p=0.000) | 6.70 (+0.76, p=0.000) | 6.61 (+0.71, p=0.000) | 7.56 (+0.94, p=0.000) |
+| Persistence | 3.55 (-0.02, p=0.913) | 6.75 (+0.81, p=0.014) | 6.98 (+1.08, p=0.000) | 8.53 (+1.91, p=0.000) |
+| points | 4217 | 4174 | 4217 | 4213 |
+
+**Mumbai PM2.5, 12 months of training data (test 2024-07..12)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM fine-tuned, nothing frozen | **5.85** | **9.24** | **11.77** | **14.42** |
+| AQFM fine-tuned, backbone frozen | 6.46 (+0.60, p=0.000) | 10.25 (+1.01, p=0.000) | 12.28 (+0.52, p=0.000) | 14.88 (+0.46, p=0.008) |
+| AQFM from scratch | 5.39 (-0.46, p=0.006) | 8.79 (-0.46, p=0.004) | 11.22 (-0.55, p=0.028) | 14.08 (-0.34, p=0.292) |
+| XGBoost (same months) | 6.88 (+1.02, p=0.026) | 9.04 (-0.20, p=0.449) | 12.24 (+0.47, p=0.436) | 16.62 (+2.20, p=0.107) |
+| Persistence | 4.40 (-1.45, p=0.000) | 9.73 (+0.49, p=0.602) | 11.55 (-0.22, p=0.412) | 16.32 (+1.90, p=0.081) |
+| points | 4093 | 4046 | 4097 | 4094 |
+
+**Mumbai PM10, 12 months of training data (test 2024-07..12)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM fine-tuned, nothing frozen | **9.92** | **19.77** | **24.21** | **29.59** |
+| AQFM fine-tuned, backbone frozen | 9.99 (+0.08, p=0.638) | 20.32 (+0.54, p=0.038) | 24.14 (-0.07, p=0.728) | 29.57 (-0.02, p=0.883) |
+| AQFM from scratch | 10.33 (+0.41, p=0.020) | 20.10 (+0.33, p=0.184) | 24.79 (+0.58, p=0.181) | 30.41 (+0.82, p=0.221) |
+| XGBoost (same months) | 15.94 (+6.03, p=0.000) | 22.67 (+2.90, p=0.000) | 27.26 (+3.05, p=0.000) | 34.36 (+4.77, p=0.001) |
+| Persistence | 10.31 (+0.40, p=0.180) | 24.71 (+4.93, p=0.006) | 26.57 (+2.36, p=0.002) | 35.23 (+5.64, p=0.000) |
+| points | 4067 | 4034 | 4079 | 4074 |
+
+**Mumbai NOx, 12 months of training data (test 2024-07..12)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM fine-tuned, nothing frozen | **4.56** | **7.09** | **8.55** | **10.14** |
+| AQFM fine-tuned, backbone frozen | 4.47 (-0.08, p=0.057) | 6.90 (-0.18, p=0.080) | 8.61 (+0.07, p=0.185) | 10.23 (+0.09, p=0.252) |
+| AQFM from scratch | 4.64 (+0.08, p=0.131) | 7.22 (+0.13, p=0.236) | 8.77 (+0.23, p=0.040) | 10.41 (+0.28, p=0.078) |
+| XGBoost (same months) | 6.81 (+2.25, p=0.000) | 8.25 (+1.16, p=0.000) | 9.69 (+1.14, p=0.000) | 12.17 (+2.03, p=0.000) |
+| Persistence | 4.52 (-0.03, p=0.446) | 8.92 (+1.83, p=0.000) | 9.26 (+0.71, p=0.000) | 11.88 (+1.74, p=0.000) |
+| points | 4201 | 4148 | 4200 | 4186 |
+
+**Mumbai Ozone, 12 months of training data (test 2024-07..12)**
+
+| Model | 1h | 6h | 24h | 72h |
+|---|---|---|---|---|
+| AQFM fine-tuned, nothing frozen | **3.54** | **5.92** | **5.94** | **6.70** |
+| AQFM fine-tuned, backbone frozen | 3.51 (-0.02, p=0.612) | 6.01 (+0.09, p=0.074) | 5.96 (+0.02, p=0.534) | 6.63 (-0.07, p=0.058) |
+| AQFM from scratch | 3.58 (+0.05, p=0.039) | 5.90 (-0.02, p=0.747) | 6.05 (+0.12, p=0.057) | 6.95 (+0.25, p=0.004) |
+| XGBoost (same months) | 4.75 (+1.22, p=0.000) | 6.50 (+0.59, p=0.001) | 6.38 (+0.44, p=0.000) | 7.43 (+0.73, p=0.000) |
+| Persistence | 3.55 (+0.02, p=0.696) | 6.75 (+0.83, p=0.008) | 6.98 (+1.04, p=0.000) | 8.53 (+1.83, p=0.000) |
+| points | 4217 | 4174 | 4217 | 4213 |
+
+**What this says:**
+- **Delhi PM2.5/PM10, against XGBoost run on the same points:**
+  - AQFM v2-M is clearly better at 1 h (p < 0.001, with and without future weather);
+  - at 6 h it is better without future weather (p < 0.001);
+  - at 24 h and 72 h most differences are not significant. The exception is PM10 at 24 h with future weather,
+    where AQFM is better (p = 0.008).
+  - Persistence ties AQFM at 1 h (PM2.5 p ≥ 0.65, PM10 p ≥ 0.26).
+- **The second test year (2024) gives the same picture for PM2.5:**
+  - AQFM is better than XGBoost at 1 h (p < 0.001), and at 6 h without weather (p = 0.031);
+  - at 24–72 h XGBoost is lower, but not significantly (p ≥ 0.19);
+  - persistence ties at 1 h.
+  - Every model's PM2.5 error is higher in 2024 than in 2025. Both the test year and the training data (one year less)
+    differ, so the two cannot be separated.
+- **Ozone and NOx: AQFM v2-M beats XGBoost at every lead, with and without future weather** (p ≤ 0.038). For NOx it
+  also beats persistence at every lead, including 1 h.
+- **NO2 is a weak point in Delhi too:**
+  - XGBoost beats AQFM at every lead (p ≤ 0.004), and persistence wins at 1 h;
+  - AQFM beats persistence only at 6 h and 72 h.
+  - Untested guess at the cause: the model forecasts NOx and the NO share and rebuilds NO2 from them (the Mumbai
+    NO2 note in step 10), so NO2 carries the errors of both.
+  - Report NO2 as a limitation, or fix the representation (not done).
+- **Ablations (one seed; compare with the seed spread in the last row):**
+  - The anchor (last observation) and forecast training matter most. Without them the 1 h error doubles
+    (PM2.5 33.05 and 32.33 vs 16.11), and validation is far worse.
+  - Without BLH, validation is worse by 0.0100 (about 5 × the seed spread). The test differences are mixed in sign
+    and within 1.5 × the seed spread.
+  - No spatial attention: validation +0.0022 (about one seed spread); the test is within the seed spread.
+- **Future weather that is not perfect (NOISE):**
+  - The 1 h forecast changes little (PM2.5 at most +0.56, at sd 1.0).
+  - With noise sd 0.25, the with-weather model still beats the no-weather model at 24 h and 72 h.
+  - At sd 0.5 it is still better at 24 h (PM2.5 35.11 vs 38.09) but worse at 72 h (45.03 vs 41.54).
+  - At sd 1.0 it is worse from 6 h on.
+  - So the gain from future weather at 72 h needs a good weather forecast. Which sd matches a real weather forecast
+    is unknown here: that needs archived forecasts, which this machine doesn't have. The noise is in the model's
+    scaled units: one unit = one standard deviation of that variable's hourly values over the training years
+    (after a log for some variables).
+- **Mumbai, nothing frozen vs backbone frozen:**
+  - **Validation picks nothing frozen** at 12 months (every seed; mean 1.8607 vs 1.8795) and at 6 months on average
+    (1.8983 vs 1.9039; seed 1 is the other way). Both fine-tunes score better on validation than from scratch
+    (1.8822 at 12 months, 1.9334 at 6 months).
+  - With 1–3 months, nothing frozen was not run with this recipe. Stage A, at 3 months and lr 1e-4, had it
+    0.002 behind backbone frozen.
+  - **Test PM2.5: nothing frozen beats backbone frozen** (12 months: every lead, p ≤ 0.008; 6 months: 6 h and 24 h,
+    p ≤ 0.042). It closes about 40–50 % of the gap to from scratch at 24 h.
+  - From scratch is still better on PM2.5 with 12 months at 1, 6 and 24 h (p ≤ 0.028), and with 6 months at 6 h
+    (p = 0.016).
+  - So for PM2.5, validation (all pollutants, NLL and CRPS, 2024 H1) and test (MAE, 2024 H2) disagree on fine-tuned
+    vs from scratch. Report it as it is.
+  - **PM10, NOx and ozone:** nothing frozen ≈ backbone frozen. The only significant difference is PM10 at 12 months,
+    6 h, where nothing frozen is better (p = 0.038). From scratch is never significantly better than nothing frozen,
+    and is worse at several leads. XGBoost is worse in every cell (p ≤ 0.001).
+  - PM2.5 against persistence: persistence still wins at 1 h; tie at 6–72 h.
+
+**New trained models to register (manifest, Drive):** ABL `runs/v2m256_abl_{nospatial,noblh,nolast,gapfillonly}_s0`;
+FOLD `runs/v2m256_fold24{,_nofm}_s{0,1,2}_do03`; Mumbai `runs/mumbai_ft_v2_none_m{6,12}_s{0,1,2}`.
 
 ## Status against §8 "Done when"
 

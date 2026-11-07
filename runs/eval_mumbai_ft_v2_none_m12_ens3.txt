@@ -1,0 +1,11 @@
+  test: forecast; forecasting 28 anchor stations
+  forecast batch 1/317
+  forecast batch 51/317
+  forecast batch 101/317
+  forecast batch 151/317
+  forecast batch 201/317
+  forecast batch 251/317
+  forecast batch 301/317
+PM2.5 {'1h': 5.8548, '6h': 9.2426, '24h': 11.8102, '72h': 14.5024}
+PM10 {'1h': 9.9156, '6h': 19.7709, '24h': 24.2562, '72h': 29.6442}
+saved results/mumbai_ft_v2_none_m12_ens3_results.json

@@ -1,0 +1,10 @@
+[2026-11-07 00:23:11] GPU/CPU job still running - waiting
+[2026-11-07 00:23:41] stage ABL (log runs/paper_ABL_resumed.log)
+[2026-11-07 01:45:07] stage ABL finished
+[2026-11-07 01:45:07] stage FOLD (log runs/paper_FOLD.log)
+[2026-11-07 05:07:18] stage FOLD finished
+[2026-11-07 05:07:18] stage NOISE (log runs/paper_NOISE.log)
+[2026-11-07 05:29:48] stage NOISE finished
+[2026-11-07 05:29:48] start scripts/pipeline_mumbai_unfrozen.sh (log runs/mumbai_unfrozen.log)
+[2026-11-07 06:01:10] unfrozen pipeline exited (0): [2026-11-07 06:01:10] pipeline finished (unfrozen)
+[2026-11-07 06:01:10] resume chain finished
