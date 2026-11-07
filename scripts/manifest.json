@@ -815,8 +815,8 @@
       "run": "python -m aqfm.evaluate --ckpt runs/anneal_s0_wd/best.pt --out results/aqfm_s0_wd_results.json --device cuda --seed 0"
     },
     "baselines/results/classical_results.json": {
-      "what": "Persistence, seasonal naive, climatology, 2025 test",
-      "models": [], "code": "63946a8", "minutes": 5, "cwd": "baselines",
+      "what": "Persistence, seasonal naive, climatology, 2025 test (rerun after the seasonal-naive fix, docs/V2_PROGRESS.md step 13)",
+      "models": [], "code": "08ee3a1", "minutes": 1, "cwd": "baselines",
       "run": "python run_baselines_classical.py"
     },
     "baselines/results/xgboost_results.json": {
@@ -1320,8 +1320,8 @@
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/joint_delhi_mumbai_v2_s0/best.pt runs/joint_delhi_mumbai_v2_s1/best.pt runs/joint_delhi_mumbai_v2_s2/best.pt --out results/delhi_joint_v2_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_classical_results.json": {
-      "what": "Mumbai classical baselines (persistence, seasonal naive, climatology; Delhi's rules), test 2024-07..12",
-      "models": [], "code": "a00d49d", "minutes": 2,
+      "what": "Mumbai classical baselines (persistence, seasonal naive, climatology; Delhi's rules), test 2024-07..12 (rerun after the seasonal-naive fix, docs/V2_PROGRESS.md step 13)",
+      "models": [], "code": "08ee3a1", "minutes": 1,
       "run": "python scripts/city_baselines.py --data data/mumbai --test-start 2024-07-01 --out results/mumbai_classical_results.json"
     },
     "results/mumbai_xgboost_results.json": {
