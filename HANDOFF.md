@@ -15,7 +15,8 @@ Read this first, then `CLAUDE.md`. For detail, use:
   (2024); future weather with noise.
 - Mumbai: fine-tuning with nothing frozen.
 - The spatial ablations were dropped by the user: the spatial part is for any city's station layout, not accuracy.
-- New weak point: **NO2**. XGBoost beats AQFM at every lead in Delhi too.
+- New weak point: **NO2**. XGBoost beat AQFM at every lead in Delhi too. Fixed in step 12 (2026-11-07):
+  forecasting NO2 directly (`--no2-direct`), v2-M is now ahead of XGBoost at every lead (significant at 1 h and 6 h).
 
 ---
 
@@ -270,7 +271,7 @@ cd /home/phalak/aqfm/reports/aqfm_v2 && ../../.venv/bin/python make_report.py &&
 | Error by month or season; error share by AQI band (a figure) | the plateau argument | numbers exist (`by_month`, `by_band` at 24 h in `results/paper/delhi_*_weather.json`); figure not made |
 | Stage H risks: train without 2020 (COVID); station type. ~~A second test year~~ done (FOLD, step 11: same picture as 2025) | reviewers will ask | ~1–2 h GPU each |
 | Forecast-weather caveat: ERA5 is the weather that happened (best case) | must be stated; the noise test is done (NOISE, step 11): the 72 h gain needs a good weather forecast | text |
-| NO2: XGBoost beats AQFM at every lead (Delhi; step 11). User, 2026-11-07: fix it. `--no2-direct` committed; trial better on validation (V2_PROGRESS step 12); the 6 v2-M models retraining (RUNBOOK §4.1) | the fix | ~4 h GPU, running |
+| ~~NO2: XGBoost beats AQFM at every lead (Delhi; step 11)~~ fixed (step 12): the 6 v2-M models retrained with `--no2-direct`; NO2 better than before at every lead and ahead of XGBoost (significant at 1 h and 6 h); other pollutants unchanged. Decision (2026-11-07): these are the paper's main v2-M models (V2_PROGRESS step 12) | the fix | — |
 
 **Writing:**
 - Literature review (G1).

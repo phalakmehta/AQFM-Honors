@@ -12,6 +12,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 16.14 ± 0.09 | 28.27 ± 0.32 | 32.76 ± 0.81 | 37.36 ± 0.46 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 15.92 | 27.67 | 38.09 | 41.54 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 16.00 ± 0.17 | 28.01 ± 0.50 | 38.80 ± 1.13 | 42.62 ± 0.60 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 15.80 | 27.79 | 32.17 | 36.33 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 16.36 ± 0.71 | 28.07 ± 0.07 | 32.86 ± 1.37 | 37.22 ± 1.39 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 15.86 | 27.81 | 37.67 | 42.14 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 15.97 ± 0.06 | 28.04 ± 0.48 | 37.98 ± 0.45 | 42.55 ± 0.43 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 16.37 | 28.29 | 33.90 | 37.44 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 16.59 ± 0.25 | 28.77 ± 0.66 | 34.48 ± 0.24 | 38.27 ± 0.54 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 16.35 | 29.08 | 38.43 | 42.40 | `results/v2_nofm_ens3_results.json` |
@@ -56,6 +60,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 33.62 ± 0.24 | 46.94 ± 0.05 | 56.04 ± 1.43 | 63.83 ± 0.78 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 34.34 | 46.94 | 64.11 | 68.90 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 34.49 ± 0.40 | 47.36 ± 0.90 | 65.15 ± 0.90 | 70.58 ± 0.14 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 33.71 | 47.04 | 55.07 | 62.73 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 34.37 ± 1.25 | 47.37 ± 0.32 | 56.18 ± 1.75 | 63.89 ± 1.98 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 34.35 | 47.56 | 63.64 | 70.95 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 34.51 ± 0.21 | 47.86 ± 0.73 | 64.13 ± 0.65 | 71.57 ± 1.12 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 34.07 | 47.43 | 57.41 | 64.02 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 34.34 ± 0.49 | 48.08 ± 0.32 | 58.48 ± 0.66 | 65.41 ± 1.19 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 34.33 | 47.71 | 63.65 | 70.06 | `results/v2_nofm_ens3_results.json` |
@@ -100,6 +108,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 29.03 ± 0.13 | 46.30 ± 0.92 | 59.65 ± 1.33 | 66.66 ± 1.08 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 28.66 | 45.87 | 72.27 | 79.33 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 28.68 ± 0.09 | 46.34 ± 0.64 | 73.20 ± 1.52 | 80.90 ± 0.76 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 29.00 | 45.74 | 59.03 | 65.49 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 29.41 ± 0.97 | 46.22 ± 0.61 | 60.40 ± 2.73 | 67.33 ± 3.04 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 28.72 | 46.38 | 72.26 | 80.59 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 28.80 ± 0.15 | 46.67 ± 0.45 | 72.73 ± 0.54 | 81.20 ± 0.39 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 29.42 | 46.33 | 61.25 | 67.18 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 29.71 ± 0.13 | 47.01 ± 0.93 | 62.66 ± 0.29 | 69.00 ± 1.50 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 29.20 | 48.30 | 72.83 | 81.22 | `results/v2_nofm_ens3_results.json` |
@@ -144,6 +156,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 49.39 ± 0.35 | 70.39 ± 0.59 | 85.89 ± 1.84 | 95.56 ± 1.54 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 49.18 | 70.09 | 102.84 | 110.26 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 49.22 ± 0.26 | 70.75 ± 1.13 | 104.48 ± 1.35 | 112.69 ± 0.16 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 49.50 | 69.87 | 84.82 | 94.22 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 50.01 ± 1.33 | 70.45 ± 0.39 | 87.23 ± 3.46 | 96.79 ± 4.24 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 49.45 | 70.99 | 103.30 | 113.44 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 49.49 ± 0.43 | 71.43 ± 0.68 | 104.14 ± 0.72 | 114.31 ± 1.24 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 49.72 | 70.19 | 87.50 | 95.56 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 50.04 ± 0.12 | 71.14 ± 0.73 | 89.84 ± 0.80 | 98.61 ± 2.10 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 49.67 | 72.09 | 102.98 | 113.03 | `results/v2_nofm_ens3_results.json` |
@@ -188,6 +204,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 13.1 ± 0.7 | 14.1 ± 0.4 | 23.1 ± 0.4 | 31.4 ± 0.9 | 44.8 ± 1.7 | 88.4 ± 2.8 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 17.5 | 17.5 | 24.5 | 36.1 | 50.0 | 105.1 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 17.7 ± 1.4 | 17.7 ± 1.2 | 25.0 ± 1.3 | 36.5 ± 2.0 | 51.6 ± 4.4 | 106.1 ± 3.8 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 13.3 | 13.3 | 22.1 | 31.3 | 43.9 | 88.0 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 13.4 ± 0.1 | 13.6 ± 0.1 | 22.5 ± 0.4 | 31.7 ± 2.0 | 45.5 ± 4.6 | 89.2 ± 1.0 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 16.4 | 16.4 | 23.8 | 37.0 | 49.4 | 106.2 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 16.6 ± 0.7 | 16.5 ± 0.6 | 24.1 ± 0.7 | 37.0 ± 2.2 | 50.2 ± 2.7 | 106.4 ± 3.0 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 13.8 | 14.5 | 23.2 | 34.3 | 47.8 | 88.3 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 14.0 ± 0.3 | 14.7 ± 0.5 | 23.8 ± 0.8 | 34.6 ± 0.5 | 49.1 ± 0.6 | 89.2 ± 0.2 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 19.2 | 18.4 | 24.3 | 35.2 | 51.0 | 102.7 | `results/v2_nofm_ens3_results.json` |
@@ -232,6 +252,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 12.15 ± 0.08 | 20.41 ± 0.22 | 23.99 ± 0.62 | 27.21 ± 0.30 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 12.12 | 20.30 | 27.84 | 30.70 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 12.18 ± 0.09 | 20.53 ± 0.32 | 28.32 ± 0.68 | 31.39 ± 0.45 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 12.02 | 20.11 | 23.54 | 26.57 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 12.31 ± 0.41 | 20.33 ± 0.07 | 24.02 ± 0.97 | 27.15 ± 1.04 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 12.04 | 20.31 | 27.50 | 31.10 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 12.11 ± 0.03 | 20.48 ± 0.30 | 27.70 ± 0.24 | 31.37 ± 0.43 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 12.43 | 20.50 | 24.80 | 27.52 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 12.55 ± 0.18 | 20.87 ± 0.38 | 25.23 ± 0.24 | 28.08 ± 0.45 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 12.42 | 21.38 | 28.11 | 31.35 | `results/v2_nofm_ens3_results.json` |
@@ -259,6 +283,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 0.929 ± 0.003 | 0.903 ± 0.003 | 0.887 ± 0.011 | 0.883 ± 0.009 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 0.939 | 0.921 | 0.910 | 0.929 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 0.935 ± 0.006 | 0.912 ± 0.007 | 0.901 ± 0.008 | 0.919 ± 0.007 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.938 | 0.919 | 0.913 | 0.914 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.931 ± 0.001 | 0.910 ± 0.017 | 0.902 ± 0.014 | 0.903 ± 0.011 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.935 | 0.916 | 0.911 | 0.920 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.933 ± 0.005 | 0.912 ± 0.005 | 0.908 ± 0.006 | 0.916 ± 0.006 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 0.935 | 0.918 | 0.899 | 0.904 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 0.931 ± 0.005 | 0.906 ± 0.010 | 0.889 ± 0.010 | 0.893 ± 0.012 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 0.934 | 0.917 | 0.905 | 0.919 | `results/v2_nofm_ens3_results.json` |
@@ -286,6 +314,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 0.964 ± 0.003 | 0.946 ± 0.004 | 0.935 ± 0.005 | 0.932 ± 0.007 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 0.966 | 0.955 | 0.951 | 0.963 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 0.966 ± 0.003 | 0.950 ± 0.003 | 0.946 ± 0.007 | 0.958 ± 0.003 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.967 | 0.956 | 0.955 | 0.952 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.964 ± 0.002 | 0.950 ± 0.011 | 0.945 ± 0.008 | 0.946 ± 0.008 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.965 | 0.954 | 0.952 | 0.959 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.965 ± 0.002 | 0.952 ± 0.002 | 0.950 ± 0.006 | 0.955 ± 0.003 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 0.965 | 0.955 | 0.942 | 0.946 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 0.964 ± 0.003 | 0.948 ± 0.007 | 0.936 ± 0.009 | 0.937 ± 0.010 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 0.965 | 0.954 | 0.949 | 0.958 | `results/v2_nofm_ens3_results.json` |
@@ -313,6 +345,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 21.44 ± 0.11 | 33.31 ± 0.64 | 43.13 ± 0.92 | 48.04 ± 0.67 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 21.20 | 33.22 | 51.94 | 57.34 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 21.25 ± 0.07 | 33.63 ± 0.44 | 52.72 ± 0.83 | 58.43 ± 0.45 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 21.43 | 32.80 | 42.64 | 47.20 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 21.67 ± 0.63 | 33.24 ± 0.45 | 43.66 ± 1.97 | 48.45 ± 2.19 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 21.25 | 33.45 | 51.92 | 58.38 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 21.31 ± 0.12 | 33.72 ± 0.32 | 52.30 ± 0.31 | 58.79 ± 0.47 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 21.80 | 33.37 | 44.35 | 48.52 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 21.99 ± 0.12 | 33.89 ± 0.58 | 45.33 ± 0.24 | 49.82 ± 1.04 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 21.62 | 35.08 | 52.52 | 58.94 | `results/v2_nofm_ens3_results.json` |
@@ -340,6 +376,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 0.891 ± 0.003 | 0.874 ± 0.004 | 0.854 ± 0.013 | 0.852 ± 0.011 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 0.902 | 0.903 | 0.895 | 0.916 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 0.898 ± 0.009 | 0.897 ± 0.007 | 0.884 ± 0.010 | 0.905 ± 0.008 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.898 | 0.898 | 0.891 | 0.890 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.893 ± 0.005 | 0.882 ± 0.022 | 0.875 ± 0.013 | 0.876 ± 0.017 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.895 | 0.900 | 0.890 | 0.901 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.894 ± 0.003 | 0.894 ± 0.003 | 0.887 ± 0.009 | 0.899 ± 0.004 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 0.907 | 0.893 | 0.870 | 0.875 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 0.899 ± 0.011 | 0.879 ± 0.010 | 0.854 ± 0.011 | 0.857 ± 0.009 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 0.905 | 0.899 | 0.886 | 0.902 | `results/v2_nofm_ens3_results.json` |
@@ -367,6 +407,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 0.941 ± 0.000 | 0.929 ± 0.003 | 0.917 ± 0.007 | 0.915 ± 0.009 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 0.949 | 0.948 | 0.942 | 0.960 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 0.945 ± 0.003 | 0.942 ± 0.004 | 0.936 ± 0.005 | 0.954 ± 0.005 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.946 | 0.946 | 0.939 | 0.942 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.943 ± 0.002 | 0.936 ± 0.016 | 0.929 ± 0.011 | 0.933 ± 0.012 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.945 | 0.946 | 0.941 | 0.953 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.943 ± 0.002 | 0.944 ± 0.001 | 0.938 ± 0.006 | 0.948 ± 0.003 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 0.949 | 0.942 | 0.928 | 0.931 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 0.947 ± 0.007 | 0.932 ± 0.009 | 0.916 ± 0.009 | 0.920 ± 0.008 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 0.953 | 0.947 | 0.939 | 0.952 | `results/v2_nofm_ens3_results.json` |
@@ -394,6 +438,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 0.713 ± 0.018 | 0.761 ± 0.007 | 0.736 ± 0.007 | 0.680 ± 0.001 | 0.746 ± 0.011 | 0.712 ± 0.004 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 0.652 | 0.645 | 0.649 | 0.622 | 0.582 | 0.602 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 0.645 ± 0.038 | 0.632 ± 0.047 | 0.636 ± 0.004 | 0.625 ± 0.042 | 0.580 ± 0.069 | 0.598 ± 0.019 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 0.714 | 0.744 | 0.729 | 0.682 | 0.741 | 0.710 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 0.706 ± 0.035 | 0.741 ± 0.028 | 0.722 ± 0.006 | 0.667 ± 0.032 | 0.736 ± 0.028 | 0.699 ± 0.009 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 0.655 | 0.600 | 0.626 | 0.623 | 0.541 | 0.579 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 0.652 ± 0.029 | 0.598 ± 0.037 | 0.623 ± 0.006 | 0.616 ± 0.027 | 0.535 ± 0.061 | 0.570 ± 0.025 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 0.674 | 0.780 | 0.723 | 0.665 | 0.762 | 0.711 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 0.674 ± 0.003 | 0.778 ± 0.004 | 0.722 ± 0.003 | 0.662 ± 0.007 | 0.759 ± 0.016 | 0.707 ± 0.006 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 0.640 | 0.656 | 0.648 | 0.615 | 0.565 | 0.589 | `results/v2_nofm_ens3_results.json` |
@@ -421,6 +469,10 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | AQFM v2-M single model, mean ± std (3 seeds) | 31.23 ± 0.43 | 36.29 ± 0.00 | 56.04 ± 0.85 | 66.66 ± 0.00 | `results/v2m256_seeds_stats.json` |
 | AQFM v2-M no future met, ensemble (3 seeds) | 32.67 | 36.29 | 60.07 | 66.66 | `results/v2m256_nofm_ens3_results.json` |
 | AQFM v2-M no future met, mean ± std (3 seeds) | 33.20 ± 0.49 | 36.29 ± 0.00 | 60.84 ± 0.86 | 66.66 ± 0.00 | `results/v2m256_nofm_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, ensemble (3 seeds) | 30.08 | 36.29 | 54.82 | 66.66 | `results/v2m256_no2d_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds) | 30.84 ± 0.70 | 36.29 ± 0.00 | 56.31 ± 1.19 | 66.66 ± 0.00 | `results/v2m256_no2d_seeds_stats.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds) | 32.57 | 36.29 | 59.56 | 66.66 | `results/v2m256_no2d_nofm_ens3_results.json` |
+| AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds) | 33.51 ± 0.99 | 36.29 ± 0.00 | 60.89 ± 1.72 | 66.66 ± 0.00 | `results/v2m256_no2d_nofm_seeds_stats.json` |
 | AQFM v2 ensemble (3 seeds; 1.17M) | 29.77 | 36.29 | 54.65 | 66.66 | `results/v2_ens3_results.json` |
 | AQFM v2 single model, mean ± std (3 seeds) | 30.38 ± 0.35 | 36.29 ± 0.00 | 55.62 ± 0.72 | 66.66 ± 0.00 | `results/v2_seeds_stats.json` |
 | AQFM v2 no future met, ensemble (3 seeds) | 32.47 | 36.29 | 59.68 | 66.66 | `results/v2_nofm_ens3_results.json` |
@@ -515,6 +567,12 @@ The seed-noise row gives the std over seeds 0/1/2 of the full model: a change sm
 | v2m256_fold24_s0_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 0 | 1.7062 | 7000 | 10 | `runs/v2m256_fold24_s0_do03/log.jsonl` |
 | v2m256_fold24_s1_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 1 | 1.6996 | 11000 | 12 | `runs/v2m256_fold24_s1_do03/log.jsonl` |
 | v2m256_fold24_s2_do03 | v2 city preset, width 256, validation 2023, test 2024 | 0.3 | 2 | 1.7013 | 12000 | 12 | `runs/v2m256_fold24_s2_do03/log.jsonl` |
+| v2m256_no2d_nofm_s0_do03 | v2 city preset, width 256, no future met, NO2 predicted directly | 0.3 | 0 | 1.8035 | 10000 | 12 | `runs/v2m256_no2d_nofm_s0_do03/log.jsonl` |
+| v2m256_no2d_nofm_s1_do03 | v2 city preset, width 256, no future met, NO2 predicted directly | 0.3 | 1 | 1.8016 | 11000 | 12 | `runs/v2m256_no2d_nofm_s1_do03/log.jsonl` |
+| v2m256_no2d_nofm_s2_do03 | v2 city preset, width 256, no future met, NO2 predicted directly | 0.3 | 2 | 1.8007 | 12000 | 12 | `runs/v2m256_no2d_nofm_s2_do03/log.jsonl` |
+| v2m256_no2d_s0_do03 | v2 city preset, width 256, NO2 predicted directly | 0.3 | 0 | 1.7495 | 5000 | 8 | `runs/v2m256_no2d_s0_do03/log.jsonl` |
+| v2m256_no2d_s1_do03 | v2 city preset, width 256, NO2 predicted directly | 0.3 | 1 | 1.7350 | 12000 | 12 | `runs/v2m256_no2d_s1_do03/log.jsonl` |
+| v2m256_no2d_s2_do03 | v2 city preset, width 256, NO2 predicted directly | 0.3 | 2 | 1.7358 | 11000 | 12 | `runs/v2m256_no2d_s2_do03/log.jsonl` |
 | v2m256_nofm_s0_do03 | v2 city preset, width 256, no future met | 0.3 | 0 | 1.7928 | 10000 | 12 | `runs/v2m256_nofm_s0_do03/log.jsonl` |
 | v2m256_nofm_s1_do03 | v2 city preset, width 256, no future met | 0.3 | 1 | 1.7898 | 11000 | 12 | `runs/v2m256_nofm_s1_do03/log.jsonl` |
 | v2m256_nofm_s2_do03 | v2 city preset, width 256, no future met | 0.3 | 2 | 1.7865 | 11000 | 12 | `runs/v2m256_nofm_s2_do03/log.jsonl` |
@@ -522,7 +580,7 @@ The seed-noise row gives the std over seeds 0/1/2 of the full model: a change sm
 | v2m256_s1_do03 | v2 city preset, width 256 | 0.3 | 1 | 1.7248 | 12000 | 12 | `runs/v2m256_s1_do03/log.jsonl` |
 | v2m256_s2_do03 | v2 city preset, width 256 | 0.3 | 2 | 1.7286 | 11000 | 12 | `runs/v2m256_s2_do03/log.jsonl` |
 
-Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column.
+Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column. Runs that predict PM2.5 or NO2 directly are scored on a different set of outputs, so their score is not comparable with the other runs'.
 
 ## Mumbai test (2024-07-01 .. 12-31): PM2.5 MAE (µg/m³)
 
@@ -653,7 +711,7 @@ Fine-tuned / from scratch / XGBoost use only the last N months of 2023; the clas
 | mumbai_stageA_ft_v2m_encoder_m3_s0 | v2 city preset, width 256, fine-tune (freeze encoder, 3 months), no future met | 0.3 | 0 | 1.9470 | 250 | 5 | `runs/mumbai_stageA_ft_v2m_encoder_m3_s0/log.jsonl` |
 | mumbai_stageA_ft_v2m_none_m3_s0 | v2 city preset, width 256, fine-tune (freeze none, 3 months), no future met | 0.3 | 0 | 1.9551 | 500 | 6 | `runs/mumbai_stageA_ft_v2m_none_m3_s0/log.jsonl` |
 
-Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column.
+Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column. Runs that predict PM2.5 or NO2 directly are scored on a different set of outputs, so their score is not comparable with the other runs'.
 
 ## Joint Delhi + Mumbai validation (2024-01-01 .. 06-30): best selection score per run (lower is better)
 
@@ -663,4 +721,4 @@ Runs with fewer than 2 validations (short test launches) are left out. `change`:
 | joint_delhi_mumbai_v2_s1 | v2 city preset, width 128, no future met | 0.3 | 1 | 1.7888 | 12000 | 12 | `runs/joint_delhi_mumbai_v2_s1/log.jsonl` |
 | joint_delhi_mumbai_v2_s2 | v2 city preset, width 128, no future met | 0.3 | 2 | 1.7881 | 12000 | 12 | `runs/joint_delhi_mumbai_v2_s2/log.jsonl` |
 
-Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column.
+Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column. Runs that predict PM2.5 or NO2 directly are scored on a different set of outputs, so their score is not comparable with the other runs'.

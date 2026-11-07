@@ -717,6 +717,54 @@
       "sha256": "cff55c30c206a21082a8ce3bacc980d0aa19d2d10ec4dbe54525363ee552df00",
       "code": "c07d55a",
       "train": "python -m aqfm.train --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --out runs/mumbai_ft_v2_none_m12_s2 --device cuda --batch-size 8 --weight-decay 0.05 --compile --phase finetune --steps 6000 --warmup 100 --val-every 50 --patience 8 --lr 3e-5 --init runs/v2_nofm_s2_do03/best.pt --freeze none --train-months 12 --seed 2"
+    },
+    "aqfm_v2m_no2d_s0": {
+      "what": "v2-M (4.57M), NO2 forecast directly (--no2-direct), dropout 0.3, seed 0; otherwise as aqfm_v2m_s0; best at step 5000",
+      "path": "runs/v2m256_no2d_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_s0.pt",
+      "sha256": "c1cc02c5a6e8f16dcea41ba2bc804a1d5db27838b874f47915895fb7084578a0",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct"
+    },
+    "aqfm_v2m_no2d_s1": {
+      "what": "v2-M (4.57M), NO2 forecast directly (--no2-direct), dropout 0.3, seed 1; otherwise as aqfm_v2m_s1; best at step 12000",
+      "path": "runs/v2m256_no2d_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_s1.pt",
+      "sha256": "228c978b794ee59933138864eabf4d03f3fbcb6a2f4c1cbbd3e0aff03e235bc5",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct"
+    },
+    "aqfm_v2m_no2d_s2": {
+      "what": "v2-M (4.57M), NO2 forecast directly (--no2-direct), dropout 0.3, seed 2; otherwise as aqfm_v2m_s2; best at step 11000",
+      "path": "runs/v2m256_no2d_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_s2.pt",
+      "sha256": "31df18b31453fdc74772a4f73aa28fc29b170e846cdfbf951b94e08e713f7878",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct"
+    },
+    "aqfm_v2m_no2d_nofm_s0": {
+      "what": "v2-M (4.57M) WITHOUT future weather, NO2 forecast directly (--no2-direct), dropout 0.3, seed 0; otherwise as aqfm_v2m_nofm_s0; best at step 10000",
+      "path": "runs/v2m256_no2d_nofm_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_nofm_s0.pt",
+      "sha256": "905ae151a9dc0e74bcb7a6e32c3b4e2126e3521ed4d2106dd0b17b250c31cd7a",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_nofm_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met"
+    },
+    "aqfm_v2m_no2d_nofm_s1": {
+      "what": "v2-M (4.57M) WITHOUT future weather, NO2 forecast directly (--no2-direct), dropout 0.3, seed 1; otherwise as aqfm_v2m_nofm_s1; best at step 11000",
+      "path": "runs/v2m256_no2d_nofm_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_nofm_s1.pt",
+      "sha256": "f167124c617ede9c17d458d88a9adc582d49eaa0acd6a04160c77b4038c94bbf",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_nofm_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met"
+    },
+    "aqfm_v2m_no2d_nofm_s2": {
+      "what": "v2-M (4.57M) WITHOUT future weather, NO2 forecast directly (--no2-direct), dropout 0.3, seed 2; otherwise as aqfm_v2m_nofm_s2; best at step 12000",
+      "path": "runs/v2m256_no2d_nofm_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m_no2d_nofm_s2.pt",
+      "sha256": "f0d7e63d95f5500ef824d7b95cb75c5c883f29566217269e1d03f293d860cc6b",
+      "code": "d34609e",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met"
     }
   },
 
@@ -1350,6 +1398,56 @@
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months, pooled 3-seed ensemble; test 2024-07..12",
       "models": ["aqfm_v2_mumbai_ftnone_m12_s0", "aqfm_v2_mumbai_ftnone_m12_s1", "aqfm_v2_mumbai_ftnone_m12_s2"], "code": "c07d55a", "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s0/best.pt runs/mumbai_ft_v2_none_m12_s1/best.pt runs/mumbai_ft_v2_none_m12_s2/best.pt --out results/mumbai_ft_v2_none_m12_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_s0_results.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly, seed 0, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_s0"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s0_do03/best.pt --out results/v2m256_no2d_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_s1_results.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly, seed 1, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_s1"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s1_do03/best.pt --out results/v2m256_no2d_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_s2_results.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly, seed 2, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_s2"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s2_do03/best.pt --out results/v2m256_no2d_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_seeds_stats.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "d34609e", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256_no2d_seeds_stats.json results/v2m256_no2d_s0_results.json results/v2m256_no2d_s1_results.json results/v2m256_no2d_s2_results.json"
+    },
+    "results/v2m256_no2d_ens3_results.json": {
+      "what": "v2-M (4.57M), NO2 forecast directly, pooled 3-seed ensemble, 2025 test; PM2.5, PM10, ozone, NOx, NO2 (the pipeline also passed --save-forecasts results/forecasts/delhi_v2m256_no2d_ens3.npz, which only writes that file)",
+      "models": ["aqfm_v2m_no2d_s0", "aqfm_v2m_no2d_s1", "aqfm_v2m_no2d_s2"], "code": "d34609e", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s0_do03/best.pt runs/v2m256_no2d_s1_do03/best.pt runs/v2m256_no2d_s2_do03/best.pt --out results/v2m256_no2d_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_nofm_s0_results.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 0, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_nofm_s0"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s0_do03/best.pt --out results/v2m256_no2d_nofm_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_nofm_s1_results.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 1, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_nofm_s1"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s1_do03/best.pt --out results/v2m256_no2d_nofm_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_nofm_s2_results.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 2, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
+      "models": ["aqfm_v2m_no2d_nofm_s2"], "code": "d34609e", "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s2_do03/best.pt --out results/v2m256_no2d_nofm_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256_no2d_nofm_seeds_stats.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly: mean and std (ddof=1) over seeds 0/1/2 of every metric",
+      "models": [], "code": "d34609e", "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256_no2d_nofm_seeds_stats.json results/v2m256_no2d_nofm_s0_results.json results/v2m256_no2d_nofm_s1_results.json results/v2m256_no2d_nofm_s2_results.json"
+    },
+    "results/v2m256_no2d_nofm_ens3_results.json": {
+      "what": "v2-M (4.57M) without future weather, NO2 forecast directly, pooled 3-seed ensemble, 2025 test; PM2.5, PM10, ozone, NOx, NO2 (the pipeline also passed --save-forecasts results/forecasts/delhi_v2m256_no2d_nofm_ens3.npz, which only writes that file)",
+      "models": ["aqfm_v2m_no2d_nofm_s0", "aqfm_v2m_no2d_nofm_s1", "aqfm_v2m_no2d_nofm_s2"], "code": "d34609e", "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s0_do03/best.pt runs/v2m256_no2d_nofm_s1_do03/best.pt runs/v2m256_no2d_nofm_s2_do03/best.pt --out results/v2m256_no2d_nofm_ens3_results.json --device cuda --seed 0"
     }
   }
 }

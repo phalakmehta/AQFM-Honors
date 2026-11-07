@@ -25,6 +25,10 @@ ROWS = [
     ("AQFM v2-M single model, mean ± std (3 seeds)", "results/v2m256_seeds_stats.json", None),
     ("AQFM v2-M no future met, ensemble (3 seeds)", "results/v2m256_nofm_ens3_results.json", None),
     ("AQFM v2-M no future met, mean ± std (3 seeds)", "results/v2m256_nofm_seeds_stats.json", None),
+    ("AQFM v2-M, NO2 predicted directly, ensemble (3 seeds)", "results/v2m256_no2d_ens3_results.json", None),
+    ("AQFM v2-M, NO2 predicted directly, mean ± std (3 seeds)", "results/v2m256_no2d_seeds_stats.json", None),
+    ("AQFM v2-M, NO2 predicted directly, no future met, ensemble (3 seeds)", "results/v2m256_no2d_nofm_ens3_results.json", None),
+    ("AQFM v2-M, NO2 predicted directly, no future met, mean ± std (3 seeds)", "results/v2m256_no2d_nofm_seeds_stats.json", None),
     ("AQFM v2 ensemble (3 seeds; 1.17M)", "results/v2_ens3_results.json", None),
     ("AQFM v2 single model, mean ± std (3 seeds)", "results/v2_seeds_stats.json", None),
     ("AQFM v2 no future met, ensemble (3 seeds)", "results/v2_nofm_ens3_results.json", None),
@@ -208,6 +212,7 @@ def change_label(cfg):
         ("no spatial attention", not c["use_spatial_attention"]),
         (f"{c['spatial_bias']}-only spatial bias", c["use_spatial_attention"] and c["spatial_bias"] != "wind"),
         ("PM2.5 predicted directly", "PM_FRAC" not in c["target_channels"]),
+        ("NO2 predicted directly", "NOX_FRAC" not in c["target_channels"]),
         ("gap-filling only", not c["forecast_targets_always"]),
         ("validation 2023, test 2024", a.get("val_year", 2024) != 2024)) if on]
     return ", ".join(parts) or "–"
@@ -245,7 +250,9 @@ def validation_table(city="delhi"):
                    f"{len(vals)} | `runs/{run}/log.jsonl` |")
     return out + ["", "Runs with fewer than 2 validations (short test launches) are left out. `change`: what differs "
                       "from the final recipe (anchor, 12k-step cosine schedule, weight decay 0.05, patience 3, future "
-                      "met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column.",
+                      "met, BLH, wind-aware spatial attention, PM10 × fraction, mixed masking); dropout is its own column. "
+                      "Runs that predict PM2.5 or NO2 directly are scored on a different set of outputs, so their "
+                      "score is not comparable with the other runs'.",
                   ""]
 
 
