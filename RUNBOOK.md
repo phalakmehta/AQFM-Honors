@@ -89,13 +89,26 @@ check it.
 
 ### 4.1 Next
 
-1. **Paper decisions for the user** (findings in `docs/V2_PROGRESS.md` step 11):
-   - NO2: XGBoost beats AQFM in Delhi at every lead. Report it as a limitation, or fix the NO2 representation; the
-     fix needs a code change and retraining.
+1. **NO2 fix (user, 2026-11-07: "try to fix it").**
+   - Cause: NO2 is rebuilt from NOx and the NO share. The NO share is valid for only 58% of training NO2 readings
+     (at 10 stations for at most 15%), and at some stations NO2 rose above NOx in 2025. Rebuilt NO2 cannot exceed
+     NOx, so it is under-forecast there.
+   - Fix: `aqfm/train.py --no2-direct` (NO2 is its own output in place of the NO share) and `aqfm/evaluate.py` reads
+     it. New test in `tests/test_aqfm.py`; 92 tests pass. Committed (user chose "NO2 runs after trial").
+   - Trial (v2-M with weather, seed 0; `/home/phalak/aqfm/explore/`): better on validation 2024 for NO2 at every
+     lead, other pollutants about equal (`docs/V2_PROGRESS.md` step 12). Adopted.
+   - **Running (started 2026-11-07 ~11:50, ~4 h):** `scripts/pipeline_no2_direct.sh`, log `runs/no2_direct.log`. It
+     trains `runs/v2m256_no2d{,_nofm}_s{0,1,2}_do03`, writes `results/v2m256_no2d*_results.json`, seed stats,
+     ensembles (forecasts saved) and `results/paper/delhi_*_no2d.json`. Check: the log ends with `pipeline
+     finished`; every training ends with `done`; the results record a clean commit.
+   - Then: register the 6 models and their results in the manifest, add rows to `scripts/make_tables.py`, copy the
+     models to the Drive folder, update the report (`/home/phalak/aqfm/reports/`).
+2. **Paper decisions for the user** (findings in `docs/V2_PROGRESS.md` step 11):
+   - Virtual sensing: **dropped** (user, 2026-11-07). It is not part of the paper's claims.
    - Mumbai: validation picks "nothing frozen" for 6 and 12 months. Make it the headline fine-tune for those amounts,
      with backbone frozen kept for 1–3 months (nothing frozen was not run there)?
    - Mumbai PM2.5: validation and test disagree on fine-tuned vs from scratch. Report it as it is.
-2. **Optional:** FOLD with weather, seed 2, peaked at its last step (12,000). A longer run would tell whether that
+3. **Optional:** FOLD with weather, seed 2, peaked at its last step (12,000). A longer run would tell whether that
    budget mattered (~30 min GPU; ask first).
 
 ### 4.2 Paper experiments (`scripts/pipeline_paper_extras.sh`; each stage is separate; ask the user before starting)
@@ -127,7 +140,7 @@ Then:
 ### 4.3 Later (decide with the user)
 
 - **O3/NO2/NOx for PatchTST and E-STGCN:** `docs/plan_o3_no2.md`. AQFM, XGBoost and the classical baselines are covered by stage `SAVE` (`--targets`).
-- **Virtual-sensing fix,** or report it as a limitation.
+- ~~Virtual-sensing fix~~ dropped (user, 2026-11-07).
 - **Stage-H robustness:** training without 2020 (`--train-months` does not do this; it needs a new option).
 - **The final `python scripts/check_submission.py --reproduce`:** last, over 10 h; ask first.
 

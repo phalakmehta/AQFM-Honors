@@ -646,3 +646,23 @@ def test_ablation_flags_reach_the_config(tmp_path, monkeypatch):
     cfg = json.load(open(tmp_path / "config.json"))["cfg"]
     assert cfg["use_blh"] is False and cfg["p_tail_mask"] == 0.0 and cfg["forecast_targets_always"] is False
     assert cfg["target_channels"][:2] == ["PM10", "PM2.5"] and "PM_FRAC" not in cfg["target_channels"]
+
+
+def test_no2_direct_is_its_own_output(tmp_path, monkeypatch):
+    """--no2-direct: NO2 replaces the NO share as a target (with --pm25-direct too), and evaluation reads NO2
+    from its own slot instead of rebuilding it from NOx."""
+    import json
+    from aqfm import train
+    from aqfm.evaluate import _to_targets
+    monkeypatch.setattr(sys, "argv", [
+        "train", "--synthetic", "--small", "--steps", "1", "--batch-size", "2", "--val-windows", "2",
+        "--device", "cpu", "--out", str(tmp_path), "--no2-direct", "--pm25-direct"])
+    train.main()
+    tc = tuple(json.load(open(tmp_path / "config.json"))["cfg"]["target_channels"])
+    assert tc == ("PM10", "PM2.5", "NOx", "NO2", "Ozone", "SO2", "CO", "NH3")
+    cfg = AQFMConfig.small(target_channels=tc)
+    assert cfg.physical_pairs() == []
+    samp = torch.randn(5, 2, len(tc), 7)
+    out = _to_targets(cfg, samp)
+    assert torch.equal(out["NO2"], torch.expm1(samp[:, :, 3]).clamp(min=0))
+    assert torch.equal(out["NOx"], torch.expm1(samp[:, :, 2]).clamp(min=0))

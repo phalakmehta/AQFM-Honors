@@ -290,6 +290,8 @@ def main():
     ap.add_argument("--no-blh", action="store_true", help="ablation: no boundary-layer height anywhere")
     ap.add_argument("--pm25-direct", action="store_true",
                     help="ablation: predict PM2.5 directly instead of PM10 x fraction (NOx pair unchanged)")
+    ap.add_argument("--no2-direct", action="store_true",
+                    help="predict NO2 directly instead of NOx x (1 - NO share) (NOx still predicted; NO not)")
     ap.add_argument("--random-masking", action="store_true",
                     help="ablation: block/channel masking only, no forecast targets in training")
     ap.add_argument("--v1-spatial", action="store_true",
@@ -320,6 +322,9 @@ def main():
                 kw[k] = getattr(args, k)
         if args.pm25_direct:
             kw["target_channels"] = tuple("PM2.5" if c == "PM_FRAC" else c for c in AQFMConfig.target_channels)
+        if args.no2_direct:
+            kw["target_channels"] = tuple("NO2" if c == "NOX_FRAC" else c
+                                          for c in kw.get("target_channels", AQFMConfig.target_channels))
         if args.random_masking:
             kw.update(p_tail_mask=0.0, forecast_targets_always=False)
         if args.small:

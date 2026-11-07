@@ -163,7 +163,7 @@ Severe = true PM2.5 of 250 or more, at 24 h. Full tables are in the results PDF 
 
 1. **Which size is "v2" from now on:** v2 (1.17M) or v2-M (4.57M)?
    - My recommendation: keep both until step 10. The smaller one may transfer better to a city with few stations or short history. That is a guess, to be tested.
-2. **Virtual sensing:** fix it in training, or report it as a limitation?
+2. **Virtual sensing:** dropped (user, 2026-11-07); not part of the paper's claims.
    - The likely cause, from reading the code (not tested): with no readings, `MaskedRevIN` falls back to global statistics, and training never shows a station with an empty context.
    - A fix would mean dropping whole stations' context during training and normalising from neighbours.
 3. **Add new information aimed at the bad days?** Every option needs data, so ask first.
@@ -255,7 +255,7 @@ cd /home/phalak/aqfm/reports/aqfm_v2 && ../../.venv/bin/python make_report.py &&
 1. **Paper model:** v2-M is best on Delhi. For Mumbai fine-tuning, the small v2 with its backbone frozen won on validation, by a small margin.
 2. **Claim and title:** the same-point Mumbai tests (`docs/V2_PROGRESS.md` step 10, stage MUMBAI) support "Delhi pretraining transfers to a new city" for NOx, ozone and PM10 at every data amount, and for PM2.5 with 1–3 months; for PM2.5 with 6+ months, training from scratch is better. Same-month XGBoost loses almost everywhere. Mumbai PM2.5 ties persistence at 24 h. Mumbai NO2 cannot be reported (no NO readings). A fair title: a data-efficient, transferable urban air-quality model, not "one model for every city".
 3. **O3/NO2:** in this paper or later (`docs/plan_o3_no2.md`, about 6 h).
-4. **Virtual sensing:** fix it (training change) or report it as a limitation.
+4. ~~Virtual sensing~~ dropped (user, 2026-11-07).
 
 **Experiments still missing:**
 
@@ -270,7 +270,7 @@ cd /home/phalak/aqfm/reports/aqfm_v2 && ../../.venv/bin/python make_report.py &&
 | Error by month or season; error share by AQI band (a figure) | the plateau argument | numbers exist (`by_month`, `by_band` at 24 h in `results/paper/delhi_*_weather.json`); figure not made |
 | Stage H risks: train without 2020 (COVID); station type. ~~A second test year~~ done (FOLD, step 11: same picture as 2025) | reviewers will ask | ~1–2 h GPU each |
 | Forecast-weather caveat: ERA5 is the weather that happened (best case) | must be stated; the noise test is done (NOISE, step 11): the 72 h gain needs a good weather forecast | text |
-| NO2: XGBoost beats AQFM at every lead (Delhi; step 11) | limitation, or fix the NO2 representation | text, or a code change + retraining |
+| NO2: XGBoost beats AQFM at every lead (Delhi; step 11). User, 2026-11-07: fix it. `--no2-direct` committed; trial better on validation (V2_PROGRESS step 12); the 6 v2-M models retraining (RUNBOOK §4.1) | the fix | ~4 h GPU, running |
 
 **Writing:**
 - Literature review (G1).

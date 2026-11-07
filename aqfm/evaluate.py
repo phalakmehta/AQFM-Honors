@@ -43,7 +43,8 @@ from .train import (code_version, hours_since_epoch, load_checkpoint, load_multi
                     split_indices, to_device)
 
 TARGETS = ("PM2.5", "PM10")
-EXTRA_TARGETS = ("Ozone", "NOx", "NO2")      # --targets: Ozone and NOx (ppb) are outputs; NO2 = NOx x (1 - NO share)
+EXTRA_TARGETS = ("Ozone", "NOx", "NO2")      # --targets: Ozone and NOx (ppb) are outputs; NO2 = NOx x (1 - NO share),
+                                              # or an output itself for a model trained with --no2-direct
 EPISODE_STEPS = {"24h": 95, "48h": 191}
 
 
@@ -109,7 +110,7 @@ def _to_targets(cfg, samp_slots):
     else:
         pm25 = samp_slots[:, :, tc.index("PM2.5")]
     out["PM2.5"] = torch.expm1(pm25.clamp(max=LOG1P_MAX)).clamp(min=0)
-    for c in ("Ozone", "NOx"):
+    for c in ("Ozone", "NOx", "NO2"):                  # NO2 is a slot only with train --no2-direct
         if c in tc:
             out[c] = torch.expm1(samp_slots[:, :, tc.index(c)].clamp(max=LOG1P_MAX)).clamp(min=0)
     if "NOx" in tc and "NOX_FRAC" in tc:

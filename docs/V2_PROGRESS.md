@@ -1290,6 +1290,50 @@ Newey–West lag 7; the first model of each table is the reference).
 **New trained models to register (manifest, Drive):** ABL `runs/v2m256_abl_{nospatial,noblh,nolast,gapfillonly}_s0`;
 FOLD `runs/v2m256_fold24{,_nofm}_s{0,1,2}_do03`; Mumbai `runs/mumbai_ft_v2_none_m{6,12}_s{0,1,2}`.
 
+## Step 12: NO2 forecast directly — started 2026-11-07
+
+**Why (user, 2026-11-07: "about no2 try to fix it").** In stage SAVE, XGBoost beat AQFM v2-M on Delhi NO2 at every
+lead, and persistence won at 1 h. Cause, from the data and the saved forecasts:
+- AQFM forecast NOx and the NO share of NOx (`NOX_FRAC`) and rebuilt NO2 = NOx × (1 − share). The share is only
+  defined where NO + NO2 = NOx (in ppb) within 10 %. In 2018–2023 that holds for 57.6 % of the NO2 readings, and at
+  10 of the 37 stations for at most 15 % of them.
+- At three of those stations the NO2/NOx ratio (median, ppb) was about 0.3 in 2018–2024 and 0.69–0.76 in 2025, with
+  NO2 above NOx in 22–29 % of 2025 readings. Rebuilt NO2 can never exceed NOx, so v2-M under-forecast NO2 there (mean
+  error at 24 h −31 and −22 µg/m³ at the two worst stations).
+- Same forecasts as XGBoost + future ERA5, NO2 MAE 1/6/24/72 h: at those 10 stations AQFM 14.67/13.54/19.21/21.07 vs
+  XGBoost 9.24/10.08/14.75/17.51; at the other 27 AQFM 8.19/9.88/13.64/15.32 vs XGBoost 8.95/9.84/12.51/14.11.
+  (From `results/forecasts/delhi_v2m256_ens3.npz` and `delhi_xgboost_fm.npz`; the diagnosis looked at the 2025 test,
+  the choice below is made on validation.)
+
+**Fix:** `aqfm/train.py --no2-direct` puts NO2 (log1p µg/m³) in place of `NOX_FRAC` among the targets, the same way
+`--pm25-direct` treats PM2.5. NOx stays a direct target; NO is no longer forecast (never scored). `aqfm/evaluate.py`
+reads NO2 from its own slot when the model has one. New test `test_no2_direct_is_its_own_output` (fails without
+either change); 92 tests pass.
+
+**Trial (one model, uncommitted code, so not registered; outside the repo):** v2-M with future weather, seed 0, otherwise as
+`runs/v2m256_s0_do03` (`/home/phalak/aqfm/explore/no2_try.sh`; best at step 10,000 of 12,000; 29 min). Both models
+scored on validation 2024 (`/home/phalak/aqfm/explore/eval_val24.py`: `aqfm.evaluate` with origins from 2024-01-01 and
+scoring stopped at 2025-01-01; it only relaxes the check that the scored period is the checkpoint's own test period;
+normalisation period unchanged) and on the 2025 test. MAE, old (NO2 rebuilt) → new (NO2 direct):
+
+| Period | Pollutant | 1 h | 6 h | 24 h | 72 h |
+|---|---|---|---|---|---|
+| validation 2024 | NO2 | 10.50 → 7.08 | 12.37 → 9.90 | 16.00 → 12.90 | 17.80 → 14.94 |
+| validation 2024 | NOx | 12.55 → 12.48 | 17.72 → 17.57 | 28.52 → 28.56 | 30.71 → 31.27 |
+| validation 2024 | Ozone | 5.28 → 5.28 | 6.90 → 6.86 | 8.71 → 8.78 | 9.56 → 9.65 |
+| validation 2024 | PM2.5 | 16.78 → 16.50 | 31.40 → 31.33 | 38.94 → 38.40 | 42.12 → 42.17 |
+| validation 2024 | PM10 | 32.99 → 32.63 | 53.36 → 53.27 | 71.22 → 69.96 | 76.29 → 75.43 |
+| test 2025 | NO2 | 10.09 → 7.72 | 10.98 → 9.38 | 15.38 → 12.91 | 17.13 → 14.83 |
+| test 2025 | NOx | 12.01 → 11.98 | 16.05 → 15.98 | 25.72 → 25.64 | 28.35 → 28.66 |
+| test 2025 | Ozone | 5.10 → 5.16 | 6.56 → 6.55 | 8.86 → 8.94 | 9.60 → 9.69 |
+| test 2025 | PM2.5 | 16.11 → 15.91 | 28.64 → 28.64 | 33.44 → 32.50 | 37.88 → 36.97 |
+| test 2025 | PM10 | 29.09 → 28.93 | 47.36 → 47.05 | 60.89 → 58.89 | 67.82 → 65.72 |
+
+**Decision (on validation):** NO2 is better at every lead (by 2.5–3.4 µg/m³); NOx, ozone, PM2.5 and PM10 change by
+little (largest worsening: NOx 72 h +0.56). So the 6 v2-M paper models are retrained with `--no2-direct`
+(`scripts/pipeline_no2_direct.sh`, log `runs/no2_direct.log`, ~4 h; the user chose "NO2 runs after trial" on
+2026-11-07), then the same-point comparisons are redone (`results/paper/delhi_*_no2d.json`).
+
 ## Status against §8 "Done when"
 
 - [x] Branch `aqfm-v2` has the patch merged, all old tests pass, v1 equivalence shown (step 4).
