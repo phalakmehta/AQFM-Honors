@@ -1,0 +1,212 @@
+{
+  "target": "NOx",
+  "models": {
+    "AQFM fine-tuned": "results/forecasts/mumbai_ft_m3_ens3.npz",
+    "XGBoost (same months), last reading": "results/forecasts/mumbai_xgboost_m3_last.npz:xgboost",
+    "XGBoost (same months), published lags": "results/forecasts/mumbai_xgboost_m3.npz:xgboost",
+    "Persistence": "results/forecasts/mumbai_classical.npz:persistence"
+  },
+  "pairs_in_common": 5068,
+  "leads": {
+    "1h": {
+      "n": 4201,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned": 4.532807004746423,
+        "XGBoost (same months), last reading": 5.058151170249139,
+        "XGBoost (same months), published lags": 7.547174300562605,
+        "Persistence": 4.524988133213763
+      },
+      "vs_first": {
+        "XGBoost (same months), last reading": {
+          "MAE_diff": 0.525344165502716,
+          "dm_z": 6.8770463403738935,
+          "dm_p": 6.110667527536862e-12,
+          "ci95": [
+            0.3468083804675451,
+            0.637887315526245
+          ]
+        },
+        "XGBoost (same months), published lags": {
+          "MAE_diff": 3.0143672958161822,
+          "dm_z": 10.508407650944097,
+          "dm_p": 0.0,
+          "ci95": [
+            2.4277642222296887,
+            3.471624234481742
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": -0.0078188715326597,
+          "dm_z": -0.21222364591311313,
+          "dm_p": 0.831932560103412,
+          "ci95": [
+            -0.07017465042506248,
+            0.07745195993279315
+          ]
+        }
+      }
+    },
+    "6h": {
+      "n": 4148,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned": 6.900504488707678,
+        "XGBoost (same months), last reading": 9.635092549562623,
+        "XGBoost (same months), published lags": 10.296464091166404,
+        "Persistence": 8.917383630397634
+      },
+      "vs_first": {
+        "XGBoost (same months), last reading": {
+          "MAE_diff": 2.7345880608549455,
+          "dm_z": 10.471102371763994,
+          "dm_p": 0.0,
+          "ci95": [
+            2.2191026422214386,
+            3.2154293900503563
+          ]
+        },
+        "XGBoost (same months), published lags": {
+          "MAE_diff": 3.395959602458727,
+          "dm_z": 11.739216193115572,
+          "dm_p": 0.0,
+          "ci95": [
+            2.8120884426304498,
+            3.8676096953166192
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 2.016879141689956,
+          "dm_z": 3.6396530820821127,
+          "dm_p": 0.00027300559978771233,
+          "ci95": [
+            1.1773919402813866,
+            3.2734924037666735
+          ]
+        }
+      }
+    },
+    "24h": {
+      "n": 4200,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned": 8.620022482341156,
+        "XGBoost (same months), last reading": 12.389288702729115,
+        "XGBoost (same months), published lags": 12.734781606404466,
+        "Persistence": 9.259583312727155
+      },
+      "vs_first": {
+        "XGBoost (same months), last reading": {
+          "MAE_diff": 3.7692662203879586,
+          "dm_z": 5.107424188564541,
+          "dm_p": 3.265800563312382e-07,
+          "ci95": [
+            2.4539562107707575,
+            5.27726064588205
+          ]
+        },
+        "XGBoost (same months), published lags": {
+          "MAE_diff": 4.11475912406331,
+          "dm_z": 5.896409901887041,
+          "dm_p": 3.7149545661918637e-09,
+          "ci95": [
+            2.787856347767557,
+            5.465816552001823
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 0.6395608303859994,
+          "dm_z": 3.125737480810688,
+          "dm_p": 0.0017735980167505883,
+          "ci95": [
+            0.26539441117240764,
+            1.0758211999610447
+          ]
+        }
+      },
+      "by_month": {
+        "7": {
+          "n": 764,
+          "AQFM fine-tuned": 6.1020180444984025,
+          "XGBoost (same months), last reading": 12.490024559246132,
+          "XGBoost (same months), published lags": 14.009642808934606,
+          "Persistence": 6.36652807594906
+        },
+        "8": {
+          "n": 712,
+          "AQFM fine-tuned": 4.831956322399083,
+          "XGBoost (same months), last reading": 12.263694599228963,
+          "XGBoost (same months), published lags": 11.600910809058487,
+          "Persistence": 4.999687510511179
+        },
+        "9": {
+          "n": 645,
+          "AQFM fine-tuned": 5.418179404827976,
+          "XGBoost (same months), last reading": 11.779535242568615,
+          "XGBoost (same months), published lags": 11.140284084719282,
+          "Persistence": 5.780608499512192
+        },
+        "10": {
+          "n": 694,
+          "AQFM fine-tuned": 7.792231955342746,
+          "XGBoost (same months), last reading": 10.571300254087971,
+          "XGBoost (same months), published lags": 10.735442500980168,
+          "Persistence": 9.085738540726368
+        },
+        "11": {
+          "n": 709,
+          "AQFM fine-tuned": 12.84539752685805,
+          "XGBoost (same months), last reading": 12.133555955711978,
+          "XGBoost (same months), published lags": 13.014788597023538,
+          "Persistence": 13.001226966068337
+        },
+        "12": {
+          "n": 676,
+          "AQFM fine-tuned": 14.928813903289434,
+          "XGBoost (same months), last reading": 15.124126409990547,
+          "XGBoost (same months), published lags": 15.768493637883452,
+          "Persistence": 16.58961539578861
+        }
+      }
+    },
+    "72h": {
+      "n": 4186,
+      "days": 181,
+      "MAE": {
+        "AQFM fine-tuned": 10.22622867615033,
+        "XGBoost (same months), last reading": 20.38941096334829,
+        "XGBoost (same months), published lags": 19.979911057825383,
+        "Persistence": 11.880563210185157
+      },
+      "vs_first": {
+        "XGBoost (same months), last reading": {
+          "MAE_diff": 10.16318228719796,
+          "dm_z": 5.3839814223803195,
+          "dm_p": 7.285602654505396e-08,
+          "ci95": [
+            6.610713314141832,
+            13.948816800581415
+          ]
+        },
+        "XGBoost (same months), published lags": {
+          "MAE_diff": 9.753682381675054,
+          "dm_z": 5.726957707963946,
+          "dm_p": 1.0224764590560653e-08,
+          "ci95": [
+            6.624954132529252,
+            13.11971471386995
+          ]
+        },
+        "Persistence": {
+          "MAE_diff": 1.6543345340348274,
+          "dm_z": 3.286710888299788,
+          "dm_p": 0.0010136484328180373,
+          "ci95": [
+            0.7603663845250123,
+            2.761159560106533
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,13 @@
-/home/phalak/aqfm/AQFM-Honors/scripts/city_baselines.py:67: RuntimeWarning: Mean of empty slice
+/home/phalak/aqfm/AQFM-Honors/scripts/city_baselines.py:78: RuntimeWarning: Mean of empty slice
   c = np.nanmean(clim[s, :, feats["month"][tt]])
   Building climatology lookup table for target channel...
 PM2.5 1h: Persistence 4.37  Seasonal Naive 12.04  Climatology 19.90  (n=3878)
 PM2.5 6h: Persistence 9.85  Seasonal Naive 10.84  Climatology 17.74  (n=3836)
 PM2.5 24h: Persistence 11.87  Seasonal Naive 11.89  Climatology 19.48  (n=3888)
-PM2.5 72h: Persistence 16.83  Seasonal Naive 12.15  Climatology 19.67  (n=3889)
+PM2.5 72h: Persistence 16.83  Seasonal Naive 16.91  Climatology 19.67  (n=3886)
   Building climatology lookup table for target channel...
 PM10 1h: Persistence 10.45  Seasonal Naive 25.57  Climatology 42.04  (n=3944)
 PM10 6h: Persistence 25.05  Seasonal Naive 25.05  Climatology 36.75  (n=3915)
 PM10 24h: Persistence 26.99  Seasonal Naive 27.09  Climatology 42.39  (n=3962)
-PM10 72h: Persistence 35.73  Seasonal Naive 27.51  Climatology 42.49  (n=3959)
+PM10 72h: Persistence 35.72  Seasonal Naive 36.05  Climatology 42.51  (n=3956)
 saved results/mumbai_classical_results.json

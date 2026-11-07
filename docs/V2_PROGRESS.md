@@ -1473,6 +1473,54 @@ new `data_pipeline/station_facts.py`, `data_pipeline/stations/{delhi.csv,delhi_f
   5. `--train-months` has no effect with `--no-balance` (group lookup key is `None`).
   6. RevIN fallback stats, met stats and the outage fit still use hold-out stations' training-period data (small leak).
 
+## Step 13: seasonal-naive baseline used future data at 72 h — fixed 2026-11-07
+
+**Found while drafting the paper (user: "fix it").** Seasonal naive was "the value 1..8 days before the target".
+Origins are at midnight and the target of origin `t` is `t + h - 1`, so at 72 h the value one day before the target
+is 48 h after the origin: known only in the future. At 1, 6 and 24 h it was already before the origin.
+- **Fix** (`baselines/run_baselines_classical.py`, `scripts/city_baselines.py`): skip `(target - origin) // 96` whole
+  days first, so the forecast is the latest value at the target's time of day before the origin (72 h → the step
+  just before the origin, as for 24 h). 1/6/24 h unchanged. New test `tests/test_baselines.py` (fails on the old
+  code: 72 h used origin + 191); `pytest tests deep_baselines`: 93 passed.
+- **Rerun** (all CPU, minutes; logs `runs/classical_baselines_2025.txt`, `runs/paper_{delhi,delhi_fold24,mumbai}_classical.txt`,
+  `runs/mumbai_classical.txt`): `baselines/results/classical_results.json`, `results/mumbai_classical_results.json`,
+  `results/paper/{delhi,delhi_fold24,mumbai}_classical.json`, `results/forecasts/{delhi,delhi_fold24,mumbai}_classical.npz`,
+  `results/paper/mumbai_{PM2.5,PM10}_best_vs_simple.json`, `results/TABLES.md`. Before/after copies were compared:
+  in the three forecast files only the `*_snaive` arrays changed, and only the 72 h column; persistence and
+  climatology forecasts are identical, so every same-point comparison without seasonal naive is unchanged.
+  In the JSON summaries only 72 h numbers changed: seasonal naive (Delhi PM2.5 43.84 → 53.79; Mumbai PM2.5
+  12.15 → 16.91), and persistence / climatology by ≤ 0.06 because the "all three have a forecast" point set moved.
+  `scripts/city_baselines.py --data data/preprocessed` still equals `baselines/results/classical_results.json` exactly.
+- **What it changes:** the step 10 note "at 72 h seasonal naive beats every AQFM" was the leak. On the same points,
+  Mumbai PM2.5 at 72 h is now: from scratch (12 months) 14.04, persistence 16.32, seasonal naive 16.40 (p = 0.017).
+- **Not yet done:** these results were made with the fix uncommitted (code not clean). After the commit: rerun the
+  same commands (~1 min) so the files record the new commit, and set `code` of the classical entries in
+  `scripts/manifest.json` to it.
+
+## Step 14: XGBoost with the latest readings (`--lags-from-last`) — done 2026-11-07
+
+**Found while drafting the paper (user: "fix all these").** The published XGBoost's newest lag of the target is 4 steps
+(1 h) before the origin, so it never sees the last 45 minutes, which persistence and AQFM use; and test points whose lag
+is missing still get a forecast with that input set to 0. At midnight origins the 23:45 reading is often missing
+(Delhi 2025, PM10: 10,523 of the 1 h test points have it, against 12,316 for 23:00).
+- **Code** (`scripts/city_xgboost.py`, off by default, so every existing result is unchanged): `--lags-from-last`
+  counts the eight lags from t−1 and makes every input the latest reading at or before its step, up to 7 days back
+  (`as_of`); targets are never filled. Tests in `tests/test_baselines.py`; `pytest tests deep_baselines`: 95 passed.
+  A first try without `as_of` was worse at 1 h (PM2.5 20.91, PM10 42.60) because the missing 23:45 readings entered as 0;
+  those outputs were overwritten.
+- **Runs** (logs `runs/paper_*_last.txt`; run one at a time: two XGBoost runs at once with `n_jobs=-1` oversubscribe
+  the CPU and slow both several-fold): Delhi 2025 with and without future ERA5 (5 targets), Delhi 2024 test (PM2.5),
+  Mumbai 1/3/6/12 months → `results/paper/*xgboost*_last.json`, `results/forecasts/*_last.npz`; same-point files
+  `results/paper/*_xgblast.json` (AQFM, XGBoost latest readings, XGBoost published, persistence; same points as the
+  existing files, checked).
+- **Results, Delhi 2025:** against XGBoost with the latest readings, AQFM is never significantly worse and is
+  significantly better in 14 of 40 cells (5 pollutants × 4 leads × 2 settings); every 1 h cell is a tie (PM2.5 with
+  future ERA5: 15.80 vs 15.49, p = 0.274). The earlier "AQFM beats XGBoost at 1 h" was the stale input.
+  **Delhi 2024 (PM2.5):** level at every lead. **Mumbai:** XGBoost still loses for PM10, ozone and NOx in 42 of 48
+  cells (ahead in 1); for PM2.5 it is ahead at 1 h with 3, 6 and 12 months.
+- **Not yet done:** uncommitted, as step 13; after the commit, rerun (~25 min CPU, one run at a time) for clean code
+  and register the new files in `scripts/manifest.json`.
+
 ## Open questions
 
 - Virtual sensing fails (step 9, ~60 MAE vs 42–65 for neighbour references): fix in training (whole-station

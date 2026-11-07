@@ -9,6 +9,12 @@ reading of 1 h before; without it the most recent lag (the hh:00 step) is never 
         --out results/mumbai_xgboost_results.json                       # trains on everything before the test
     python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 \
         --train-from 2023-10-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m3_results.json
+
+--lags-from-last (added 2026-11-07, off by default): the published baseline's newest lag of the target pollutant is
+4 steps (1 h) before the origin, so it never sees the last 45 minutes, which persistence and AQFM use. With this flag
+the same eight lags are counted from the step just before the origin (t-1, t-5, ..., t-285), and every input reads
+the latest reading available at its step, looking back up to 7 days as persistence does (the reading at 23:45 is
+often missing at midnight origins; a missing input would otherwise enter as 0). Targets are never filled.
 """
 
 import argparse
@@ -45,6 +51,25 @@ def as_of_hourly(a):
     return out
 
 
+def lags_from_last():
+    """Count the eight target lags from the step before the origin instead of from 1 h before it."""
+    rx.LAG_STEPS = [lag - (rx.LAG_STEPS[0] - 1) for lag in rx.LAG_STEPS]
+
+
+def as_of(values, observed, max_back=7 * STEPS_PER_DAY):
+    """(S, C, T) -> every step holds the latest observed value at or before it, at most max_back steps old."""
+    values, observed = np.asarray(values), np.asarray(observed)
+    out_v, out_o = np.zeros_like(values), np.zeros_like(observed)
+    steps = np.arange(values.shape[-1])
+    for s in range(values.shape[0]):
+        for c in range(values.shape[1]):
+            last = np.maximum.accumulate(np.where(observed[s, c] > 0.5, steps, -1))
+            ok = (last >= 0) & (steps - last <= max_back)
+            out_v[s, c] = np.where(ok, values[s, c, np.maximum(last, 0)], 0.0)
+            out_o[s, c] = ok
+    return out_v, out_o
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", required=True)
@@ -57,15 +82,20 @@ def main():
     ap.add_argument("--test-end", default=None, help="YYYY-MM-DD: scored targets end before it (default: data end)")
     ap.add_argument("--targets", nargs="+", default=list(TARGET_NAMES), choices=["PM2.5", "PM10", "Ozone", "NOx", "NO2"],
                     help="for targets other than PM2.5 the 'other pollutant' feature is PM2.5 (as in the original)")
+    ap.add_argument("--lags-from-last", action="store_true",
+                    help="count the target lags from the step before the origin (t-1), not from 1 h before it")
     ap.add_argument("--save-forecasts", default=None, help=".npz: anchor, origin, <c>_true, <c>_mask, <c>_xgboost")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
+    if args.lags_from_last:
+        lags_from_last()
     values = np.load(os.path.join(args.data, "values.npy"), mmap_mode="r")
     observed = np.load(os.path.join(args.data, "observed.npy"), mmap_mode="r")
     t = np.load(os.path.join(args.data, "timestamps_h.npy"))
     if args.hourly:
         values, observed = as_of_hourly(np.asarray(values)), as_of_hourly(np.asarray(observed))
     era5_met = np.load(os.path.join(args.data, "era5_met.npy"), mmap_mode="r") if args.future_met else None
+    in_v, in_o = as_of(values, observed) if args.lags_from_last else (values, observed)    # inputs; targets stay raw
     test_start, test_end = step_of(t, args.test_start), len(t)
     lo = max(rx.MAX_LAG, step_of(t, args.train_from) if args.train_from else 0)
     hi = step_of(t, args.train_to) if args.train_to else test_start
@@ -87,6 +117,8 @@ def main():
             Xp, yp = [], []
             for s in range(values.shape[0]):
                 X, y, m, v = rx.build_features_vectorized(values, observed, feats, s, ci, train_idx, h, era5_met)
+                if args.lags_from_last:
+                    X, _, _, v = rx.build_features_vectorized(in_v, in_o, feats, s, ci, train_idx, h, era5_met)
                 keep = (m > 0.5) & v
                 if keep.any():
                     Xp.append(X[keep]); yp.append(y[keep])
@@ -102,6 +134,8 @@ def main():
                 if len(o) == 0:
                     continue
                 X, y, m, _ = rx.build_features_vectorized(values, observed, feats, s, ci, o, h, era5_met)
+                if args.lags_from_last:
+                    X = rx.build_features_vectorized(in_v, in_o, feats, s, ci, o, h, era5_met)[0]
                 yt.append(y); yp_.append(np.maximum(model.predict(X), 0.0)); mk.append(m)
             yt, yp_, mk = np.concatenate(yt), np.concatenate(yp_), np.concatenate(mk)
             assert len(yt) == S * len(origins)                  # station-major, as saved["anchor"/"origin"]

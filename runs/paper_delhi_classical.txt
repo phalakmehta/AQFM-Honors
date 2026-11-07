@@ -1,28 +1,28 @@
-/home/phalak/aqfm/AQFM-Honors/scripts/city_baselines.py:75: RuntimeWarning: Mean of empty slice
+/home/phalak/aqfm/AQFM-Honors/scripts/city_baselines.py:78: RuntimeWarning: Mean of empty slice
   c = np.nanmean(clim[s, :, feats["month"][tt]])
   Building climatology lookup table for target channel...
 PM2.5 1h: Persistence 15.89  Seasonal Naive 43.17  Climatology 44.83  (n=12189)
 PM2.5 6h: Persistence 35.53  Seasonal Naive 39.87  Climatology 43.30  (n=11977)
 PM2.5 24h: Persistence 43.78  Seasonal Naive 43.60  Climatology 43.79  (n=10286)
-PM2.5 72h: Persistence 54.54  Seasonal Naive 43.84  Climatology 44.04  (n=10276)
+PM2.5 72h: Persistence 54.54  Seasonal Naive 53.79  Climatology 44.03  (n=10259)
   Building climatology lookup table for target channel...
 PM10 1h: Persistence 31.28  Seasonal Naive 81.21  Climatology 83.18  (n=12522)
 PM10 6h: Persistence 71.47  Seasonal Naive 66.60  Climatology 70.78  (n=12334)
 PM10 24h: Persistence 84.64  Seasonal Naive 84.18  Climatology 82.76  (n=10625)
-PM10 72h: Persistence 106.47  Seasonal Naive 84.55  Climatology 82.97  (n=10619)
+PM10 72h: Persistence 106.53  Seasonal Naive 104.17  Climatology 82.99  (n=10614)
   Building climatology lookup table for target channel...
 Ozone 1h: Persistence 4.98  Seasonal Naive 10.71  Climatology 12.31  (n=12192)
 Ozone 6h: Persistence 7.88  Seasonal Naive 9.27  Climatology 11.09  (n=12153)
 Ozone 24h: Persistence 11.61  Seasonal Naive 11.21  Climatology 12.70  (n=10640)
-Ozone 72h: Persistence 13.81  Seasonal Naive 11.20  Climatology 12.69  (n=10638)
+Ozone 72h: Persistence 13.81  Seasonal Naive 13.37  Climatology 12.69  (n=10638)
   Building climatology lookup table for target channel...
 NOx 1h: Persistence 12.55  Seasonal Naive 33.34  Climatology 38.32  (n=12323)
 NOx 6h: Persistence 25.45  Seasonal Naive 27.08  Climatology 31.04  (n=12420)
 NOx 24h: Persistence 36.64  Seasonal Naive 36.44  Climatology 41.04  (n=10860)
-NOx 72h: Persistence 44.74  Seasonal Naive 36.55  Climatology 41.13  (n=10852)
+NOx 72h: Persistence 44.74  Seasonal Naive 44.45  Climatology 41.13  (n=10852)
   Building climatology lookup table for target channel...
 NO2 1h: Persistence 8.52  Seasonal Naive 16.51  Climatology 22.59  (n=12570)
 NO2 6h: Persistence 16.60  Seasonal Naive 12.75  Climatology 18.22  (n=12602)
 NO2 24h: Persistence 15.85  Seasonal Naive 15.80  Climatology 22.52  (n=10817)
-NO2 72h: Persistence 19.62  Seasonal Naive 15.83  Climatology 22.57  (n=10811)
+NO2 72h: Persistence 19.62  Seasonal Naive 19.56  Climatology 22.57  (n=10811)
 saved results/paper/delhi_classical.json

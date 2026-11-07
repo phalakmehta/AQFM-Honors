@@ -1,7 +1,9 @@
 """Persistence, seasonal naive and climatology for any city folder and test start, with exactly the rules of
 baselines/run_baselines_classical.py (which is fixed to data/preprocessed and 2025): origins every midnight from
 the test start to T - 72 h (as aqfm/evaluate.py), persistence = last observed value within 7 days before the
-origin, seasonal naive = the value 1..8 days before the target, climatology = station x hour x month mean of
+origin, seasonal naive = the latest value at the target's time of day that is before the origin (looking back up to
+8 days; before 2026-11-07 it was the value 1..8 days before the target, which at 72 h is 48 h after the origin),
+climatology = station x hour x month mean of
 everything before the test; a point counts only where the target is observed and all three forecasts exist.
 
     python scripts/city_baselines.py --data data/mumbai --test-start 2024-07-01 --out results/mumbai_classical_results.json
@@ -65,8 +67,9 @@ def main():
                             pers = v[s, t0 - w]
                             break
                     snaive = np.nan
+                    back = (tt - t0) // STEPS_PER_DAY             # whole days to skip so the value is before the origin
                     for w in range(0, 8):
-                        i = tt - STEPS_PER_DAY * (w + 1)
+                        i = tt - STEPS_PER_DAY * (w + 1 + back)
                         if i >= 0 and o[s, i] > 0.5:
                             snaive = v[s, i]
                             break

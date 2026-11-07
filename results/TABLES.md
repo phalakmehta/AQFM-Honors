@@ -49,8 +49,8 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | IBM TTM (zero-shot) | 20.23 | 32.43 | 37.70 | 41.32 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 20.95 | 32.13 | 39.16 | 42.75 | `baselines/results/ttm_results.json` |
 | Persistence | 15.89 | 35.53 | 43.78 | 54.54 | `baselines/results/classical_results.json` |
-| Seasonal naive | 43.17 | 39.87 | 43.60 | 43.84 | `baselines/results/classical_results.json` |
-| Climatology | 44.83 | 43.30 | 43.79 | 44.04 | `baselines/results/classical_results.json` |
+| Seasonal naive | 43.17 | 39.87 | 43.60 | 53.79 | `baselines/results/classical_results.json` |
+| Climatology | 44.83 | 43.30 | 43.79 | 44.03 | `baselines/results/classical_results.json` |
 
 ## 2025 test: PM2.5 RMSE (µg/m³)
 
@@ -97,8 +97,8 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | IBM TTM (zero-shot) | 37.07 | 52.61 | 64.23 | 69.47 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 38.23 | 51.56 | 65.93 | 71.17 | `baselines/results/ttm_results.json` |
 | Persistence | 29.85 | 60.85 | 75.85 | 92.13 | `baselines/results/classical_results.json` |
-| Seasonal naive | 75.31 | 65.36 | 74.98 | 75.52 | `baselines/results/classical_results.json` |
-| Climatology | 69.19 | 63.32 | 68.52 | 68.92 | `baselines/results/classical_results.json` |
+| Seasonal naive | 75.31 | 65.36 | 74.98 | 89.79 | `baselines/results/classical_results.json` |
+| Climatology | 69.19 | 63.32 | 68.52 | 68.88 | `baselines/results/classical_results.json` |
 
 ## 2025 test: PM10 MAE (µg/m³)
 
@@ -144,9 +144,9 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | E-STGCN seed 2 | 31.92 | 52.10 | 72.61 | 84.54 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 37.55 | 52.80 | 71.74 | 79.25 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 38.96 | 53.10 | 75.09 | 82.51 | `baselines/results/ttm_results.json` |
-| Persistence | 31.28 | 71.47 | 84.64 | 106.47 | `baselines/results/classical_results.json` |
-| Seasonal naive | 81.21 | 66.60 | 84.18 | 84.55 | `baselines/results/classical_results.json` |
-| Climatology | 83.18 | 70.78 | 82.76 | 82.97 | `baselines/results/classical_results.json` |
+| Persistence | 31.28 | 71.47 | 84.64 | 106.53 | `baselines/results/classical_results.json` |
+| Seasonal naive | 81.21 | 66.60 | 84.18 | 104.17 | `baselines/results/classical_results.json` |
+| Climatology | 83.18 | 70.78 | 82.76 | 82.99 | `baselines/results/classical_results.json` |
 
 ## 2025 test: PM10 RMSE (µg/m³)
 
@@ -192,9 +192,9 @@ Do not edit by hand: change the results, then regenerate. 2025 test unless state
 | E-STGCN seed 2 | 51.49 | 74.31 | 103.50 | 116.37 | `baselines/results/estgcn_s2_results.json` |
 | IBM TTM (zero-shot) | 58.63 | 76.76 | 102.88 | 111.73 | `baselines/results/ttm_results.json` |
 | IBM TTM (zero-shot, 15-min scoring) | 60.12 | 77.76 | 106.09 | 114.59 | `baselines/results/ttm_results.json` |
-| Persistence | 52.39 | 106.03 | 124.50 | 150.84 | `baselines/results/classical_results.json` |
-| Seasonal naive | 120.76 | 100.64 | 122.72 | 123.57 | `baselines/results/classical_results.json` |
-| Climatology | 111.93 | 96.10 | 110.71 | 110.97 | `baselines/results/classical_results.json` |
+| Persistence | 52.39 | 106.03 | 124.50 | 150.90 | `baselines/results/classical_results.json` |
+| Seasonal naive | 120.76 | 100.64 | 122.72 | 146.07 | `baselines/results/classical_results.json` |
+| Climatology | 111.93 | 96.10 | 110.71 | 111.00 | `baselines/results/classical_results.json` |
 
 ## 2025 test: PM2.5 at 24 h, MAE by AQI band (µg/m³)
 
@@ -587,7 +587,7 @@ Runs with fewer than 2 validations (short test launches) are left out. `change`:
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
 | Persistence | 4.37 | 9.85 | 11.87 | 16.83 | `results/mumbai_classical_results.json` |
-| Seasonal naive | 12.04 | 10.84 | 11.89 | 12.15 | `results/mumbai_classical_results.json` |
+| Seasonal naive | 12.04 | 10.84 | 11.89 | 16.91 | `results/mumbai_classical_results.json` |
 | Climatology | 19.90 | 17.74 | 19.48 | 19.67 | `results/mumbai_classical_results.json` |
 | XGBoost, all data before the test | 6.62 | 8.86 | 12.15 | 16.22 | `results/mumbai_xgboost_results.json` |
 | AQFM v2-M zero-shot (Delhi model, no future met) | 6.16 | 10.17 | 14.52 | 18.37 | `results/mumbai_zeroshot_v2m256_nofm_ens3_results.json` |
@@ -626,9 +626,9 @@ Fine-tuned / from scratch / XGBoost use only the last N months of 2023; the clas
 
 | model | 1h | 6h | 24h | 72h | source |
 |---|---|---|---|---|---|
-| Persistence | 10.45 | 25.05 | 26.99 | 35.73 | `results/mumbai_classical_results.json` |
-| Seasonal naive | 25.57 | 25.05 | 27.09 | 27.51 | `results/mumbai_classical_results.json` |
-| Climatology | 42.04 | 36.75 | 42.39 | 42.49 | `results/mumbai_classical_results.json` |
+| Persistence | 10.45 | 25.05 | 26.99 | 35.72 | `results/mumbai_classical_results.json` |
+| Seasonal naive | 25.57 | 25.05 | 27.09 | 36.05 | `results/mumbai_classical_results.json` |
+| Climatology | 42.04 | 36.75 | 42.39 | 42.51 | `results/mumbai_classical_results.json` |
 | XGBoost, all data before the test | 15.55 | 22.97 | 27.14 | 33.60 | `results/mumbai_xgboost_results.json` |
 | AQFM v2-M zero-shot (Delhi model, no future met) | 10.51 | 20.48 | 27.54 | 35.01 | `results/mumbai_zeroshot_v2m256_nofm_ens3_results.json` |
 | AQFM v2 zero-shot (Delhi model, no future met) | 9.88 | 21.69 | 28.24 | 34.93 | `results/mumbai_zeroshot_v2_nofm_ens3_results.json` |
