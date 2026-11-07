@@ -1,0 +1,25 @@
+  4 h, ft12: AQFM pass 74s
+  XGBoost gap filler PM2.5: 75554 training rows
+  XGBoost gap filler PM10: 77733 training rows
+  XGBoost gap filler Ozone: 79106 training rows
+  XGBoost gap filler NOx: 76719 training rows
+    PM2.5: n=16297 med 8.98 line 4.04 cycle 4.71 neighbours 7.63 xgboost 5.13 cov90 0.989
+    PM10: n=16250 med 18.72 line 9.68 cycle 10.98 neighbours 19.02 xgboost 13.21 cov90 0.984
+    Ozone: n=17056 med 13.77 line 5.47 cycle 6.02 neighbours 9.62 xgboost 6.78 cov90 0.980
+    NOx: n=16838 med 5.92 line 2.99 cycle 3.37 neighbours 8.53 xgboost 5.01 cov90 0.982
+  12 h, ft12: AQFM pass 77s
+    PM2.5: n=48779 med 10.88 line 6.77 cycle 8.13 neighbours 8.35 xgboost 6.68 cov90 0.980
+    PM10: n=48559 med 21.56 line 17.05 cycle 19.07 neighbours 19.65 xgboost 16.18 cov90 0.967
+    Ozone: n=50524 med 6.68 line 11.28 cycle 11.87 neighbours 7.96 xgboost 5.77 cov90 0.955
+    NOx: n=50151 med 7.20 line 6.09 cycle 8.54 neighbours 9.76 xgboost 7.05 cov90 0.966
+  24 h, ft12: AQFM pass 78s
+    PM2.5: n=97648 med 10.06 line 9.56 cycle 10.74 neighbours 7.88 xgboost 6.99 cov90 0.985
+    PM10: n=97257 med 20.38 line 22.67 cycle 24.93 neighbours 18.85 xgboost 16.43 cov90 0.975
+    Ozone: n=101485 med 8.62 line 13.19 cycle 14.06 neighbours 8.75 xgboost 7.13 cov90 0.966
+    NOx: n=100632 med 6.54 line 8.49 cycle 11.33 neighbours 8.94 xgboost 7.36 cov90 0.978
+  48 h, ft12: AQFM pass 82s
+    PM2.5: n=195147 med 10.42 line 10.24 cycle 11.33 neighbours 7.89 xgboost 7.27 cov90 0.977
+    PM10: n=194412 med 21.26 line 24.11 cycle 26.15 neighbours 18.99 xgboost 17.04 cov90 0.964
+    Ozone: n=202976 med 8.99 line 13.32 cycle 14.31 neighbours 8.85 xgboost 7.23 cov90 0.960
+    NOx: n=201144 med 6.82 line 8.85 cycle 11.52 neighbours 8.98 xgboost 7.57 cov90 0.974
+saved results/paper/mumbai_gapfill_m12.json (324 s)

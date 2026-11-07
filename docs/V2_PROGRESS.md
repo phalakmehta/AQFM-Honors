@@ -1521,6 +1521,33 @@ is missing still get a forecast with that input set to 0. At midnight origins th
 - **Not yet done:** uncommitted, as step 13; after the commit, rerun (~25 min CPU, one run at a time) for clean code
   and register the new files in `scripts/manifest.json`.
 
+## Step 15: gap filling against stronger baselines (paper Part B) — done 2026-11-07
+
+**Plan fixed before any run:** `/home/phalak/aqfm/paper/gapfill_plan.md` (outside the repo). Gaps of 4, 12, 24 and
+48 h (whole 4 h patches; `evaluate_imputation` asserts it, so 4 h replaces the requested 6 h), placed as
+`evaluate_imputation` places them; baselines: straight line, line + daily cycle, the 3 nearest stations scaled to the
+station, and an XGBoost gap filler trained on the training years only. No deep gap filler (none installed).
+- **Code:** `scripts/gapfill_eval.py` (new; imports from `aqfm.evaluate`, which is unchanged) and
+  `tests/test_gapfill_eval.py` (3 tests). On 2 test days it reproduced `evaluate_imputation` exactly.
+- **Runs** (one at a time; logs `runs/paper_delhi_gapfill.txt`, `runs/paper_mumbai_gapfill_m12.txt`): Delhi 2025,
+  NO2-direct v2-M with and without future ERA5 (60 min) → `results/paper/delhi_gapfill.json`; Mumbai Jul–Dec 2024,
+  12-month fine-tuned v2 (nothing frozen) (5 min) → `results/paper/mumbai_gapfill_m12.json`; every scored point in
+  `results/forecasts/*gapfill*.npz`. The Mumbai 1/3/6-month models were not run.
+- **Check:** at 24 h the points and the straight line equal `imputation_24h_outage` in the existing results files
+  (asserted in `paper/scripts/gapfill_b.py`, 14 settings × pollutants); AQFM differs by at most 0.02 (fresh samples).
+- **Result — AQFM is a poor gap filler.** Delhi, with future ERA5: the XGBoost gap filler is significantly better than
+  AQFM in all 20 cells (5 pollutants × 4 gaps) and lowest in 19 (PM2.5 24 h: AQFM 30.07, line 36.29, nearest stations
+  18.92, XGBoost 17.35). AQFM beats both lines only at 24 and 48 h (and ozone at 12 h); at 4 h the line is
+  significantly better for every pollutant (PM2.5 15.73 vs 29.31). Without future ERA5: no better. AQFM's 90 % ranges
+  over-cover (0.922–0.984). Mumbai: XGBoost significantly better in 13 of 16 cells; the line lowest for every
+  pollutant at 4 h; AQFM best only for NOx at 24 and 48 h.
+- **Likely cause (from the code and the error pattern, not tested):** AQFM's error barely changes with gap length
+  (PM2.5 29.31 at 4 h, 30.89 at 48 h) and is no lower next to a visible reading (first/last hidden step of a 4 h gap:
+  29.28 vs 29.32 in the middle; line 11.04). The decoder sees each station's past only through the pooler's 8
+  latents and `last_visible` (the last reading before the forecast start), never the readings beside a gap. A fix
+  would give gap-filling queries the readings on either side of the gap — a design change, not tried.
+- **Not yet done:** uncommitted; after a commit, register the new results in `scripts/manifest.json`.
+
 ## Open questions
 
 - Virtual sensing fails (step 9, ~60 MAE vs 42–65 for neighbour references): fix in training (whole-station
