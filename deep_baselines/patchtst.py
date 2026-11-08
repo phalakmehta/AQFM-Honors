@@ -202,6 +202,8 @@ def evaluate(args):
 
     res = common.score(NAME, y, pred, ym)
     res["n_origins"], res["n_windows"] = int(n_origins), len(pairs)
+    if args.save_forecasts:                               # per-point forecasts for scripts/forecast_stats.py
+        common.save_forecasts(os.path.join(common.ROOT, args.save_forecasts), "patchtst", pairs, t, y, pred, ym)
     res["selected"] = [{"step": ck["step"], "val": ck["val"]} for ck in cks]   # best 2024-validation checkpoint(s)
     res["checkpoint"] = args.ckpt[0] if len(args.ckpt) == 1 else args.ckpt
     res["code"] = common.code_version()
@@ -239,6 +241,8 @@ def main():
     ev = sub.add_parser("evaluate")
     ev.add_argument("--ckpt", required=True, nargs="+", help="paths from the repo root; several = mean forecast")
     ev.add_argument("--out", required=True, help="results file, path from the repo root")
+    ev.add_argument("--save-forecasts", default=None, help=".npz of the forecasts at the four leads, path from the "
+                    "repo root (format of scripts/forecast_stats.py, method name patchtst)")
     for p in (tr, ev):
         p.add_argument("--data", default=os.path.join(common.ROOT, "data", "preprocessed"))
         p.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")

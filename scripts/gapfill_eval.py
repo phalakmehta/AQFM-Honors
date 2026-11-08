@@ -218,6 +218,8 @@ def main():
     ap.add_argument("--targets", nargs="+", default=["PM2.5", "PM10", "Ozone", "NOx", "NO2"])
     ap.add_argument("--val-start", default=None)
     ap.add_argument("--test-start", default=None)
+    ap.add_argument("--test-end", default=None, help="YYYY-MM-DD: end of the scored period, exclusive (default: end "
+                    "of the data); e.g. the validation year")
     ap.add_argument("--train-from", required=True, help="YYYY-MM-DD: cycle and XGBoost training data start")
     ap.add_argument("--train-to", required=True, help="YYYY-MM-DD: ... end (exclusive)")
     ap.add_argument("--samples", type=int, default=200)
@@ -235,6 +237,8 @@ def main():
     met = np.load(os.path.join(args.data, "era5_met.npy"), mmap_mode="r")
     lo = int(np.searchsorted(t, hours_since_epoch(*map(int, args.train_from.split("-")))))
     hi = int(np.searchsorted(t, hours_since_epoch(*map(int, args.train_to.split("-")))))
+    test_end = (int(np.searchsorted(t, hours_since_epoch(*map(int, args.test_end.split("-")))))
+                if args.test_end else None)
     cyc = {c: daily_cycle(raw_v, raw_o, R[c], lo, hi, hour) for c in args.targets}
     res = {"plan": "/home/phalak/aqfm/paper/gapfill_plan.md", "args": vars(args), "code": code_version(), "gaps": {}}
     saved = {}
@@ -254,7 +258,7 @@ def main():
             anchors, allowed, _ = select_stations("all", data, [], True)
             extra = {"cyc": cyc, "hour": hour, "met": met} if si == 0 else None
             t1 = time.time()
-            rec = run_aqfm(models, cfg, data, raw_v, raw_o, test_start, None, gap, args.targets, anchors, allowed,
+            rec = run_aqfm(models, cfg, data, raw_v, raw_o, test_start, test_end, gap, args.targets, anchors, allowed,
                            device, args.samples, args.limit_origins, extra)
             print(f"  {gap_h} h, {name}: AQFM pass {time.time() - t1:.0f}s", flush=True)
             if si == 0:

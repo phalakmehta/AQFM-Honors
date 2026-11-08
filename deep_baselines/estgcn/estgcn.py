@@ -285,6 +285,9 @@ def evaluate(args):
     p = pred[[row[t0] for t0 in t0s], :, ss]                   # (N, HORIZON, 2), in the order of `pairs`
     b = st.batch(ss, t0s)
     res = common.score(NAME, b["y"].numpy(), p, b["ym"].numpy())
+    if args.save_forecasts:                               # per-point forecasts for scripts/forecast_stats.py
+        common.save_forecasts(os.path.join(common.ROOT, args.save_forecasts), "estgcn", pairs,
+                              a["timestamps_h"], b["y"].numpy(), p, b["ym"].numpy())
     res["n_origins"], res["n_windows"] = int(n_origins), len(pairs)
     res["selected"] = [{"target": ck["target"], "step": ck["step"], "val": ck["val"]} for ck in cks]
     res["checkpoint"] = args.ckpt
@@ -319,6 +322,8 @@ def main():
     ev.add_argument("--ckpt", required=True, nargs="+",
                     help="paths from the repo root, at least one per pollutant; several per pollutant = mean forecast")
     ev.add_argument("--out", required=True, help="results file, path from the repo root")
+    ev.add_argument("--save-forecasts", default=None, help=".npz of the forecasts at the four leads, path from the "
+                    "repo root (format of scripts/forecast_stats.py, method name estgcn)")
     for q in (tr, ev):
         q.add_argument("--data", default=os.path.join(common.ROOT, "data", "preprocessed"))
         q.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")

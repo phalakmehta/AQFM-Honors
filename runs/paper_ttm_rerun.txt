@@ -1,0 +1,86 @@
+Loading preprocessed arrays...
+  values: (37, 18, 280512), observed: (37, 18, 280512), ts: (280512,)
+  Train: 0..245472 (245472 steps = 2557 days)
+  Test:  245472..280512 (35040 steps = 365 days)
+  Resampling 280512 steps -> 70128 hourly steps for 37 stations x 6 channels...
+  Hourly observation rate: 0.957
+  Hourly split: train 0..61368, test 61368..70128
+  Forward-filled 379391 hourly gaps
+  Scaler fitted on training data:
+    PM2.5: mean=103.63, std=97.82
+    PM10: mean=209.18, std=148.59
+    AT: mean=25.22, std=8.39
+    RH: mean=62.86, std=21.70
+    WS: mean=1.53, std=1.27
+    WD: mean=190.95, std=95.30
+
+Loading TTM model: ibm-granite/granite-timeseries-ttm-r2...
+INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/agent-harnesses "HTTP/1.1 200 OK"
+INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:p-571624:t-123954785964160:_http.py:_warn_on_warning_headers:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2Fd6a79570cac0f33d526601cd3a0fc7c80a8f9a2f%2Fconfig.json=&etag=%2209e937ef5082573c0785a180f23753110b78696c%22 "HTTP/1.1 200 OK"
+INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2Fd6a79570cac0f33d526601cd3a0fc7c80a8f9a2f%2Fconfig.json=&etag=%2209e937ef5082573c0785a180f23753110b78696c%22 "HTTP/1.1 200 OK"
+INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/model.safetensors "HTTP/1.1 302 Found"
+INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/xet-read-token/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 19890.18it/s]
+  Model loaded. Config: context=512, pred=96, channels=6
+
+Evaluating at 362 daily origins in test period...
+  Processed 50/362 origins...
+  Processed 100/362 origins...
+  Processed 150/362 origins...
+  Processed 200/362 origins...
+  Processed 250/362 origins...
+  Processed 300/362 origins...
+  Processed 350/362 origins...
+
+======================================================================
+IBM TTM Zero-Shot Results (CORRECTED)
+======================================================================
+
+IBM TTM (zero-shot)
+  PM2.5 @ 1h: MAE=20.23, RMSE=37.07 (n=12787)
+  PM2.5 @ 6h: MAE=32.43, RMSE=52.61 (n=12600)
+  PM2.5 @ 24h: MAE=37.70, RMSE=64.23 (n=12734)
+    AQI breakdown:
+      Good: MAE=18.64, n=1865
+      Satisfactory: MAE=17.11, n=3269
+      Moderate: MAE=23.02, n=2119
+      Poor: MAE=35.00, n=1335
+      Very Poor: MAE=49.83, n=2752
+      Severe: MAE=112.43, n=1394
+  PM2.5 @ 72h: MAE=41.32, RMSE=69.47 (n=12732)
+  PM10 @ 1h: MAE=37.55, RMSE=58.63 (n=12747)
+  PM10 @ 6h: MAE=52.80, RMSE=76.76 (n=12597)
+  PM10 @ 24h: MAE=71.74, RMSE=102.88 (n=12698)
+  PM10 @ 72h: MAE=79.25, RMSE=111.73 (n=12698)
+
+IBM TTM (zero-shot, 15-min scoring)
+  PM2.5 @ 1h: MAE=20.95, RMSE=38.23 (n=12210)
+  PM2.5 @ 6h: MAE=32.13, RMSE=51.56 (n=11998)
+  PM2.5 @ 24h: MAE=39.16, RMSE=65.93 (n=10309)
+    AQI breakdown:
+      Good: MAE=18.10, n=1555
+      Satisfactory: MAE=16.88, n=2646
+      Moderate: MAE=23.75, n=1603
+      Poor: MAE=37.83, n=1005
+      Very Poor: MAE=51.52, n=2248
+      Severe: MAE=111.05, n=1252
+  PM2.5 @ 72h: MAE=42.75, RMSE=71.17 (n=10306)
+  PM10 @ 1h: MAE=38.96, RMSE=60.12 (n=12528)
+  PM10 @ 6h: MAE=53.10, RMSE=77.76 (n=12341)
+  PM10 @ 24h: MAE=75.09, RMSE=106.09 (n=10634)
+  PM10 @ 72h: MAE=82.51, RMSE=114.59 (n=10633)
+Results saved to results/ttm_results_rerun.json
+saved forecasts ../results/forecasts/delhi_ttm.npz
+
+==========================================================================================
+SUMMARY: MAE (ug/m3)
+==========================================================================================
+Baseline               Target           1h         6h        24h        72h
+------------------------------------------------------------------------------------------
+IBM TTM (zero-shot)    PM2.5         20.23      32.43      37.70      41.32
+IBM TTM (zero-shot)    PM10          37.55      52.80      71.74      79.25
+IBM TTM (zero-shot, 15-min scoring) PM2.5         20.95      32.13      39.16      42.75
+IBM TTM (zero-shot, 15-min scoring) PM10          38.96      53.10      75.09      82.51

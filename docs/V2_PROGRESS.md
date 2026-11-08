@@ -1546,7 +1546,35 @@ station, and an XGBoost gap filler trained on the training years only. No deep g
   29.28 vs 29.32 in the middle; line 11.04). The decoder sees each station's past only through the pooler's 8
   latents and `last_visible` (the last reading before the forecast start), never the readings beside a gap. A fix
   would give gap-filling queries the readings on either side of the gap — a design change, not tried.
+- **Improvement attempt (Part B2, user: "first see if you can improve it"; rule fixed before any run in the plan):**
+  edge-anchored AQFM (`scripts/gapfill_anchored.py`, tests `tests/test_gapfill_anchored.py`; no retraining): AQFM's
+  fill plus the straight line between its errors at the two gap edges. Developed on Delhi 2024 (validation; run
+  `results/paper/delhi_gapfill_val2024.json`, 27 min; same pattern as 2025): lower than raw AQFM in 11 of 20 cells
+  (all of 4 and 12 h, PM2.5 at 24 h) → adopted by the pre-set rule (≥ 11). Once on the test
+  (`results/paper/{delhi_gapfill_anchored,mumbai_gapfill_anchored_m12}.json`): Delhi with future ERA5 — never
+  significantly worse than the line (better in 17 of 20, level in 3; PM2.5 4 h 15.35 vs line 15.73), but XGBoost
+  still significantly better in 16 of 20 (PM2.5 24 h 29.43 vs 17.35); the correction hurts at 24–48 h. Mumbai: the
+  line still better at 4 h for every pollutant. Conclusion: the post-hoc fix removes "worse than a line" in Delhi
+  but cannot reach XGBoost or the nearest stations; that needs a model change (decoder sees the readings beside
+  the gap) and retraining.
 - **Not yet done:** uncommitted; after a commit, register the new results in `scripts/manifest.json`.
+
+## Step 16: deep-learning baselines on the same forecasts, with tests — done 2026-11-08
+
+User (paper review): "do it" (tests for the deep-learning baselines). No retraining: the saved models were re-run.
+- **Code:** `--save-forecasts` (off by default) in `deep_baselines/patchtst.py evaluate` and `deep_baselines/estgcn/estgcn.py
+  evaluate` (shared `deep_baselines/common.py save_forecasts`, test `deep_baselines/tests/test_save_forecasts.py`), and
+  `--out-name` / `--save-forecasts` in `baselines/run_baselines_ttm.py` (TTM weights downloaded at the pinned revision).
+- **Reruns reproduce the published results exactly** (max |difference| over MAE, RMSE and n = 0.0):
+  `baselines/results/{patchtst_ens3,estgcn_ens3,ttm}_results*_rerun.json` against the published files; forecasts in
+  `results/forecasts/delhi_{patchtst_ens3,estgcn_ens3,ttm}.npz` (TTM: the 15-min truth, the points every other model uses).
+  Note: `deep_baselines/runs/eval_patchtst_ens3.txt` is from the earlier 20k-step models; the published
+  `patchtst_ens3_results.json` is the 40k ensemble (`eval_patchtst40k_ens3.txt`).
+- **Comparison** (`scripts/forecast_stats.py`, same points, AQFM v2-M NO2-direct without future weather first):
+  `results/paper/delhi_{PM2.5,PM10}_no_weather_deep.json`. AQFM has the lowest MAE in all 8 cells and is never
+  significantly worse; significantly better in 12 of 24 (PatchTST 2, E-STGCN 5, TTM 5). On the 15-min points TTM is
+  not ahead at 72 h (PM2.5 42.75 vs 42.14, p = 0.532); its hourly-mean score had suggested otherwise.
+- **Not yet done:** uncommitted; register the new files in the manifest after a commit.
 
 ## Open questions
 

@@ -145,6 +145,13 @@ def unscale_array(data, scaler):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out-name", default="ttm_results.json", help="results file name in baselines/results/")
+    ap.add_argument("--save-forecasts", default=None, help=".npz of the forecasts at the four leads with the 15-min "
+                    "truth (format of scripts/forecast_stats.py, method name ttm)")
+    args = ap.parse_args()
+
     # 1. Load raw 15-min data
     values, observed, timestamps_h = load_data()
     test_start_15m, test_end_15m = get_test_split(timestamps_h)
@@ -200,6 +207,8 @@ def main():
             collectors[ch_name][hz_name] = {"true": [], "pred": [], "mask": [],
                                             "true15": [], "mask15": []}
 
+    hz_names = list(TTM_HORIZONS)
+    fc = {"anchor": [], "origin": [], "pred": [], "true": [], "mask": []}   # per (origin, station), for --save-forecasts
     n_done = 0
     for origin in origins:
         ctx_start = origin - TTM_CONTEXT
@@ -215,6 +224,8 @@ def main():
                 out = model(past_values=ctx_tensor)
                 pred_scaled = out.prediction_outputs.numpy()[0]  # (pred_len, n_ch)
 
+            rp = np.full((len(hz_names), len(TARGET_NAMES)), np.nan, np.float32)
+            rt, rm = rp.copy(), np.zeros_like(rp)
             # For each horizon, extract the prediction at that step
             for hz_name, hz_step in TTM_HORIZONS.items():
                 pred_step = hz_step - 1  # 0-indexed
@@ -247,6 +258,10 @@ def main():
                     collectors[ch_name][hz_name]["mask"].append(obs_val)
                     collectors[ch_name][hz_name]["true15"].append(values[s, ch_raw, t15])
                     collectors[ch_name][hz_name]["mask15"].append(observed[s, ch_raw, t15])
+                    j = hz_names.index(hz_name)
+                    rp[j, ti], rt[j, ti], rm[j, ti] = pred_val, values[s, ch_raw, t15], observed[s, ch_raw, t15]
+            for k_, v_ in (("anchor", s), ("origin", STEPS_PER_HOUR * origin), ("pred", rp), ("true", rt), ("mask", rm)):
+                fc[k_].append(v_)
 
         n_done += 1
         if n_done % 50 == 0:
@@ -287,7 +302,17 @@ def main():
                         print(f"      {band}: MAE={m['MAE']:.2f}, n={m['n']}")
 
     # 9. Save
-    save_results(results, "ttm_results.json")
+    save_results(results, args.out_name)
+    if args.save_forecasts:
+        org = np.array(fc["origin"], np.int64)
+        out = {"anchor": np.array(fc["anchor"], np.int64), "origin": org,
+               "origin_hours": np.asarray(timestamps_h, np.float64)[org]}
+        P, Y, M = (np.stack(fc[k]) for k in ("pred", "true", "mask"))
+        for ti, name in enumerate(TARGET_NAMES):
+            out[f"{name}_ttm"], out[f"{name}_true"], out[f"{name}_mask"] = P[:, :, ti], Y[:, :, ti], M[:, :, ti]
+        os.makedirs(os.path.dirname(os.path.abspath(args.save_forecasts)), exist_ok=True)
+        np.savez_compressed(args.save_forecasts, **out)
+        print("saved forecasts", args.save_forecasts)
     print_summary(results)
 
 
