@@ -15,15 +15,7 @@ Loading preprocessed arrays...
     WD: mean=190.95, std=95.30
 
 Loading TTM model: ibm-granite/granite-timeseries-ttm-r2...
-INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/agent-harnesses "HTTP/1.1 200 OK"
-INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json "HTTP/1.1 307 Temporary Redirect"
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-WARNING:p-571624:t-123954785964160:_http.py:_warn_on_warning_headers:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2Fd6a79570cac0f33d526601cd3a0fc7c80a8f9a2f%2Fconfig.json=&etag=%2209e937ef5082573c0785a180f23753110b78696c%22 "HTTP/1.1 200 OK"
-INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2Fd6a79570cac0f33d526601cd3a0fc7c80a8f9a2f%2Fconfig.json=&etag=%2209e937ef5082573c0785a180f23753110b78696c%22 "HTTP/1.1 200 OK"
-INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/model.safetensors "HTTP/1.1 302 Found"
-INFO:p-571624:t-123954785964160:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/xet-read-token/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f "HTTP/1.1 200 OK"
-Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 19890.18it/s]
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 20457.04it/s]
   Model loaded. Config: context=512, pred=96, channels=6
 
 Evaluating at 362 daily origins in test period...

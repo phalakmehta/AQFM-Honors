@@ -1448,6 +1448,21 @@
       "what": "v2-M (4.57M) without future weather, NO2 forecast directly, pooled 3-seed ensemble, 2025 test; PM2.5, PM10, ozone, NOx, NO2 (the pipeline also passed --save-forecasts results/forecasts/delhi_v2m256_no2d_nofm_ens3.npz, which only writes that file)",
       "models": ["aqfm_v2m_no2d_nofm_s0", "aqfm_v2m_no2d_nofm_s1", "aqfm_v2m_no2d_nofm_s2"], "code": "d34609e", "minutes": 14,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s0_do03/best.pt runs/v2m256_no2d_nofm_s1_do03/best.pt runs/v2m256_no2d_nofm_s2_do03/best.pt --out results/v2m256_no2d_nofm_ens3_results.json --device cuda --seed 0"
+    },
+    "baselines/results/patchtst_ens3_rerun.json": {
+      "what": "PatchTST 3-seed ensemble re-run from the saved models (identical to patchtst_ens3_results.json) to keep its forecasts at the four leads for the same-point tests (results/forecasts/delhi_patchtst_ens3.npz; step 16)",
+      "models": ["patchtst_s0", "patchtst_s1", "patchtst_s2"], "code": "6d251d0", "minutes": 1,
+      "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s0/best.pt deep_baselines/runs/patchtst40k_do1_s1/best.pt deep_baselines/runs/patchtst40k_do1_s2/best.pt --out baselines/results/patchtst_ens3_rerun.json --save-forecasts results/forecasts/delhi_patchtst_ens3.npz --eval-batch 512"
+    },
+    "baselines/results/estgcn_ens3_rerun.json": {
+      "what": "E-STGCN 3-seed ensemble re-run from the saved models (identical to estgcn_ens3_results.json) to keep its forecasts at the four leads for the same-point tests (results/forecasts/delhi_estgcn_ens3.npz; step 16)",
+      "models": ["estgcn_pm25_s0", "estgcn_pm10_s0", "estgcn_pm25_s1", "estgcn_pm10_s1", "estgcn_pm25_s2", "estgcn_pm10_s2"], "code": "6d251d0", "minutes": 1,
+      "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt --out baselines/results/estgcn_ens3_rerun.json --save-forecasts results/forecasts/delhi_estgcn_ens3.npz --eval-batch 64"
+    },
+    "baselines/results/ttm_results_rerun.json": {
+      "what": "IBM TTM zero-shot re-run (identical to ttm_results.json) to keep its forecasts with the 15-min truth for the same-point tests (results/forecasts/delhi_ttm.npz; step 16); downloads the pinned model revision",
+      "models": [], "code": "6d251d0", "minutes": 1, "cwd": "baselines",
+      "run": "python run_baselines_ttm.py --out-name ttm_results_rerun.json --save-forecasts ../results/forecasts/delhi_ttm.npz"
     }
   }
 }
