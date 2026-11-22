@@ -36,13 +36,11 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-from .config import AQFMConfig, CH
+from .config import AQFMConfig, CH, EPOCH
 from .data import AQData, FixedWindows, TrainWindows, build_queries, synthetic_raw
 from .losses import total_loss
 from .masking import fit_block_lognormal
 from .model import AQFM
-
-EPOCH = datetime(2018, 1, 1)
 
 
 def hours_since_epoch(y, m=1, d=1):
@@ -228,6 +226,7 @@ def save(path, model, cfg, extra):
 def load_checkpoint(path, device="cpu"):
     ck = torch.load(path, map_location=device, weights_only=False)
     ck["cfg"].setdefault("use_last_obs", False)          # checkpoints from before the anchor
+    ck["cfg"].setdefault("use_season", False)            # checkpoints from before the season embedding
     for k in ("dist_kernels_km", "nbr_dropout_frac", "target_channels", "n_blocks_per_sample",
               "channel_dropout_frac"):                   # json/pickle round trip -> tuples
         if isinstance(ck["cfg"].get(k), list):
@@ -294,6 +293,8 @@ def main():
                     help="predict NO2 directly instead of NOx x (1 - NO share) (NOx still predicted; NO not)")
     ap.add_argument("--random-masking", action="store_true",
                     help="ablation: block/channel masking only, no forecast targets in training")
+    ap.add_argument("--season", action="store_true",
+                    help="add a seasonal regime embedding to the model (v2-M-S variant)")
     ap.add_argument("--v1-spatial", action="store_true",
                     help="ablation: switch off the v2 spatial changes (relative coordinates, 100 km radius, "
                          "distance kernels, travel time, look-back, sink, density, neighbour dropout)")
@@ -314,7 +315,8 @@ def main():
     else:
         kw = dict(grad_checkpoint=args.grad_checkpoint, use_future_met=not args.no_future_met,
                   spatial_bias=args.spatial_bias, use_spatial_attention=not args.no_spatial,
-                  use_last_obs=not args.no_last_obs, use_blh=not args.no_blh)
+                  use_last_obs=not args.no_last_obs, use_blh=not args.no_blh,
+                  use_season=args.season)
         if args.dropout is not None:
             kw["dropout"] = args.dropout
         for k in ("d_model", "n_heads", "d_ff"):

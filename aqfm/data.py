@@ -7,11 +7,14 @@ the forecast origin is t = t0+Tc, and horizon step j is index t+j, i.e. the
 baselines' "horizon h" target t+h-1 is horizon step j = h-1.
 """
 
+from datetime import timedelta
+
 import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-from .config import CH, ERA5_MET_CHANNELS, LOG_CHANNELS, RAW_CHANNELS, AQFMConfig
+from .config import (CH, ERA5_MET_CHANNELS, EPOCH, LOG_CHANNELS, MONTH_TO_SEASON,
+                    RAW_CHANNELS, AQFMConfig)
 from .masking import MaskSampler
 from .physical import derive_inputs
 from .model import FORECAST, IMPUTE
@@ -174,6 +177,8 @@ def make_sample(data: AQData, cfg: AQFMConfig, sel, t0, rng=None, masker=None):
     t_ctx_patch = t[:Tc].reshape(N, P).mean(-1)
     t_hz_patch = t[Tc:].reshape(H, P).mean(-1)
     origin = t[Tc]
+    origin_dt = EPOCH + timedelta(hours=float(data.t[t0 + Tc]))
+    season = MONTH_TO_SEASON[origin_dt.month]
     met_ctx = met_hz = np.zeros((S, cfg.n_met_future, 1), np.float32)
     if data.met is not None:
         met = data.met[sel, :, sl]
@@ -193,6 +198,7 @@ def make_sample(data: AQData, cfg: AQFMConfig, sel, t0, rng=None, masker=None):
         "imp_pos": f(imp_pos), "imp_valid": f(imp_valid),
         "imp_y": f(imp_y), "imp_m": f(imp_m), "imp_phys": f(imp_phys),
         "sel": f(np.asarray(sel, np.int64)), "t0": torch.tensor(t0),
+        "season": torch.tensor(season, dtype=torch.long),
         "st_valid": f(st_valid),
     }
 
@@ -294,6 +300,8 @@ def build_queries(cfg: AQFMConfig, batch, forecast=True, impute=True):
             "station": s.expand(B, Q), "slot": c.expand(B, Q),
             "lead": batch["lead_hz"][:, h], "time": batch["t_hz_patch"][:, h],
             "task": torch.full((B, Q), FORECAST, device=dev),
+            "season": (batch["season"].unsqueeze(-1).expand(B, Q) if "season" in batch
+                       else torch.zeros(B, Q, dtype=torch.long, device=dev)),
             "met": met[:, s, hm],                                      # (B,Q,M)
             "valid": (batch["st_valid"][:, s] if "st_valid" in batch
                       else torch.ones(B, Q, dtype=torch.bool, device=dev)),
@@ -314,6 +322,8 @@ def build_queries(cfg: AQFMConfig, batch, forecast=True, impute=True):
             "lead": torch.gather(batch["lead_ctx"], 1, n),
             "time": torch.gather(batch["t_ctx_patch"], 1, n),
             "task": torch.full_like(s, IMPUTE),
+            "season": (batch["season"].unsqueeze(-1).expand(B, Pm * Ct) if "season" in batch
+                       else torch.zeros(B, Pm * Ct, dtype=torch.long, device=dev)),
             "met": met[bidx, s, nm],                                   # (B,Q,M)
             "valid": batch["imp_valid"].unsqueeze(-1).expand(B, Pm, Ct).reshape(B, -1),
             "y": batch["imp_y"].reshape(B, Pm * Ct, P),
