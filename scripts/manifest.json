@@ -1,6 +1,5 @@
 {
   "about": "Every input, model and result the paper relies on: where it lives, its checksum, and the exact command that makes it. Commands run from the repo root (baselines: from baselines/). 'code' is the git commit that produced the item. Checked by scripts/check_submission.py; explained in SUBMISSION.md.",
-
   "data": {
     "where": "Google Drive: Foundation Model(Mainak Sir)/preproccesed -> data/preprocessed/ (not in git: too large). Raw inputs: Drive yearly_data.zip and ERA 5/; pipeline code in data_pipeline/. v2: data/delhi/ is built from the same raw inputs by the data_pipeline commands in docs/V2_PROGRESS.md (step 2); not on Drive. data/mumbai/ is built (in under a second) from the Mumbai Drive array mumbai_all_data_2324_28locs.npy (sha256 bb355573037d4db77bc08d7a603cccb05c06db31d2974fdbc960e694ba9e3330) by: python data_pipeline/convert_hourly_city.py --array <that file> --columns \"PM2.5,PM10,NO2,Ozone,AT,RH,WS,WD,NOx,era5:blh,skip,era5:u10,era5:v10,era5:sp,era5:tp\" --first-hour 2023-01-01 --stations data_pipeline/stations/mumbai.csv --facts data_pipeline/stations/mumbai_facts.csv --out data/mumbai (docs/V2_PROGRESS.md step 10; rebuilt 2026-11-06: all 7 files identical).",
     "sha256": {
@@ -28,7 +27,6 @@
       "data/mumbai/values.npy": "eb00c517113577c7286ef38d5898644b0f2196f24167e65a44cdf4089372abdd"
     }
   },
-
   "models": {
     "aqfm_do3_s0": {
       "what": "Final setup (anchor, dropout 0.3), seed 0; best at step 5000",
@@ -765,704 +763,1413 @@
       "sha256": "f0d7e63d95f5500ef824d7b95cb75c5c883f29566217269e1d03f293d860cc6b",
       "code": "d34609e",
       "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256_no2d_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --no-future-met"
+    },
+    "aqfm_v2m256s_s0": {
+      "what": "v2-M-S (Seasonal regime embedding, 4.57M), NO2 forecast directly, dropout 0.3, seed 0",
+      "path": "runs/v2m256s_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m256s_s0.pt",
+      "sha256": "497a303ecda80eeaf5abbf7487d19974e3de9f183ca0b3177c46c1d4366f7f79",
+      "code": "74c5917",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256s_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --season"
+    },
+    "aqfm_v2m256s_s1": {
+      "what": "v2-M-S (Seasonal regime embedding, 4.57M), NO2 forecast directly, dropout 0.3, seed 1",
+      "path": "runs/v2m256s_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m256s_s1.pt",
+      "sha256": "78199d1ec88ba93e170b4a541a03176f3dbc08376711fa088998114cc261a694",
+      "code": "74c5917",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256s_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --season"
+    },
+    "aqfm_v2m256s_s2": {
+      "what": "v2-M-S (Seasonal regime embedding, 4.57M), NO2 forecast directly, dropout 0.3, seed 2",
+      "path": "runs/v2m256s_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m256s_s2.pt",
+      "sha256": "f95027239abf4ac868cbf50b96c8f5ebc5cf000c6ca0b2b8655192218d797879",
+      "code": "74c5917",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256s_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --season"
+    },
+    "aqfm_v2m256s_nofm_s0": {
+      "what": "v2-M-S (Seasonal, 4.57M) WITHOUT future weather, NO2 forecast directly, dropout 0.3, seed 0",
+      "path": "runs/v2m256s_nofm_s0_do03/best.pt",
+      "drive": "models/aqfm_v2m256s_nofm_s0.pt",
+      "sha256": "bcc9b725f22183977f9f9fb8be7982650aa29a8265dcca3aaba46d748df3e7cd",
+      "code": "d39fb44",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256s_nofm_s0_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 0 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --season --no-future-met"
+    },
+    "aqfm_v2m256s_nofm_s1": {
+      "what": "v2-M-S (Seasonal, 4.57M) WITHOUT future weather, NO2 forecast directly, dropout 0.3, seed 1",
+      "path": "runs/v2m256s_nofm_s1_do03/best.pt",
+      "drive": "models/aqfm_v2m256s_nofm_s1.pt",
+      "sha256": "55956d7316eace2755b2ab18d244bdaad20af08905636d823298dff69805abe7",
+      "code": "d39fb44",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256s_nofm_s1_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 1 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --season --no-future-met"
+    },
+    "aqfm_v2m256s_nofm_s2": {
+      "what": "v2-M-S (Seasonal, 4.57M) WITHOUT future weather, NO2 forecast directly, dropout 0.3, seed 2",
+      "path": "runs/v2m256s_nofm_s2_do03/best.pt",
+      "drive": "models/aqfm_v2m256s_nofm_s2.pt",
+      "sha256": "54d74d201aff933d431df9ba7b21b570077c0fcea0aa2c9b4e52c9c84e57d9c6",
+      "code": "d39fb44",
+      "train": "python -m aqfm.train --phase main --preset city --data data/delhi --out runs/v2m256s_nofm_s2_do03 --device cuda --batch-size 8 --weight-decay 0.05 --compile --dropout 0.3 --steps 12000 --patience 3 --seed 2 --d-model 256 --n-heads 8 --d-ff 512 --no2-direct --season --no-future-met"
     }
   },
-
   "results": {
     "results/aqfm_do3_s0_results.json": {
       "what": "Final setup, seed 0, 2025 test",
-      "models": ["aqfm_do3_s0"], "code": "5f7a057", "minutes": 14,
+      "models": [
+        "aqfm_do3_s0"
+      ],
+      "code": "5f7a057",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3/best.pt --out results/aqfm_do3_s0_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_s1_results.json": {
       "what": "Final setup, seed 1, 2025 test",
-      "models": ["aqfm_do3_s1"], "code": "5f7a057", "minutes": 14,
+      "models": [
+        "aqfm_do3_s1"
+      ],
+      "code": "5f7a057",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s1_do3/best.pt --out results/aqfm_do3_s1_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_s2_results.json": {
       "what": "Final setup, seed 2, 2025 test",
-      "models": ["aqfm_do3_s2"], "code": "5f7a057", "minutes": 14,
+      "models": [
+        "aqfm_do3_s2"
+      ],
+      "code": "5f7a057",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s2_do3/best.pt --out results/aqfm_do3_s2_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_seeds_stats.json": {
       "what": "Mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "5f7a057", "minutes": 0,
+      "models": [],
+      "code": "5f7a057",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/aqfm_do3_seeds_stats.json results/aqfm_do3_s0_results.json results/aqfm_do3_s1_results.json results/aqfm_do3_s2_results.json"
     },
     "results/aqfm_do3_ens3_results.json": {
       "what": "Final setup, pooled 3-seed ensemble, 2025 test (headline result)",
-      "models": ["aqfm_do3_s0", "aqfm_do3_s1", "aqfm_do3_s2"], "code": "5f7a057", "minutes": 40,
+      "models": [
+        "aqfm_do3_s0",
+        "aqfm_do3_s1",
+        "aqfm_do3_s2"
+      ],
+      "code": "5f7a057",
+      "minutes": 40,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt --out results/aqfm_do3_ens3_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_nofm_s0_results.json": {
       "what": "Final setup without future weather, seed 0, 2025 test",
-      "models": ["aqfm_do3_nofm_s0"], "code": "5f7a057", "minutes": 14,
+      "models": [
+        "aqfm_do3_nofm_s0"
+      ],
+      "code": "5f7a057",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_nofm/best.pt --out results/aqfm_do3_nofm_s0_results.json --device cuda --seed 0"
     },
     "results/aqfm_anchor_s0_results.json": {
       "what": "Anchor run (dropout 0.1), seed 0, 2025 test. Originally evaluated from best_step5000.pt, a byte-identical copy of best.pt",
-      "models": ["aqfm_anchor_do1_s0"], "code": "df590e1", "minutes": 14,
+      "models": [
+        "aqfm_anchor_do1_s0"
+      ],
+      "code": "df590e1",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_anchor/best.pt --out results/aqfm_anchor_s0_results.json --device cuda --seed 0"
     },
     "results/aqfm_results.json": {
       "what": "Run 1 (no anchor), seed 0, 2025 test",
-      "models": ["aqfm_run1_s0"], "code": "5cada92", "minutes": 14,
+      "models": [
+        "aqfm_run1_s0"
+      ],
+      "code": "5cada92",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0/best.pt --out results/aqfm_results.json --device cuda --seed 0"
     },
     "results/aqfm_s0_wd_results.json": {
       "what": "Run 2 (no anchor, weight decay 0.1, after anneal), seed 0, 2025 test",
-      "models": ["aqfm_run2_wd_anneal_s0"], "code": "5cada92", "minutes": 14,
+      "models": [
+        "aqfm_run2_wd_anneal_s0"
+      ],
+      "code": "5cada92",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/anneal_s0_wd/best.pt --out results/aqfm_s0_wd_results.json --device cuda --seed 0"
     },
     "baselines/results/classical_results.json": {
       "what": "Persistence, seasonal naive, climatology, 2025 test (rerun after the seasonal-naive fix, docs/V2_PROGRESS.md step 13)",
-      "models": [], "code": "08ee3a1", "minutes": 1, "cwd": "baselines",
+      "models": [],
+      "code": "08ee3a1",
+      "minutes": 1,
+      "cwd": "baselines",
       "run": "python run_baselines_classical.py"
     },
     "baselines/results/xgboost_results.json": {
       "what": "XGBoost with past data only, 2025 test",
-      "models": [], "code": "63946a8", "minutes": 60, "cwd": "baselines",
+      "models": [],
+      "code": "63946a8",
+      "minutes": 60,
+      "cwd": "baselines",
       "run": "python run_baselines_xgboost.py"
     },
     "baselines/results/xgboost_future_met_results.json": {
       "what": "XGBoost + ERA5 weather at the target time (the fair bar for AQFM), 2025 test",
-      "models": [], "code": "63946a8", "minutes": 60, "cwd": "baselines",
+      "models": [],
+      "code": "63946a8",
+      "minutes": 60,
+      "cwd": "baselines",
       "run": "python run_baselines_xgboost.py --future-met"
     },
     "baselines/results/ttm_results.json": {
       "what": "IBM TTM zero-shot (hourly-mean and 15-min scoring), 2025 test; downloads the pinned model revision",
-      "models": [], "code": "63946a8", "minutes": 60, "cwd": "baselines",
+      "models": [],
+      "code": "63946a8",
+      "minutes": 60,
+      "cwd": "baselines",
       "run": "python run_baselines_ttm.py"
     },
     "results/aqfm_do3_nospatial_s0_results.json": {
       "what": "Ablation E3 (no spatial attention), 2025 test",
-      "models": ["aqfm_do3_nospatial_s0"], "code": "4b0c7d6", "minutes": 14,
+      "models": [
+        "aqfm_do3_nospatial_s0"
+      ],
+      "code": "4b0c7d6",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_nospatial/best.pt --out results/aqfm_do3_nospatial_s0_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_nowind_s0_results.json": {
       "what": "Ablation E3 (distance-only spatial bias), 2025 test",
-      "models": ["aqfm_do3_nowind_s0"], "code": "4b0c7d6", "minutes": 14,
+      "models": [
+        "aqfm_do3_nowind_s0"
+      ],
+      "code": "4b0c7d6",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_nowind/best.pt --out results/aqfm_do3_nowind_s0_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_pm25direct_s0_results.json": {
       "what": "Ablation E4 (PM2.5 predicted directly), 2025 test; includes the PM2.5 > PM10 share",
-      "models": ["aqfm_do3_pm25direct_s0"], "code": "a509c69", "minutes": 14,
+      "models": [
+        "aqfm_do3_pm25direct_s0"
+      ],
+      "code": "a509c69",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_pm25direct/best.pt --out results/aqfm_do3_pm25direct_s0_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_gapfillonly_s0_results.json": {
       "what": "Ablation E5 (gap-filling only), 2025 test",
-      "models": ["aqfm_do3_gapfillonly_s0"], "code": "4b0c7d6", "minutes": 14,
+      "models": [
+        "aqfm_do3_gapfillonly_s0"
+      ],
+      "code": "4b0c7d6",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_gapfillonly/best.pt --out results/aqfm_do3_gapfillonly_s0_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_noblh_s0_results.json": {
       "what": "Ablation E2 (no BLH), 2025 test",
-      "models": ["aqfm_do3_noblh_s0"], "code": "4b0c7d6", "minutes": 14,
+      "models": [
+        "aqfm_do3_noblh_s0"
+      ],
+      "code": "4b0c7d6",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_noblh/best.pt --out results/aqfm_do3_noblh_s0_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_nofm_s1_results.json": {
       "what": "Final setup without future weather, seed 1, 2025 test",
-      "models": ["aqfm_do3_nofm_s1"], "code": "4b0c7d6", "minutes": 14,
+      "models": [
+        "aqfm_do3_nofm_s1"
+      ],
+      "code": "4b0c7d6",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s1_do3_nofm/best.pt --out results/aqfm_do3_nofm_s1_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_nofm_s2_results.json": {
       "what": "Final setup without future weather, seed 2, 2025 test",
-      "models": ["aqfm_do3_nofm_s2"], "code": "4b0c7d6", "minutes": 14,
+      "models": [
+        "aqfm_do3_nofm_s2"
+      ],
+      "code": "4b0c7d6",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s2_do3_nofm/best.pt --out results/aqfm_do3_nofm_s2_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_nofm_ens3_results.json": {
       "what": "Final setup without future weather, pooled 3-seed ensemble, 2025 test",
-      "models": ["aqfm_do3_nofm_s0", "aqfm_do3_nofm_s1", "aqfm_do3_nofm_s2"], "code": "4b0c7d6", "minutes": 40,
+      "models": [
+        "aqfm_do3_nofm_s0",
+        "aqfm_do3_nofm_s1",
+        "aqfm_do3_nofm_s2"
+      ],
+      "code": "4b0c7d6",
+      "minutes": 40,
       "run": "python -m aqfm.evaluate --ckpt runs/main_s0_do3_nofm/best.pt runs/main_s1_do3_nofm/best.pt runs/main_s2_do3_nofm/best.pt --out results/aqfm_do3_nofm_ens3_results.json --device cuda --seed 0"
     },
     "results/aqfm_do3_nofm_seeds_stats.json": {
       "what": "Mean and std (ddof=1) over seeds 0/1/2 of every metric, without future weather",
-      "models": [], "code": "4b0c7d6", "minutes": 0,
+      "models": [],
+      "code": "4b0c7d6",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/aqfm_do3_nofm_seeds_stats.json results/aqfm_do3_nofm_s0_results.json results/aqfm_do3_nofm_s1_results.json results/aqfm_do3_nofm_s2_results.json"
     },
     "baselines/results/patchtst_s0_results.json": {
       "what": "PatchTST, seed 0, 2025 test",
-      "models": ["patchtst_s0"], "code": "889e82d", "minutes": 1,
+      "models": [
+        "patchtst_s0"
+      ],
+      "code": "889e82d",
+      "minutes": 1,
       "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s0/best.pt --out baselines/results/patchtst_s0_results.json"
     },
     "baselines/results/patchtst_s1_results.json": {
       "what": "PatchTST, seed 1, 2025 test",
-      "models": ["patchtst_s1"], "code": "889e82d", "minutes": 1,
+      "models": [
+        "patchtst_s1"
+      ],
+      "code": "889e82d",
+      "minutes": 1,
       "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s1/best.pt --out baselines/results/patchtst_s1_results.json"
     },
     "baselines/results/patchtst_s2_results.json": {
       "what": "PatchTST, seed 2, 2025 test",
-      "models": ["patchtst_s2"], "code": "889e82d", "minutes": 1,
+      "models": [
+        "patchtst_s2"
+      ],
+      "code": "889e82d",
+      "minutes": 1,
       "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s2/best.pt --out baselines/results/patchtst_s2_results.json"
     },
     "baselines/results/patchtst_ens3_results.json": {
       "what": "PatchTST, 3-seed ensemble (mean of the point forecasts), 2025 test",
-      "models": ["patchtst_s0", "patchtst_s1", "patchtst_s2"], "code": "889e82d", "minutes": 1,
+      "models": [
+        "patchtst_s0",
+        "patchtst_s1",
+        "patchtst_s2"
+      ],
+      "code": "889e82d",
+      "minutes": 1,
       "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s0/best.pt deep_baselines/runs/patchtst40k_do1_s1/best.pt deep_baselines/runs/patchtst40k_do1_s2/best.pt --out baselines/results/patchtst_ens3_results.json"
     },
     "baselines/results/patchtst_seeds_stats.json": {
       "what": "PatchTST: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "889e82d", "minutes": 0,
+      "models": [],
+      "code": "889e82d",
+      "minutes": 0,
       "run": "python deep_baselines/seed_stats.py baselines/results/patchtst_seeds_stats.json baselines/results/patchtst_s0_results.json baselines/results/patchtst_s1_results.json baselines/results/patchtst_s2_results.json"
     },
     "baselines/results/estgcn_s0_results.json": {
       "what": "E-STGCN (our re-implementation), seed 0 (PM2.5 and PM10 models), 2025 test",
-      "models": ["estgcn_pm25_s0", "estgcn_pm10_s0"], "code": "16ed23b", "minutes": 1,
+      "models": [
+        "estgcn_pm25_s0",
+        "estgcn_pm10_s0"
+      ],
+      "code": "16ed23b",
+      "minutes": 1,
       "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt --out baselines/results/estgcn_s0_results.json"
     },
     "baselines/results/estgcn_s1_results.json": {
       "what": "E-STGCN (our re-implementation), seed 1 (PM2.5 and PM10 models), 2025 test",
-      "models": ["estgcn_pm25_s1", "estgcn_pm10_s1"], "code": "16ed23b", "minutes": 1,
+      "models": [
+        "estgcn_pm25_s1",
+        "estgcn_pm10_s1"
+      ],
+      "code": "16ed23b",
+      "minutes": 1,
       "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt --out baselines/results/estgcn_s1_results.json"
     },
     "baselines/results/estgcn_s2_results.json": {
       "what": "E-STGCN (our re-implementation), seed 2 (PM2.5 and PM10 models), 2025 test",
-      "models": ["estgcn_pm25_s2", "estgcn_pm10_s2"], "code": "16ed23b", "minutes": 1,
+      "models": [
+        "estgcn_pm25_s2",
+        "estgcn_pm10_s2"
+      ],
+      "code": "16ed23b",
+      "minutes": 1,
       "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt --out baselines/results/estgcn_s2_results.json"
     },
     "baselines/results/estgcn_ens3_results.json": {
       "what": "E-STGCN, 3-seed ensemble (mean of the point forecasts per pollutant), 2025 test",
-      "models": ["estgcn_pm25_s0", "estgcn_pm10_s0", "estgcn_pm25_s1", "estgcn_pm10_s1", "estgcn_pm25_s2", "estgcn_pm10_s2"], "code": "16ed23b", "minutes": 1,
+      "models": [
+        "estgcn_pm25_s0",
+        "estgcn_pm10_s0",
+        "estgcn_pm25_s1",
+        "estgcn_pm10_s1",
+        "estgcn_pm25_s2",
+        "estgcn_pm10_s2"
+      ],
+      "code": "16ed23b",
+      "minutes": 1,
       "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt --out baselines/results/estgcn_ens3_results.json"
     },
     "baselines/results/estgcn_seeds_stats.json": {
       "what": "E-STGCN: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "16ed23b", "minutes": 0,
+      "models": [],
+      "code": "16ed23b",
+      "minutes": 0,
       "run": "python deep_baselines/seed_stats.py baselines/results/estgcn_seeds_stats.json baselines/results/estgcn_s0_results.json baselines/results/estgcn_s1_results.json baselines/results/estgcn_s2_results.json"
     },
     "results/v2_s0_results.json": {
       "what": "v2 city preset on Delhi, seed 0, 2025 test",
-      "models": ["aqfm_v2_s0"], "code": "39ea48b", "minutes": 3,
+      "models": [
+        "aqfm_v2_s0"
+      ],
+      "code": "39ea48b",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s0_do03/best.pt --out results/v2_s0_results.json --device cuda --seed 0"
     },
     "results/v2_s1_results.json": {
       "what": "v2 city preset on Delhi, seed 1, 2025 test",
-      "models": ["aqfm_v2_s1"], "code": "39ea48b", "minutes": 3,
+      "models": [
+        "aqfm_v2_s1"
+      ],
+      "code": "39ea48b",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s1_do03/best.pt --out results/v2_s1_results.json --device cuda --seed 0"
     },
     "results/v2_s2_results.json": {
       "what": "v2 city preset on Delhi, seed 2, 2025 test",
-      "models": ["aqfm_v2_s2"], "code": "39ea48b", "minutes": 3,
+      "models": [
+        "aqfm_v2_s2"
+      ],
+      "code": "39ea48b",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s2_do03/best.pt --out results/v2_s2_results.json --device cuda --seed 0"
     },
     "results/v2_seeds_stats.json": {
       "what": "v2: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "8be6172", "minutes": 0,
+      "models": [],
+      "code": "8be6172",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/v2_seeds_stats.json results/v2_s0_results.json results/v2_s1_results.json results/v2_s2_results.json"
     },
     "results/v2_ens3_results.json": {
       "what": "v2 city preset on Delhi, pooled 3-seed ensemble, 2025 test",
-      "models": ["aqfm_v2_s0", "aqfm_v2_s1", "aqfm_v2_s2"], "code": "39ea48b", "minutes": 7,
+      "models": [
+        "aqfm_v2_s0",
+        "aqfm_v2_s1",
+        "aqfm_v2_s2"
+      ],
+      "code": "39ea48b",
+      "minutes": 7,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt --out results/v2_ens3_results.json --device cuda --seed 0"
     },
     "results/v2_holdout4_newstation_results.json": {
       "what": "v2 unseen-station test: the 4 hidden stations, with their own history (hold-out run)",
-      "models": ["aqfm_v2_holdout4_s0"], "code": "39ea48b", "minutes": 1,
+      "models": [
+        "aqfm_v2_holdout4_s0"
+      ],
+      "code": "39ea48b",
+      "minutes": 1,
       "run": "python -m aqfm.evaluate --data data/delhi --stations held_out --ckpt runs/v2_holdout4_s0_do03/best.pt --out results/v2_holdout4_newstation_results.json --device cuda --seed 0"
     },
     "results/v2_holdout4_virtual_results.json": {
       "what": "v2 virtual sensing: the 4 hidden stations with no readings at the station (hold-out run)",
-      "models": ["aqfm_v2_holdout4_s0"], "code": "39ea48b", "minutes": 1,
+      "models": [
+        "aqfm_v2_holdout4_s0"
+      ],
+      "code": "39ea48b",
+      "minutes": 1,
       "run": "python -m aqfm.evaluate --data data/delhi --stations held_out --virtual-sensing --ckpt runs/v2_holdout4_s0_do03/best.pt --out results/v2_holdout4_virtual_results.json --device cuda --seed 0"
     },
     "results/v2_s0_on_holdout4_results.json": {
       "what": "v2 all-station model (seed 0) on the same 4 stations, seen in training",
-      "models": ["aqfm_v2_s0"], "code": "39ea48b", "minutes": 1,
+      "models": [
+        "aqfm_v2_s0"
+      ],
+      "code": "39ea48b",
+      "minutes": 1,
       "run": "python -m aqfm.evaluate --data data/delhi --stations 4,7,32,35 --no-imputation --ckpt runs/v2_s0_do03/best.pt --out results/v2_s0_on_holdout4_results.json --device cuda --seed 0"
     },
     "results/v2_ens3_nnband_0_5_results.json": {
       "what": "v2 ensemble on the 30 stations whose nearest neighbour is 0-5 km away",
-      "models": ["aqfm_v2_s0", "aqfm_v2_s1", "aqfm_v2_s2"], "code": "39ea48b", "minutes": 3,
+      "models": [
+        "aqfm_v2_s0",
+        "aqfm_v2_s1",
+        "aqfm_v2_s2"
+      ],
+      "code": "39ea48b",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/delhi --stations 0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,21,22,24,25,26,27,28,29,30,31,32,34,35,36 --no-imputation --ckpt runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt --out results/v2_ens3_nnband_0_5_results.json --device cuda --seed 0"
     },
     "results/v2_v1ens3_nnband_0_5_results.json": {
       "what": "v1 ensemble on the 30 stations whose nearest neighbour is 0-5 km away (for the v2 comparison)",
-      "models": ["aqfm_do3_s0", "aqfm_do3_s1", "aqfm_do3_s2"], "code": "39ea48b", "minutes": 18,
+      "models": [
+        "aqfm_do3_s0",
+        "aqfm_do3_s1",
+        "aqfm_do3_s2"
+      ],
+      "code": "39ea48b",
+      "minutes": 18,
       "run": "python -m aqfm.evaluate --data data/preprocessed --stations 0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,21,22,24,25,26,27,28,29,30,31,32,34,35,36 --no-imputation --ckpt runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt --out results/v2_v1ens3_nnband_0_5_results.json --device cuda --seed 0"
     },
     "results/v2_ens3_nnband_5_15_results.json": {
       "what": "v2 ensemble on the 7 stations whose nearest neighbour is 5-15 km away",
-      "models": ["aqfm_v2_s0", "aqfm_v2_s1", "aqfm_v2_s2"], "code": "39ea48b", "minutes": 1,
+      "models": [
+        "aqfm_v2_s0",
+        "aqfm_v2_s1",
+        "aqfm_v2_s2"
+      ],
+      "code": "39ea48b",
+      "minutes": 1,
       "run": "python -m aqfm.evaluate --data data/delhi --stations 1,2,18,19,20,23,33 --no-imputation --ckpt runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt --out results/v2_ens3_nnband_5_15_results.json --device cuda --seed 0"
     },
     "results/v2_v1ens3_nnband_5_15_results.json": {
       "what": "v1 ensemble on the 7 stations whose nearest neighbour is 5-15 km away (for the v2 comparison)",
-      "models": ["aqfm_do3_s0", "aqfm_do3_s1", "aqfm_do3_s2"], "code": "39ea48b", "minutes": 5,
+      "models": [
+        "aqfm_do3_s0",
+        "aqfm_do3_s1",
+        "aqfm_do3_s2"
+      ],
+      "code": "39ea48b",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/preprocessed --stations 1,2,18,19,20,23,33 --no-imputation --ckpt runs/main_s0_do3/best.pt runs/main_s1_do3/best.pt runs/main_s2_do3/best.pt --out results/v2_v1ens3_nnband_5_15_results.json --device cuda --seed 0"
     },
     "results/v2_nofm_s0_results.json": {
       "what": "v2 without future weather, seed 0, 2025 test",
-      "models": ["aqfm_v2_nofm_s0"], "code": "a356a6c", "minutes": 3,
+      "models": [
+        "aqfm_v2_nofm_s0"
+      ],
+      "code": "a356a6c",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s0_do03/best.pt --out results/v2_nofm_s0_results.json --device cuda --seed 0"
     },
     "results/v2_nofm_s1_results.json": {
       "what": "v2 without future weather, seed 1, 2025 test",
-      "models": ["aqfm_v2_nofm_s1"], "code": "a356a6c", "minutes": 3,
+      "models": [
+        "aqfm_v2_nofm_s1"
+      ],
+      "code": "a356a6c",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s1_do03/best.pt --out results/v2_nofm_s1_results.json --device cuda --seed 0"
     },
     "results/v2_nofm_s2_results.json": {
       "what": "v2 without future weather, seed 2, 2025 test",
-      "models": ["aqfm_v2_nofm_s2"], "code": "a356a6c", "minutes": 3,
+      "models": [
+        "aqfm_v2_nofm_s2"
+      ],
+      "code": "a356a6c",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s2_do03/best.pt --out results/v2_nofm_s2_results.json --device cuda --seed 0"
     },
     "results/v2_nofm_seeds_stats.json": {
       "what": "v2 without future weather: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a356a6c", "minutes": 0,
+      "models": [],
+      "code": "a356a6c",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/v2_nofm_seeds_stats.json results/v2_nofm_s0_results.json results/v2_nofm_s1_results.json results/v2_nofm_s2_results.json"
     },
     "results/v2_nofm_ens3_results.json": {
       "what": "v2 without future weather, pooled 3-seed ensemble, 2025 test",
-      "models": ["aqfm_v2_nofm_s0", "aqfm_v2_nofm_s1", "aqfm_v2_nofm_s2"], "code": "a356a6c", "minutes": 7,
+      "models": [
+        "aqfm_v2_nofm_s0",
+        "aqfm_v2_nofm_s1",
+        "aqfm_v2_nofm_s2"
+      ],
+      "code": "a356a6c",
+      "minutes": 7,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_nofm_s0_do03/best.pt runs/v2_nofm_s1_do03/best.pt runs/v2_nofm_s2_do03/best.pt --out results/v2_nofm_ens3_results.json --device cuda --seed 0"
     },
     "results/v2_s0_24k_results.json": {
       "what": "v2, 24,000-step schedule, seed 0, 2025 test",
-      "models": ["aqfm_v2_24k_s0"], "code": "f104c7c", "minutes": 3,
+      "models": [
+        "aqfm_v2_24k_s0"
+      ],
+      "code": "f104c7c",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2_s0_do03_24k/best.pt --out results/v2_s0_24k_results.json --device cuda --seed 0"
     },
     "results/v2m256_s0_results.json": {
       "what": "v2-M (4.57M), seed 0, 2025 test",
-      "models": ["aqfm_v2m_s0"], "code": "f104c7c", "minutes": 5,
+      "models": [
+        "aqfm_v2m_s0"
+      ],
+      "code": "f104c7c",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s0_do03/best.pt --out results/v2m256_s0_results.json --device cuda --seed 0"
     },
     "results/v2m256_s1_results.json": {
       "what": "v2-M (4.57M), seed 1, 2025 test",
-      "models": ["aqfm_v2m_s1"], "code": "f104c7c", "minutes": 5,
+      "models": [
+        "aqfm_v2m_s1"
+      ],
+      "code": "f104c7c",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s1_do03/best.pt --out results/v2m256_s1_results.json --device cuda --seed 0"
     },
     "results/v2m256_s2_results.json": {
       "what": "v2-M (4.57M), seed 2, 2025 test",
-      "models": ["aqfm_v2m_s2"], "code": "f104c7c", "minutes": 5,
+      "models": [
+        "aqfm_v2m_s2"
+      ],
+      "code": "f104c7c",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s2_do03/best.pt --out results/v2m256_s2_results.json --device cuda --seed 0"
     },
     "results/v2m256_seeds_stats.json": {
       "what": "v2-M (4.57M): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "f104c7c", "minutes": 0,
+      "models": [],
+      "code": "f104c7c",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/v2m256_seeds_stats.json results/v2m256_s0_results.json results/v2m256_s1_results.json results/v2m256_s2_results.json"
     },
     "results/v2m256_ens3_results.json": {
       "what": "v2-M (4.57M), pooled 3-seed ensemble, 2025 test",
-      "models": ["aqfm_v2m_s0", "aqfm_v2m_s1", "aqfm_v2m_s2"], "code": "f104c7c", "minutes": 14,
+      "models": [
+        "aqfm_v2m_s0",
+        "aqfm_v2m_s1",
+        "aqfm_v2m_s2"
+      ],
+      "code": "f104c7c",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_s0_do03/best.pt runs/v2m256_s1_do03/best.pt runs/v2m256_s2_do03/best.pt --out results/v2m256_ens3_results.json --device cuda --seed 0"
     },
     "results/v2m256_nofm_s0_results.json": {
       "what": "v2-M (4.57M) without future weather, seed 0, 2025 test",
-      "models": ["aqfm_v2m_nofm_s0"], "code": "f104c7c", "minutes": 5,
+      "models": [
+        "aqfm_v2m_nofm_s0"
+      ],
+      "code": "f104c7c",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s0_do03/best.pt --out results/v2m256_nofm_s0_results.json --device cuda --seed 0"
     },
     "results/v2m256_nofm_s1_results.json": {
       "what": "v2-M (4.57M) without future weather, seed 1, 2025 test",
-      "models": ["aqfm_v2m_nofm_s1"], "code": "f104c7c", "minutes": 5,
+      "models": [
+        "aqfm_v2m_nofm_s1"
+      ],
+      "code": "f104c7c",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s1_do03/best.pt --out results/v2m256_nofm_s1_results.json --device cuda --seed 0"
     },
     "results/v2m256_nofm_s2_results.json": {
       "what": "v2-M (4.57M) without future weather, seed 2, 2025 test",
-      "models": ["aqfm_v2m_nofm_s2"], "code": "f104c7c", "minutes": 5,
+      "models": [
+        "aqfm_v2m_nofm_s2"
+      ],
+      "code": "f104c7c",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s2_do03/best.pt --out results/v2m256_nofm_s2_results.json --device cuda --seed 0"
     },
     "results/v2m256_nofm_seeds_stats.json": {
       "what": "v2-M (4.57M) without future weather: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "f104c7c", "minutes": 0,
+      "models": [],
+      "code": "f104c7c",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/v2m256_nofm_seeds_stats.json results/v2m256_nofm_s0_results.json results/v2m256_nofm_s1_results.json results/v2m256_nofm_s2_results.json"
     },
     "results/v2m256_nofm_ens3_results.json": {
       "what": "v2-M (4.57M) without future weather, pooled 3-seed ensemble, 2025 test",
-      "models": ["aqfm_v2m_nofm_s0", "aqfm_v2m_nofm_s1", "aqfm_v2m_nofm_s2"], "code": "f104c7c", "minutes": 14,
+      "models": [
+        "aqfm_v2m_nofm_s0",
+        "aqfm_v2m_nofm_s1",
+        "aqfm_v2m_nofm_s2"
+      ],
+      "code": "f104c7c",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/v2m256_nofm_s0_do03/best.pt runs/v2m256_nofm_s1_do03/best.pt runs/v2m256_nofm_s2_do03/best.pt --out results/v2m256_nofm_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_zeroshot_v2m256_nofm_ens3_results.json": {
       "what": "Mumbai zero-shot: Delhi v2-M (4.57M) without future weather, pooled 3-seed ensemble, no Mumbai training; test 2024-07..12",
-      "models": ["aqfm_v2m_nofm_s0", "aqfm_v2m_nofm_s1", "aqfm_v2m_nofm_s2"], "code": "a00d49d", "minutes": 5,
+      "models": [
+        "aqfm_v2m_nofm_s0",
+        "aqfm_v2m_nofm_s1",
+        "aqfm_v2m_nofm_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/mumbai --test-start 2024-07-01 --ckpt runs/v2m256_nofm_s0_do03/best.pt runs/v2m256_nofm_s1_do03/best.pt runs/v2m256_nofm_s2_do03/best.pt --out results/mumbai_zeroshot_v2m256_nofm_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_zeroshot_v2_nofm_ens3_results.json": {
       "what": "Mumbai zero-shot: Delhi v2 (1.17M) without future weather, pooled 3-seed ensemble, no Mumbai training; test 2024-07..12",
-      "models": ["aqfm_v2_nofm_s0", "aqfm_v2_nofm_s1", "aqfm_v2_nofm_s2"], "code": "a00d49d", "minutes": 5,
+      "models": [
+        "aqfm_v2_nofm_s0",
+        "aqfm_v2_nofm_s1",
+        "aqfm_v2_nofm_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/mumbai --test-start 2024-07-01 --ckpt runs/v2_nofm_s0_do03/best.pt runs/v2_nofm_s1_do03/best.pt runs/v2_nofm_s2_do03/best.pt --out results/mumbai_zeroshot_v2_nofm_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_zeroshot_v2m256_ens3_results.json": {
       "what": "Mumbai zero-shot: Delhi v2-M (4.57M) with future weather (Mumbai lacks 3 of its 8 future-weather inputs), pooled 3-seed ensemble, no Mumbai training; test 2024-07..12",
-      "models": ["aqfm_v2m_s0", "aqfm_v2m_s1", "aqfm_v2m_s2"], "code": "a00d49d", "minutes": 5,
+      "models": [
+        "aqfm_v2m_s0",
+        "aqfm_v2m_s1",
+        "aqfm_v2m_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/mumbai --test-start 2024-07-01 --ckpt runs/v2m256_s0_do03/best.pt runs/v2m256_s1_do03/best.pt runs/v2m256_s2_do03/best.pt --out results/mumbai_zeroshot_v2m256_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_zeroshot_v2_ens3_results.json": {
       "what": "Mumbai zero-shot: Delhi v2 (1.17M) with future weather (Mumbai lacks 3 of its 8 future-weather inputs), pooled 3-seed ensemble, no Mumbai training; test 2024-07..12",
-      "models": ["aqfm_v2_s0", "aqfm_v2_s1", "aqfm_v2_s2"], "code": "a00d49d", "minutes": 5,
+      "models": [
+        "aqfm_v2_s0",
+        "aqfm_v2_s1",
+        "aqfm_v2_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/mumbai --test-start 2024-07-01 --ckpt runs/v2_s0_do03/best.pt runs/v2_s1_do03/best.pt runs/v2_s2_do03/best.pt --out results/mumbai_zeroshot_v2_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m1_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s) of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m1_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m1_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m1_s0/best.pt --out results/mumbai_ft_v2_backbone_m1_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m1_s1_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s) of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m1_s1"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m1_s1"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m1_s1/best.pt --out results/mumbai_ft_v2_backbone_m1_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m1_s2_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s) of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m1_s2"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m1_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m1_s2/best.pt --out results/mumbai_ft_v2_backbone_m1_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m1_seeds_stats.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a00d49d", "minutes": 0,
+      "models": [],
+      "code": "a00d49d",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_ft_v2_backbone_m1_seeds_stats.json results/mumbai_ft_v2_backbone_m1_s0_results.json results/mumbai_ft_v2_backbone_m1_s1_results.json results/mumbai_ft_v2_backbone_m1_s2_results.json"
     },
     "results/mumbai_ft_v2_backbone_m1_ens3_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 1 month(s), pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m1_s0", "aqfm_v2_mumbai_ft_m1_s1", "aqfm_v2_mumbai_ft_m1_s2"], "code": "a00d49d", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_ft_m1_s0",
+        "aqfm_v2_mumbai_ft_m1_s1",
+        "aqfm_v2_mumbai_ft_m1_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m1_s0/best.pt runs/mumbai_ft_v2_backbone_m1_s1/best.pt runs/mumbai_ft_v2_backbone_m1_s2/best.pt --out results/mumbai_ft_v2_backbone_m1_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m3_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s) of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m3_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m3_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m3_s0/best.pt --out results/mumbai_ft_v2_backbone_m3_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m3_s1_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s) of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m3_s1"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m3_s1"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m3_s1/best.pt --out results/mumbai_ft_v2_backbone_m3_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m3_s2_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s) of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m3_s2"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m3_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m3_s2/best.pt --out results/mumbai_ft_v2_backbone_m3_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m3_seeds_stats.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a00d49d", "minutes": 0,
+      "models": [],
+      "code": "a00d49d",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_ft_v2_backbone_m3_seeds_stats.json results/mumbai_ft_v2_backbone_m3_s0_results.json results/mumbai_ft_v2_backbone_m3_s1_results.json results/mumbai_ft_v2_backbone_m3_s2_results.json"
     },
     "results/mumbai_ft_v2_backbone_m3_ens3_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 3 month(s), pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m3_s0", "aqfm_v2_mumbai_ft_m3_s1", "aqfm_v2_mumbai_ft_m3_s2"], "code": "a00d49d", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_ft_m3_s0",
+        "aqfm_v2_mumbai_ft_m3_s1",
+        "aqfm_v2_mumbai_ft_m3_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m3_s0/best.pt runs/mumbai_ft_v2_backbone_m3_s1/best.pt runs/mumbai_ft_v2_backbone_m3_s2/best.pt --out results/mumbai_ft_v2_backbone_m3_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m6_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s) of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m6_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m6_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m6_s0/best.pt --out results/mumbai_ft_v2_backbone_m6_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m6_s1_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s) of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m6_s1"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m6_s1"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m6_s1/best.pt --out results/mumbai_ft_v2_backbone_m6_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m6_s2_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s) of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m6_s2"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m6_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m6_s2/best.pt --out results/mumbai_ft_v2_backbone_m6_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m6_seeds_stats.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a00d49d", "minutes": 0,
+      "models": [],
+      "code": "a00d49d",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_ft_v2_backbone_m6_seeds_stats.json results/mumbai_ft_v2_backbone_m6_s0_results.json results/mumbai_ft_v2_backbone_m6_s1_results.json results/mumbai_ft_v2_backbone_m6_s2_results.json"
     },
     "results/mumbai_ft_v2_backbone_m6_ens3_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 6 month(s), pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m6_s0", "aqfm_v2_mumbai_ft_m6_s1", "aqfm_v2_mumbai_ft_m6_s2"], "code": "a00d49d", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_ft_m6_s0",
+        "aqfm_v2_mumbai_ft_m6_s1",
+        "aqfm_v2_mumbai_ft_m6_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m6_s0/best.pt runs/mumbai_ft_v2_backbone_m6_s1/best.pt runs/mumbai_ft_v2_backbone_m6_s2/best.pt --out results/mumbai_ft_v2_backbone_m6_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m12_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s) of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m12_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m12_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m12_s0/best.pt --out results/mumbai_ft_v2_backbone_m12_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m12_s1_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s) of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m12_s1"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m12_s1"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m12_s1/best.pt --out results/mumbai_ft_v2_backbone_m12_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m12_s2_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s) of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m12_s2"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft_m12_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m12_s2/best.pt --out results/mumbai_ft_v2_backbone_m12_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_backbone_m12_seeds_stats.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a00d49d", "minutes": 0,
+      "models": [],
+      "code": "a00d49d",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_ft_v2_backbone_m12_seeds_stats.json results/mumbai_ft_v2_backbone_m12_s0_results.json results/mumbai_ft_v2_backbone_m12_s1_results.json results/mumbai_ft_v2_backbone_m12_s2_results.json"
     },
     "results/mumbai_ft_v2_backbone_m12_ens3_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (frozen backbone), 12 month(s), pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ft_m12_s0", "aqfm_v2_mumbai_ft_m12_s1", "aqfm_v2_mumbai_ft_m12_s2"], "code": "a00d49d", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_ft_m12_s0",
+        "aqfm_v2_mumbai_ft_m12_s1",
+        "aqfm_v2_mumbai_ft_m12_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_backbone_m12_s0/best.pt runs/mumbai_ft_v2_backbone_m12_s1/best.pt runs/mumbai_ft_v2_backbone_m12_s2/best.pt --out results/mumbai_ft_v2_backbone_m12_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m1_s0_results.json": {
       "what": "Mumbai, v2 from scratch, 1 month(s) of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m1_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m1_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m1_s0/best.pt --out results/mumbai_scratch_v2_m1_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m1_s1_results.json": {
       "what": "Mumbai, v2 from scratch, 1 month(s) of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m1_s1"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m1_s1"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m1_s1/best.pt --out results/mumbai_scratch_v2_m1_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m1_s2_results.json": {
       "what": "Mumbai, v2 from scratch, 1 month(s) of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m1_s2"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m1_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m1_s2/best.pt --out results/mumbai_scratch_v2_m1_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m1_seeds_stats.json": {
       "what": "Mumbai, v2 from scratch, 1 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a00d49d", "minutes": 0,
+      "models": [],
+      "code": "a00d49d",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_scratch_v2_m1_seeds_stats.json results/mumbai_scratch_v2_m1_s0_results.json results/mumbai_scratch_v2_m1_s1_results.json results/mumbai_scratch_v2_m1_s2_results.json"
     },
     "results/mumbai_scratch_v2_m1_ens3_results.json": {
       "what": "Mumbai, v2 from scratch, 1 month(s), pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m1_s0", "aqfm_v2_mumbai_scratch_m1_s1", "aqfm_v2_mumbai_scratch_m1_s2"], "code": "a00d49d", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m1_s0",
+        "aqfm_v2_mumbai_scratch_m1_s1",
+        "aqfm_v2_mumbai_scratch_m1_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m1_s0/best.pt runs/mumbai_scratch_v2_m1_s1/best.pt runs/mumbai_scratch_v2_m1_s2/best.pt --out results/mumbai_scratch_v2_m1_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m3_s0_results.json": {
       "what": "Mumbai, v2 from scratch, 3 month(s) of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m3_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m3_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m3_s0/best.pt --out results/mumbai_scratch_v2_m3_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m3_s1_results.json": {
       "what": "Mumbai, v2 from scratch, 3 month(s) of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m3_s1"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m3_s1"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m3_s1/best.pt --out results/mumbai_scratch_v2_m3_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m3_s2_results.json": {
       "what": "Mumbai, v2 from scratch, 3 month(s) of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m3_s2"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m3_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m3_s2/best.pt --out results/mumbai_scratch_v2_m3_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m3_seeds_stats.json": {
       "what": "Mumbai, v2 from scratch, 3 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a00d49d", "minutes": 0,
+      "models": [],
+      "code": "a00d49d",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_scratch_v2_m3_seeds_stats.json results/mumbai_scratch_v2_m3_s0_results.json results/mumbai_scratch_v2_m3_s1_results.json results/mumbai_scratch_v2_m3_s2_results.json"
     },
     "results/mumbai_scratch_v2_m3_ens3_results.json": {
       "what": "Mumbai, v2 from scratch, 3 month(s), pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m3_s0", "aqfm_v2_mumbai_scratch_m3_s1", "aqfm_v2_mumbai_scratch_m3_s2"], "code": "a00d49d", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m3_s0",
+        "aqfm_v2_mumbai_scratch_m3_s1",
+        "aqfm_v2_mumbai_scratch_m3_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m3_s0/best.pt runs/mumbai_scratch_v2_m3_s1/best.pt runs/mumbai_scratch_v2_m3_s2/best.pt --out results/mumbai_scratch_v2_m3_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m6_s0_results.json": {
       "what": "Mumbai, v2 from scratch, 6 month(s) of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m6_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m6_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m6_s0/best.pt --out results/mumbai_scratch_v2_m6_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m6_s1_results.json": {
       "what": "Mumbai, v2 from scratch, 6 month(s) of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m6_s1"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m6_s1"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m6_s1/best.pt --out results/mumbai_scratch_v2_m6_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m6_s2_results.json": {
       "what": "Mumbai, v2 from scratch, 6 month(s) of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m6_s2"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m6_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m6_s2/best.pt --out results/mumbai_scratch_v2_m6_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m6_seeds_stats.json": {
       "what": "Mumbai, v2 from scratch, 6 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a00d49d", "minutes": 0,
+      "models": [],
+      "code": "a00d49d",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_scratch_v2_m6_seeds_stats.json results/mumbai_scratch_v2_m6_s0_results.json results/mumbai_scratch_v2_m6_s1_results.json results/mumbai_scratch_v2_m6_s2_results.json"
     },
     "results/mumbai_scratch_v2_m6_ens3_results.json": {
       "what": "Mumbai, v2 from scratch, 6 month(s), pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m6_s0", "aqfm_v2_mumbai_scratch_m6_s1", "aqfm_v2_mumbai_scratch_m6_s2"], "code": "a00d49d", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m6_s0",
+        "aqfm_v2_mumbai_scratch_m6_s1",
+        "aqfm_v2_mumbai_scratch_m6_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m6_s0/best.pt runs/mumbai_scratch_v2_m6_s1/best.pt runs/mumbai_scratch_v2_m6_s2/best.pt --out results/mumbai_scratch_v2_m6_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m12_s0_results.json": {
       "what": "Mumbai, v2 from scratch, 12 month(s) of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m12_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m12_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m12_s0/best.pt --out results/mumbai_scratch_v2_m12_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m12_s1_results.json": {
       "what": "Mumbai, v2 from scratch, 12 month(s) of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m12_s1"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m12_s1"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m12_s1/best.pt --out results/mumbai_scratch_v2_m12_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m12_s2_results.json": {
       "what": "Mumbai, v2 from scratch, 12 month(s) of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m12_s2"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m12_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m12_s2/best.pt --out results/mumbai_scratch_v2_m12_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_scratch_v2_m12_seeds_stats.json": {
       "what": "Mumbai, v2 from scratch, 12 month(s): mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "a00d49d", "minutes": 0,
+      "models": [],
+      "code": "a00d49d",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_scratch_v2_m12_seeds_stats.json results/mumbai_scratch_v2_m12_s0_results.json results/mumbai_scratch_v2_m12_s1_results.json results/mumbai_scratch_v2_m12_s2_results.json"
     },
     "results/mumbai_scratch_v2_m12_ens3_results.json": {
       "what": "Mumbai, v2 from scratch, 12 month(s), pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_scratch_m12_s0", "aqfm_v2_mumbai_scratch_m12_s1", "aqfm_v2_mumbai_scratch_m12_s2"], "code": "a00d49d", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_scratch_m12_s0",
+        "aqfm_v2_mumbai_scratch_m12_s1",
+        "aqfm_v2_mumbai_scratch_m12_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_scratch_v2_m12_s0/best.pt runs/mumbai_scratch_v2_m12_s1/best.pt runs/mumbai_scratch_v2_m12_s2/best.pt --out results/mumbai_scratch_v2_m12_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft1500_v2_backbone_m1_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2, 1 month(s), seed 0, 1,500-step cap (superseded; test result made after the folder rename as results/mumbai_ft_v2_backbone_m1_s0_results.json, renamed)",
-      "models": ["aqfm_v2_mumbai_ft1500_m1_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft1500_m1_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft1500_v2_backbone_m1_s0/best.pt --out results/mumbai_ft1500_v2_backbone_m1_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft1500_v2_backbone_m3_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2, 3 month(s), seed 0, 1,500-step cap (superseded; test result made after the folder rename as results/mumbai_ft_v2_backbone_m3_s0_results.json, renamed)",
-      "models": ["aqfm_v2_mumbai_ft1500_m3_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft1500_m3_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft1500_v2_backbone_m3_s0/best.pt --out results/mumbai_ft1500_v2_backbone_m3_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft1500_v2_backbone_m6_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2, 6 month(s), seed 0, 1,500-step cap (superseded; test result made after the folder rename as results/mumbai_ft_v2_backbone_m6_s0_results.json, renamed)",
-      "models": ["aqfm_v2_mumbai_ft1500_m6_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft1500_m6_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft1500_v2_backbone_m6_s0/best.pt --out results/mumbai_ft1500_v2_backbone_m6_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft1500_v2_backbone_m12_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2, 12 month(s), seed 0, 1,500-step cap (superseded; test result made after the folder rename as results/mumbai_ft_v2_backbone_m12_s0_results.json, renamed)",
-      "models": ["aqfm_v2_mumbai_ft1500_m12_s0"], "code": "a00d49d", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ft1500_m12_s0"
+      ],
+      "code": "a00d49d",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft1500_v2_backbone_m12_s0/best.pt --out results/mumbai_ft1500_v2_backbone_m12_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_joint_v2_ens3_results.json": {
       "what": "one model for Delhi + Mumbai (v2, no future weather), pooled 3-seed ensemble, scored on Mumbai 2024-07..12",
-      "models": ["aqfm_v2_joint_delhi_mumbai_s0", "aqfm_v2_joint_delhi_mumbai_s1", "aqfm_v2_joint_delhi_mumbai_s2"], "code": "a00d49d", "minutes": 5,
+      "models": [
+        "aqfm_v2_joint_delhi_mumbai_s0",
+        "aqfm_v2_joint_delhi_mumbai_s1",
+        "aqfm_v2_joint_delhi_mumbai_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/joint_delhi_mumbai_v2_s0/best.pt runs/joint_delhi_mumbai_v2_s1/best.pt runs/joint_delhi_mumbai_v2_s2/best.pt --out results/mumbai_joint_v2_ens3_results.json --device cuda --seed 0"
     },
     "results/delhi_joint_v2_ens3_results.json": {
       "what": "the same joint Delhi + Mumbai ensemble scored on Delhi's usual 2025 test (data/delhi alone)",
-      "models": ["aqfm_v2_joint_delhi_mumbai_s0", "aqfm_v2_joint_delhi_mumbai_s1", "aqfm_v2_joint_delhi_mumbai_s2"], "code": "a00d49d", "minutes": 14,
+      "models": [
+        "aqfm_v2_joint_delhi_mumbai_s0",
+        "aqfm_v2_joint_delhi_mumbai_s1",
+        "aqfm_v2_joint_delhi_mumbai_s2"
+      ],
+      "code": "a00d49d",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --data data/delhi --ckpt runs/joint_delhi_mumbai_v2_s0/best.pt runs/joint_delhi_mumbai_v2_s1/best.pt runs/joint_delhi_mumbai_v2_s2/best.pt --out results/delhi_joint_v2_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_classical_results.json": {
       "what": "Mumbai classical baselines (persistence, seasonal naive, climatology; Delhi's rules), test 2024-07..12 (rerun after the seasonal-naive fix, docs/V2_PROGRESS.md step 13)",
-      "models": [], "code": "08ee3a1", "minutes": 1,
+      "models": [],
+      "code": "08ee3a1",
+      "minutes": 1,
       "run": "python scripts/city_baselines.py --data data/mumbai --test-start 2024-07-01 --out results/mumbai_classical_results.json"
     },
     "results/mumbai_xgboost_results.json": {
       "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on everything before the test (2023 + 2024 H1); test 2024-07..12. Made before the script was committed; not yet re-run with a239e03",
-      "models": [], "code": "a239e03", "minutes": 17,
+      "models": [],
+      "code": "a239e03",
+      "minutes": 17,
       "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --out results/mumbai_xgboost_results.json"
     },
     "results/mumbai_xgboost_m1_results.json": {
       "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on the last 1 month(s) of 2023; test 2024-07..12. Made before the script was committed; PM2.5 and PM10 numbers reproduced exactly by a239e03 (results/paper/mumbai_xgboost_m1.json, stage MUMBAI)",
-      "models": [], "code": "a239e03", "minutes": 3,
+      "models": [],
+      "code": "a239e03",
+      "minutes": 3,
       "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --train-from 2023-12-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m1_results.json"
     },
     "results/mumbai_xgboost_m3_results.json": {
       "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on the last 3 month(s) of 2023; test 2024-07..12. Made before the script was committed; PM2.5 and PM10 numbers reproduced exactly by a239e03 (results/paper/mumbai_xgboost_m3.json, stage MUMBAI)",
-      "models": [], "code": "a239e03", "minutes": 3,
+      "models": [],
+      "code": "a239e03",
+      "minutes": 3,
       "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --train-from 2023-10-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m3_results.json"
     },
     "results/mumbai_xgboost_m6_results.json": {
       "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on the last 6 month(s) of 2023; test 2024-07..12. Made before the script was committed; PM2.5 and PM10 numbers reproduced exactly by a239e03 (results/paper/mumbai_xgboost_m6.json, stage MUMBAI)",
-      "models": [], "code": "a239e03", "minutes": 3,
+      "models": [],
+      "code": "a239e03",
+      "minutes": 3,
       "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --train-from 2023-07-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m6_results.json"
     },
     "results/mumbai_xgboost_m12_results.json": {
       "what": "Mumbai XGBoost (settings of baselines/run_baselines_xgboost.py; latest hourly reading), trained on the last 12 month(s) of 2023; test 2024-07..12. Made before the script was committed; PM2.5 and PM10 numbers reproduced exactly by a239e03 (results/paper/mumbai_xgboost_m12.json, stage MUMBAI)",
-      "models": [], "code": "a239e03", "minutes": 17,
+      "models": [],
+      "code": "a239e03",
+      "minutes": 17,
       "run": "python scripts/city_xgboost.py --data data/mumbai --hourly --test-start 2024-07-01 --train-from 2023-01-01 --train-to 2024-01-01 --out results/mumbai_xgboost_m12_results.json"
     },
     "results/mumbai_ft_v2_none_m6_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ftnone_m6_s0"], "code": "c07d55a", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ftnone_m6_s0"
+      ],
+      "code": "c07d55a",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m6_s0/best.pt --out results/mumbai_ft_v2_none_m6_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_none_m6_s1_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ftnone_m6_s1"], "code": "c07d55a", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ftnone_m6_s1"
+      ],
+      "code": "c07d55a",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m6_s1/best.pt --out results/mumbai_ft_v2_none_m6_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_none_m6_s2_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ftnone_m6_s2"], "code": "c07d55a", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ftnone_m6_s2"
+      ],
+      "code": "c07d55a",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m6_s2/best.pt --out results/mumbai_ft_v2_none_m6_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_none_m6_seeds_stats.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "c07d55a", "minutes": 0,
+      "models": [],
+      "code": "c07d55a",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_ft_v2_none_m6_seeds_stats.json results/mumbai_ft_v2_none_m6_s0_results.json results/mumbai_ft_v2_none_m6_s1_results.json results/mumbai_ft_v2_none_m6_s2_results.json"
     },
     "results/mumbai_ft_v2_none_m6_ens3_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 6 months, pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ftnone_m6_s0", "aqfm_v2_mumbai_ftnone_m6_s1", "aqfm_v2_mumbai_ftnone_m6_s2"], "code": "c07d55a", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_ftnone_m6_s0",
+        "aqfm_v2_mumbai_ftnone_m6_s1",
+        "aqfm_v2_mumbai_ftnone_m6_s2"
+      ],
+      "code": "c07d55a",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m6_s0/best.pt runs/mumbai_ft_v2_none_m6_s1/best.pt runs/mumbai_ft_v2_none_m6_s2/best.pt --out results/mumbai_ft_v2_none_m6_ens3_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_none_m12_s0_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months of 2023, seed 0; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ftnone_m12_s0"], "code": "c07d55a", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ftnone_m12_s0"
+      ],
+      "code": "c07d55a",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s0/best.pt --out results/mumbai_ft_v2_none_m12_s0_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_none_m12_s1_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months of 2023, seed 1; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ftnone_m12_s1"], "code": "c07d55a", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ftnone_m12_s1"
+      ],
+      "code": "c07d55a",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s1/best.pt --out results/mumbai_ft_v2_none_m12_s1_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_none_m12_s2_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months of 2023, seed 2; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ftnone_m12_s2"], "code": "c07d55a", "minutes": 2,
+      "models": [
+        "aqfm_v2_mumbai_ftnone_m12_s2"
+      ],
+      "code": "c07d55a",
+      "minutes": 2,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s2/best.pt --out results/mumbai_ft_v2_none_m12_s2_results.json --device cuda --seed 0"
     },
     "results/mumbai_ft_v2_none_m12_seeds_stats.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "c07d55a", "minutes": 0,
+      "models": [],
+      "code": "c07d55a",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/mumbai_ft_v2_none_m12_seeds_stats.json results/mumbai_ft_v2_none_m12_s0_results.json results/mumbai_ft_v2_none_m12_s1_results.json results/mumbai_ft_v2_none_m12_s2_results.json"
     },
     "results/mumbai_ft_v2_none_m12_ens3_results.json": {
       "what": "Mumbai, fine-tuned from Delhi v2 (nothing frozen), 12 months, pooled 3-seed ensemble; test 2024-07..12",
-      "models": ["aqfm_v2_mumbai_ftnone_m12_s0", "aqfm_v2_mumbai_ftnone_m12_s1", "aqfm_v2_mumbai_ftnone_m12_s2"], "code": "c07d55a", "minutes": 3,
+      "models": [
+        "aqfm_v2_mumbai_ftnone_m12_s0",
+        "aqfm_v2_mumbai_ftnone_m12_s1",
+        "aqfm_v2_mumbai_ftnone_m12_s2"
+      ],
+      "code": "c07d55a",
+      "minutes": 3,
       "run": "python -m aqfm.evaluate --data data/mumbai --val-start 2024-01-01 --test-start 2024-07-01 --ckpt runs/mumbai_ft_v2_none_m12_s0/best.pt runs/mumbai_ft_v2_none_m12_s1/best.pt runs/mumbai_ft_v2_none_m12_s2/best.pt --out results/mumbai_ft_v2_none_m12_ens3_results.json --device cuda --seed 0"
     },
     "results/v2m256_no2d_s0_results.json": {
       "what": "v2-M (4.57M), NO2 forecast directly, seed 0, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
-      "models": ["aqfm_v2m_no2d_s0"], "code": "d34609e", "minutes": 5,
+      "models": [
+        "aqfm_v2m_no2d_s0"
+      ],
+      "code": "d34609e",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s0_do03/best.pt --out results/v2m256_no2d_s0_results.json --device cuda --seed 0"
     },
     "results/v2m256_no2d_s1_results.json": {
       "what": "v2-M (4.57M), NO2 forecast directly, seed 1, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
-      "models": ["aqfm_v2m_no2d_s1"], "code": "d34609e", "minutes": 5,
+      "models": [
+        "aqfm_v2m_no2d_s1"
+      ],
+      "code": "d34609e",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s1_do03/best.pt --out results/v2m256_no2d_s1_results.json --device cuda --seed 0"
     },
     "results/v2m256_no2d_s2_results.json": {
       "what": "v2-M (4.57M), NO2 forecast directly, seed 2, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
-      "models": ["aqfm_v2m_no2d_s2"], "code": "d34609e", "minutes": 5,
+      "models": [
+        "aqfm_v2m_no2d_s2"
+      ],
+      "code": "d34609e",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s2_do03/best.pt --out results/v2m256_no2d_s2_results.json --device cuda --seed 0"
     },
     "results/v2m256_no2d_seeds_stats.json": {
       "what": "v2-M (4.57M), NO2 forecast directly: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "d34609e", "minutes": 0,
+      "models": [],
+      "code": "d34609e",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/v2m256_no2d_seeds_stats.json results/v2m256_no2d_s0_results.json results/v2m256_no2d_s1_results.json results/v2m256_no2d_s2_results.json"
     },
     "results/v2m256_no2d_ens3_results.json": {
       "what": "v2-M (4.57M), NO2 forecast directly, pooled 3-seed ensemble, 2025 test; PM2.5, PM10, ozone, NOx, NO2 (the pipeline also passed --save-forecasts results/forecasts/delhi_v2m256_no2d_ens3.npz, which only writes that file)",
-      "models": ["aqfm_v2m_no2d_s0", "aqfm_v2m_no2d_s1", "aqfm_v2m_no2d_s2"], "code": "d34609e", "minutes": 14,
+      "models": [
+        "aqfm_v2m_no2d_s0",
+        "aqfm_v2m_no2d_s1",
+        "aqfm_v2m_no2d_s2"
+      ],
+      "code": "d34609e",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_s0_do03/best.pt runs/v2m256_no2d_s1_do03/best.pt runs/v2m256_no2d_s2_do03/best.pt --out results/v2m256_no2d_ens3_results.json --device cuda --seed 0"
     },
     "results/v2m256_no2d_nofm_s0_results.json": {
       "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 0, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
-      "models": ["aqfm_v2m_no2d_nofm_s0"], "code": "d34609e", "minutes": 5,
+      "models": [
+        "aqfm_v2m_no2d_nofm_s0"
+      ],
+      "code": "d34609e",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s0_do03/best.pt --out results/v2m256_no2d_nofm_s0_results.json --device cuda --seed 0"
     },
     "results/v2m256_no2d_nofm_s1_results.json": {
       "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 1, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
-      "models": ["aqfm_v2m_no2d_nofm_s1"], "code": "d34609e", "minutes": 5,
+      "models": [
+        "aqfm_v2m_no2d_nofm_s1"
+      ],
+      "code": "d34609e",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s1_do03/best.pt --out results/v2m256_no2d_nofm_s1_results.json --device cuda --seed 0"
     },
     "results/v2m256_no2d_nofm_s2_results.json": {
       "what": "v2-M (4.57M) without future weather, NO2 forecast directly, seed 2, 2025 test; PM2.5, PM10, ozone, NOx, NO2",
-      "models": ["aqfm_v2m_no2d_nofm_s2"], "code": "d34609e", "minutes": 5,
+      "models": [
+        "aqfm_v2m_no2d_nofm_s2"
+      ],
+      "code": "d34609e",
+      "minutes": 5,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s2_do03/best.pt --out results/v2m256_no2d_nofm_s2_results.json --device cuda --seed 0"
     },
     "results/v2m256_no2d_nofm_seeds_stats.json": {
       "what": "v2-M (4.57M) without future weather, NO2 forecast directly: mean and std (ddof=1) over seeds 0/1/2 of every metric",
-      "models": [], "code": "d34609e", "minutes": 0,
+      "models": [],
+      "code": "d34609e",
+      "minutes": 0,
       "run": "python scripts/seed_stats.py results/v2m256_no2d_nofm_seeds_stats.json results/v2m256_no2d_nofm_s0_results.json results/v2m256_no2d_nofm_s1_results.json results/v2m256_no2d_nofm_s2_results.json"
     },
     "results/v2m256_no2d_nofm_ens3_results.json": {
       "what": "v2-M (4.57M) without future weather, NO2 forecast directly, pooled 3-seed ensemble, 2025 test; PM2.5, PM10, ozone, NOx, NO2 (the pipeline also passed --save-forecasts results/forecasts/delhi_v2m256_no2d_nofm_ens3.npz, which only writes that file)",
-      "models": ["aqfm_v2m_no2d_nofm_s0", "aqfm_v2m_no2d_nofm_s1", "aqfm_v2m_no2d_nofm_s2"], "code": "d34609e", "minutes": 14,
+      "models": [
+        "aqfm_v2m_no2d_nofm_s0",
+        "aqfm_v2m_no2d_nofm_s1",
+        "aqfm_v2m_no2d_nofm_s2"
+      ],
+      "code": "d34609e",
+      "minutes": 14,
       "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256_no2d_nofm_s0_do03/best.pt runs/v2m256_no2d_nofm_s1_do03/best.pt runs/v2m256_no2d_nofm_s2_do03/best.pt --out results/v2m256_no2d_nofm_ens3_results.json --device cuda --seed 0"
     },
     "baselines/results/patchtst_ens3_rerun.json": {
       "what": "PatchTST 3-seed ensemble re-run from the saved models (identical to patchtst_ens3_results.json) to keep its forecasts at the four leads for the same-point tests (results/forecasts/delhi_patchtst_ens3.npz; step 16)",
-      "models": ["patchtst_s0", "patchtst_s1", "patchtst_s2"], "code": "6d251d0", "minutes": 1,
+      "models": [
+        "patchtst_s0",
+        "patchtst_s1",
+        "patchtst_s2"
+      ],
+      "code": "6d251d0",
+      "minutes": 1,
       "run": "python deep_baselines/patchtst.py evaluate --ckpt deep_baselines/runs/patchtst40k_do1_s0/best.pt deep_baselines/runs/patchtst40k_do1_s1/best.pt deep_baselines/runs/patchtst40k_do1_s2/best.pt --out baselines/results/patchtst_ens3_rerun.json --save-forecasts results/forecasts/delhi_patchtst_ens3.npz --eval-batch 512"
     },
     "baselines/results/estgcn_ens3_rerun.json": {
       "what": "E-STGCN 3-seed ensemble re-run from the saved models (identical to estgcn_ens3_results.json) to keep its forecasts at the four leads for the same-point tests (results/forecasts/delhi_estgcn_ens3.npz; step 16)",
-      "models": ["estgcn_pm25_s0", "estgcn_pm10_s0", "estgcn_pm25_s1", "estgcn_pm10_s1", "estgcn_pm25_s2", "estgcn_pm10_s2"], "code": "6d251d0", "minutes": 1,
+      "models": [
+        "estgcn_pm25_s0",
+        "estgcn_pm10_s0",
+        "estgcn_pm25_s1",
+        "estgcn_pm10_s1",
+        "estgcn_pm25_s2",
+        "estgcn_pm10_s2"
+      ],
+      "code": "6d251d0",
+      "minutes": 1,
       "run": "python deep_baselines/estgcn/estgcn.py evaluate --ckpt deep_baselines/estgcn/runs/pm25_lr4_s0/best.pt deep_baselines/estgcn/runs/pm10_lr2_s0/best.pt deep_baselines/estgcn/runs/pm25_lr4_s1/best.pt deep_baselines/estgcn/runs/pm10_lr2_s1/best.pt deep_baselines/estgcn/runs/pm25_lr4_s2/best.pt deep_baselines/estgcn/runs/pm10_lr2_s2/best.pt --out baselines/results/estgcn_ens3_rerun.json --save-forecasts results/forecasts/delhi_estgcn_ens3.npz --eval-batch 64"
     },
     "baselines/results/ttm_results_rerun.json": {
       "what": "IBM TTM zero-shot re-run (identical to ttm_results.json) to keep its forecasts with the 15-min truth for the same-point tests (results/forecasts/delhi_ttm.npz; step 16); downloads the pinned model revision",
-      "models": [], "code": "6d251d0", "minutes": 1, "cwd": "baselines",
+      "models": [],
+      "code": "6d251d0",
+      "minutes": 1,
+      "cwd": "baselines",
       "run": "python run_baselines_ttm.py --out-name ttm_results_rerun.json --save-forecasts ../results/forecasts/delhi_ttm.npz"
+    },
+    "results/v2m256s_s0_results.json": {
+      "what": "v2-M-S (4.57M, seasonal), NO2 forecast directly, seed 0, 2025 test",
+      "models": [
+        "aqfm_v2m256s_s0"
+      ],
+      "code": "d39fb44",
+      "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256s_s0_do03/best.pt --out results/v2m256s_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256s_s1_results.json": {
+      "what": "v2-M-S (4.57M, seasonal), NO2 forecast directly, seed 1, 2025 test",
+      "models": [
+        "aqfm_v2m256s_s1"
+      ],
+      "code": "d39fb44",
+      "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256s_s1_do03/best.pt --out results/v2m256s_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256s_s2_results.json": {
+      "what": "v2-M-S (4.57M, seasonal), NO2 forecast directly, seed 2, 2025 test",
+      "models": [
+        "aqfm_v2m256s_s2"
+      ],
+      "code": "d39fb44",
+      "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256s_s2_do03/best.pt --out results/v2m256s_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256s_seeds_stats.json": {
+      "what": "v2-M-S (4.57M, seasonal), NO2 forecast directly: mean and std over seeds 0/1/2",
+      "models": [],
+      "code": "d39fb44",
+      "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256s_seeds_stats.json results/v2m256s_s0_results.json results/v2m256s_s1_results.json results/v2m256s_s2_results.json"
+    },
+    "results/v2m256s_ens3_results.json": {
+      "what": "v2-M-S (4.57M, seasonal), NO2 forecast directly, pooled 3-seed ensemble, 2025 test",
+      "models": [
+        "aqfm_v2m256s_s0",
+        "aqfm_v2m256s_s1",
+        "aqfm_v2m256s_s2"
+      ],
+      "code": "d39fb44",
+      "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --save-forecasts results/forecasts/delhi_v2m256s_ens3.npz --ckpt runs/v2m256s_s0_do03/best.pt runs/v2m256s_s1_do03/best.pt runs/v2m256s_s2_do03/best.pt --out results/v2m256s_ens3_results.json --device cuda --seed 0"
+    },
+    "results/v2m256s_nofm_s0_results.json": {
+      "what": "v2-M-S (4.57M, seasonal) without future weather, NO2 forecast directly, seed 0, 2025 test",
+      "models": [
+        "aqfm_v2m256s_nofm_s0"
+      ],
+      "code": "d39fb44",
+      "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256s_nofm_s0_do03/best.pt --out results/v2m256s_nofm_s0_results.json --device cuda --seed 0"
+    },
+    "results/v2m256s_nofm_s1_results.json": {
+      "what": "v2-M-S (4.57M, seasonal) without future weather, NO2 forecast directly, seed 1, 2025 test",
+      "models": [
+        "aqfm_v2m256s_nofm_s1"
+      ],
+      "code": "d39fb44",
+      "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256s_nofm_s1_do03/best.pt --out results/v2m256s_nofm_s1_results.json --device cuda --seed 0"
+    },
+    "results/v2m256s_nofm_s2_results.json": {
+      "what": "v2-M-S (4.57M, seasonal) without future weather, NO2 forecast directly, seed 2, 2025 test",
+      "models": [
+        "aqfm_v2m256s_nofm_s2"
+      ],
+      "code": "d39fb44",
+      "minutes": 5,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --ckpt runs/v2m256s_nofm_s2_do03/best.pt --out results/v2m256s_nofm_s2_results.json --device cuda --seed 0"
+    },
+    "results/v2m256s_nofm_seeds_stats.json": {
+      "what": "v2-M-S (4.57M, seasonal) without future weather, NO2 forecast directly: mean and std over seeds 0/1/2",
+      "models": [],
+      "code": "d39fb44",
+      "minutes": 0,
+      "run": "python scripts/seed_stats.py results/v2m256s_nofm_seeds_stats.json results/v2m256s_nofm_s0_results.json results/v2m256s_nofm_s1_results.json results/v2m256s_nofm_s2_results.json"
+    },
+    "results/v2m256s_nofm_ens3_results.json": {
+      "what": "v2-M-S (4.57M, seasonal) without future weather, NO2 forecast directly, pooled 3-seed ensemble, 2025 test",
+      "models": [
+        "aqfm_v2m256s_nofm_s0",
+        "aqfm_v2m256s_nofm_s1",
+        "aqfm_v2m256s_nofm_s2"
+      ],
+      "code": "d39fb44",
+      "minutes": 14,
+      "run": "python -m aqfm.evaluate --data data/delhi --targets PM2.5 PM10 Ozone NOx NO2 --save-forecasts results/forecasts/delhi_v2m256s_nofm_ens3.npz --ckpt runs/v2m256s_nofm_s0_do03/best.pt runs/v2m256s_nofm_s1_do03/best.pt runs/v2m256s_nofm_s2_do03/best.pt --out results/v2m256s_nofm_ens3_results.json --device cuda --seed 0"
     }
   }
 }
