@@ -1,0 +1,25 @@
+[2026-11-24 16:22:36] skip runs/v2m256s_s0_do03: already finished
+[2026-11-24 16:22:36] skip runs/v2m256s_s1_do03: already finished
+[2026-11-24 16:22:36] skip runs/v2m256s_s2_do03: already finished
+[2026-11-24 16:22:36] skip evaluate results/v2m256s_s0_results.json: already exists
+[2026-11-24 16:22:36] skip evaluate results/v2m256s_s1_results.json: already exists
+[2026-11-24 16:22:36] skip evaluate results/v2m256s_s2_results.json: already exists
+[2026-11-24 16:22:36] skip evaluate results/v2m256s_ens3_results.json: already exists
+[2026-11-24 16:22:36] skip runs/v2m256s_nofm_s0_do03: already finished
+[2026-11-24 16:22:36] skip runs/v2m256s_nofm_s1_do03: already finished
+[2026-11-24 16:22:36] skip runs/v2m256s_nofm_s2_do03: already finished
+[2026-11-24 16:22:36] skip evaluate results/v2m256s_nofm_s0_results.json: already exists
+[2026-11-24 16:22:36] skip evaluate results/v2m256s_nofm_s1_results.json: already exists
+[2026-11-24 16:22:36] skip evaluate results/v2m256s_nofm_s2_results.json: already exists
+[2026-11-24 16:22:36] skip evaluate results/v2m256s_nofm_ens3_results.json: already exists
+[2026-11-24 16:22:36] Running forecast stats comparisons...
+PM2.5 1h: n=12210 AQFM v2-M-S (Seasonal) 15.91  AQFM v2-M 15.80  XGBoost + future ERA5 17.97  Persistence 15.90 | AQFM v2-M-AQFM v2-M-S (Seasonal) -0.10 (p=0.137) | XGBoost + future ERA5-AQFM v2-M-S (Seasonal) +2.06 (p=0.000) | Persistence-AQFM v2-M-S (Seasonal) -0.01 (p=0.728)
+PM2.5 6h: n=11998 AQFM v2-M-S (Seasonal) 27.83  AQFM v2-M 27.79  XGBoost + future ERA5 28.62  Persistence 35.58 | AQFM v2-M-AQFM v2-M-S (Seasonal) -0.04 (p=0.821) | XGBoost + future ERA5-AQFM v2-M-S (Seasonal) +0.78 (p=0.220) | Persistence-AQFM v2-M-S (Seasonal) +7.75 (p=0.000)
+PM2.5 24h: n=10306 AQFM v2-M-S (Seasonal) 32.22  AQFM v2-M 32.17  XGBoost + future ERA5 33.43  Persistence 43.84 | AQFM v2-M-AQFM v2-M-S (Seasonal) -0.05 (p=0.821) | XGBoost + future ERA5-AQFM v2-M-S (Seasonal) +1.21 (p=0.084) | Persistence-AQFM v2-M-S (Seasonal) +11.63 (p=0.000)
+PM2.5 72h: n=10297 AQFM v2-M-S (Seasonal) 36.76  AQFM v2-M 36.33  XGBoost + future ERA5 36.53  Persistence 54.62 | AQFM v2-M-AQFM v2-M-S (Seasonal) -0.43 (p=0.274) | XGBoost + future ERA5-AQFM v2-M-S (Seasonal) -0.23 (p=0.876) | Persistence-AQFM v2-M-S (Seasonal) +17.86 (p=0.000)
+saved results/paper/delhi_PM2.5_with_weather_seasonal.json
+PM2.5 1h: n=12210 AQFM v2-M-S (Seasonal) 15.85  AQFM v2-M 15.86  XGBoost 18.23  Persistence 15.90 | AQFM v2-M-AQFM v2-M-S (Seasonal) +0.01 (p=0.840) | XGBoost-AQFM v2-M-S (Seasonal) +2.38 (p=0.000) | Persistence-AQFM v2-M-S (Seasonal) +0.05 (p=0.796)
+PM2.5 6h: n=11998 AQFM v2-M-S (Seasonal) 27.88  AQFM v2-M 27.81  XGBoost 30.01  Persistence 35.58 | AQFM v2-M-AQFM v2-M-S (Seasonal) -0.07 (p=0.646) | XGBoost-AQFM v2-M-S (Seasonal) +2.12 (p=0.001) | Persistence-AQFM v2-M-S (Seasonal) +7.70 (p=0.000)
+PM2.5 24h: n=10306 AQFM v2-M-S (Seasonal) 37.63  AQFM v2-M 37.67  XGBoost 38.39  Persistence 43.84 | AQFM v2-M-AQFM v2-M-S (Seasonal) +0.04 (p=0.884) | XGBoost-AQFM v2-M-S (Seasonal) +0.77 (p=0.409) | Persistence-AQFM v2-M-S (Seasonal) +6.22 (p=0.000)
+PM2.5 72h: n=10297 AQFM v2-M-S (Seasonal) 42.40  AQFM v2-M 42.15  XGBoost 43.79  Persistence 54.62 | AQFM v2-M-AQFM v2-M-S (Seasonal) -0.26 (p=0.477) | XGBoost-AQFM v2-M-S (Seasonal) +1.39 (p=0.253) | Persistence-AQFM v2-M-S (Seasonal) +12.22 (p=0.000)
+saved results/paper/delhi_PM2.5_no_weather_seasonal.json
