@@ -157,8 +157,8 @@
   "neighbour_compensation": {
     "low_anchor_count": 32,
     "assisted_by_high_nbr_completeness": {
-      "MAE": 53.175,
-      "count": 28
+      "MAE": 58.271,
+      "count": 24
     },
     "isolated_low_nbr_completeness": {
       "MAE": null,
@@ -169,27 +169,27 @@
   "simulated_masking": {
     "0%_masked": {
       "rate": 0.0,
-      "mean_abs_error": 120.718,
+      "mean_abs_error": 37.748,
       "n_samples": 32
     },
     "20%_masked": {
       "rate": 0.2,
-      "mean_abs_error": 120.718,
+      "mean_abs_error": 38.179,
       "n_samples": 32
     },
     "40%_masked": {
       "rate": 0.4,
-      "mean_abs_error": 120.718,
+      "mean_abs_error": 31.196,
       "n_samples": 32
     },
     "60%_masked": {
       "rate": 0.6,
-      "mean_abs_error": 120.718,
+      "mean_abs_error": 42.814,
       "n_samples": 32
     },
     "80%_masked": {
       "rate": 0.8,
-      "mean_abs_error": 120.718,
+      "mean_abs_error": 35.71,
       "n_samples": 32
     }
   }

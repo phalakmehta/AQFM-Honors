@@ -25,6 +25,7 @@ if ROOT_DIR not in sys.path:
 
 from aqfm.config import AQFMConfig, CH, RAW_CHANNELS
 from aqfm.data import AQData, build_queries, make_sample
+from aqfm.evaluate import _pooled, _to_targets
 from aqfm.train import load_checkpoint
 from baselines.baseline_utils import HORIZONS
 
@@ -214,12 +215,12 @@ def run_simulated_masking(model, cfg, data, raw_values, raw_observed,
             batch = {k: v.unsqueeze(0).to(device) for k, v in sample.items()}
             with torch.no_grad():
                 q, _, _ = build_queries(cfg, batch, impute=False)
-                out = model(batch, q)
-                # Output forecast for target
-                mu = out["mu"]  # (B, Q, P, K)
-                # Get median forecast
-                pred_val = mu.mean(dim=(-1, -2)).cpu().numpy().flatten()[0]
-                true_val = raw_values[a, c_idx, t0 + Tc + j]
+                sel_q = torch.arange(cfg.n_target_channels * cfg.n_horizon_patches, device=device)
+                samp = _pooled([model], cfg, batch, q, sel_q, n_samples=20)
+                n, B = samp.shape[:2]
+                ens = _to_targets(cfg, samp.reshape(n, B, cfg.n_target_channels, cfg.n_horizon_patches * cfg.patch_len))
+                pred_val = float(torch.median(ens[target][:, 0, j]).item())
+                true_val = float(raw_values[a, c_idx, t0 + Tc + j])
                 errs.append(abs(pred_val - true_val))
 
         degradation_results[f"{int(rate*100)}%_masked"] = {

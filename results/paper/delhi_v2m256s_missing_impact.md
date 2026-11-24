@@ -28,7 +28,7 @@
 
 | Scenario | 24h MAE | Sample Count |
 |---|---|---|
-| High Neighbour Completeness (>=75%) | 53.175 | 28 |
+| High Neighbour Completeness (>=75%) | 58.271 | 24 |
 | Low Neighbour Completeness (<50%) | None | 0 |
 
 Compensation benefit (MAE reduction): **None µg/m³**
@@ -38,9 +38,9 @@ Compensation benefit (MAE reduction): **None µg/m³**
 
 | Masking Rate | Mean Error |
 |---|---|
-| 0%_masked | 120.718 |
-| 20%_masked | 120.718 |
-| 40%_masked | 120.718 |
-| 60%_masked | 120.718 |
-| 80%_masked | 120.718 |
+| 0%_masked | 37.748 |
+| 20%_masked | 38.179 |
+| 40%_masked | 31.196 |
+| 60%_masked | 42.814 |
+| 80%_masked | 35.71 |
 
