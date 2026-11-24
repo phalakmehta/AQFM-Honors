@@ -1,0 +1,4582 @@
+{
+  "delhi_v2m256s_ens3": {
+    "PM2.5": {
+      "1h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 15.9066,
+            "RMSE": 33.8526,
+            "Bias": -1.7494,
+            "n": 12210
+          },
+          "p90": {
+            "threshold": 252.0,
+            "MAE": 50.5474,
+            "RMSE": 90.0958,
+            "Bias": -25.0479,
+            "n": 1222
+          },
+          "p95": {
+            "threshold": 321.0,
+            "MAE": 70.9817,
+            "RMSE": 119.1663,
+            "Bias": -48.001,
+            "n": 616
+          },
+          "p99": {
+            "threshold": 477.0,
+            "MAE": 132.2818,
+            "RMSE": 201.8568,
+            "Bias": -119.1397,
+            "n": 124
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 51.85,
+          "n_exceedances": 611,
+          "shape_xi": 0.4858,
+          "scale_sigma": 29.1486,
+          "return_levels": {
+            "T_100": 553.94,
+            "T_500": 1220.39,
+            "T_1000": 1712.3
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9516,
+            "recall": 0.9388,
+            "f1": 0.9452,
+            "tp": 6862,
+            "fp": 349,
+            "fn": 447,
+            "true_exceedances": 7309
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9398,
+            "recall": 0.9316,
+            "f1": 0.9357,
+            "tp": 4875,
+            "fp": 312,
+            "fn": 358,
+            "true_exceedances": 5233
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9316,
+            "recall": 0.9229,
+            "f1": 0.9272,
+            "tp": 3663,
+            "fp": 269,
+            "fn": 306,
+            "true_exceedances": 3969
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.8758,
+            "recall": 0.8618,
+            "f1": 0.8688,
+            "tp": 1079,
+            "fp": 153,
+            "fn": 173,
+            "true_exceedances": 1252
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.7864,
+            "recall": 0.7314,
+            "f1": 0.7579,
+            "tp": 335,
+            "fp": 91,
+            "fn": 123,
+            "true_exceedances": 458
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.9367,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.8926,
+              "n": 1844
+            },
+            "Satisfactory": {
+              "coverage90": 0.9607,
+              "n": 3057
+            },
+            "Moderate": {
+              "coverage90": 0.9639,
+              "n": 2076
+            },
+            "Poor": {
+              "coverage90": 0.9502,
+              "n": 1264
+            },
+            "Very Poor": {
+              "coverage90": 0.9393,
+              "n": 2717
+            },
+            "Severe": {
+              "coverage90": 0.8786,
+              "n": 1252
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.1,
+                24.0
+              ],
+              "coverage90": 0.8582,
+              "n": 1178
+            },
+            "D2": {
+              "range": [
+                24.0,
+                35.0
+              ],
+              "coverage90": 0.9604,
+              "n": 1264
+            },
+            "D3": {
+              "range": [
+                35.0,
+                45.9
+              ],
+              "coverage90": 0.9599,
+              "n": 1221
+            },
+            "D4": {
+              "range": [
+                45.9,
+                59.5
+              ],
+              "coverage90": 0.9599,
+              "n": 1221
+            },
+            "D5": {
+              "range": [
+                59.5,
+                75.0
+              ],
+              "coverage90": 0.9664,
+              "n": 1221
+            },
+            "D6": {
+              "range": [
+                75.0,
+                97.0
+              ],
+              "coverage90": 0.9559,
+              "n": 1201
+            },
+            "D7": {
+              "range": [
+                97.0,
+                128.5
+              ],
+              "coverage90": 0.9436,
+              "n": 1241
+            },
+            "D8": {
+              "range": [
+                128.5,
+                176.5
+              ],
+              "coverage90": 0.9402,
+              "n": 1221
+            },
+            "D9": {
+              "range": [
+                176.5,
+                252.0
+              ],
+              "coverage90": 0.9418,
+              "n": 1220
+            },
+            "D10": {
+              "range": [
+                252.0,
+                994.0
+              ],
+              "coverage90": 0.8773,
+              "n": 1222
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 20.6418,
+            "RMSE": 33.791,
+            "mean_true": 187.44,
+            "n": 2986,
+            "p90_MAE": 47.9327
+          },
+          "Summer": {
+            "MAE": 15.7726,
+            "RMSE": 39.8984,
+            "mean_true": 80.59,
+            "n": 3128,
+            "p90_MAE": 60.5388
+          },
+          "Monsoon": {
+            "MAE": 8.3905,
+            "RMSE": 13.927,
+            "mean_true": 41.04,
+            "n": 3999,
+            "p90_MAE": 21.0253
+          },
+          "Post-Monsoon": {
+            "MAE": 23.6968,
+            "RMSE": 47.9833,
+            "mean_true": 184.86,
+            "n": 2097,
+            "p90_MAE": 80.0634
+          }
+        }
+      },
+      "6h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 27.8347,
+            "RMSE": 47.0697,
+            "Bias": -4.9194,
+            "n": 11998
+          },
+          "p90": {
+            "threshold": 228.06,
+            "MAE": 85.874,
+            "RMSE": 115.2096,
+            "Bias": -65.7471,
+            "n": 1200
+          },
+          "p95": {
+            "threshold": 300.03,
+            "MAE": 114.3699,
+            "RMSE": 146.6772,
+            "Bias": -103.8239,
+            "n": 600
+          },
+          "p99": {
+            "threshold": 450.03,
+            "MAE": 204.4646,
+            "RMSE": 231.9267,
+            "Bias": -204.4646,
+            "n": 120
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 93.53,
+          "n_exceedances": 600,
+          "shape_xi": 0.1795,
+          "scale_sigma": 49.5072,
+          "return_levels": {
+            "T_100": 448.1,
+            "T_500": 659.24,
+            "T_1000": 770.73
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9175,
+            "recall": 0.8841,
+            "f1": 0.9005,
+            "tp": 6217,
+            "fp": 559,
+            "fn": 815,
+            "true_exceedances": 7032
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.883,
+            "recall": 0.8566,
+            "f1": 0.8696,
+            "tp": 4330,
+            "fp": 574,
+            "fn": 725,
+            "true_exceedances": 5055
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.8389,
+            "recall": 0.8283,
+            "f1": 0.8336,
+            "tp": 3005,
+            "fp": 577,
+            "fn": 623,
+            "true_exceedances": 3628
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.7119,
+            "recall": 0.5877,
+            "f1": 0.6439,
+            "tp": 566,
+            "fp": 229,
+            "fn": 397,
+            "true_exceedances": 963
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.6579,
+            "recall": 0.3388,
+            "f1": 0.4472,
+            "tp": 125,
+            "fp": 65,
+            "fn": 244,
+            "true_exceedances": 369
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.9108,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.8812,
+              "n": 2374
+            },
+            "Satisfactory": {
+              "coverage90": 0.951,
+              "n": 2592
+            },
+            "Moderate": {
+              "coverage90": 0.9499,
+              "n": 1977
+            },
+            "Poor": {
+              "coverage90": 0.9278,
+              "n": 1427
+            },
+            "Very Poor": {
+              "coverage90": 0.9092,
+              "n": 2665
+            },
+            "Severe": {
+              "coverage90": 0.7747,
+              "n": 963
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.0,
+                19.0
+              ],
+              "coverage90": 0.7995,
+              "n": 1132
+            },
+            "D2": {
+              "range": [
+                19.0,
+                30.0
+              ],
+              "coverage90": 0.9557,
+              "n": 1242
+            },
+            "D3": {
+              "range": [
+                30.0,
+                42.0
+              ],
+              "coverage90": 0.9607,
+              "n": 1170
+            },
+            "D4": {
+              "range": [
+                42.0,
+                57.5
+              ],
+              "coverage90": 0.9434,
+              "n": 1255
+            },
+            "D5": {
+              "range": [
+                57.5,
+                74.0
+              ],
+              "coverage90": 0.9489,
+              "n": 1155
+            },
+            "D6": {
+              "range": [
+                74.0,
+                94.0
+              ],
+              "coverage90": 0.9433,
+              "n": 1217
+            },
+            "D7": {
+              "range": [
+                94.0,
+                121.0
+              ],
+              "coverage90": 0.9309,
+              "n": 1215
+            },
+            "D8": {
+              "range": [
+                121.0,
+                158.9
+              ],
+              "coverage90": 0.929,
+              "n": 1212
+            },
+            "D9": {
+              "range": [
+                158.9,
+                228.1
+              ],
+              "coverage90": 0.8925,
+              "n": 1200
+            },
+            "D10": {
+              "range": [
+                228.1,
+                862.0
+              ],
+              "coverage90": 0.7967,
+              "n": 1200
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 34.5081,
+            "RMSE": 50.2588,
+            "mean_true": 152.14,
+            "n": 2946,
+            "p90_MAE": 82.2682
+          },
+          "Summer": {
+            "MAE": 27.6582,
+            "RMSE": 47.2065,
+            "mean_true": 86.06,
+            "n": 3082,
+            "p90_MAE": 91.7075
+          },
+          "Monsoon": {
+            "MAE": 12.9682,
+            "RMSE": 20.151,
+            "mean_true": 35.61,
+            "n": 3905,
+            "p90_MAE": 33.1572
+          },
+          "Post-Monsoon": {
+            "MAE": 46.6907,
+            "RMSE": 71.9398,
+            "mean_true": 186.71,
+            "n": 2065,
+            "p90_MAE": 146.5577
+          }
+        }
+      },
+      "24h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 32.2228,
+            "RMSE": 55.3596,
+            "Bias": -2.7817,
+            "n": 10309
+          },
+          "p90": {
+            "threshold": 268.81,
+            "MAE": 96.6056,
+            "RMSE": 136.1926,
+            "Bias": -53.9913,
+            "n": 1031
+          },
+          "p95": {
+            "threshold": 341.0,
+            "MAE": 123.2568,
+            "RMSE": 171.3808,
+            "Bias": -93.9428,
+            "n": 517
+          },
+          "p99": {
+            "threshold": 498.92,
+            "MAE": 230.5627,
+            "RMSE": 295.5195,
+            "Bias": -226.5989,
+            "n": 104
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 107.59,
+          "n_exceedances": 516,
+          "shape_xi": 0.2593,
+          "scale_sigma": 49.725,
+          "return_levels": {
+            "T_100": 548.83,
+            "T_500": 876.7,
+            "T_1000": 1065.92
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9013,
+            "recall": 0.8597,
+            "f1": 0.88,
+            "tp": 5251,
+            "fp": 575,
+            "fn": 857,
+            "true_exceedances": 6108
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9009,
+            "recall": 0.8639,
+            "f1": 0.882,
+            "tp": 3892,
+            "fp": 428,
+            "fn": 613,
+            "true_exceedances": 4505
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.8876,
+            "recall": 0.88,
+            "f1": 0.8838,
+            "tp": 3080,
+            "fp": 390,
+            "fn": 420,
+            "true_exceedances": 3500
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.7371,
+            "recall": 0.7165,
+            "f1": 0.7266,
+            "tp": 897,
+            "fp": 320,
+            "fn": 355,
+            "true_exceedances": 1252
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.5631,
+            "recall": 0.5074,
+            "f1": 0.5338,
+            "tp": 241,
+            "fp": 187,
+            "fn": 234,
+            "true_exceedances": 475
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8966,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.845,
+              "n": 1555
+            },
+            "Satisfactory": {
+              "coverage90": 0.9452,
+              "n": 2646
+            },
+            "Moderate": {
+              "coverage90": 0.9214,
+              "n": 1603
+            },
+            "Poor": {
+              "coverage90": 0.8816,
+              "n": 1005
+            },
+            "Very Poor": {
+              "coverage90": 0.8959,
+              "n": 2248
+            },
+            "Severe": {
+              "coverage90": 0.8395,
+              "n": 1252
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.1,
+                24.0
+              ],
+              "coverage90": 0.7941,
+              "n": 986
+            },
+            "D2": {
+              "range": [
+                24.0,
+                34.9
+              ],
+              "coverage90": 0.9359,
+              "n": 1076
+            },
+            "D3": {
+              "range": [
+                34.9,
+                45.0
+              ],
+              "coverage90": 0.9534,
+              "n": 965
+            },
+            "D4": {
+              "range": [
+                45.0,
+                59.0
+              ],
+              "coverage90": 0.9433,
+              "n": 1093
+            },
+            "D5": {
+              "range": [
+                59.0,
+                75.3
+              ],
+              "coverage90": 0.9294,
+              "n": 1034
+            },
+            "D6": {
+              "range": [
+                75.3,
+                99.0
+              ],
+              "coverage90": 0.8999,
+              "n": 1019
+            },
+            "D7": {
+              "range": [
+                99.0,
+                136.0
+              ],
+              "coverage90": 0.8892,
+              "n": 1038
+            },
+            "D8": {
+              "range": [
+                136.0,
+                190.0
+              ],
+              "coverage90": 0.9013,
+              "n": 1033
+            },
+            "D9": {
+              "range": [
+                190.0,
+                268.8
+              ],
+              "coverage90": 0.8859,
+              "n": 1034
+            },
+            "D10": {
+              "range": [
+                268.8,
+                995.0
+              ],
+              "coverage90": 0.8283,
+              "n": 1031
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 47.9896,
+            "RMSE": 70.8814,
+            "mean_true": 202.74,
+            "n": 2559,
+            "p90_MAE": 119.7092
+          },
+          "Summer": {
+            "MAE": 25.5101,
+            "RMSE": 40.5151,
+            "mean_true": 77.13,
+            "n": 2641,
+            "p90_MAE": 67.672
+          },
+          "Monsoon": {
+            "MAE": 13.8434,
+            "RMSE": 19.4798,
+            "mean_true": 39.15,
+            "n": 3322,
+            "p90_MAE": 34.3601
+          },
+          "Post-Monsoon": {
+            "MAE": 53.7325,
+            "RMSE": 85.7545,
+            "mean_true": 195.04,
+            "n": 1787,
+            "p90_MAE": 133.3203
+          }
+        },
+        "worst_windows": [
+          {
+            "window_index": 1592,
+            "origin_datetime": "2025-02-13 00:00",
+            "anchor_station": 1,
+            "season": "Winter",
+            "true": 933.87,
+            "predicted": 49.02,
+            "abs_error": 884.85,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10813,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 9,
+            "season": "Post-Monsoon",
+            "true": 990.75,
+            "predicted": 142.0,
+            "abs_error": 848.75,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10828,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 24,
+            "season": "Post-Monsoon",
+            "true": 995.0,
+            "predicted": 167.95,
+            "abs_error": 827.05,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10817,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 13,
+            "season": "Post-Monsoon",
+            "true": 950.0,
+            "predicted": 271.03,
+            "abs_error": 678.97,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10822,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 857.0,
+            "predicted": 181.37,
+            "abs_error": 675.63,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10805,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 1,
+            "season": "Post-Monsoon",
+            "true": 766.08,
+            "predicted": 116.46,
+            "abs_error": 649.62,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10807,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 3,
+            "season": "Post-Monsoon",
+            "true": 748.72,
+            "predicted": 159.72,
+            "abs_error": 589.0,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10806,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 2,
+            "season": "Post-Monsoon",
+            "true": 839.0,
+            "predicted": 282.44,
+            "abs_error": 556.56,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4928,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 7,
+            "season": "Summer",
+            "true": 587.0,
+            "predicted": 53.27,
+            "abs_error": 533.73,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10830,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 26,
+            "season": "Post-Monsoon",
+            "true": 739.0,
+            "predicted": 228.34,
+            "abs_error": 510.66,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10823,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 19,
+            "season": "Post-Monsoon",
+            "true": 626.0,
+            "predicted": 116.02,
+            "abs_error": 509.98,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10815,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 11,
+            "season": "Post-Monsoon",
+            "true": 626.1,
+            "predicted": 129.3,
+            "abs_error": 496.8,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10821,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 17,
+            "season": "Post-Monsoon",
+            "true": 643.0,
+            "predicted": 168.19,
+            "abs_error": 474.81,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10810,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 6,
+            "season": "Post-Monsoon",
+            "true": 547.0,
+            "predicted": 143.63,
+            "abs_error": 403.37,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 1001,
+            "origin_datetime": "2025-01-28 00:00",
+            "anchor_station": 2,
+            "season": "Winter",
+            "true": 658.0,
+            "predicted": 263.71,
+            "abs_error": 394.29,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10876,
+            "origin_datetime": "2025-10-21 00:00",
+            "anchor_station": 35,
+            "season": "Post-Monsoon",
+            "true": 804.0,
+            "predicted": 418.49,
+            "abs_error": 385.51,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4943,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 22,
+            "season": "Summer",
+            "true": 457.44,
+            "predicted": 73.77,
+            "abs_error": 383.67,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10831,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 27,
+            "season": "Post-Monsoon",
+            "true": 503.0,
+            "predicted": 128.45,
+            "abs_error": 374.55,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 13031,
+            "origin_datetime": "2025-12-19 00:00",
+            "anchor_station": 7,
+            "season": "Winter",
+            "true": 703.0,
+            "predicted": 333.07,
+            "abs_error": 369.93,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4941,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 20,
+            "season": "Summer",
+            "true": 438.0,
+            "predicted": 79.18,
+            "abs_error": 358.82,
+            "aqi_band": "Severe"
+          }
+        ]
+      },
+      "72h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 36.763,
+            "RMSE": 63.0204,
+            "Bias": -1.8826,
+            "n": 10306
+          },
+          "p90": {
+            "threshold": 272.0,
+            "MAE": 113.6282,
+            "RMSE": 154.4253,
+            "Bias": -55.1858,
+            "n": 1032
+          },
+          "p95": {
+            "threshold": 344.0,
+            "MAE": 145.3306,
+            "RMSE": 193.4008,
+            "Bias": -98.9172,
+            "n": 520
+          },
+          "p99": {
+            "threshold": 501.0,
+            "MAE": 268.7058,
+            "RMSE": 331.025,
+            "Bias": -262.4759,
+            "n": 105
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 126.69,
+          "n_exceedances": 516,
+          "shape_xi": 0.2423,
+          "scale_sigma": 56.0466,
+          "return_levels": {
+            "T_100": 601.33,
+            "T_500": 937.98,
+            "T_1000": 1128.62
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9017,
+            "recall": 0.8521,
+            "f1": 0.8762,
+            "tp": 5202,
+            "fp": 567,
+            "fn": 903,
+            "true_exceedances": 6105
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.8935,
+            "recall": 0.8585,
+            "f1": 0.8757,
+            "tp": 3866,
+            "fp": 461,
+            "fn": 637,
+            "true_exceedances": 4503
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.8655,
+            "recall": 0.8603,
+            "f1": 0.8629,
+            "tp": 3011,
+            "fp": 468,
+            "fn": 489,
+            "true_exceedances": 3500
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.6727,
+            "recall": 0.6654,
+            "f1": 0.669,
+            "tp": 851,
+            "fp": 414,
+            "fn": 428,
+            "true_exceedances": 1279
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.4817,
+            "recall": 0.4788,
+            "f1": 0.4802,
+            "tp": 237,
+            "fp": 255,
+            "fn": 258,
+            "true_exceedances": 495
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8948,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.8585,
+              "n": 1555
+            },
+            "Satisfactory": {
+              "coverage90": 0.9471,
+              "n": 2646
+            },
+            "Moderate": {
+              "coverage90": 0.9251,
+              "n": 1602
+            },
+            "Poor": {
+              "coverage90": 0.8903,
+              "n": 1003
+            },
+            "Very Poor": {
+              "coverage90": 0.8852,
+              "n": 2221
+            },
+            "Severe": {
+              "coverage90": 0.8131,
+              "n": 1279
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.1,
+                24.0
+              ],
+              "coverage90": 0.8073,
+              "n": 986
+            },
+            "D2": {
+              "range": [
+                24.0,
+                34.9
+              ],
+              "coverage90": 0.9488,
+              "n": 1075
+            },
+            "D3": {
+              "range": [
+                34.9,
+                45.0
+              ],
+              "coverage90": 0.9524,
+              "n": 966
+            },
+            "D4": {
+              "range": [
+                45.0,
+                59.0
+              ],
+              "coverage90": 0.9478,
+              "n": 1093
+            },
+            "D5": {
+              "range": [
+                59.0,
+                75.2
+              ],
+              "coverage90": 0.9303,
+              "n": 1033
+            },
+            "D6": {
+              "range": [
+                75.2,
+                99.0
+              ],
+              "coverage90": 0.8999,
+              "n": 1019
+            },
+            "D7": {
+              "range": [
+                99.0,
+                136.0
+              ],
+              "coverage90": 0.8888,
+              "n": 1034
+            },
+            "D8": {
+              "range": [
+                136.0,
+                190.2
+              ],
+              "coverage90": 0.8892,
+              "n": 1038
+            },
+            "D9": {
+              "range": [
+                190.2,
+                272.0
+              ],
+              "coverage90": 0.8932,
+              "n": 1030
+            },
+            "D10": {
+              "range": [
+                272.0,
+                995.0
+              ],
+              "coverage90": 0.7849,
+              "n": 1032
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 57.5055,
+            "RMSE": 84.0213,
+            "mean_true": 200.73,
+            "n": 2552,
+            "p90_MAE": 142.6521
+          },
+          "Summer": {
+            "MAE": 26.7575,
+            "RMSE": 41.2849,
+            "mean_true": 76.38,
+            "n": 2639,
+            "p90_MAE": 71.6572
+          },
+          "Monsoon": {
+            "MAE": 14.9835,
+            "RMSE": 20.739,
+            "mean_true": 39.53,
+            "n": 3325,
+            "p90_MAE": 36.6523
+          },
+          "Post-Monsoon": {
+            "MAE": 62.3981,
+            "RMSE": 97.416,
+            "mean_true": 201.78,
+            "n": 1790,
+            "p90_MAE": 159.0269
+          }
+        }
+      }
+    },
+    "PM10": {
+      "1h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 29.0305,
+            "RMSE": 49.5213,
+            "Bias": -5.5418,
+            "n": 12528
+          },
+          "p90": {
+            "threshold": 438.48,
+            "MAE": 75.9102,
+            "RMSE": 113.17,
+            "Bias": -43.7449,
+            "n": 1253
+          },
+          "p95": {
+            "threshold": 525.0,
+            "MAE": 96.5891,
+            "RMSE": 140.6373,
+            "Bias": -65.6264,
+            "n": 629
+          },
+          "p99": {
+            "threshold": 708.77,
+            "MAE": 160.9813,
+            "RMSE": 226.0726,
+            "Bias": -149.2383,
+            "n": 126
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 94.88,
+          "n_exceedances": 627,
+          "shape_xi": 0.2644,
+          "scale_sigma": 46.0423,
+          "return_levels": {
+            "T_100": 509.19,
+            "T_500": 821.34,
+            "T_1000": 1002.5
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.979,
+            "recall": 0.9815,
+            "f1": 0.9802,
+            "tp": 11276,
+            "fp": 242,
+            "fn": 213,
+            "true_exceedances": 11489
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9696,
+            "recall": 0.9629,
+            "f1": 0.9662,
+            "tp": 9871,
+            "fp": 310,
+            "fn": 380,
+            "true_exceedances": 10251
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9609,
+            "recall": 0.9521,
+            "f1": 0.9565,
+            "tp": 8470,
+            "fp": 345,
+            "fn": 426,
+            "true_exceedances": 8896
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.9193,
+            "recall": 0.8871,
+            "f1": 0.9029,
+            "tp": 3920,
+            "fp": 344,
+            "fn": 499,
+            "true_exceedances": 4419
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.8735,
+            "recall": 0.8286,
+            "f1": 0.8504,
+            "tp": 1919,
+            "fp": 278,
+            "fn": 397,
+            "true_exceedances": 2316
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8966,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.7455,
+              "n": 220
+            },
+            "Satisfactory": {
+              "coverage90": 0.8901,
+              "n": 819
+            },
+            "Moderate": {
+              "coverage90": 0.9216,
+              "n": 1238
+            },
+            "Poor": {
+              "coverage90": 0.9137,
+              "n": 1355
+            },
+            "Very Poor": {
+              "coverage90": 0.9109,
+              "n": 4477
+            },
+            "Severe": {
+              "coverage90": 0.8787,
+              "n": 4419
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.3,
+                66.0
+              ],
+              "coverage90": 0.8673,
+              "n": 1251
+            },
+            "D2": {
+              "range": [
+                66.0,
+                94.9
+              ],
+              "coverage90": 0.9219,
+              "n": 1255
+            },
+            "D3": {
+              "range": [
+                94.9,
+                123.0
+              ],
+              "coverage90": 0.9154,
+              "n": 1241
+            },
+            "D4": {
+              "range": [
+                123.0,
+                153.0
+              ],
+              "coverage90": 0.9246,
+              "n": 1247
+            },
+            "D5": {
+              "range": [
+                153.0,
+                189.0
+              ],
+              "coverage90": 0.9138,
+              "n": 1265
+            },
+            "D6": {
+              "range": [
+                189.0,
+                227.4
+              ],
+              "coverage90": 0.899,
+              "n": 1258
+            },
+            "D7": {
+              "range": [
+                227.4,
+                275.4
+              ],
+              "coverage90": 0.9121,
+              "n": 1252
+            },
+            "D8": {
+              "range": [
+                275.4,
+                339.0
+              ],
+              "coverage90": 0.904,
+              "n": 1250
+            },
+            "D9": {
+              "range": [
+                339.0,
+                438.5
+              ],
+              "coverage90": 0.8822,
+              "n": 1256
+            },
+            "D10": {
+              "range": [
+                438.5,
+                1000.0
+              ],
+              "coverage90": 0.826,
+              "n": 1253
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 33.0032,
+            "RMSE": 49.8243,
+            "mean_true": 316.66,
+            "n": 3043,
+            "p90_MAE": 72.2426
+          },
+          "Summer": {
+            "MAE": 29.0024,
+            "RMSE": 47.0085,
+            "mean_true": 206.91,
+            "n": 3230,
+            "p90_MAE": 75.2132
+          },
+          "Monsoon": {
+            "MAE": 21.5212,
+            "RMSE": 43.2047,
+            "mean_true": 118.52,
+            "n": 4115,
+            "p90_MAE": 72.5122
+          },
+          "Post-Monsoon": {
+            "MAE": 37.8633,
+            "RMSE": 62.4652,
+            "mean_true": 324.96,
+            "n": 2140,
+            "p90_MAE": 100.121
+          }
+        }
+      },
+      "6h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 45.5372,
+            "RMSE": 69.9633,
+            "Bias": -2.9816,
+            "n": 12341
+          },
+          "p90": {
+            "threshold": 367.0,
+            "MAE": 113.7798,
+            "RMSE": 152.4813,
+            "Bias": -90.4711,
+            "n": 1240
+          },
+          "p95": {
+            "threshold": 448.0,
+            "MAE": 145.867,
+            "RMSE": 190.7313,
+            "Bias": -134.0936,
+            "n": 623
+          },
+          "p99": {
+            "threshold": 615.6,
+            "MAE": 254.2205,
+            "RMSE": 306.8518,
+            "Bias": -251.4307,
+            "n": 124
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 140.0,
+          "n_exceedances": 617,
+          "shape_xi": 0.2217,
+          "scale_sigma": 55.1613,
+          "return_levels": {
+            "T_100": 581.89,
+            "T_500": 878.07,
+            "T_1000": 1042.02
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9281,
+            "recall": 0.9616,
+            "f1": 0.9445,
+            "tp": 10160,
+            "fp": 787,
+            "fn": 406,
+            "true_exceedances": 10566
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9188,
+            "recall": 0.9425,
+            "f1": 0.9305,
+            "tp": 8526,
+            "fp": 753,
+            "fn": 520,
+            "true_exceedances": 9046
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9033,
+            "recall": 0.9195,
+            "f1": 0.9113,
+            "tp": 7070,
+            "fp": 757,
+            "fn": 619,
+            "true_exceedances": 7689
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.7613,
+            "recall": 0.7611,
+            "f1": 0.7612,
+            "tp": 2341,
+            "fp": 734,
+            "fn": 735,
+            "true_exceedances": 3076
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.6937,
+            "recall": 0.5931,
+            "f1": 0.6395,
+            "tp": 847,
+            "fp": 374,
+            "fn": 581,
+            "true_exceedances": 1428
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8808,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.6667,
+              "n": 495
+            },
+            "Satisfactory": {
+              "coverage90": 0.8602,
+              "n": 1280
+            },
+            "Moderate": {
+              "coverage90": 0.9158,
+              "n": 1520
+            },
+            "Poor": {
+              "coverage90": 0.8998,
+              "n": 1357
+            },
+            "Very Poor": {
+              "coverage90": 0.912,
+              "n": 4613
+            },
+            "Severe": {
+              "coverage90": 0.8514,
+              "n": 3076
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.6,
+                48.6
+              ],
+              "coverage90": 0.7707,
+              "n": 1234
+            },
+            "D2": {
+              "range": [
+                48.6,
+                73.0
+              ],
+              "coverage90": 0.9034,
+              "n": 1190
+            },
+            "D3": {
+              "range": [
+                73.0,
+                98.0
+              ],
+              "coverage90": 0.9098,
+              "n": 1275
+            },
+            "D4": {
+              "range": [
+                98.0,
+                127.0
+              ],
+              "coverage90": 0.9029,
+              "n": 1236
+            },
+            "D5": {
+              "range": [
+                127.0,
+                157.0
+              ],
+              "coverage90": 0.9227,
+              "n": 1229
+            },
+            "D6": {
+              "range": [
+                157.0,
+                190.0
+              ],
+              "coverage90": 0.9127,
+              "n": 1225
+            },
+            "D7": {
+              "range": [
+                190.0,
+                227.0
+              ],
+              "coverage90": 0.8974,
+              "n": 1238
+            },
+            "D8": {
+              "range": [
+                227.0,
+                277.0
+              ],
+              "coverage90": 0.9009,
+              "n": 1241
+            },
+            "D9": {
+              "range": [
+                277.0,
+                367.0
+              ],
+              "coverage90": 0.8783,
+              "n": 1233
+            },
+            "D10": {
+              "range": [
+                367.0,
+                1000.0
+              ],
+              "coverage90": 0.8097,
+              "n": 1240
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 52.9068,
+            "RMSE": 74.6341,
+            "mean_true": 241.37,
+            "n": 3017,
+            "p90_MAE": 110.505
+          },
+          "Summer": {
+            "MAE": 47.1836,
+            "RMSE": 71.6443,
+            "mean_true": 185.54,
+            "n": 3169,
+            "p90_MAE": 127.8434
+          },
+          "Monsoon": {
+            "MAE": 27.8102,
+            "RMSE": 44.1731,
+            "mean_true": 87.96,
+            "n": 4024,
+            "p90_MAE": 66.3742
+          },
+          "Post-Monsoon": {
+            "MAE": 66.1291,
+            "RMSE": 95.6195,
+            "mean_true": 293.25,
+            "n": 2131,
+            "p90_MAE": 164.4311
+          }
+        }
+      },
+      "24h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 59.2458,
+            "RMSE": 85.5875,
+            "Bias": -7.22,
+            "n": 10634
+          },
+          "p90": {
+            "threshold": 460.0,
+            "MAE": 129.9938,
+            "RMSE": 169.4774,
+            "Bias": -91.3697,
+            "n": 1068
+          },
+          "p95": {
+            "threshold": 548.0,
+            "MAE": 163.7506,
+            "RMSE": 206.7044,
+            "Bias": -143.1766,
+            "n": 533
+          },
+          "p99": {
+            "threshold": 727.01,
+            "MAE": 260.7707,
+            "RMSE": 304.6178,
+            "Bias": -255.2854,
+            "n": 107
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 176.47,
+          "n_exceedances": 532,
+          "shape_xi": 0.1175,
+          "scale_sigma": 63.8051,
+          "return_levels": {
+            "T_100": 566.3,
+            "T_500": 760.49,
+            "T_1000": 856.12
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.965,
+            "recall": 0.9594,
+            "f1": 0.9622,
+            "tp": 9490,
+            "fp": 344,
+            "fn": 402,
+            "true_exceedances": 9892
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9419,
+            "recall": 0.9299,
+            "f1": 0.9358,
+            "tp": 8311,
+            "fp": 513,
+            "fn": 627,
+            "true_exceedances": 8938
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9263,
+            "recall": 0.9105,
+            "f1": 0.9183,
+            "tp": 7168,
+            "fp": 570,
+            "fn": 705,
+            "true_exceedances": 7873
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.8306,
+            "recall": 0.8131,
+            "f1": 0.8217,
+            "tp": 3363,
+            "fp": 686,
+            "fn": 773,
+            "true_exceedances": 4136
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.757,
+            "recall": 0.7163,
+            "f1": 0.7361,
+            "tp": 1626,
+            "fp": 522,
+            "fn": 644,
+            "true_exceedances": 2270
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8735,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.5855,
+              "n": 193
+            },
+            "Satisfactory": {
+              "coverage90": 0.8434,
+              "n": 549
+            },
+            "Moderate": {
+              "coverage90": 0.8941,
+              "n": 954
+            },
+            "Poor": {
+              "coverage90": 0.8826,
+              "n": 1065
+            },
+            "Very Poor": {
+              "coverage90": 0.8892,
+              "n": 3737
+            },
+            "Severe": {
+              "coverage90": 0.8697,
+              "n": 4136
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.8,
+                70.0
+              ],
+              "coverage90": 0.8081,
+              "n": 1063
+            },
+            "D2": {
+              "range": [
+                70.0,
+                102.0
+              ],
+              "coverage90": 0.8933,
+              "n": 1059
+            },
+            "D3": {
+              "range": [
+                102.0,
+                133.0
+              ],
+              "coverage90": 0.8768,
+              "n": 1039
+            },
+            "D4": {
+              "range": [
+                133.0,
+                163.0
+              ],
+              "coverage90": 0.8686,
+              "n": 1073
+            },
+            "D5": {
+              "range": [
+                163.0,
+                202.0
+              ],
+              "coverage90": 0.9082,
+              "n": 1068
+            },
+            "D6": {
+              "range": [
+                202.0,
+                244.0
+              ],
+              "coverage90": 0.8982,
+              "n": 1061
+            },
+            "D7": {
+              "range": [
+                244.0,
+                296.0
+              ],
+              "coverage90": 0.9013,
+              "n": 1074
+            },
+            "D8": {
+              "range": [
+                296.0,
+                359.0
+              ],
+              "coverage90": 0.878,
+              "n": 1057
+            },
+            "D9": {
+              "range": [
+                359.0,
+                460.0
+              ],
+              "coverage90": 0.8703,
+              "n": 1072
+            },
+            "D10": {
+              "range": [
+                460.0,
+                1000.0
+              ],
+              "coverage90": 0.8324,
+              "n": 1068
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 75.0959,
+            "RMSE": 104.2724,
+            "mean_true": 339.18,
+            "n": 2612,
+            "p90_MAE": 168.7472
+          },
+          "Summer": {
+            "MAE": 59.5393,
+            "RMSE": 82.1688,
+            "mean_true": 218.74,
+            "n": 2734,
+            "p90_MAE": 124.5675
+          },
+          "Monsoon": {
+            "MAE": 37.1231,
+            "RMSE": 54.8097,
+            "mean_true": 121.92,
+            "n": 3454,
+            "p90_MAE": 97.3955
+          },
+          "Post-Monsoon": {
+            "MAE": 77.8987,
+            "RMSE": 106.1403,
+            "mean_true": 343.15,
+            "n": 1834,
+            "p90_MAE": 146.0565
+          }
+        },
+        "worst_windows": [
+          {
+            "window_index": 4953,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 32,
+            "season": "Summer",
+            "true": 1000.0,
+            "predicted": 192.86,
+            "abs_error": 807.14,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4928,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 7,
+            "season": "Summer",
+            "true": 1000.0,
+            "predicted": 214.43,
+            "abs_error": 785.57,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 3940,
+            "origin_datetime": "2025-04-17 00:00",
+            "anchor_station": 18,
+            "season": "Summer",
+            "true": 915.0,
+            "predicted": 273.65,
+            "abs_error": 641.35,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10815,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 11,
+            "season": "Post-Monsoon",
+            "true": 852.7,
+            "predicted": 246.25,
+            "abs_error": 606.45,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 638,
+            "origin_datetime": "2025-01-18 00:00",
+            "anchor_station": 9,
+            "season": "Winter",
+            "true": 890.2,
+            "predicted": 311.43,
+            "abs_error": 578.77,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 2386,
+            "origin_datetime": "2025-03-06 00:00",
+            "anchor_station": 18,
+            "season": "Summer",
+            "true": 849.0,
+            "predicted": 299.02,
+            "abs_error": 549.98,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10267,
+            "origin_datetime": "2025-10-05 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 661.0,
+            "predicted": 115.27,
+            "abs_error": 545.73,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10823,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 19,
+            "season": "Post-Monsoon",
+            "true": 736.0,
+            "predicted": 200.06,
+            "abs_error": 535.94,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 5689,
+            "origin_datetime": "2025-06-03 00:00",
+            "anchor_station": 28,
+            "season": "Monsoon",
+            "true": 628.81,
+            "predicted": 100.96,
+            "abs_error": 527.85,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10452,
+            "origin_datetime": "2025-10-10 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 838.0,
+            "predicted": 353.67,
+            "abs_error": 484.33,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10807,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 3,
+            "season": "Post-Monsoon",
+            "true": 831.77,
+            "predicted": 348.03,
+            "abs_error": 483.74,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 13026,
+            "origin_datetime": "2025-12-19 00:00",
+            "anchor_station": 2,
+            "season": "Winter",
+            "true": 912.0,
+            "predicted": 428.49,
+            "abs_error": 483.51,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 11044,
+            "origin_datetime": "2025-10-26 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 922.0,
+            "predicted": 448.77,
+            "abs_error": 473.23,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 5681,
+            "origin_datetime": "2025-06-03 00:00",
+            "anchor_station": 20,
+            "season": "Monsoon",
+            "true": 619.0,
+            "predicted": 149.94,
+            "abs_error": 469.06,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10781,
+            "origin_datetime": "2025-10-19 00:00",
+            "anchor_station": 14,
+            "season": "Post-Monsoon",
+            "true": 806.0,
+            "predicted": 338.9,
+            "abs_error": 467.1,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 12524,
+            "origin_datetime": "2025-12-05 00:00",
+            "anchor_station": 18,
+            "season": "Winter",
+            "true": 881.0,
+            "predicted": 420.2,
+            "abs_error": 460.8,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10748,
+            "origin_datetime": "2025-10-18 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 233.0,
+            "predicted": 688.91,
+            "abs_error": 455.91,
+            "aqi_band": "Very Poor"
+          },
+          {
+            "window_index": 10821,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 17,
+            "season": "Post-Monsoon",
+            "true": 717.0,
+            "predicted": 263.16,
+            "abs_error": 453.84,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 5663,
+            "origin_datetime": "2025-06-03 00:00",
+            "anchor_station": 2,
+            "season": "Monsoon",
+            "true": 581.0,
+            "predicted": 138.0,
+            "abs_error": 443.0,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 5679,
+            "origin_datetime": "2025-06-03 00:00",
+            "anchor_station": 18,
+            "season": "Monsoon",
+            "true": 697.0,
+            "predicted": 255.62,
+            "abs_error": 441.38,
+            "aqi_band": "Severe"
+          }
+        ]
+      },
+      "72h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 66.0548,
+            "RMSE": 94.8455,
+            "Bias": -6.514,
+            "n": 10633
+          },
+          "p90": {
+            "threshold": 462.0,
+            "MAE": 150.8779,
+            "RMSE": 188.8796,
+            "Bias": -95.3932,
+            "n": 1071
+          },
+          "p95": {
+            "threshold": 550.0,
+            "MAE": 186.6515,
+            "RMSE": 226.673,
+            "Bias": -150.664,
+            "n": 533
+          },
+          "p99": {
+            "threshold": 728.68,
+            "MAE": 277.3553,
+            "RMSE": 318.9977,
+            "Bias": -273.6,
+            "n": 107
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 199.22,
+          "n_exceedances": 532,
+          "shape_xi": 0.0958,
+          "scale_sigma": 68.0547,
+          "return_levels": {
+            "T_100": 593.18,
+            "T_500": 777.3,
+            "T_1000": 865.77
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9629,
+            "recall": 0.9489,
+            "f1": 0.9559,
+            "tp": 9386,
+            "fp": 362,
+            "fn": 505,
+            "true_exceedances": 9891
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9385,
+            "recall": 0.9311,
+            "f1": 0.9348,
+            "tp": 8321,
+            "fp": 545,
+            "fn": 616,
+            "true_exceedances": 8937
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9151,
+            "recall": 0.9087,
+            "f1": 0.9119,
+            "tp": 7154,
+            "fp": 664,
+            "fn": 719,
+            "true_exceedances": 7873
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.8217,
+            "recall": 0.7889,
+            "f1": 0.805,
+            "tp": 3263,
+            "fp": 708,
+            "fn": 873,
+            "true_exceedances": 4136
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.729,
+            "recall": 0.6761,
+            "f1": 0.7016,
+            "tp": 1547,
+            "fp": 575,
+            "fn": 741,
+            "true_exceedances": 2288
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8688,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.5803,
+              "n": 193
+            },
+            "Satisfactory": {
+              "coverage90": 0.8652,
+              "n": 549
+            },
+            "Moderate": {
+              "coverage90": 0.8857,
+              "n": 954
+            },
+            "Poor": {
+              "coverage90": 0.8712,
+              "n": 1064
+            },
+            "Very Poor": {
+              "coverage90": 0.8809,
+              "n": 3737
+            },
+            "Severe": {
+              "coverage90": 0.8673,
+              "n": 4136
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.8,
+                70.0
+              ],
+              "coverage90": 0.8297,
+              "n": 1063
+            },
+            "D2": {
+              "range": [
+                70.0,
+                102.0
+              ],
+              "coverage90": 0.8659,
+              "n": 1059
+            },
+            "D3": {
+              "range": [
+                102.0,
+                133.0
+              ],
+              "coverage90": 0.8768,
+              "n": 1039
+            },
+            "D4": {
+              "range": [
+                133.0,
+                163.0
+              ],
+              "coverage90": 0.8534,
+              "n": 1071
+            },
+            "D5": {
+              "range": [
+                163.0,
+                202.0
+              ],
+              "coverage90": 0.8992,
+              "n": 1071
+            },
+            "D6": {
+              "range": [
+                202.0,
+                244.6
+              ],
+              "coverage90": 0.8886,
+              "n": 1077
+            },
+            "D7": {
+              "range": [
+                244.6,
+                296.5
+              ],
+              "coverage90": 0.8993,
+              "n": 1063
+            },
+            "D8": {
+              "range": [
+                296.5,
+                361.0
+              ],
+              "coverage90": 0.8865,
+              "n": 1057
+            },
+            "D9": {
+              "range": [
+                361.0,
+                462.0
+              ],
+              "coverage90": 0.8851,
+              "n": 1062
+            },
+            "D10": {
+              "range": [
+                462.0,
+                1000.0
+              ],
+              "coverage90": 0.8039,
+              "n": 1071
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 88.4322,
+            "RMSE": 121.3481,
+            "mean_true": 334.98,
+            "n": 2607,
+            "p90_MAE": 194.828
+          },
+          "Summer": {
+            "MAE": 63.2016,
+            "RMSE": 86.2718,
+            "mean_true": 218.01,
+            "n": 2734,
+            "p90_MAE": 139.78
+          },
+          "Monsoon": {
+            "MAE": 40.0242,
+            "RMSE": 58.7164,
+            "mean_true": 121.99,
+            "n": 3456,
+            "p90_MAE": 104.5475
+          },
+          "Post-Monsoon": {
+            "MAE": 87.5275,
+            "RMSE": 116.6861,
+            "mean_true": 353.71,
+            "n": 1836,
+            "p90_MAE": 160.2593
+          }
+        }
+      }
+    }
+  },
+  "delhi_v2m256_no2d_ens3": {
+    "PM2.5": {
+      "1h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 15.8026,
+            "RMSE": 33.7053,
+            "Bias": -3.725,
+            "n": 12210
+          },
+          "p90": {
+            "threshold": 252.0,
+            "MAE": 50.9936,
+            "RMSE": 90.1132,
+            "Bias": -31.2137,
+            "n": 1222
+          },
+          "p95": {
+            "threshold": 321.0,
+            "MAE": 72.5989,
+            "RMSE": 119.3978,
+            "Bias": -55.583,
+            "n": 616
+          },
+          "p99": {
+            "threshold": 477.0,
+            "MAE": 136.5403,
+            "RMSE": 201.89,
+            "Bias": -128.2498,
+            "n": 124
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 50.82,
+          "n_exceedances": 611,
+          "shape_xi": 0.439,
+          "scale_sigma": 31.6076,
+          "return_levels": {
+            "T_100": 522.43,
+            "T_500": 1080.63,
+            "T_1000": 1472.47
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.958,
+            "recall": 0.9278,
+            "f1": 0.9427,
+            "tp": 6781,
+            "fp": 297,
+            "fn": 528,
+            "true_exceedances": 7309
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9467,
+            "recall": 0.9224,
+            "f1": 0.9344,
+            "tp": 4827,
+            "fp": 272,
+            "fn": 406,
+            "true_exceedances": 5233
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9419,
+            "recall": 0.9156,
+            "f1": 0.9286,
+            "tp": 3634,
+            "fp": 224,
+            "fn": 335,
+            "true_exceedances": 3969
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.8939,
+            "recall": 0.8411,
+            "f1": 0.8667,
+            "tp": 1053,
+            "fp": 125,
+            "fn": 199,
+            "true_exceedances": 1252
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.8133,
+            "recall": 0.6943,
+            "f1": 0.7491,
+            "tp": 318,
+            "fp": 73,
+            "fn": 140,
+            "true_exceedances": 458
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.9377,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.8964,
+              "n": 1844
+            },
+            "Satisfactory": {
+              "coverage90": 0.9601,
+              "n": 3057
+            },
+            "Moderate": {
+              "coverage90": 0.9634,
+              "n": 2076
+            },
+            "Poor": {
+              "coverage90": 0.9494,
+              "n": 1264
+            },
+            "Very Poor": {
+              "coverage90": 0.9404,
+              "n": 2717
+            },
+            "Severe": {
+              "coverage90": 0.8834,
+              "n": 1252
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.1,
+                24.0
+              ],
+              "coverage90": 0.8633,
+              "n": 1178
+            },
+            "D2": {
+              "range": [
+                24.0,
+                35.0
+              ],
+              "coverage90": 0.962,
+              "n": 1264
+            },
+            "D3": {
+              "range": [
+                35.0,
+                45.9
+              ],
+              "coverage90": 0.9574,
+              "n": 1221
+            },
+            "D4": {
+              "range": [
+                45.9,
+                59.5
+              ],
+              "coverage90": 0.959,
+              "n": 1221
+            },
+            "D5": {
+              "range": [
+                59.5,
+                75.0
+              ],
+              "coverage90": 0.9656,
+              "n": 1221
+            },
+            "D6": {
+              "range": [
+                75.0,
+                97.0
+              ],
+              "coverage90": 0.9567,
+              "n": 1201
+            },
+            "D7": {
+              "range": [
+                97.0,
+                128.5
+              ],
+              "coverage90": 0.9428,
+              "n": 1241
+            },
+            "D8": {
+              "range": [
+                128.5,
+                176.5
+              ],
+              "coverage90": 0.9361,
+              "n": 1221
+            },
+            "D9": {
+              "range": [
+                176.5,
+                252.0
+              ],
+              "coverage90": 0.9484,
+              "n": 1220
+            },
+            "D10": {
+              "range": [
+                252.0,
+                994.0
+              ],
+              "coverage90": 0.8822,
+              "n": 1222
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 20.6583,
+            "RMSE": 33.7916,
+            "mean_true": 187.44,
+            "n": 2986,
+            "p90_MAE": 49.937
+          },
+          "Summer": {
+            "MAE": 15.6599,
+            "RMSE": 39.8711,
+            "mean_true": 80.59,
+            "n": 3128,
+            "p90_MAE": 61.5311
+          },
+          "Monsoon": {
+            "MAE": 8.4122,
+            "RMSE": 14.075,
+            "mean_true": 41.04,
+            "n": 3999,
+            "p90_MAE": 21.5044
+          },
+          "Post-Monsoon": {
+            "MAE": 23.1948,
+            "RMSE": 47.3256,
+            "mean_true": 184.86,
+            "n": 2097,
+            "p90_MAE": 81.8475
+          }
+        }
+      },
+      "6h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 27.7922,
+            "RMSE": 47.0434,
+            "Bias": -5.4391,
+            "n": 11998
+          },
+          "p90": {
+            "threshold": 228.06,
+            "MAE": 86.0271,
+            "RMSE": 116.0832,
+            "Bias": -68.641,
+            "n": 1200
+          },
+          "p95": {
+            "threshold": 300.03,
+            "MAE": 116.7157,
+            "RMSE": 148.7846,
+            "Bias": -107.9981,
+            "n": 600
+          },
+          "p99": {
+            "threshold": 450.03,
+            "MAE": 206.2357,
+            "RMSE": 234.0018,
+            "Bias": -206.2176,
+            "n": 120
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 93.62,
+          "n_exceedances": 600,
+          "shape_xi": 0.2365,
+          "scale_sigma": 46.1575,
+          "return_levels": {
+            "T_100": 478.43,
+            "T_500": 747.08,
+            "T_1000": 898.25
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9209,
+            "recall": 0.8824,
+            "f1": 0.9012,
+            "tp": 6205,
+            "fp": 533,
+            "fn": 827,
+            "true_exceedances": 7032
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.8848,
+            "recall": 0.8512,
+            "f1": 0.8677,
+            "tp": 4303,
+            "fp": 560,
+            "fn": 752,
+            "true_exceedances": 5055
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.8389,
+            "recall": 0.8297,
+            "f1": 0.8343,
+            "tp": 3010,
+            "fp": 578,
+            "fn": 618,
+            "true_exceedances": 3628
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.7204,
+            "recall": 0.5805,
+            "f1": 0.6429,
+            "tp": 559,
+            "fp": 217,
+            "fn": 404,
+            "true_exceedances": 963
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.6433,
+            "recall": 0.2981,
+            "f1": 0.4074,
+            "tp": 110,
+            "fp": 61,
+            "fn": 259,
+            "true_exceedances": 369
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.919,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.8951,
+              "n": 2374
+            },
+            "Satisfactory": {
+              "coverage90": 0.9572,
+              "n": 2592
+            },
+            "Moderate": {
+              "coverage90": 0.955,
+              "n": 1977
+            },
+            "Poor": {
+              "coverage90": 0.9348,
+              "n": 1427
+            },
+            "Very Poor": {
+              "coverage90": 0.9182,
+              "n": 2665
+            },
+            "Severe": {
+              "coverage90": 0.7799,
+              "n": 963
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.0,
+                19.0
+              ],
+              "coverage90": 0.8189,
+              "n": 1132
+            },
+            "D2": {
+              "range": [
+                19.0,
+                30.0
+              ],
+              "coverage90": 0.9646,
+              "n": 1242
+            },
+            "D3": {
+              "range": [
+                30.0,
+                42.0
+              ],
+              "coverage90": 0.9667,
+              "n": 1170
+            },
+            "D4": {
+              "range": [
+                42.0,
+                57.5
+              ],
+              "coverage90": 0.9506,
+              "n": 1255
+            },
+            "D5": {
+              "range": [
+                57.5,
+                74.0
+              ],
+              "coverage90": 0.9558,
+              "n": 1155
+            },
+            "D6": {
+              "range": [
+                74.0,
+                94.0
+              ],
+              "coverage90": 0.9474,
+              "n": 1217
+            },
+            "D7": {
+              "range": [
+                94.0,
+                121.0
+              ],
+              "coverage90": 0.9358,
+              "n": 1215
+            },
+            "D8": {
+              "range": [
+                121.0,
+                158.9
+              ],
+              "coverage90": 0.9422,
+              "n": 1212
+            },
+            "D9": {
+              "range": [
+                158.9,
+                228.1
+              ],
+              "coverage90": 0.8983,
+              "n": 1200
+            },
+            "D10": {
+              "range": [
+                228.1,
+                862.0
+              ],
+              "coverage90": 0.8025,
+              "n": 1200
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 34.8692,
+            "RMSE": 50.0886,
+            "mean_true": 152.14,
+            "n": 2946,
+            "p90_MAE": 81.9238
+          },
+          "Summer": {
+            "MAE": 27.436,
+            "RMSE": 47.2822,
+            "mean_true": 86.06,
+            "n": 3082,
+            "p90_MAE": 95.1273
+          },
+          "Monsoon": {
+            "MAE": 12.9272,
+            "RMSE": 20.2321,
+            "mean_true": 35.61,
+            "n": 3905,
+            "p90_MAE": 33.4752
+          },
+          "Post-Monsoon": {
+            "MAE": 46.3377,
+            "RMSE": 71.8918,
+            "mean_true": 186.71,
+            "n": 2065,
+            "p90_MAE": 148.7154
+          }
+        }
+      },
+      "24h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 32.1746,
+            "RMSE": 55.0746,
+            "Bias": -1.0161,
+            "n": 10309
+          },
+          "p90": {
+            "threshold": 268.81,
+            "MAE": 94.5214,
+            "RMSE": 134.058,
+            "Bias": -46.5262,
+            "n": 1031
+          },
+          "p95": {
+            "threshold": 341.0,
+            "MAE": 117.2954,
+            "RMSE": 166.8556,
+            "Bias": -84.9232,
+            "n": 517
+          },
+          "p99": {
+            "threshold": 498.92,
+            "MAE": 223.5986,
+            "RMSE": 289.2442,
+            "Bias": -220.289,
+            "n": 104
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 107.36,
+          "n_exceedances": 516,
+          "shape_xi": 0.2943,
+          "scale_sigma": 46.4525,
+          "return_levels": {
+            "T_100": 561.65,
+            "T_500": 932.55,
+            "T_1000": 1155.02
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9044,
+            "recall": 0.8626,
+            "f1": 0.883,
+            "tp": 5269,
+            "fp": 557,
+            "fn": 839,
+            "true_exceedances": 6108
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9013,
+            "recall": 0.8633,
+            "f1": 0.8819,
+            "tp": 3889,
+            "fp": 426,
+            "fn": 616,
+            "true_exceedances": 4505
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.893,
+            "recall": 0.8823,
+            "f1": 0.8876,
+            "tp": 3088,
+            "fp": 370,
+            "fn": 412,
+            "true_exceedances": 3500
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.7198,
+            "recall": 0.7428,
+            "f1": 0.7311,
+            "tp": 930,
+            "fp": 362,
+            "fn": 322,
+            "true_exceedances": 1252
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.5581,
+            "recall": 0.5663,
+            "f1": 0.5622,
+            "tp": 269,
+            "fp": 213,
+            "fn": 206,
+            "true_exceedances": 475
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.9132,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.8559,
+              "n": 1555
+            },
+            "Satisfactory": {
+              "coverage90": 0.958,
+              "n": 2646
+            },
+            "Moderate": {
+              "coverage90": 0.9345,
+              "n": 1603
+            },
+            "Poor": {
+              "coverage90": 0.9075,
+              "n": 1005
+            },
+            "Very Poor": {
+              "coverage90": 0.9115,
+              "n": 2248
+            },
+            "Severe": {
+              "coverage90": 0.8698,
+              "n": 1252
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.1,
+                24.0
+              ],
+              "coverage90": 0.8043,
+              "n": 986
+            },
+            "D2": {
+              "range": [
+                24.0,
+                34.9
+              ],
+              "coverage90": 0.9498,
+              "n": 1076
+            },
+            "D3": {
+              "range": [
+                34.9,
+                45.0
+              ],
+              "coverage90": 0.9658,
+              "n": 965
+            },
+            "D4": {
+              "range": [
+                45.0,
+                59.0
+              ],
+              "coverage90": 0.9543,
+              "n": 1093
+            },
+            "D5": {
+              "range": [
+                59.0,
+                75.3
+              ],
+              "coverage90": 0.942,
+              "n": 1034
+            },
+            "D6": {
+              "range": [
+                75.3,
+                99.0
+              ],
+              "coverage90": 0.9215,
+              "n": 1019
+            },
+            "D7": {
+              "range": [
+                99.0,
+                136.0
+              ],
+              "coverage90": 0.9008,
+              "n": 1038
+            },
+            "D8": {
+              "range": [
+                136.0,
+                190.0
+              ],
+              "coverage90": 0.9187,
+              "n": 1033
+            },
+            "D9": {
+              "range": [
+                190.0,
+                268.8
+              ],
+              "coverage90": 0.9101,
+              "n": 1034
+            },
+            "D10": {
+              "range": [
+                268.8,
+                995.0
+              ],
+              "coverage90": 0.8594,
+              "n": 1031
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 47.9156,
+            "RMSE": 70.389,
+            "mean_true": 202.74,
+            "n": 2559,
+            "p90_MAE": 114.3079
+          },
+          "Summer": {
+            "MAE": 24.7013,
+            "RMSE": 40.1864,
+            "mean_true": 77.13,
+            "n": 2641,
+            "p90_MAE": 69.0201
+          },
+          "Monsoon": {
+            "MAE": 14.0485,
+            "RMSE": 19.5031,
+            "mean_true": 39.15,
+            "n": 3322,
+            "p90_MAE": 33.9642
+          },
+          "Post-Monsoon": {
+            "MAE": 54.374,
+            "RMSE": 85.4948,
+            "mean_true": 195.04,
+            "n": 1787,
+            "p90_MAE": 125.2922
+          }
+        },
+        "worst_windows": [
+          {
+            "window_index": 1592,
+            "origin_datetime": "2025-02-13 00:00",
+            "anchor_station": 1,
+            "season": "Winter",
+            "true": 933.87,
+            "predicted": 44.45,
+            "abs_error": 889.42,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10813,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 9,
+            "season": "Post-Monsoon",
+            "true": 990.75,
+            "predicted": 149.0,
+            "abs_error": 841.75,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10828,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 24,
+            "season": "Post-Monsoon",
+            "true": 995.0,
+            "predicted": 177.32,
+            "abs_error": 817.68,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10822,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 857.0,
+            "predicted": 183.28,
+            "abs_error": 673.72,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10817,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 13,
+            "season": "Post-Monsoon",
+            "true": 950.0,
+            "predicted": 287.05,
+            "abs_error": 662.95,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10805,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 1,
+            "season": "Post-Monsoon",
+            "true": 766.08,
+            "predicted": 123.1,
+            "abs_error": 642.98,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10807,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 3,
+            "season": "Post-Monsoon",
+            "true": 748.72,
+            "predicted": 172.52,
+            "abs_error": 576.2,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10806,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 2,
+            "season": "Post-Monsoon",
+            "true": 839.0,
+            "predicted": 294.59,
+            "abs_error": 544.41,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4928,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 7,
+            "season": "Summer",
+            "true": 587.0,
+            "predicted": 50.31,
+            "abs_error": 536.69,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10823,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 19,
+            "season": "Post-Monsoon",
+            "true": 626.0,
+            "predicted": 117.15,
+            "abs_error": 508.85,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10830,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 26,
+            "season": "Post-Monsoon",
+            "true": 739.0,
+            "predicted": 239.16,
+            "abs_error": 499.84,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10815,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 11,
+            "season": "Post-Monsoon",
+            "true": 626.1,
+            "predicted": 133.24,
+            "abs_error": 492.86,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10821,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 17,
+            "season": "Post-Monsoon",
+            "true": 643.0,
+            "predicted": 180.94,
+            "abs_error": 462.06,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10810,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 6,
+            "season": "Post-Monsoon",
+            "true": 547.0,
+            "predicted": 154.22,
+            "abs_error": 392.78,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4943,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 22,
+            "season": "Summer",
+            "true": 457.44,
+            "predicted": 66.45,
+            "abs_error": 390.99,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 1001,
+            "origin_datetime": "2025-01-28 00:00",
+            "anchor_station": 2,
+            "season": "Winter",
+            "true": 658.0,
+            "predicted": 279.85,
+            "abs_error": 378.15,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4922,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 1,
+            "season": "Summer",
+            "true": 408.38,
+            "predicted": 41.79,
+            "abs_error": 366.59,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4941,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 20,
+            "season": "Summer",
+            "true": 438.0,
+            "predicted": 72.61,
+            "abs_error": 365.39,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10831,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 27,
+            "season": "Post-Monsoon",
+            "true": 503.0,
+            "predicted": 141.16,
+            "abs_error": 361.84,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 13031,
+            "origin_datetime": "2025-12-19 00:00",
+            "anchor_station": 7,
+            "season": "Winter",
+            "true": 703.0,
+            "predicted": 345.53,
+            "abs_error": 357.47,
+            "aqi_band": "Severe"
+          }
+        ]
+      },
+      "72h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 36.3293,
+            "RMSE": 62.7291,
+            "Bias": -0.6893,
+            "n": 10306
+          },
+          "p90": {
+            "threshold": 272.0,
+            "MAE": 111.9421,
+            "RMSE": 152.5833,
+            "Bias": -47.2158,
+            "n": 1032
+          },
+          "p95": {
+            "threshold": 344.0,
+            "MAE": 138.5299,
+            "RMSE": 188.4332,
+            "Bias": -89.5257,
+            "n": 520
+          },
+          "p99": {
+            "threshold": 501.0,
+            "MAE": 259.3258,
+            "RMSE": 324.9211,
+            "Bias": -254.1247,
+            "n": 105
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 128.46,
+          "n_exceedances": 516,
+          "shape_xi": 0.2522,
+          "scale_sigma": 53.7301,
+          "return_levels": {
+            "T_100": 595.95,
+            "T_500": 936.62,
+            "T_1000": 1131.68
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.91,
+            "recall": 0.8609,
+            "f1": 0.8848,
+            "tp": 5256,
+            "fp": 520,
+            "fn": 849,
+            "true_exceedances": 6105
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9044,
+            "recall": 0.857,
+            "f1": 0.88,
+            "tp": 3859,
+            "fp": 408,
+            "fn": 644,
+            "true_exceedances": 4503
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.8741,
+            "recall": 0.8626,
+            "f1": 0.8683,
+            "tp": 3019,
+            "fp": 435,
+            "fn": 481,
+            "true_exceedances": 3500
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.6786,
+            "recall": 0.6951,
+            "f1": 0.6868,
+            "tp": 889,
+            "fp": 421,
+            "fn": 390,
+            "true_exceedances": 1279
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.4629,
+            "recall": 0.5172,
+            "f1": 0.4885,
+            "tp": 256,
+            "fp": 297,
+            "fn": 239,
+            "true_exceedances": 495
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.9135,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.8785,
+              "n": 1555
+            },
+            "Satisfactory": {
+              "coverage90": 0.9584,
+              "n": 2646
+            },
+            "Moderate": {
+              "coverage90": 0.9363,
+              "n": 1602
+            },
+            "Poor": {
+              "coverage90": 0.9153,
+              "n": 1003
+            },
+            "Very Poor": {
+              "coverage90": 0.9027,
+              "n": 2221
+            },
+            "Severe": {
+              "coverage90": 0.8522,
+              "n": 1279
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.1,
+                24.0
+              ],
+              "coverage90": 0.8347,
+              "n": 986
+            },
+            "D2": {
+              "range": [
+                24.0,
+                34.9
+              ],
+              "coverage90": 0.9563,
+              "n": 1075
+            },
+            "D3": {
+              "range": [
+                34.9,
+                45.0
+              ],
+              "coverage90": 0.9669,
+              "n": 966
+            },
+            "D4": {
+              "range": [
+                45.0,
+                59.0
+              ],
+              "coverage90": 0.9561,
+              "n": 1093
+            },
+            "D5": {
+              "range": [
+                59.0,
+                75.2
+              ],
+              "coverage90": 0.938,
+              "n": 1033
+            },
+            "D6": {
+              "range": [
+                75.2,
+                99.0
+              ],
+              "coverage90": 0.9215,
+              "n": 1019
+            },
+            "D7": {
+              "range": [
+                99.0,
+                136.0
+              ],
+              "coverage90": 0.913,
+              "n": 1034
+            },
+            "D8": {
+              "range": [
+                136.0,
+                190.2
+              ],
+              "coverage90": 0.9056,
+              "n": 1038
+            },
+            "D9": {
+              "range": [
+                190.2,
+                272.0
+              ],
+              "coverage90": 0.9097,
+              "n": 1030
+            },
+            "D10": {
+              "range": [
+                272.0,
+                995.0
+              ],
+              "coverage90": 0.8295,
+              "n": 1032
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 56.0676,
+            "RMSE": 81.6322,
+            "mean_true": 200.73,
+            "n": 2552,
+            "p90_MAE": 132.9076
+          },
+          "Summer": {
+            "MAE": 25.492,
+            "RMSE": 41.2897,
+            "mean_true": 76.38,
+            "n": 2639,
+            "p90_MAE": 74.0121
+          },
+          "Monsoon": {
+            "MAE": 14.9433,
+            "RMSE": 20.7091,
+            "mean_true": 39.53,
+            "n": 3325,
+            "p90_MAE": 36.4665
+          },
+          "Post-Monsoon": {
+            "MAE": 63.8912,
+            "RMSE": 99.2215,
+            "mean_true": 201.78,
+            "n": 1790,
+            "p90_MAE": 155.6335
+          }
+        }
+      }
+    },
+    "PM10": {
+      "1h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 28.9991,
+            "RMSE": 49.4963,
+            "Bias": -7.1093,
+            "n": 12528
+          },
+          "p90": {
+            "threshold": 438.48,
+            "MAE": 76.6432,
+            "RMSE": 113.6338,
+            "Bias": -49.173,
+            "n": 1253
+          },
+          "p95": {
+            "threshold": 525.0,
+            "MAE": 98.026,
+            "RMSE": 141.4876,
+            "Bias": -72.2328,
+            "n": 629
+          },
+          "p99": {
+            "threshold": 708.77,
+            "MAE": 165.8815,
+            "RMSE": 228.3806,
+            "Bias": -158.9323,
+            "n": 126
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 95.08,
+          "n_exceedances": 627,
+          "shape_xi": 0.2915,
+          "scale_sigma": 44.3435,
+          "return_levels": {
+            "T_100": 525.34,
+            "T_500": 874.0,
+            "T_1000": 1082.48
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.979,
+            "recall": 0.9796,
+            "f1": 0.9793,
+            "tp": 11255,
+            "fp": 241,
+            "fn": 234,
+            "true_exceedances": 11489
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9716,
+            "recall": 0.9607,
+            "f1": 0.9661,
+            "tp": 9848,
+            "fp": 288,
+            "fn": 403,
+            "true_exceedances": 10251
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9624,
+            "recall": 0.9508,
+            "f1": 0.9566,
+            "tp": 8458,
+            "fp": 330,
+            "fn": 438,
+            "true_exceedances": 8896
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.9216,
+            "recall": 0.8864,
+            "f1": 0.9037,
+            "tp": 3917,
+            "fp": 333,
+            "fn": 502,
+            "true_exceedances": 4419
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.8824,
+            "recall": 0.8225,
+            "f1": 0.8514,
+            "tp": 1905,
+            "fp": 254,
+            "fn": 411,
+            "true_exceedances": 2316
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8975,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.8,
+              "n": 220
+            },
+            "Satisfactory": {
+              "coverage90": 0.884,
+              "n": 819
+            },
+            "Moderate": {
+              "coverage90": 0.9087,
+              "n": 1238
+            },
+            "Poor": {
+              "coverage90": 0.9033,
+              "n": 1355
+            },
+            "Very Poor": {
+              "coverage90": 0.9109,
+              "n": 4477
+            },
+            "Severe": {
+              "coverage90": 0.8864,
+              "n": 4419
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.3,
+                66.0
+              ],
+              "coverage90": 0.8673,
+              "n": 1251
+            },
+            "D2": {
+              "range": [
+                66.0,
+                94.9
+              ],
+              "coverage90": 0.9124,
+              "n": 1255
+            },
+            "D3": {
+              "range": [
+                94.9,
+                123.0
+              ],
+              "coverage90": 0.9041,
+              "n": 1241
+            },
+            "D4": {
+              "range": [
+                123.0,
+                153.0
+              ],
+              "coverage90": 0.9246,
+              "n": 1247
+            },
+            "D5": {
+              "range": [
+                153.0,
+                189.0
+              ],
+              "coverage90": 0.9123,
+              "n": 1265
+            },
+            "D6": {
+              "range": [
+                189.0,
+                227.4
+              ],
+              "coverage90": 0.9046,
+              "n": 1258
+            },
+            "D7": {
+              "range": [
+                227.4,
+                275.4
+              ],
+              "coverage90": 0.9145,
+              "n": 1252
+            },
+            "D8": {
+              "range": [
+                275.4,
+                339.0
+              ],
+              "coverage90": 0.9144,
+              "n": 1250
+            },
+            "D9": {
+              "range": [
+                339.0,
+                438.5
+              ],
+              "coverage90": 0.8925,
+              "n": 1256
+            },
+            "D10": {
+              "range": [
+                438.5,
+                1000.0
+              ],
+              "coverage90": 0.8284,
+              "n": 1253
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 32.951,
+            "RMSE": 49.5707,
+            "mean_true": 316.66,
+            "n": 3043,
+            "p90_MAE": 72.8028
+          },
+          "Summer": {
+            "MAE": 29.0512,
+            "RMSE": 47.2709,
+            "mean_true": 206.91,
+            "n": 3230,
+            "p90_MAE": 77.225
+          },
+          "Monsoon": {
+            "MAE": 21.43,
+            "RMSE": 43.2021,
+            "mean_true": 118.52,
+            "n": 4115,
+            "p90_MAE": 72.2515
+          },
+          "Post-Monsoon": {
+            "MAE": 37.8557,
+            "RMSE": 62.3408,
+            "mean_true": 324.96,
+            "n": 2140,
+            "p90_MAE": 100.9947
+          }
+        }
+      },
+      "6h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 45.7376,
+            "RMSE": 69.8697,
+            "Bias": -3.1766,
+            "n": 12341
+          },
+          "p90": {
+            "threshold": 367.0,
+            "MAE": 114.4477,
+            "RMSE": 153.0305,
+            "Bias": -92.1681,
+            "n": 1240
+          },
+          "p95": {
+            "threshold": 448.0,
+            "MAE": 147.078,
+            "RMSE": 191.276,
+            "Bias": -135.8515,
+            "n": 623
+          },
+          "p99": {
+            "threshold": 615.6,
+            "MAE": 252.3325,
+            "RMSE": 305.1127,
+            "Bias": -249.581,
+            "n": 124
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 139.42,
+          "n_exceedances": 617,
+          "shape_xi": 0.2298,
+          "scale_sigma": 54.3323,
+          "return_levels": {
+            "T_100": 584.28,
+            "T_500": 889.22,
+            "T_1000": 1059.53
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9297,
+            "recall": 0.956,
+            "f1": 0.9427,
+            "tp": 10101,
+            "fp": 764,
+            "fn": 465,
+            "true_exceedances": 10566
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9218,
+            "recall": 0.9363,
+            "f1": 0.929,
+            "tp": 8470,
+            "fp": 719,
+            "fn": 576,
+            "true_exceedances": 9046
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9051,
+            "recall": 0.9203,
+            "f1": 0.9126,
+            "tp": 7076,
+            "fp": 742,
+            "fn": 613,
+            "true_exceedances": 7689
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.7545,
+            "recall": 0.7663,
+            "f1": 0.7603,
+            "tp": 2357,
+            "fp": 767,
+            "fn": 719,
+            "true_exceedances": 3076
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.6922,
+            "recall": 0.5889,
+            "f1": 0.6364,
+            "tp": 841,
+            "fp": 374,
+            "fn": 587,
+            "true_exceedances": 1428
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8979,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.6949,
+              "n": 495
+            },
+            "Satisfactory": {
+              "coverage90": 0.893,
+              "n": 1280
+            },
+            "Moderate": {
+              "coverage90": 0.9283,
+              "n": 1520
+            },
+            "Poor": {
+              "coverage90": 0.913,
+              "n": 1357
+            },
+            "Very Poor": {
+              "coverage90": 0.9215,
+              "n": 4613
+            },
+            "Severe": {
+              "coverage90": 0.8755,
+              "n": 3076
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.6,
+                48.6
+              ],
+              "coverage90": 0.7974,
+              "n": 1234
+            },
+            "D2": {
+              "range": [
+                48.6,
+                73.0
+              ],
+              "coverage90": 0.9319,
+              "n": 1190
+            },
+            "D3": {
+              "range": [
+                73.0,
+                98.0
+              ],
+              "coverage90": 0.9192,
+              "n": 1275
+            },
+            "D4": {
+              "range": [
+                98.0,
+                127.0
+              ],
+              "coverage90": 0.9207,
+              "n": 1236
+            },
+            "D5": {
+              "range": [
+                127.0,
+                157.0
+              ],
+              "coverage90": 0.9292,
+              "n": 1229
+            },
+            "D6": {
+              "range": [
+                157.0,
+                190.0
+              ],
+              "coverage90": 0.9143,
+              "n": 1225
+            },
+            "D7": {
+              "range": [
+                190.0,
+                227.0
+              ],
+              "coverage90": 0.9128,
+              "n": 1238
+            },
+            "D8": {
+              "range": [
+                227.0,
+                277.0
+              ],
+              "coverage90": 0.9202,
+              "n": 1241
+            },
+            "D9": {
+              "range": [
+                277.0,
+                367.0
+              ],
+              "coverage90": 0.8994,
+              "n": 1233
+            },
+            "D10": {
+              "range": [
+                367.0,
+                1000.0
+              ],
+              "coverage90": 0.8347,
+              "n": 1240
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 54.3509,
+            "RMSE": 75.0081,
+            "mean_true": 241.37,
+            "n": 3017,
+            "p90_MAE": 108.36
+          },
+          "Summer": {
+            "MAE": 47.107,
+            "RMSE": 71.724,
+            "mean_true": 185.54,
+            "n": 3169,
+            "p90_MAE": 132.8776
+          },
+          "Monsoon": {
+            "MAE": 27.775,
+            "RMSE": 44.0555,
+            "mean_true": 87.96,
+            "n": 4024,
+            "p90_MAE": 65.3864
+          },
+          "Post-Monsoon": {
+            "MAE": 65.4258,
+            "RMSE": 94.8191,
+            "mean_true": 293.25,
+            "n": 2131,
+            "p90_MAE": 164.5039
+          }
+        }
+      },
+      "24h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 59.035,
+            "RMSE": 84.8151,
+            "Bias": -2.9892,
+            "n": 10634
+          },
+          "p90": {
+            "threshold": 460.0,
+            "MAE": 125.8201,
+            "RMSE": 165.1554,
+            "Bias": -81.026,
+            "n": 1068
+          },
+          "p95": {
+            "threshold": 548.0,
+            "MAE": 156.9998,
+            "RMSE": 200.5269,
+            "Bias": -131.8352,
+            "n": 533
+          },
+          "p99": {
+            "threshold": 727.01,
+            "MAE": 252.1678,
+            "RMSE": 296.9124,
+            "Bias": -245.8012,
+            "n": 107
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 174.19,
+          "n_exceedances": 532,
+          "shape_xi": 0.1048,
+          "scale_sigma": 63.8485,
+          "return_levels": {
+            "T_100": 552.08,
+            "T_500": 733.41,
+            "T_1000": 821.44
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9601,
+            "recall": 0.9666,
+            "f1": 0.9634,
+            "tp": 9562,
+            "fp": 397,
+            "fn": 330,
+            "true_exceedances": 9892
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9381,
+            "recall": 0.9352,
+            "f1": 0.9366,
+            "tp": 8359,
+            "fp": 552,
+            "fn": 579,
+            "true_exceedances": 8938
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9223,
+            "recall": 0.9158,
+            "f1": 0.9191,
+            "tp": 7210,
+            "fp": 607,
+            "fn": 663,
+            "true_exceedances": 7873
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.8263,
+            "recall": 0.8271,
+            "f1": 0.8267,
+            "tp": 3421,
+            "fp": 719,
+            "fn": 715,
+            "true_exceedances": 4136
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.7449,
+            "recall": 0.737,
+            "f1": 0.7409,
+            "tp": 1673,
+            "fp": 573,
+            "fn": 597,
+            "true_exceedances": 2270
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8912,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.5596,
+              "n": 193
+            },
+            "Satisfactory": {
+              "coverage90": 0.8379,
+              "n": 549
+            },
+            "Moderate": {
+              "coverage90": 0.8941,
+              "n": 954
+            },
+            "Poor": {
+              "coverage90": 0.9005,
+              "n": 1065
+            },
+            "Very Poor": {
+              "coverage90": 0.9101,
+              "n": 3737
+            },
+            "Severe": {
+              "coverage90": 0.8936,
+              "n": 4136
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.8,
+                70.0
+              ],
+              "coverage90": 0.7996,
+              "n": 1063
+            },
+            "D2": {
+              "range": [
+                70.0,
+                102.0
+              ],
+              "coverage90": 0.8961,
+              "n": 1059
+            },
+            "D3": {
+              "range": [
+                102.0,
+                133.0
+              ],
+              "coverage90": 0.9047,
+              "n": 1039
+            },
+            "D4": {
+              "range": [
+                133.0,
+                163.0
+              ],
+              "coverage90": 0.9031,
+              "n": 1073
+            },
+            "D5": {
+              "range": [
+                163.0,
+                202.0
+              ],
+              "coverage90": 0.9176,
+              "n": 1068
+            },
+            "D6": {
+              "range": [
+                202.0,
+                244.0
+              ],
+              "coverage90": 0.9142,
+              "n": 1061
+            },
+            "D7": {
+              "range": [
+                244.0,
+                296.0
+              ],
+              "coverage90": 0.906,
+              "n": 1074
+            },
+            "D8": {
+              "range": [
+                296.0,
+                359.0
+              ],
+              "coverage90": 0.8988,
+              "n": 1057
+            },
+            "D9": {
+              "range": [
+                359.0,
+                460.0
+              ],
+              "coverage90": 0.903,
+              "n": 1072
+            },
+            "D10": {
+              "range": [
+                460.0,
+                1000.0
+              ],
+              "coverage90": 0.8689,
+              "n": 1068
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 75.344,
+            "RMSE": 103.2928,
+            "mean_true": 339.18,
+            "n": 2612,
+            "p90_MAE": 159.1779
+          },
+          "Summer": {
+            "MAE": 57.4665,
+            "RMSE": 80.2495,
+            "mean_true": 218.74,
+            "n": 2734,
+            "p90_MAE": 123.7165
+          },
+          "Monsoon": {
+            "MAE": 37.3791,
+            "RMSE": 54.2706,
+            "mean_true": 121.92,
+            "n": 3454,
+            "p90_MAE": 92.153
+          },
+          "Post-Monsoon": {
+            "MAE": 78.9307,
+            "RMSE": 106.6193,
+            "mean_true": 343.15,
+            "n": 1834,
+            "p90_MAE": 141.1346
+          }
+        },
+        "worst_windows": [
+          {
+            "window_index": 4953,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 32,
+            "season": "Summer",
+            "true": 1000.0,
+            "predicted": 188.1,
+            "abs_error": 811.9,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 4928,
+            "origin_datetime": "2025-05-14 00:00",
+            "anchor_station": 7,
+            "season": "Summer",
+            "true": 1000.0,
+            "predicted": 200.27,
+            "abs_error": 799.73,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 3940,
+            "origin_datetime": "2025-04-17 00:00",
+            "anchor_station": 18,
+            "season": "Summer",
+            "true": 915.0,
+            "predicted": 279.38,
+            "abs_error": 635.62,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10815,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 11,
+            "season": "Post-Monsoon",
+            "true": 852.7,
+            "predicted": 249.33,
+            "abs_error": 603.37,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 638,
+            "origin_datetime": "2025-01-18 00:00",
+            "anchor_station": 9,
+            "season": "Winter",
+            "true": 890.2,
+            "predicted": 353.02,
+            "abs_error": 537.18,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10823,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 19,
+            "season": "Post-Monsoon",
+            "true": 736.0,
+            "predicted": 204.88,
+            "abs_error": 531.12,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 2386,
+            "origin_datetime": "2025-03-06 00:00",
+            "anchor_station": 18,
+            "season": "Summer",
+            "true": 849.0,
+            "predicted": 325.27,
+            "abs_error": 523.73,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 5689,
+            "origin_datetime": "2025-06-03 00:00",
+            "anchor_station": 28,
+            "season": "Monsoon",
+            "true": 628.81,
+            "predicted": 111.1,
+            "abs_error": 517.71,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10452,
+            "origin_datetime": "2025-10-10 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 838.0,
+            "predicted": 327.24,
+            "abs_error": 510.76,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10267,
+            "origin_datetime": "2025-10-05 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 661.0,
+            "predicted": 156.51,
+            "abs_error": 504.49,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 11044,
+            "origin_datetime": "2025-10-26 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 922.0,
+            "predicted": 434.22,
+            "abs_error": 487.78,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 13026,
+            "origin_datetime": "2025-12-19 00:00",
+            "anchor_station": 2,
+            "season": "Winter",
+            "true": 912.0,
+            "predicted": 427.3,
+            "abs_error": 484.7,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10807,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 3,
+            "season": "Post-Monsoon",
+            "true": 831.77,
+            "predicted": 364.0,
+            "abs_error": 467.77,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 5681,
+            "origin_datetime": "2025-06-03 00:00",
+            "anchor_station": 20,
+            "season": "Monsoon",
+            "true": 619.0,
+            "predicted": 168.53,
+            "abs_error": 450.47,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 1128,
+            "origin_datetime": "2025-01-31 00:00",
+            "anchor_station": 18,
+            "season": "Winter",
+            "true": 229.0,
+            "predicted": 671.92,
+            "abs_error": 442.92,
+            "aqi_band": "Very Poor"
+          },
+          {
+            "window_index": 10781,
+            "origin_datetime": "2025-10-19 00:00",
+            "anchor_station": 14,
+            "season": "Post-Monsoon",
+            "true": 806.0,
+            "predicted": 363.17,
+            "abs_error": 442.83,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10821,
+            "origin_datetime": "2025-10-20 00:00",
+            "anchor_station": 17,
+            "season": "Post-Monsoon",
+            "true": 717.0,
+            "predicted": 275.51,
+            "abs_error": 441.49,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 10748,
+            "origin_datetime": "2025-10-18 00:00",
+            "anchor_station": 18,
+            "season": "Post-Monsoon",
+            "true": 233.0,
+            "predicted": 673.26,
+            "abs_error": 440.26,
+            "aqi_band": "Very Poor"
+          },
+          {
+            "window_index": 5663,
+            "origin_datetime": "2025-06-03 00:00",
+            "anchor_station": 2,
+            "season": "Monsoon",
+            "true": 581.0,
+            "predicted": 153.4,
+            "abs_error": 427.6,
+            "aqi_band": "Severe"
+          },
+          {
+            "window_index": 12524,
+            "origin_datetime": "2025-12-05 00:00",
+            "anchor_station": 18,
+            "season": "Winter",
+            "true": 881.0,
+            "predicted": 457.4,
+            "abs_error": 423.6,
+            "aqi_band": "Severe"
+          }
+        ]
+      },
+      "72h": {
+        "tail_errors": {
+          "overall": {
+            "MAE": 65.4929,
+            "RMSE": 94.2222,
+            "Bias": -4.1907,
+            "n": 10633
+          },
+          "p90": {
+            "threshold": 462.0,
+            "MAE": 147.259,
+            "RMSE": 185.8121,
+            "Bias": -86.1333,
+            "n": 1071
+          },
+          "p95": {
+            "threshold": 550.0,
+            "MAE": 180.2686,
+            "RMSE": 221.9807,
+            "Bias": -141.1814,
+            "n": 533
+          },
+          "p99": {
+            "threshold": 728.68,
+            "MAE": 270.6542,
+            "RMSE": 313.2948,
+            "Bias": -266.1514,
+            "n": 107
+          }
+        },
+        "gpd_fit": {
+          "threshold_u": 198.11,
+          "n_exceedances": 532,
+          "shape_xi": 0.0857,
+          "scale_sigma": 68.4229,
+          "return_levels": {
+            "T_100": 584.42,
+            "T_500": 759.61,
+            "T_1000": 842.83
+          }
+        },
+        "exceedance_detection": {
+          "thresh_60": {
+            "threshold": 60.0,
+            "precision": 0.9623,
+            "recall": 0.9528,
+            "f1": 0.9575,
+            "tp": 9424,
+            "fp": 369,
+            "fn": 467,
+            "true_exceedances": 9891
+          },
+          "thresh_90": {
+            "threshold": 90.0,
+            "precision": 0.9387,
+            "recall": 0.9298,
+            "f1": 0.9342,
+            "tp": 8310,
+            "fp": 543,
+            "fn": 627,
+            "true_exceedances": 8937
+          },
+          "thresh_120": {
+            "threshold": 120.0,
+            "precision": 0.9141,
+            "recall": 0.9125,
+            "f1": 0.9133,
+            "tp": 7184,
+            "fp": 675,
+            "fn": 689,
+            "true_exceedances": 7873
+          },
+          "thresh_250": {
+            "threshold": 250.0,
+            "precision": 0.8257,
+            "recall": 0.7986,
+            "f1": 0.8119,
+            "tp": 3303,
+            "fp": 697,
+            "fn": 833,
+            "true_exceedances": 4136
+          },
+          "thresh_350": {
+            "threshold": 350.0,
+            "precision": 0.728,
+            "recall": 0.6949,
+            "f1": 0.7111,
+            "tp": 1590,
+            "fp": 594,
+            "fn": 698,
+            "true_exceedances": 2288
+          }
+        },
+        "conditional_coverage": {
+          "overall_coverage90": 0.8896,
+          "by_aqi_band": {
+            "Good": {
+              "coverage90": 0.6166,
+              "n": 193
+            },
+            "Satisfactory": {
+              "coverage90": 0.8998,
+              "n": 549
+            },
+            "Moderate": {
+              "coverage90": 0.9109,
+              "n": 954
+            },
+            "Poor": {
+              "coverage90": 0.8947,
+              "n": 1064
+            },
+            "Very Poor": {
+              "coverage90": 0.9031,
+              "n": 3737
+            },
+            "Severe": {
+              "coverage90": 0.8825,
+              "n": 4136
+            }
+          },
+          "by_decile": {
+            "D1": {
+              "range": [
+                0.8,
+                70.0
+              ],
+              "coverage90": 0.857,
+              "n": 1063
+            },
+            "D2": {
+              "range": [
+                70.0,
+                102.0
+              ],
+              "coverage90": 0.8961,
+              "n": 1059
+            },
+            "D3": {
+              "range": [
+                102.0,
+                133.0
+              ],
+              "coverage90": 0.8989,
+              "n": 1039
+            },
+            "D4": {
+              "range": [
+                133.0,
+                163.0
+              ],
+              "coverage90": 0.8898,
+              "n": 1071
+            },
+            "D5": {
+              "range": [
+                163.0,
+                202.0
+              ],
+              "coverage90": 0.9206,
+              "n": 1071
+            },
+            "D6": {
+              "range": [
+                202.0,
+                244.6
+              ],
+              "coverage90": 0.9034,
+              "n": 1077
+            },
+            "D7": {
+              "range": [
+                244.6,
+                296.5
+              ],
+              "coverage90": 0.9087,
+              "n": 1063
+            },
+            "D8": {
+              "range": [
+                296.5,
+                361.0
+              ],
+              "coverage90": 0.8959,
+              "n": 1057
+            },
+            "D9": {
+              "range": [
+                361.0,
+                462.0
+              ],
+              "coverage90": 0.9002,
+              "n": 1062
+            },
+            "D10": {
+              "range": [
+                462.0,
+                1000.0
+              ],
+              "coverage90": 0.8254,
+              "n": 1071
+            }
+          }
+        },
+        "seasonal_decomposition": {
+          "Winter": {
+            "MAE": 86.3721,
+            "RMSE": 117.9952,
+            "mean_true": 334.98,
+            "n": 2607,
+            "p90_MAE": 181.4147
+          },
+          "Summer": {
+            "MAE": 61.3019,
+            "RMSE": 85.3453,
+            "mean_true": 218.01,
+            "n": 2734,
+            "p90_MAE": 142.8041
+          },
+          "Monsoon": {
+            "MAE": 40.6047,
+            "RMSE": 59.1635,
+            "mean_true": 121.99,
+            "n": 3456,
+            "p90_MAE": 103.1016
+          },
+          "Post-Monsoon": {
+            "MAE": 88.9352,
+            "RMSE": 119.2065,
+            "mean_true": 353.71,
+            "n": 1836,
+            "p90_MAE": 160.3938
+          }
+        }
+      }
+    }
+  }
+}

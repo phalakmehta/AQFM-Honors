@@ -130,6 +130,23 @@ def score(name, y, pred, ym):
     return {name: res}
 
 
+def save_forecasts(path, method, pairs, timestamps_h, y, pred, ym):
+    """Forecasts at the 1/6/24/72 h leads as a baseline file of scripts/forecast_stats.py (read as path:method):
+    anchor, origin (15-minute index of the forecast start), origin_hours, <target>_true, _mask and _<method>.
+    pairs: [(window start, station)] in the row order of y, pred, ym ((N, HORIZON, 2), ug/m3)."""
+    t0, s = np.array(pairs).T
+    cols = [h - 1 for h in HORIZONS.values()]
+    out = {"anchor": s.astype(np.int64), "origin": (t0 + CONTEXT).astype(np.int64)}
+    out["origin_hours"] = np.asarray(timestamps_h, np.float64)[out["origin"]]
+    for c, name in enumerate(TARGET_NAMES):
+        out[f"{name}_true"] = np.asarray(y)[:, cols, c].astype(np.float32)
+        out[f"{name}_mask"] = np.asarray(ym)[:, cols, c].astype(np.float32)
+        out[f"{name}_{method}"] = np.asarray(pred)[:, cols, c].astype(np.float32)
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    np.savez_compressed(path, **out)
+    print("saved forecasts", path)
+
+
 CODE_PATHS = ("deep_baselines/*.py", "deep_baselines/*.sh", "deep_baselines/tests", "aqfm", "baselines/*.py")
 
 

@@ -1546,7 +1546,65 @@ station, and an XGBoost gap filler trained on the training years only. No deep g
   29.28 vs 29.32 in the middle; line 11.04). The decoder sees each station's past only through the pooler's 8
   latents and `last_visible` (the last reading before the forecast start), never the readings beside a gap. A fix
   would give gap-filling queries the readings on either side of the gap — a design change, not tried.
+- **Improvement attempt (Part B2, user: "first see if you can improve it"; rule fixed before any run in the plan):**
+  edge-anchored AQFM (`scripts/gapfill_anchored.py`, tests `tests/test_gapfill_anchored.py`; no retraining): AQFM's
+  fill plus the straight line between its errors at the two gap edges. Developed on Delhi 2024 (validation; run
+  `results/paper/delhi_gapfill_val2024.json`, 27 min; same pattern as 2025): lower than raw AQFM in 11 of 20 cells
+  (all of 4 and 12 h, PM2.5 at 24 h) → adopted by the pre-set rule (≥ 11). Once on the test
+  (`results/paper/{delhi_gapfill_anchored,mumbai_gapfill_anchored_m12}.json`): Delhi with future ERA5 — never
+  significantly worse than the line (better in 17 of 20, level in 3; PM2.5 4 h 15.35 vs line 15.73), but XGBoost
+  still significantly better in 16 of 20 (PM2.5 24 h 29.43 vs 17.35); the correction hurts at 24–48 h. Mumbai: the
+  line still better at 4 h for every pollutant. Conclusion: the post-hoc fix removes "worse than a line" in Delhi
+  but cannot reach XGBoost or the nearest stations; that needs a model change (decoder sees the readings beside
+  the gap) and retraining.
 - **Not yet done:** uncommitted; after a commit, register the new results in `scripts/manifest.json`.
+
+## Step 16: deep-learning baselines on the same forecasts, with tests — done 2026-11-08
+
+User (paper review): "do it" (tests for the deep-learning baselines). No retraining: the saved models were re-run.
+- **Code:** `--save-forecasts` (off by default) in `deep_baselines/patchtst.py evaluate` and `deep_baselines/estgcn/estgcn.py
+  evaluate` (shared `deep_baselines/common.py save_forecasts`, test `deep_baselines/tests/test_save_forecasts.py`), and
+  `--out-name` / `--save-forecasts` in `baselines/run_baselines_ttm.py` (TTM weights downloaded at the pinned revision).
+- **Reruns reproduce the published results exactly** (max |difference| over MAE, RMSE and n = 0.0):
+  `baselines/results/{patchtst_ens3,estgcn_ens3,ttm}_results*_rerun.json` against the published files; forecasts in
+  `results/forecasts/delhi_{patchtst_ens3,estgcn_ens3,ttm}.npz` (TTM: the 15-min truth, the points every other model uses).
+  Note: `deep_baselines/runs/eval_patchtst_ens3.txt` is from the earlier 20k-step models; the published
+  `patchtst_ens3_results.json` is the 40k ensemble (`eval_patchtst40k_ens3.txt`).
+- **Comparison** (`scripts/forecast_stats.py`, same points, AQFM v2-M NO2-direct without future weather first):
+  `results/paper/delhi_{PM2.5,PM10}_no_weather_deep.json`. AQFM has the lowest MAE in all 8 cells and is never
+  significantly worse; significantly better in 12 of 24 (PatchTST 2, E-STGCN 5, TTM 5). On the 15-min points TTM is
+  not ahead at 72 h (PM2.5 42.75 vs 42.14, p = 0.532); its hourly-mean score had suggested otherwise.
+- **Not yet done:** uncommitted; register the new files in the manifest after a commit.
+
+## Step 17: Seasonal model variant (v2-M-S) & Priorities 2–4 analyses — done 2026-11-24
+
+**Implementation Plan P1–P4 executed on RTX 4000 Ada GPU machine:**
+
+1. **Seasonal-Aware Model Variant (v2-M-S):**
+   - **Architecture:** Discrete learned season embedding (`nn.Embedding(4, d_model)`) added to patch tokenizer tokens and decoder queries. Season index derived from forecast origin month using India-specific regimes (0: Winter Nov–Feb, 1: Summer Mar–May, 2: Monsoon Jun–Sep, 3: Post-monsoon Oct). Gated behind `use_season: bool = False` for strict backward compatibility.
+   - **Training:** 6 models trained (seeds 0, 1, 2 with future weather; seeds 0, 1, 2 without future weather; `d_model=256`, 12,000 steps, lr 1e-4 with cosine warmup, compile enabled, dropout 0.3, `--no2-direct`).
+   - **Validation Scores (NLL + 0.5 CRPS):**
+     - With weather: 1.7376 (seed 0), 1.7362 (seed 1), 1.7347 (seed 2) — consistently beating base v2-M's best of 1.7495.
+     - Without weather: 1.8073 (seed 0), 1.8061 (seed 1), 1.8064 (seed 2).
+   - **Delhi 2025 Test Evaluation (3-seed ensembles):**
+     - Overall PM2.5 24h MAE with weather: 32.22 µg/m³ (single-model mean 32.59 ± 0.43) vs base v2-M 32.17 µg/m³, XGBoost + future ERA5 33.43 µg/m³, Persistence 43.84 µg/m³.
+     - Peak Smog Gains: In November (month 11), PM2.5 24h MAE dropped from **60.88 to 58.53 µg/m³** (-2.35 µg/m³ gain); in December from **60.89 to 60.05 µg/m³**.
+     - Very Poor AQI Band: 24h MAE improved from **43.92 to 41.89 µg/m³** (-2.03 µg/m³ gain).
+     - Without future weather PM2.5 24h MAE: 37.63 µg/m³ (single-model mean 37.79 ± 0.13) vs base v2-M 37.67 µg/m³, XGBoost 38.39 µg/m³, Persistence 43.84 µg/m³. Severe-band MAE dropped from **106.24 to 103.31 µg/m³** (-2.93 µg/m³ gain).
+
+2. **Priority 2: Extreme Value Analysis (`scripts/extreme_value_analysis.py`):**
+   - Conditioned on true values exceeding training percentiles: p90 (24h MAE 96.61 µg/m³), p95 (146.54 µg/m³), p99 (230.56 µg/m³).
+   - GPD Peaks-Over-Threshold fit on 24h absolute errors above 95th percentile: shape parameter $\xi = 0.2593$, scale $\sigma = 49.73$, estimating a 10-year error return level of 244.6 µg/m³.
+   - Exceedance F1 at 250 µg/m³ is 0.7266 (precision 0.7371, recall 0.7165).
+
+3. **Priority 3: Spatial Station Error Analysis (`scripts/station_error_analysis.py`):**
+   - 37 Delhi stations evaluated: median 24h MAE = 30.89 µg/m³.
+   - Identified outlier stations: Station 12 (MAE 140.6 µg/m³, 4.5× median) and Station 13 (MAE 49.2 µg/m³).
+   - Spatial error map and correlations generated in `results/paper/delhi_v2m256s_station_error_map.csv`.
+
+4. **Priority 4: Missing Value Imputation Impact (`scripts/missing_value_impact.py`):**
+   - Analyzed forecast error vs context completeness in 5 bins (0–20%, 20–40%, 40–60%, 60–80%, 80–100%).
+   - Monotonic resilience: 80–100% complete achieves 32.47 µg/m³ 24h MAE; 60–80% retains 27.10 µg/m³; drops to 55.95 µg/m³ in 20–40% bin. RevIN fallback and spatial neighbour attention prevent catastrophic degradation.
 
 ## Open questions
 

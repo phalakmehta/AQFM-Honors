@@ -6,6 +6,7 @@ change.
 """
 
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Optional, Tuple
 
 # values.npy / observed.npy axis 1, exactly as written by preprocess_aqfm.py
@@ -42,6 +43,13 @@ OUTAGE_CHANNELS = tuple(CH[c] for c in (
 # Physical reparameterisation: (base slot name, fraction slot name)
 PM_PAIR = ("PM10", "PM_FRAC")       # PM2.5 = PM10 * sigmoid(frac)
 NOX_PAIR = ("NOx", "NOX_FRAC")      # NO = NOx * f, NO2 = NOx * (1 - f), in ppb
+
+# Month → season index (India-specific air-quality regimes)
+# winter=0 (Nov–Feb), summer=1 (Mar–May), monsoon=2 (Jun–Sep), post-monsoon=3 (Oct)
+MONTH_TO_SEASON = {12: 0, 1: 0, 2: 0, 3: 1, 4: 1, 5: 1,
+                   6: 2, 7: 2, 8: 2, 9: 2, 10: 3, 11: 3}
+
+EPOCH = datetime(2018, 1, 1)
 
 
 @dataclass
@@ -139,6 +147,7 @@ class AQFMConfig:
     # Per-sample neighbourhood-density features (nearest / mean neighbour
     # distance, share within 5 / 20 km, share present) fed to the station MLP.
     density_features: bool = False
+    use_season: bool = False           # True adds a 4-class season embedding (v2-M-S variant)
     # ALBERT-style weight sharing across axial blocks (same block applied n times)
     share_axial_blocks: bool = False
     # Training-only augmentation: with prob p drop a random share of the

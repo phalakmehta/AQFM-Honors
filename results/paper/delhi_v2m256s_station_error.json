@@ -1,0 +1,1560 @@
+{
+  "target": "PM2.5",
+  "station_metrics": {
+    "0": {
+      "1h": {
+        "MAE": 16.6244,
+        "RMSE": 33.0523,
+        "Bias": -6.3328,
+        "n": 357
+      },
+      "6h": {
+        "MAE": 33.6442,
+        "RMSE": 57.0581,
+        "Bias": -11.9546,
+        "n": 355
+      },
+      "24h": {
+        "MAE": 36.5207,
+        "RMSE": 56.8567,
+        "Bias": -4.9361,
+        "n": 357
+      },
+      "72h": {
+        "MAE": 42.0403,
+        "RMSE": 68.1759,
+        "Bias": -3.6707,
+        "n": 357
+      }
+    },
+    "1": {
+      "1h": {
+        "MAE": 17.0708,
+        "RMSE": 34.1342,
+        "Bias": -0.8097,
+        "n": 335
+      },
+      "6h": {
+        "MAE": 25.2409,
+        "RMSE": 44.4149,
+        "Bias": -0.0429,
+        "n": 347
+      },
+      "24h": {
+        "MAE": 35.0776,
+        "RMSE": 76.3702,
+        "Bias": 0.5414,
+        "n": 340
+      },
+      "72h": {
+        "MAE": 37.7811,
+        "RMSE": 80.9292,
+        "Bias": 1.561,
+        "n": 340
+      }
+    },
+    "2": {
+      "1h": {
+        "MAE": 20.8862,
+        "RMSE": 37.2958,
+        "Bias": 4.7223,
+        "n": 357
+      },
+      "6h": {
+        "MAE": 37.7461,
+        "RMSE": 60.2044,
+        "Bias": -11.2562,
+        "n": 350
+      },
+      "24h": {
+        "MAE": 40.0021,
+        "RMSE": 68.6366,
+        "Bias": -0.0398,
+        "n": 353
+      },
+      "72h": {
+        "MAE": 42.8727,
+        "RMSE": 76.907,
+        "Bias": 0.8888,
+        "n": 352
+      }
+    },
+    "3": {
+      "1h": {
+        "MAE": 18.7497,
+        "RMSE": 34.162,
+        "Bias": 1.0136,
+        "n": 335
+      },
+      "6h": {
+        "MAE": 29.6241,
+        "RMSE": 46.1956,
+        "Bias": -5.757,
+        "n": 335
+      },
+      "24h": {
+        "MAE": 37.5008,
+        "RMSE": 64.4044,
+        "Bias": -0.3921,
+        "n": 335
+      },
+      "72h": {
+        "MAE": 41.9312,
+        "RMSE": 72.5418,
+        "Bias": 2.5476,
+        "n": 335
+      }
+    },
+    "4": {
+      "1h": {
+        "MAE": 12.8065,
+        "RMSE": 45.2222,
+        "Bias": -6.2313,
+        "n": 236
+      },
+      "6h": {
+        "MAE": 18.7318,
+        "RMSE": 31.3569,
+        "Bias": 1.2062,
+        "n": 229
+      },
+      "24h": {
+        "MAE": null,
+        "RMSE": null,
+        "Bias": null,
+        "n": 0
+      },
+      "72h": {
+        "MAE": null,
+        "RMSE": null,
+        "Bias": null,
+        "n": 0
+      }
+    },
+    "5": {
+      "1h": {
+        "MAE": 16.6859,
+        "RMSE": 29.3733,
+        "Bias": -0.6096,
+        "n": 354
+      },
+      "6h": {
+        "MAE": 27.1582,
+        "RMSE": 45.8601,
+        "Bias": -2.6519,
+        "n": 352
+      },
+      "24h": {
+        "MAE": 29.2152,
+        "RMSE": 44.7273,
+        "Bias": -2.2454,
+        "n": 355
+      },
+      "72h": {
+        "MAE": 33.6055,
+        "RMSE": 51.1642,
+        "Bias": -2.829,
+        "n": 355
+      }
+    },
+    "6": {
+      "1h": {
+        "MAE": 12.7247,
+        "RMSE": 24.1668,
+        "Bias": 1.7766,
+        "n": 351
+      },
+      "6h": {
+        "MAE": 26.6359,
+        "RMSE": 44.8959,
+        "Bias": -6.863,
+        "n": 350
+      },
+      "24h": {
+        "MAE": 28.8489,
+        "RMSE": 48.3634,
+        "Bias": -7.3088,
+        "n": 355
+      },
+      "72h": {
+        "MAE": 33.0501,
+        "RMSE": 55.7952,
+        "Bias": -6.9766,
+        "n": 355
+      }
+    },
+    "7": {
+      "1h": {
+        "MAE": 13.7169,
+        "RMSE": 31.809,
+        "Bias": -1.2283,
+        "n": 347
+      },
+      "6h": {
+        "MAE": 21.5922,
+        "RMSE": 41.0385,
+        "Bias": -3.7461,
+        "n": 340
+      },
+      "24h": {
+        "MAE": 25.6735,
+        "RMSE": 52.6618,
+        "Bias": -3.2175,
+        "n": 343
+      },
+      "72h": {
+        "MAE": 29.4424,
+        "RMSE": 58.9374,
+        "Bias": -3.6316,
+        "n": 343
+      }
+    },
+    "8": {
+      "1h": {
+        "MAE": 14.0364,
+        "RMSE": 27.3983,
+        "Bias": 1.3852,
+        "n": 355
+      },
+      "6h": {
+        "MAE": 27.9177,
+        "RMSE": 45.1349,
+        "Bias": -0.397,
+        "n": 353
+      },
+      "24h": {
+        "MAE": 29.6241,
+        "RMSE": 45.6483,
+        "Bias": -3.3743,
+        "n": 357
+      },
+      "72h": {
+        "MAE": 34.018,
+        "RMSE": 51.2853,
+        "Bias": -2.3761,
+        "n": 357
+      }
+    },
+    "9": {
+      "1h": {
+        "MAE": 15.0055,
+        "RMSE": 30.5822,
+        "Bias": -0.6868,
+        "n": 311
+      },
+      "6h": {
+        "MAE": 24.2302,
+        "RMSE": 36.3474,
+        "Bias": -4.3318,
+        "n": 306
+      },
+      "24h": {
+        "MAE": 32.127,
+        "RMSE": 66.3207,
+        "Bias": -0.903,
+        "n": 311
+      },
+      "72h": {
+        "MAE": 35.8875,
+        "RMSE": 70.9532,
+        "Bias": 0.9651,
+        "n": 311
+      }
+    },
+    "10": {
+      "1h": {
+        "MAE": 15.116,
+        "RMSE": 23.8553,
+        "Bias": -1.7002,
+        "n": 324
+      },
+      "6h": {
+        "MAE": 24.095,
+        "RMSE": 45.4693,
+        "Bias": 3.2298,
+        "n": 309
+      },
+      "24h": {
+        "MAE": null,
+        "RMSE": null,
+        "Bias": null,
+        "n": 0
+      },
+      "72h": {
+        "MAE": null,
+        "RMSE": null,
+        "Bias": null,
+        "n": 0
+      }
+    },
+    "11": {
+      "1h": {
+        "MAE": 16.9055,
+        "RMSE": 35.1734,
+        "Bias": -5.0046,
+        "n": 289
+      },
+      "6h": {
+        "MAE": 22.6858,
+        "RMSE": 37.5859,
+        "Bias": -5.0363,
+        "n": 292
+      },
+      "24h": {
+        "MAE": 25.7024,
+        "RMSE": 45.8996,
+        "Bias": -0.3051,
+        "n": 292
+      },
+      "72h": {
+        "MAE": 29.3111,
+        "RMSE": 50.2895,
+        "Bias": 0.3709,
+        "n": 292
+      }
+    },
+    "12": {
+      "1h": {
+        "MAE": 14.8331,
+        "RMSE": 28.6577,
+        "Bias": -5.8051,
+        "n": 344
+      },
+      "6h": {
+        "MAE": 27.4775,
+        "RMSE": 48.0773,
+        "Bias": -11.2644,
+        "n": 338
+      },
+      "24h": {
+        "MAE": 140.5994,
+        "RMSE": 140.5994,
+        "Bias": -140.5994,
+        "n": 1
+      },
+      "72h": {
+        "MAE": 110.7962,
+        "RMSE": 110.7962,
+        "Bias": -110.7962,
+        "n": 1
+      }
+    },
+    "13": {
+      "1h": {
+        "MAE": 25.5181,
+        "RMSE": 57.2004,
+        "Bias": 2.4813,
+        "n": 153
+      },
+      "6h": {
+        "MAE": 42.3768,
+        "RMSE": 68.9445,
+        "Bias": -6.6642,
+        "n": 143
+      },
+      "24h": {
+        "MAE": 49.1825,
+        "RMSE": 88.0304,
+        "Bias": -6.7619,
+        "n": 155
+      },
+      "72h": {
+        "MAE": 56.3387,
+        "RMSE": 100.2851,
+        "Bias": -3.7038,
+        "n": 155
+      }
+    },
+    "14": {
+      "1h": {
+        "MAE": 10.8772,
+        "RMSE": 18.3212,
+        "Bias": -2.057,
+        "n": 351
+      },
+      "6h": {
+        "MAE": 20.3753,
+        "RMSE": 33.0327,
+        "Bias": -1.7576,
+        "n": 341
+      },
+      "24h": {
+        "MAE": 24.1,
+        "RMSE": 38.7875,
+        "Bias": -3.7889,
+        "n": 349
+      },
+      "72h": {
+        "MAE": 28.6776,
+        "RMSE": 44.6935,
+        "Bias": -3.5675,
+        "n": 349
+      }
+    },
+    "15": {
+      "1h": {
+        "MAE": 14.982,
+        "RMSE": 40.0892,
+        "Bias": -6.3291,
+        "n": 295
+      },
+      "6h": {
+        "MAE": 19.6301,
+        "RMSE": 28.8761,
+        "Bias": -3.8194,
+        "n": 272
+      },
+      "24h": {
+        "MAE": null,
+        "RMSE": null,
+        "Bias": null,
+        "n": 0
+      },
+      "72h": {
+        "MAE": null,
+        "RMSE": null,
+        "Bias": null,
+        "n": 0
+      }
+    },
+    "16": {
+      "1h": {
+        "MAE": 9.6737,
+        "RMSE": 21.1137,
+        "Bias": -3.1383,
+        "n": 355
+      },
+      "6h": {
+        "MAE": 25.3784,
+        "RMSE": 42.4181,
+        "Bias": -10.4295,
+        "n": 337
+      },
+      "24h": {
+        "MAE": 25.6102,
+        "RMSE": 39.9371,
+        "Bias": -0.8108,
+        "n": 350
+      },
+      "72h": {
+        "MAE": 30.9522,
+        "RMSE": 48.2489,
+        "Bias": 0.2965,
+        "n": 350
+      }
+    },
+    "17": {
+      "1h": {
+        "MAE": 16.4791,
+        "RMSE": 30.9206,
+        "Bias": -4.4834,
+        "n": 315
+      },
+      "6h": {
+        "MAE": 28.7748,
+        "RMSE": 48.422,
+        "Bias": -10.7023,
+        "n": 305
+      },
+      "24h": {
+        "MAE": 28.9765,
+        "RMSE": 49.1111,
+        "Bias": -3.3058,
+        "n": 322
+      },
+      "72h": {
+        "MAE": 33.5188,
+        "RMSE": 57.1893,
+        "Bias": -2.7917,
+        "n": 323
+      }
+    },
+    "18": {
+      "1h": {
+        "MAE": 25.0174,
+        "RMSE": 49.9663,
+        "Bias": -2.5037,
+        "n": 350
+      },
+      "6h": {
+        "MAE": 32.6422,
+        "RMSE": 52.1144,
+        "Bias": -3.8334,
+        "n": 348
+      },
+      "24h": {
+        "MAE": 41.0162,
+        "RMSE": 72.2895,
+        "Bias": -9.5956,
+        "n": 351
+      },
+      "72h": {
+        "MAE": 46.1193,
+        "RMSE": 77.643,
+        "Bias": -7.4553,
+        "n": 351
+      }
+    },
+    "19": {
+      "1h": {
+        "MAE": 11.9934,
+        "RMSE": 32.2377,
+        "Bias": -2.5986,
+        "n": 345
+      },
+      "6h": {
+        "MAE": 22.8064,
+        "RMSE": 36.9882,
+        "Bias": -3.4891,
+        "n": 334
+      },
+      "24h": {
+        "MAE": 26.8317,
+        "RMSE": 49.9359,
+        "Bias": -5.9804,
+        "n": 342
+      },
+      "72h": {
+        "MAE": 28.8501,
+        "RMSE": 53.3861,
+        "Bias": -5.3029,
+        "n": 342
+      }
+    },
+    "20": {
+      "1h": {
+        "MAE": 17.4003,
+        "RMSE": 34.2285,
+        "Bias": -2.8103,
+        "n": 356
+      },
+      "6h": {
+        "MAE": 34.5938,
+        "RMSE": 56.9471,
+        "Bias": -15.7253,
+        "n": 358
+      },
+      "24h": {
+        "MAE": 34.3758,
+        "RMSE": 54.9036,
+        "Bias": -3.2224,
+        "n": 357
+      },
+      "72h": {
+        "MAE": 39.0869,
+        "RMSE": 64.5656,
+        "Bias": -2.1748,
+        "n": 357
+      }
+    },
+    "21": {
+      "1h": {
+        "MAE": 16.2929,
+        "RMSE": 33.2673,
+        "Bias": 3.2611,
+        "n": 358
+      },
+      "6h": {
+        "MAE": 29.451,
+        "RMSE": 45.8489,
+        "Bias": 2.856,
+        "n": 356
+      },
+      "24h": {
+        "MAE": 33.5021,
+        "RMSE": 50.7786,
+        "Bias": 1.7246,
+        "n": 359
+      },
+      "72h": {
+        "MAE": 38.0316,
+        "RMSE": 60.044,
+        "Bias": 2.1624,
+        "n": 359
+      }
+    },
+    "22": {
+      "1h": {
+        "MAE": 15.811,
+        "RMSE": 30.4711,
+        "Bias": -3.3751,
+        "n": 351
+      },
+      "6h": {
+        "MAE": 30.7681,
+        "RMSE": 52.1432,
+        "Bias": -9.5174,
+        "n": 345
+      },
+      "24h": {
+        "MAE": 33.1358,
+        "RMSE": 52.0845,
+        "Bias": -1.9053,
+        "n": 348
+      },
+      "72h": {
+        "MAE": 39.7372,
+        "RMSE": 63.199,
+        "Bias": 0.0577,
+        "n": 348
+      }
+    },
+    "23": {
+      "1h": {
+        "MAE": 15.373,
+        "RMSE": 26.8796,
+        "Bias": 2.4298,
+        "n": 345
+      },
+      "6h": {
+        "MAE": 24.0898,
+        "RMSE": 38.8902,
+        "Bias": 10.8034,
+        "n": 337
+      },
+      "24h": {
+        "MAE": null,
+        "RMSE": null,
+        "Bias": null,
+        "n": 0
+      },
+      "72h": {
+        "MAE": null,
+        "RMSE": null,
+        "Bias": null,
+        "n": 0
+      }
+    },
+    "24": {
+      "1h": {
+        "MAE": 12.5187,
+        "RMSE": 21.2779,
+        "Bias": -1.0271,
+        "n": 351
+      },
+      "6h": {
+        "MAE": 27.1792,
+        "RMSE": 44.3177,
+        "Bias": -8.5012,
+        "n": 346
+      },
+      "24h": {
+        "MAE": 30.0845,
+        "RMSE": 60.8345,
+        "Bias": -3.396,
+        "n": 352
+      },
+      "72h": {
+        "MAE": 35.1634,
+        "RMSE": 69.2149,
+        "Bias": -3.9929,
+        "n": 351
+      }
+    },
+    "25": {
+      "1h": {
+        "MAE": 13.8328,
+        "RMSE": 25.4038,
+        "Bias": -3.0823,
+        "n": 354
+      },
+      "6h": {
+        "MAE": 28.404,
+        "RMSE": 49.2722,
+        "Bias": -8.6212,
+        "n": 351
+      },
+      "24h": {
+        "MAE": 29.2258,
+        "RMSE": 47.0518,
+        "Bias": -1.7496,
+        "n": 356
+      },
+      "72h": {
+        "MAE": 36.039,
+        "RMSE": 56.9389,
+        "Bias": -0.9034,
+        "n": 356
+      }
+    },
+    "26": {
+      "1h": {
+        "MAE": 21.1243,
+        "RMSE": 57.5006,
+        "Bias": -8.1496,
+        "n": 340
+      },
+      "6h": {
+        "MAE": 33.4931,
+        "RMSE": 57.7511,
+        "Bias": -12.16,
+        "n": 335
+      },
+      "24h": {
+        "MAE": 38.7086,
+        "RMSE": 63.829,
+        "Bias": -4.1651,
+        "n": 334
+      },
+      "72h": {
+        "MAE": 42.3287,
+        "RMSE": 72.5514,
+        "Bias": -2.9579,
+        "n": 334
+      }
+    },
+    "27": {
+      "1h": {
+        "MAE": 11.5284,
+        "RMSE": 28.5309,
+        "Bias": -2.169,
+        "n": 354
+      },
+      "6h": {
+        "MAE": 22.6902,
+        "RMSE": 40.2769,
+        "Bias": -5.1983,
+        "n": 348
+      },
+      "24h": {
+        "MAE": 25.431,
+        "RMSE": 41.9051,
+        "Bias": 1.9329,
+        "n": 353
+      },
+      "72h": {
+        "MAE": 29.3304,
+        "RMSE": 46.4704,
+        "Bias": 4.7025,
+        "n": 353
+      }
+    },
+    "28": {
+      "1h": {
+        "MAE": 14.4452,
+        "RMSE": 25.9556,
+        "Bias": 1.0634,
+        "n": 347
+      },
+      "6h": {
+        "MAE": 27.6725,
+        "RMSE": 44.1739,
+        "Bias": 0.754,
+        "n": 344
+      },
+      "24h": {
+        "MAE": 29.5874,
+        "RMSE": 46.6564,
+        "Bias": -4.4205,
+        "n": 345
+      },
+      "72h": {
+        "MAE": 34.0522,
+        "RMSE": 53.6307,
+        "Bias": -3.3383,
+        "n": 344
+      }
+    },
+    "29": {
+      "1h": {
+        "MAE": 20.7298,
+        "RMSE": 40.117,
+        "Bias": 2.7868,
+        "n": 347
+      },
+      "6h": {
+        "MAE": 31.9194,
+        "RMSE": 50.0641,
+        "Bias": 8.6818,
+        "n": 335
+      },
+      "24h": {
+        "MAE": 39.2423,
+        "RMSE": 59.8216,
+        "Bias": -6.4499,
+        "n": 339
+      },
+      "72h": {
+        "MAE": 41.4609,
+        "RMSE": 65.146,
+        "Bias": -7.0677,
+        "n": 339
+      }
+    },
+    "30": {
+      "1h": {
+        "MAE": 16.0188,
+        "RMSE": 32.4878,
+        "Bias": -1.8768,
+        "n": 181
+      },
+      "6h": {
+        "MAE": 31.0812,
+        "RMSE": 50.9757,
+        "Bias": -10.5472,
+        "n": 178
+      },
+      "24h": {
+        "MAE": 30.8928,
+        "RMSE": 49.0476,
+        "Bias": -5.6813,
+        "n": 174
+      },
+      "72h": {
+        "MAE": 36.371,
+        "RMSE": 60.7081,
+        "Bias": -7.218,
+        "n": 173
+      }
+    },
+    "31": {
+      "1h": {
+        "MAE": 15.0678,
+        "RMSE": 41.9006,
+        "Bias": 1.36,
+        "n": 334
+      },
+      "6h": {
+        "MAE": 24.8523,
+        "RMSE": 37.09,
+        "Bias": 5.9674,
+        "n": 307
+      },
+      "24h": {
+        "MAE": 2.2709,
+        "RMSE": 2.2709,
+        "Bias": -2.2709,
+        "n": 1
+      },
+      "72h": {
+        "MAE": 1.6261,
+        "RMSE": 1.6261,
+        "Bias": -1.6261,
+        "n": 1
+      }
+    },
+    "32": {
+      "1h": {
+        "MAE": 14.4292,
+        "RMSE": 26.1421,
+        "Bias": 0.4893,
+        "n": 348
+      },
+      "6h": {
+        "MAE": 24.8314,
+        "RMSE": 41.6564,
+        "Bias": -0.7823,
+        "n": 348
+      },
+      "24h": {
+        "MAE": 29.7419,
+        "RMSE": 45.1514,
+        "Bias": 3.355,
+        "n": 348
+      },
+      "72h": {
+        "MAE": 35.1747,
+        "RMSE": 54.8404,
+        "Bias": 4.2522,
+        "n": 348
+      }
+    },
+    "33": {
+      "1h": {
+        "MAE": 18.6734,
+        "RMSE": 34.7264,
+        "Bias": -6.3986,
+        "n": 343
+      },
+      "6h": {
+        "MAE": 28.3439,
+        "RMSE": 46.0554,
+        "Bias": -9.6025,
+        "n": 346
+      },
+      "24h": {
+        "MAE": 33.6818,
+        "RMSE": 51.0803,
+        "Bias": -2.7043,
+        "n": 345
+      },
+      "72h": {
+        "MAE": 38.8539,
+        "RMSE": 59.9031,
+        "Bias": -0.9064,
+        "n": 345
+      }
+    },
+    "34": {
+      "1h": {
+        "MAE": 11.3952,
+        "RMSE": 38.3087,
+        "Bias": -4.7574,
+        "n": 340
+      },
+      "6h": {
+        "MAE": 20.673,
+        "RMSE": 37.2257,
+        "Bias": -6.0153,
+        "n": 332
+      },
+      "24h": {
+        "MAE": 21.7333,
+        "RMSE": 35.5715,
+        "Bias": -0.9509,
+        "n": 337
+      },
+      "72h": {
+        "MAE": 24.1257,
+        "RMSE": 40.0126,
+        "Bias": -0.4396,
+        "n": 337
+      }
+    },
+    "35": {
+      "1h": {
+        "MAE": 20.3503,
+        "RMSE": 38.7557,
+        "Bias": -2.9541,
+        "n": 346
+      },
+      "6h": {
+        "MAE": 36.8648,
+        "RMSE": 64.0812,
+        "Bias": -11.8672,
+        "n": 343
+      },
+      "24h": {
+        "MAE": 42.3752,
+        "RMSE": 70.8811,
+        "Bias": -7.0089,
+        "n": 334
+      },
+      "72h": {
+        "MAE": 48.0665,
+        "RMSE": 80.8274,
+        "Bias": -7.1917,
+        "n": 334
+      }
+    },
+    "36": {
+      "1h": {
+        "MAE": 18.4319,
+        "RMSE": 32.9552,
+        "Bias": -2.1258,
+        "n": 356
+      },
+      "6h": {
+        "MAE": 36.5635,
+        "RMSE": 62.6166,
+        "Bias": -12.1884,
+        "n": 353
+      },
+      "24h": {
+        "MAE": 38.823,
+        "RMSE": 60.2549,
+        "Bias": -2.1159,
+        "n": 359
+      },
+      "72h": {
+        "MAE": 46.5272,
+        "RMSE": 72.7562,
+        "Bias": -0.7097,
+        "n": 359
+      }
+    }
+  },
+  "characteristics_and_outliers": {
+    "median_MAE_24h": 30.893,
+    "outlier_threshold": 46.339,
+    "outliers": [
+      {
+        "station_index": 12,
+        "station_id": "imd_lodhi_road,_delhi_-_iitm_cleaned",
+        "name": "Station 12",
+        "lat": 28.5918,
+        "lon": 77.2273,
+        "MAE_24h": 140.599,
+        "is_outlier": true,
+        "elevation_m": 213.42523193359372,
+        "built_frac_1km": 0.4352542209822502,
+        "green_frac_1km": 0.5562557121554669,
+        "coast_km": 819.6930370388815
+      },
+      {
+        "station_index": 13,
+        "station_id": "ito,_delhi_-_cpcb_cleaned",
+        "name": "Station 13",
+        "lat": 28.6286,
+        "lon": 77.2411,
+        "MAE_24h": 49.182,
+        "is_outlier": true,
+        "elevation_m": 213.16873168945312,
+        "built_frac_1km": 0.5983413461538462,
+        "green_frac_1km": 0.3786778846153846,
+        "coast_km": 823.8231161719742
+      }
+    ],
+    "correlations": {
+      "elevation_m": {
+        "spearman_rho": 0.059,
+        "p_value": 0.7443
+      },
+      "built_frac_1km": {
+        "spearman_rho": -0.2218,
+        "p_value": 0.2148
+      },
+      "green_frac_1km": {
+        "spearman_rho": 0.0386,
+        "p_value": 0.8311
+      },
+      "coast_km": {
+        "spearman_rho": -0.1643,
+        "p_value": 0.3609
+      }
+    },
+    "stations": [
+      {
+        "station_index": 0,
+        "station_id": "alipur,_delhi_-_dpcc_cleaned",
+        "name": "Station 0",
+        "lat": 28.8153,
+        "lon": 77.153,
+        "MAE_24h": 36.521,
+        "is_outlier": false,
+        "elevation_m": 210.4400634765625,
+        "built_frac_1km": 0.2858959593051156,
+        "green_frac_1km": 0.1281792878395239,
+        "coast_km": 837.0504746701523
+      },
+      {
+        "station_index": 1,
+        "station_id": "ashok_vihar,_delhi_-_dpcc_cleaned",
+        "name": "Station 1",
+        "lat": 28.6954,
+        "lon": 77.1817,
+        "MAE_24h": 35.078,
+        "is_outlier": false,
+        "elevation_m": 219.19387817382807,
+        "built_frac_1km": 0.7602277368054388,
+        "green_frac_1km": 0.2169024911715953,
+        "coast_km": 827.128946696831
+      },
+      {
+        "station_index": 2,
+        "station_id": "aya_nagar,_delhi_-_iitm_cleaned",
+        "name": "Station 2",
+        "lat": 28.4707,
+        "lon": 77.1099,
+        "MAE_24h": 40.002,
+        "is_outlier": false,
+        "elevation_m": 262.8747863769531,
+        "built_frac_1km": 0.2881151882885486,
+        "green_frac_1km": 0.6511123952614851,
+        "coast_km": 802.4738643647071
+      },
+      {
+        "station_index": 3,
+        "station_id": "bawana,_delhi_-_dpcc_cleaned",
+        "name": "Station 3",
+        "lat": 28.7762,
+        "lon": 77.0511,
+        "MAE_24h": 37.501,
+        "is_outlier": false,
+        "elevation_m": 219.0426025390625,
+        "built_frac_1km": 0.659266015409356,
+        "green_frac_1km": 0.1095696421285073,
+        "coast_km": 828.4488893292482
+      },
+      {
+        "station_index": 5,
+        "station_id": "chandni_chowk,_delhi_-_iitm_cleaned",
+        "name": "Station 5",
+        "lat": 28.6568,
+        "lon": 77.2272,
+        "MAE_24h": 29.215,
+        "is_outlier": false,
+        "elevation_m": 224.65890502929688,
+        "built_frac_1km": 0.9523946843534472,
+        "green_frac_1km": 0.0377045634777593,
+        "coast_km": 825.763824437652
+      },
+      {
+        "station_index": 6,
+        "station_id": "crri_mathura_road,_delhi_-_iitm_cleaned",
+        "name": "Station 6",
+        "lat": 28.5512,
+        "lon": 77.2736,
+        "MAE_24h": 28.849,
+        "is_outlier": false,
+        "elevation_m": 219.54269409179688,
+        "built_frac_1km": 0.5724597579461514,
+        "green_frac_1km": 0.4095907220711725,
+        "coast_km": 818.2614408348205
+      },
+      {
+        "station_index": 7,
+        "station_id": "dr._karni_singh_shooting_range,_delhi_-_dpcc_cleaned",
+        "name": "Station 7",
+        "lat": 28.4986,
+        "lon": 77.2648,
+        "MAE_24h": 25.674,
+        "is_outlier": false,
+        "elevation_m": 251.6398468017578,
+        "built_frac_1km": 0.0967912765086777,
+        "green_frac_1km": 0.8361697518234119,
+        "coast_km": 812.9326778703963
+      },
+      {
+        "station_index": 8,
+        "station_id": "dtu,_delhi_-_cpcb_cleaned",
+        "name": "Station 8",
+        "lat": 28.75,
+        "lon": 77.1113,
+        "MAE_24h": 29.624,
+        "is_outlier": false,
+        "elevation_m": 217.04705810546875,
+        "built_frac_1km": 0.5998703450262911,
+        "green_frac_1km": 0.228432855530745,
+        "coast_km": 828.8482136839726
+      },
+      {
+        "station_index": 9,
+        "station_id": "dwarka-sector_8,_delhi_-_dpcc__cleaned",
+        "name": "Station 9",
+        "lat": 28.571,
+        "lon": 77.0719,
+        "MAE_24h": 32.127,
+        "is_outlier": false,
+        "elevation_m": 216.43423461914065,
+        "built_frac_1km": 0.5955107539816196,
+        "green_frac_1km": 0.2919212818168695,
+        "coast_km": 810.0080022972345
+      },
+      {
+        "station_index": 11,
+        "station_id": "ihbas,_dilshad_garden,_delhi_-_cpcb_cleaned",
+        "name": "Station 11",
+        "lat": 28.6812,
+        "lon": 77.3025,
+        "MAE_24h": 25.702,
+        "is_outlier": false,
+        "elevation_m": 210.2832946777344,
+        "built_frac_1km": 0.7961414636490317,
+        "green_frac_1km": 0.1647686319734755,
+        "coast_km": 831.8215321891487
+      },
+      {
+        "station_index": 12,
+        "station_id": "imd_lodhi_road,_delhi_-_iitm_cleaned",
+        "name": "Station 12",
+        "lat": 28.5918,
+        "lon": 77.2273,
+        "MAE_24h": 140.599,
+        "is_outlier": true,
+        "elevation_m": 213.42523193359372,
+        "built_frac_1km": 0.4352542209822502,
+        "green_frac_1km": 0.5562557121554669,
+        "coast_km": 819.6930370388815
+      },
+      {
+        "station_index": 13,
+        "station_id": "ito,_delhi_-_cpcb_cleaned",
+        "name": "Station 13",
+        "lat": 28.6286,
+        "lon": 77.2411,
+        "MAE_24h": 49.182,
+        "is_outlier": true,
+        "elevation_m": 213.16873168945312,
+        "built_frac_1km": 0.5983413461538462,
+        "green_frac_1km": 0.3786778846153846,
+        "coast_km": 823.8231161719742
+      },
+      {
+        "station_index": 14,
+        "station_id": "jahangirpuri,_delhi_-_dpcc_cleaned",
+        "name": "Station 14",
+        "lat": 28.7328,
+        "lon": 77.1706,
+        "MAE_24h": 24.1,
+        "is_outlier": false,
+        "elevation_m": 211.4210357666016,
+        "built_frac_1km": 0.7338872346556526,
+        "green_frac_1km": 0.2046873499183555,
+        "coast_km": 830.1066360542573
+      },
+      {
+        "station_index": 16,
+        "station_id": "lodhi_road,_delhi_-_iitm_cleaned",
+        "name": "Station 16",
+        "lat": 28.5883,
+        "lon": 77.2217,
+        "MAE_24h": 25.61,
+        "is_outlier": false,
+        "elevation_m": 214.89846801757807,
+        "built_frac_1km": 0.4880706142671605,
+        "green_frac_1km": 0.5089470392996296,
+        "coast_km": 819.0843394671347
+      },
+      {
+        "station_index": 17,
+        "station_id": "major_dhyan_chand_national_stadium,_delhi_-_dpcc_cleaned",
+        "name": "Station 17",
+        "lat": 28.6113,
+        "lon": 77.2377,
+        "MAE_24h": 28.977,
+        "is_outlier": false,
+        "elevation_m": 214.05126953125,
+        "built_frac_1km": 0.4397422333365394,
+        "green_frac_1km": 0.5366692315090892,
+        "coast_km": 822.0367741687518
+      },
+      {
+        "station_index": 18,
+        "station_id": "mandir_marg,_delhi_-_dpcc_cleaned",
+        "name": "Station 18",
+        "lat": 28.6364,
+        "lon": 77.2011,
+        "MAE_24h": 41.016,
+        "is_outlier": false,
+        "elevation_m": 229.202392578125,
+        "built_frac_1km": 0.4219444778271842,
+        "green_frac_1km": 0.575099146737171,
+        "coast_km": 822.5509914910277
+      },
+      {
+        "station_index": 19,
+        "station_id": "mundka,_delhi_-_dpcc_cleaned",
+        "name": "Station 19",
+        "lat": 28.6847,
+        "lon": 77.0766,
+        "MAE_24h": 26.832,
+        "is_outlier": false,
+        "elevation_m": 217.801025390625,
+        "built_frac_1km": 0.7860557864642145,
+        "green_frac_1km": 0.1676236696057468,
+        "coast_km": 820.9822124967214
+      },
+      {
+        "station_index": 20,
+        "station_id": "najafgarh,_delhi_-_dpcc_cleaned",
+        "name": "Station 20",
+        "lat": 28.5702,
+        "lon": 76.9338,
+        "MAE_24h": 34.376,
+        "is_outlier": false,
+        "elevation_m": 211.7534027099609,
+        "built_frac_1km": 0.0411393927729394,
+        "green_frac_1km": 0.1762017033152095,
+        "coast_km": 803.2277934761001
+      },
+      {
+        "station_index": 21,
+        "station_id": "narela,_delhi_-_dpcc_cleaned",
+        "name": "Station 21",
+        "lat": 28.8228,
+        "lon": 77.102,
+        "MAE_24h": 33.502,
+        "is_outlier": false,
+        "elevation_m": 213.54429626464844,
+        "built_frac_1km": 0.5309980806142035,
+        "green_frac_1km": 0.1603886756238003,
+        "coast_km": 835.3131283329258
+      },
+      {
+        "station_index": 22,
+        "station_id": "nehru_nagar,_delhi_-_dpcc_cleaned",
+        "name": "Station 22",
+        "lat": 28.5679,
+        "lon": 77.2505,
+        "MAE_24h": 33.136,
+        "is_outlier": false,
+        "elevation_m": 217.4342193603516,
+        "built_frac_1km": 0.6813348089693003,
+        "green_frac_1km": 0.3094264267154268,
+        "coast_km": 818.6383268742077
+      },
+      {
+        "station_index": 24,
+        "station_id": "nsit_dwarka,_delhi_-_cpcb_cleaned",
+        "name": "Station 24",
+        "lat": 28.6091,
+        "lon": 77.0325,
+        "MAE_24h": 30.084,
+        "is_outlier": false,
+        "elevation_m": 215.30224609375,
+        "built_frac_1km": 0.7834523551900743,
+        "green_frac_1km": 0.1907475534396114,
+        "coast_km": 811.6829853791128
+      },
+      {
+        "station_index": 25,
+        "station_id": "okhla_phase-2,_delhi_-_dpcc_cleaned",
+        "name": "Station 25",
+        "lat": 28.5308,
+        "lon": 77.2713,
+        "MAE_24h": 29.226,
+        "is_outlier": false,
+        "elevation_m": 223.86761474609372,
+        "built_frac_1km": 0.7442005967850611,
+        "green_frac_1km": 0.2125324862835691,
+        "coast_km": 816.2508587154522
+      },
+      {
+        "station_index": 26,
+        "station_id": "patparganj,_delhi_-_dpcc_cleaned",
+        "name": "Station 26",
+        "lat": 28.6238,
+        "lon": 77.2872,
+        "MAE_24h": 38.709,
+        "is_outlier": false,
+        "elevation_m": 210.08712768554688,
+        "built_frac_1km": 0.8565796432520795,
+        "green_frac_1km": 0.1341651040915428,
+        "coast_km": 825.7015233947828
+      },
+      {
+        "station_index": 27,
+        "station_id": "punjabi_bagh,_delhi_-_dpcc_cleaned",
+        "name": "Station 27",
+        "lat": 28.674,
+        "lon": 77.131,
+        "MAE_24h": 25.431,
+        "is_outlier": false,
+        "elevation_m": 218.01705932617188,
+        "built_frac_1km": 0.755472260265744,
+        "green_frac_1km": 0.199548283236022,
+        "coast_km": 822.6213801609978
+      },
+      {
+        "station_index": 28,
+        "station_id": "pusa,_delhi_-_dpcc_cleaned",
+        "name": "Station 28",
+        "lat": 28.6396,
+        "lon": 77.1463,
+        "MAE_24h": 29.587,
+        "is_outlier": false,
+        "elevation_m": 221.1148681640625,
+        "built_frac_1km": 0.5781479078039753,
+        "green_frac_1km": 0.1824692960319177,
+        "coast_km": 820.1332575634382
+      },
+      {
+        "station_index": 29,
+        "station_id": "pusa,_delhi_-_iitm_cleaned",
+        "name": "Station 29",
+        "lat": 28.6396,
+        "lon": 77.1463,
+        "MAE_24h": 39.242,
+        "is_outlier": false,
+        "elevation_m": 221.1148681640625,
+        "built_frac_1km": 0.5781479078039753,
+        "green_frac_1km": 0.1824692960319177,
+        "coast_km": 820.1332575634382
+      },
+      {
+        "station_index": 30,
+        "station_id": "r_k_puram,_delhi_-_dpcc_cleaned",
+        "name": "Station 30",
+        "lat": 28.5633,
+        "lon": 77.1869,
+        "MAE_24h": 30.893,
+        "is_outlier": false,
+        "elevation_m": 229.91964721679688,
+        "built_frac_1km": 0.5963717729711522,
+        "green_frac_1km": 0.3918148353102519,
+        "coast_km": 814.9992733502839
+      },
+      {
+        "station_index": 31,
+        "station_id": "rohini,_delhi_-_dpcc_cleaned",
+        "name": "Station 31",
+        "lat": 28.7325,
+        "lon": 77.1199,
+        "MAE_24h": 2.271,
+        "is_outlier": false,
+        "elevation_m": 219.3779754638672,
+        "built_frac_1km": 0.5995821727019499,
+        "green_frac_1km": 0.2657045432715397,
+        "coast_km": 827.6073666987817
+      },
+      {
+        "station_index": 32,
+        "station_id": "shadipur,_delhi_-_cpcb_cleaned",
+        "name": "Station 32",
+        "lat": 28.6515,
+        "lon": 77.1473,
+        "MAE_24h": 29.742,
+        "is_outlier": false,
+        "elevation_m": 221.2063446044922,
+        "built_frac_1km": 0.8349995193694126,
+        "green_frac_1km": 0.1113621070844948,
+        "coast_km": 821.3023567019538
+      },
+      {
+        "station_index": 33,
+        "station_id": "sirifort,_delhi_-_cpcb_cleaned",
+        "name": "Station 33",
+        "lat": 28.5504,
+        "lon": 77.2159,
+        "MAE_24h": 33.682,
+        "is_outlier": false,
+        "elevation_m": 226.28684997558597,
+        "built_frac_1km": 0.417458675200308,
+        "green_frac_1km": 0.5773682057698323,
+        "coast_km": 815.2561635786282
+      },
+      {
+        "station_index": 34,
+        "station_id": "sonia_vihar,_delhi_-_dpcc_cleaned",
+        "name": "Station 34",
+        "lat": 28.7105,
+        "lon": 77.2495,
+        "MAE_24h": 21.733,
+        "is_outlier": false,
+        "elevation_m": 209.9174346923828,
+        "built_frac_1km": 0.4887357094821788,
+        "green_frac_1km": 0.4020318954750697,
+        "coast_km": 831.9050861035762
+      },
+      {
+        "station_index": 35,
+        "station_id": "sri_aurobindo_marg,_delhi_-_dpcc_cleaned",
+        "name": "Station 35",
+        "lat": 28.5313,
+        "lon": 77.1902,
+        "MAE_24h": 42.375,
+        "is_outlier": false,
+        "elevation_m": 240.40989685058597,
+        "built_frac_1km": 0.2416921336958875,
+        "green_frac_1km": 0.7543374160791202,
+        "coast_km": 812.1768370587145
+      },
+      {
+        "station_index": 36,
+        "station_id": "vivek_vihar,_delhi_-_dpcc_cleaned",
+        "name": "Station 36",
+        "lat": 28.6723,
+        "lon": 77.3153,
+        "MAE_24h": 38.823,
+        "is_outlier": false,
+        "elevation_m": 208.1650848388672,
+        "built_frac_1km": 0.8681339804892114,
+        "green_frac_1km": 0.1240088423278389,
+        "coast_km": 831.6387352030906
+      }
+    ]
+  },
+  "clusters": {
+    "cluster_1": {
+      "station_indices": [
+        0,
+        2,
+        3,
+        13,
+        18,
+        20,
+        26,
+        29,
+        35,
+        36
+      ],
+      "station_count": 10,
+      "mean_profile": {
+        "1h": 20.483,
+        "6h": 34.947,
+        "24h": 39.775,
+        "72h": 44.677
+      }
+    },
+    "cluster_2": {
+      "station_indices": [
+        1,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        14,
+        16,
+        17,
+        19,
+        21,
+        22,
+        24,
+        25,
+        27,
+        28,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "station_count": 22,
+      "mean_profile": {
+        "1h": 14.326,
+        "6h": 25.852,
+        "24h": 27.776,
+        "72h": 31.982
+      }
+    },
+    "cluster_3": {
+      "station_indices": [
+        12
+      ],
+      "station_count": 1,
+      "mean_profile": {
+        "1h": 14.833,
+        "6h": 27.477,
+        "24h": 140.599,
+        "72h": 110.796
+      }
+    }
+  },
+  "worst_stations_monthly": {
+    "12": {
+      "1": null,
+      "2": null,
+      "3": null,
+      "4": null,
+      "5": null,
+      "6": null,
+      "7": null,
+      "8": null,
+      "9": null,
+      "10": null,
+      "11": 140.599,
+      "12": null
+    },
+    "13": {
+      "1": 69.938,
+      "2": 24.091,
+      "3": 33.066,
+      "4": 15.983,
+      "5": 42.893,
+      "6": 21.323,
+      "7": 15.727,
+      "8": 15.485,
+      "9": 19.561,
+      "10": 109.75,
+      "11": 78.307,
+      "12": 97.613
+    },
+    "35": {
+      "1": 82.652,
+      "2": 46.874,
+      "3": 39.767,
+      "4": 23.185,
+      "5": 29.46,
+      "6": 14.538,
+      "7": 21.785,
+      "8": 12.389,
+      "9": 11.13,
+      "10": 67.072,
+      "11": 64.105,
+      "12": 87.932
+    }
+  }
+}

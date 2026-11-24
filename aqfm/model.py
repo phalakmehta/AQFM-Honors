@@ -113,12 +113,14 @@ class PatchTokenizer(nn.Module):
         self.station = station_mlp(cfg)
         self.time = TimeFeatures(cfg.d_model, cfg.n_fourier_bands)
         self.gap_proj = nn.Linear(1, cfg.d_model)
+        self.season_emb = nn.Embedding(4, cfg.d_model) if cfg.use_season else None
         self.norm = nn.LayerNorm(cfg.d_model)
 
-    def forward(self, xn, m, t_patch, sf):
+    def forward(self, xn, m, t_patch, sf, season=None):
         """xn, m: (B,S,C,T) normalised values and visibility; t_patch: (B,N)
-        patch-centre hours; sf: (B,S,n_station_in) station inputs. Returns
-        tokens (B,S,C,N,D) and validity (B,S,C,N)."""
+        patch-centre hours; sf: (B,S,n_station_in) station inputs;
+        season: optional (B,) int tensor (0–3). Returns tokens (B,S,C,N,D)
+        and validity (B,S,C,N)."""
         B, S, C, T = xn.shape
         P = self.cfg.patch_len
         N = T // P
@@ -132,6 +134,8 @@ class PatchTokenizer(nn.Module):
         tok = tok + self.station(sf).view(B, S, 1, 1, -1)
         tok = tok + self.time(t_patch).view(B, 1, 1, N, -1)
         tok = tok + self.gap_proj(torch.log1p(gap_h).unsqueeze(-1))
+        if self.season_emb is not None and season is not None:
+            tok = tok + self.season_emb(season).view(B, 1, 1, 1, -1)
         return self.norm(tok), valid
 
 
@@ -225,6 +229,7 @@ class AQFM(nn.Module):
         self.q_station = station_mlp(cfg)
         self.q_time = TimeFeatures(cfg.d_model, cfg.n_fourier_bands)
         self.q_met = nn.Linear(cfg.n_met_future, cfg.d_model) if cfg.use_future_met else None
+        self.q_season = nn.Embedding(4, cfg.d_model) if cfg.use_season else None
         if cfg.use_last_obs:
             self.q_last = nn.Linear(3, cfg.d_model)     # (value, log1p(age h), has value)
             # per-step weight on the latest value added to every mixture mean; zero
@@ -250,14 +255,14 @@ class AQFM(nn.Module):
                 present = present & st_valid
         return station_inputs(self.cfg, coords, static, present)
 
-    def encode(self, x, m, t_patch, coords, static, sf=None):
+    def encode(self, x, m, t_patch, coords, static, sf=None, season=None):
         """x, m: (B,S,C,T_ctx) transformed values (zero where hidden) and
         visibility. Returns station latents (B,S*L,D) and RevIN stats."""
         cfg = self.cfg
         if sf is None:
             sf = self.station_inputs(m, coords, static)
         mean, std = self.revin.stats(x, m)
-        tok, valid = self.tokenizer(self.revin.normalize(x, m, mean, std), m, t_patch, sf)
+        tok, valid = self.tokenizer(self.revin.normalize(x, m, mean, std), m, t_patch, sf, season=season)
 
         bias = None
         if self.spatial_bias is not None:
@@ -285,6 +290,8 @@ class AQFM(nn.Module):
         st = torch.gather(st, 1, q["station"].unsqueeze(-1).expand(-1, -1, st.shape[-1]))
         e = (self.q_channel(q["slot"]) + self.q_task(q["task"]) + self.q_lead(q["lead"])
              + st + self.q_time(q["time"]))
+        if self.q_season is not None and "season" in q:
+            e = e + self.q_season(q["season"])
         if self.q_met is not None:
             e = e + self.q_met(q["met"])
         if anchor is not None:
@@ -294,9 +301,10 @@ class AQFM(nn.Module):
 
     def forward(self, batch, q):
         st_valid = batch.get("st_valid")                                 # (B,S) or None (v1 batches)
+        season = batch.get("season")                                     # (B,) int or None
         sf = self.station_inputs(batch["m_ctx"], batch["coords"], batch["static"], st_valid)
         mem, (mean, std) = self.encode(batch["x_ctx"], batch["m_ctx"], batch["t_ctx_patch"],
-                                       batch["coords"], batch["static"], sf)
+                                       batch["coords"], batch["static"], sf, season=season)
         mem_valid = None
         if st_valid is not None:                                         # padded slots: no memory
             L = self.cfg.n_latents_per_station

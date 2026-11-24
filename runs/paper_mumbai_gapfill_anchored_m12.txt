@@ -1,0 +1,17 @@
+4 h ft12 NOx: anchored 3.06 raw 5.92 line 2.99 cycle 3.37 neighbours 8.53 xgboost 5.01 cov90 0.980
+4 h ft12 Ozone: anchored 5.62 raw 13.77 line 5.47 cycle 6.02 neighbours 9.62 xgboost 6.78 cov90 0.958
+4 h ft12 PM10: anchored 9.90 raw 18.72 line 9.68 cycle 10.98 neighbours 19.02 xgboost 13.21 cov90 0.985
+4 h ft12 PM2.5: anchored 4.22 raw 8.98 line 4.04 cycle 4.71 neighbours 7.63 xgboost 5.13 cov90 0.987
+12 h ft12 NOx: anchored 6.31 raw 7.20 line 6.09 cycle 8.54 neighbours 9.76 xgboost 7.05 cov90 0.925
+12 h ft12 Ozone: anchored 7.44 raw 6.68 line 11.28 cycle 11.87 neighbours 7.96 xgboost 5.77 cov90 0.840
+12 h ft12 PM10: anchored 17.31 raw 21.56 line 17.05 cycle 19.07 neighbours 19.65 xgboost 16.18 cov90 0.952
+12 h ft12 PM2.5: anchored 6.98 raw 10.88 line 6.77 cycle 8.13 neighbours 8.35 xgboost 6.68 cov90 0.965
+24 h ft12 NOx: anchored 7.61 raw 6.54 line 8.49 cycle 11.33 neighbours 8.94 xgboost 7.36 cov90 0.881
+24 h ft12 Ozone: anchored 8.68 raw 8.62 line 13.19 cycle 14.06 neighbours 8.75 xgboost 7.13 cov90 0.929
+24 h ft12 PM10: anchored 21.62 raw 20.38 line 22.67 cycle 24.93 neighbours 18.85 xgboost 16.43 cov90 0.926
+24 h ft12 PM2.5: anchored 9.19 raw 10.06 line 9.56 cycle 10.74 neighbours 7.88 xgboost 6.99 cov90 0.944
+48 h ft12 NOx: anchored 8.12 raw 6.82 line 8.85 cycle 11.52 neighbours 8.98 xgboost 7.57 cov90 0.867
+48 h ft12 Ozone: anchored 9.16 raw 8.99 line 13.32 cycle 14.31 neighbours 8.85 xgboost 7.23 cov90 0.920
+48 h ft12 PM10: anchored 23.24 raw 21.26 line 24.11 cycle 26.15 neighbours 18.99 xgboost 17.04 cov90 0.908
+48 h ft12 PM2.5: anchored 9.92 raw 10.42 line 10.24 cycle 11.33 neighbours 7.89 xgboost 7.27 cov90 0.929
+saved results/paper/mumbai_gapfill_anchored_m12.json
